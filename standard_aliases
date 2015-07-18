@@ -1,0 +1,1264 @@
+#!/bin/bash
+
+#    _               _              _ _                     
+#   | |__   __ _ ___| |__      __ _| (_) __ _ ___  ___  ___ 
+#   | '_ \ / _` / __| '_ \    / _` | | |/ _` / __|/ _ \/ __|
+#  _| |_) | (_| \__ \ | | |  | (_| | | | (_| \__ \  __/\__ \
+# (_)_.__/ \__,_|___/_| |_|   \__,_|_|_|\__,_|___/\___||___/
+#
+
+
+########
+# LESS #
+########
+
+# Run less with: ignore case when searching, do not ring a bell,
+# do not mark empty lines with ~, format prompt as 'page
+# number'/'all pages' 'filename', set tabs to 4 spaces.
+alias le='less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4'
+
+# Open cat or less, depending on no of lines of file or input.
+catOrLess() {
+	if [ $# -gt 0 ]
+	then
+		noOfLines=`cat "$1" 2>/dev/null | fold -w"$COLUMNS" | wc -l`
+		if [ $LINES -gt $noOfLines ]; then
+			cat "$1"	
+		else
+			le "$1" 2>/dev/null 
+		fi
+	else
+		input=`cat`
+		noOfLines=`echo "$input" | fold -w"$COLUMNS" | wc -l`
+		if [ $LINES -gt $noOfLines ]; then
+			echo "$input" | cat	
+		else
+			echo "$input" | le 2>/dev/null 
+		fi
+	fi
+}
+alias m='catOrLess'
+
+# Open cat or less +G (starts at the end of file), depending on
+# no of lines of file or input.
+catOrLessG() {
+	if [ $# -gt 0 ]
+	then
+		noOfLines=`cat "$1" 2>/dev/null | fold -w"$COLUMNS" | wc -l`
+		if [ $LINES -gt $noOfLines ]; then
+			cat "$1"	
+		else
+			cat "$1" | le +G 2>/dev/null
+		fi
+	else
+		input=`cat`
+		noOfLines=`echo "$input" | fold -w"$COLUMNS" | wc -l`
+		if [ $LINES -gt $noOfLines ]; then
+			echo "$input" | cat	
+		else
+			echo "$input" | le +G 2>/dev/null
+		fi
+	fi
+}
+alias mEnd='catOrLessG'
+
+
+######
+# LS #
+######
+
+# All other ls aliases end up calling this one. It runs ls with:
+# append indicator, sort alphabetically by extension, list by
+# columns, use color when stdout is connected to terminal, group
+# directories before files.
+alias ls1='ls --classify -X -C --color=auto --group-directories-first'
+
+# Calls ls1 with: assumes screen width to be 69, so there aren't
+# too many columns.
+alias listShort='ls1 --width=$(widthLimit=69; if [[ "$COLUMNS" -lt "$widthLimit" ]]; then echo "$COLUMNS"; else echo "$widthLimit"; fi)'
+# Calls ls1 with: use long listing format, do not print groups,
+# do not list owner, print sizes in human readable format, print
+# date as: 'month by word, day of month, year, hour:minute'.
+alias listMed='ls1 -l --no-group -g --human-readable --time-style="+%b %d %Y %H:%M"'
+# Calls ls1 with: use long listing format. 
+alias listLong='ls1 -l'
+
+# Functions that call aliases above, and pipe output to less.
+# They override color option of ls to always and add
+# RAW-CONTROL-CHARS option to less alias. This enables the
+# transfer of colors from ls to less. Also start less at end of
+# file.
+listShortLess() { 
+  listShort --color=always $* | le --RAW-CONTROL-CHARS +G
+}
+listMedLess() { 
+  listMed --color=always $* | le --RAW-CONTROL-CHARS +G 
+}
+listLongLess() { 
+  listLong --color=always $* | le --RAW-CONTROL-CHARS +G 
+}
+
+# This functions decide weather they will call basic or less
+# version of the listShort/Med/Long function. It depends on
+# whether the output of ls will fit on screen.
+l() {
+	noOfLines=`listShort "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l`
+	if [ $LINES -gt $noOfLines ]; then
+		listShort "$@"	
+	else
+		listShortLess "$@" 
+	fi
+}
+ll() {
+	noOfLines=`listMed "$@" 2> /dev/null | fold -w"$COLUMNS" | wc -l`
+	if [ $LINES -gt $noOfLines ]; then
+		listMed "$@"
+	else
+		listMedLess "$@"    
+	fi
+}
+lll() {
+	noOfLines=`listLong "$@" 2> /dev/null | fold -w"$COLUMNS" | wc -l`
+	if [ $LINES -gt $noOfLines ]; then
+		listLong "$@"
+	else
+		listLongLess "$@"    
+	fi
+}
+
+# Variations of above function, that also display hidden files,
+# but not . and ..
+alias la='l --almost-all'
+alias lla='ll --almost-all'
+alias llla='lll --almost-all'
+# Variations, that list directory entries instead of contents.
+alias dl='l --directory'
+alias dll='ll --directory'
+alias dlll='lll --directory'
+# Variations that sort files by date
+alias lt='l -t'
+alias llt='ll -t'
+alias lllt='lll -t'
+# Variations of listShort that list one entry per line.
+alias l1='l -1'
+alias la1='la -1'
+# Display tree structure of folders belove PWD
+tree1() {
+	tree -C -I .git --dirsfirst "$@" | catOrLess
+}
+alias t='tree1'
+# Same, but all files
+alias tree2='tree1 -a'
+alias t1='tree2'
+
+
+##########
+# BASICS #
+##########
+
+# Make some possibly destructive commands more interactive.
+alias rmdir='rm -rI'
+alias rmd='rmdir'
+alias cpdir='cp -arv'
+alias rm='rm -i'
+alias mv='mv -iv'
+alias cp='cp -iv'
+alias mvdir='mv'
+
+# Simplify going up in directory hierarchy.
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ,,='cd ..'
+alias ...='cd ../..'
+alias ,,,='cd ../..'
+alias ....='cd ..; cd ..; cd ..;'
+alias ,,,,='cd ..; cd ..; cd ..;'
+alias .....='cd ..; cd ..; cd ..; cd..'
+alias ......='cd ..; cd ..; cd ..; cd..; cd..'
+alias .......='cd ..; cd ..; cd ..; cd..; cd..; cd..'
+alias ..l='cd ..; l'
+
+# Combine cd and ls.
+cdl() {	
+	cd "$@"; l
+}
+alias .='echo $PWD'
+
+# If no file specified, print PWD, else full path of the file.
+p() {
+	if [ $# -eq 0 ]; then
+		echo "$PWD"
+	else
+		echo `echo "$PWD"`/"$@"
+	fi		
+}
+
+alias ba='bash'
+alias s='sudo'
+alias e='echo'
+# Echo with backslash escapes (\n,...)
+alias ee='echo -e'
+# Echo withouth new line at the end.
+alias en='echo -n'
+alias c='cat'
+# Vim - open one tab per file
+alias v='vim -p'
+# Read only vim
+alias vv='view'
+# Scala vim (tab is 2 spaces)
+alias scv='v -c ":set ts=2" -c ":set sw=2"'
+alias vs='scv'
+# Nano with: enable experimental undo (will most probably crash
+# if going deeper than first undo level), autoindent, constantly
+# show the cursor position, log search and replace strings,
+# enable edit of multiple files, treat punctuation as part of
+# words, smooth scrolling, tab size is 4 spaces.
+alias n='nano --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4'
+# Runs command in background, it doesent hang up if the shell is
+# closed and it doesn't print output
+runInBackground() {
+	nohup "$@" &>/dev/null &
+}
+alias rb='runInBackground'
+alias r='runInBackground'
+# print exit code of last command
+alias ?='echo $?'
+
+# open file in gedit
+g() { 
+	rb gedit "$@" 
+}
+
+# run konsole withouth menu and tab bar
+alias konsole1="rb konsole --workdir "$PWD" --hide-menubar --hide-tabbar"
+alias ko='konsole1'
+
+# open vim in konsole with light theme
+vvv() { 
+	rb konsole --workdir "$PWD" --hide-menubar --hide-tabbar -e vim -p -c "set background=light" -c "colorscheme github" -c "set fo-=t"  "$@"
+}
+# open vim in console with tab width 2
+vvvv() {
+	vvv -c ":set ts=2" -c ":set sw=2" "$@"
+}
+
+fire() {
+	rb firefox "$@"
+}
+
+chrome() { 
+	rb google-chrome --touch-devices=123 "$@" 
+}
+alias i='chrome'
+alias sub='rb sublime_text'
+alias scr='screen'
+alias tm='tmux'
+alias tma='tmux attach'
+alias tml='tmux ls'
+alias clr='clear'
+alias cl='clear'
+alias re='reset'
+alias k='clear'
+# Greps the history, or just shows it if no argument is passed
+his() {
+	if [ "$#" -eq 0 ]; then
+		history | catOrLessG
+	else
+		history | grep "$@" | catOrLessG
+	fi
+}
+alias h='his'
+alias xx='exit'
+alias x='exit'
+alias q='exit'
+alias he='head'
+alias he1='head -n1'
+alias ta='tail'
+alias ta1='tail -n1'
+alias wcl='wc -l'
+alias wcw='wc -w'
+alias to='touch'
+# Console calculator with float.
+alias bc1='gcalccmd'
+alias make1='make 2>&1 | le'
+alias ma="make1"
+# Report disk space of main partitions in human readable form.
+alias df1='df -h | grep "sd\|Size" | cat'
+# Open pdf file
+pdf() { evince $@ & }
+# Set volume in console for all audio channels.
+alias mixer='alsamixer'
+# Get keycode for pressed key.
+alias keycode='xev';
+# Execute command periodically every 2 seconds. Aliases can be
+# also used.
+alias watch1='watch bash -i -c'
+# Every 10 seconds.
+alias watch2='watch -n 10 bash -i -c'
+# 30 seconds.
+alias watch3='watch -n 30 bash -i -c'
+# Open picture in console as ascii art.
+alias asci='asciiview'
+# Set keyboard layout to us and run xmodmap.
+alias resetkey='setxkbmap -layout us; xmodmap ~/.Xmodmap'
+alias resetkeys='resetkey'
+# Display disk space used by a folder or a file in human
+# readable form.
+alias du1='du --summarize --human-readable'
+# Set bash to vi mode.
+alias vimode='set -o vi'
+# Set bash to emacs (normal) mode.
+alias emacsmode='set -o emacs'
+# Start a new terminal.
+alias gt='gnome-terminal'
+alias term='gnome-terminal'
+alias co='gnome-terminal'
+alias te='gnome-terminal'
+# Start a file explorer
+alias na='rb nautilus .'
+# Get name of first file in directory
+alias first='ls | head -1'
+# Get name of random file in directory
+# $@ - all arguments get send to ls
+random-file() {
+	ls "$@" | sort -R | head -1
+}
+alias rf='random-file'
+# Run profile script
+alias profile='source /etc/profile'
+# Switches the files. Usage: switch [FILE1] [FILE2]
+switch() {
+	TMP_NAME="f8ewn3j9"
+	cp "$1" "$TMP_NAME"
+	mv -f "$2" "$1"
+	mv "$TMP_NAME" "$2"
+}
+# Mount ISO file and cd into it
+mount-iso() {
+	sudo mkdir /media/"$1"
+	sudo mount -o loop "$1" /media/"$1"
+	cd /media/"$1"
+}
+alias cd-iso='mount-iso'
+# Show processes
+alias ht='htop'
+alias u='htop'
+# Open file with default aplication for the file type
+o() {
+	rb xdg-open "$@"
+}
+alias ty='type'
+alias da='date'
+diff1() {
+	colordiff "$@" | catOrLess
+}
+
+########
+# SUDO #
+########
+
+# Run commands that require sudo with sudo
+alias fdisk='sudo fdisk'
+alias updatedb='sudo updatedb'
+alias ifconfig='sudo ifconfig'
+alias tcpdump='sudo tcpdump'
+alias route='sudo route'
+alias pm-hibernate='sudo pm-hibernate'
+alias pm-suspend='sudo pm-suspend'
+alias shutdown='sudo shutdown'
+alias fstrim='sudo fstrim'
+alias apt-get='sudo aptget'
+alias iw='sudo iw'
+alias nmap='sudo nmap'
+alias parted='sudo parted'
+alias ntfsundelete='sudo ntfsundelete'
+alias lshw='sudo lshw'
+alias chown='sudo chown'
+alias mount='sudo mount'
+
+# Execute last command as sudo
+alias fuck='sudo $(history -p \!\!)'
+alias fu='fuck'
+alias f='fuck'
+
+# File manipulation 
+alias scp='sudo cp -iv'
+alias smv='sudo mv -iv'
+alias srm='sudo rm -i'
+
+# Dir manipulation 
+alias scpdir='sudo cp -arv'
+alias smvdir='sudo mv'
+alias srmdir='sudo rm -rI'
+
+# Backup file
+backup() {
+	sudo cp --preserve "$1"{,.bak}
+}
+alias bk='backup'
+
+
+sg() { 
+	sudo gedit "$*" 
+}
+sn() {
+	sudo nano -icHFwST 4 "$*"
+}
+sm() {
+	sudo le "$*"
+}
+sv() {
+	sudo vim "$*"
+}
+
+
+######
+# PS #
+######
+
+# Pipe output of ps to catOrLess.
+psM() {
+	ps "$@" | catOrLess
+}
+alias ps='psM'
+
+# Print every process on the system.
+alias pse='ps -e | catOrLess'
+alias psa='ps -e | catOrLess'
+alias ps1='ps -e | catOrLess'
+
+# Print matching processes and their pids.
+pgrep1() {
+	pgrep --list-name "$@" | catOrLess
+}
+
+
+########
+# TEXT #
+########
+
+# Removes columns specified by second argument. Specify
+# delimiter with first argument.
+cut1() {
+	cut --delimiter="$1" --fields="$2" 
+}
+# Sort lines of file. Specify separator and key. Key is used to
+# specify number of field you want lines to be sorted by.
+sort1() { 
+	sort --field-separator="$1" --key="$2"
+}
+# Makes table out of input data. You need to specify column
+# separator.
+alias table='column -t -s'
+# Delete specified characters.
+alias trd='tr --delete'
+
+# Change input strings notation from CamelCase to underscore.
+# (all the folowong commands work as pipe filters
+toUnderscore() {
+	cat | sed 's/\([A-Z]\)/_\1/g' | tr [a-z] [A-Z]
+}
+
+# Change input strings notation from CamelCase to underscore.
+toHypenscore() {
+	cat | sed 's/\([A-Z]\)/-\1/g' | tr [A-Z] [a-z] 
+}
+alias decamelize='toHypenscore'
+
+# Vice versa.
+toCamel() {
+	cat | tr [A-Z] [a-z] | sed 's/[_-]\([a-z]\)/\U\1/g'
+}
+
+
+##########
+# SYSTEM #
+##########
+
+# Reset computer
+alias restart='sudo shutdown -r now'
+alias poweroff='sudo shutdown now'
+
+# Hibernate, suspend
+alias hib='sudo pm-hibernate'
+alias sus='sudo pm-suspend'
+
+# Trace system calls and signals. Print strings of maximum 2000
+# chars, and also trace child processes.
+alias strace1='strace -s 2000 -f'
+# Print all system information.
+alias uname1='uname -all'
+# Print verbose information of all PCI devices.
+alias lspci1='lspci -v | catOrLess'
+# Display cpu temperature.
+alias temp='acpi -t'
+# Print battery status.
+alias b='acpi'
+alias batt='acpi'
+alias battery='acpi'
+# Trim SSD disk
+alias trim='sudo fstrim -v /'
+alias ssd='trim'
+# Change blue color to blueberry in tty
+alias blue='echo -en "\e]PC7373C9"'
+# Send KILL signal instead of TERM
+alias kill1='kill -9'
+
+# Turn off laptop monitor if external is connected.
+vga() {
+	xrandr | grep VGA | grep " connected " > /dev/null
+	if [ $? -eq 0 ]; then
+    	xrandr --output LVDS1 --off
+		killall nautilus
+		nautilus -n &
+	fi
+}
+
+
+##########
+# USEFUL #
+##########
+
+# Make grep more user friendly by highlighting matches
+# and exclude grepping through .svn and .git folders.
+alias grep1='grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git'
+gr() {
+	grep1 "$@" --ignore-case --perl-regexp --color=always | catOrLess
+}
+gr1() {
+	gr "$@" --ignore-case --perl-regexp --only-matching | catOrLess
+}
+gr2() {
+	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn --exclude-dir=\.git | catOrLess
+}
+
+# Create executable file
+createExecutable() {
+	if [[ ! -f "$1" ]]; then
+		echo '#!/bin/bash' >> "$1"
+		echo '#' >> "$1"
+		echo "# Usage: $1 " >> "$1"
+		echo '# ' >> "$1"
+		echo >> "$1"
+		echo '# Strict mode:' >> "$1"
+		echo '# http://redsymbol.net/articles/unofficial-bash-strict-mode' >> "$1"
+		echo 'set -euo pipefail' >> "$1"
+		echo "IFS=$'\n\t'" >> "$1"
+		echo >> "$1"
+	fi
+	chmod u+x "$1"        
+}
+alias ce=createExecutable
+alias me=createExecutable    
+# Create executable file with sh extension.
+bs() {
+	fName="$1.sh"
+	createExecutable "$fName"
+}
+# Create executable bash script. Open it in gedit.
+bsg() {
+	fName="$1.sh"
+	createExecutable "$fName"
+	nohup gedit "$fName" &>/dev/null &
+}
+# Create executable bash script. Open it in nano.
+bsn() {
+    fName="$1.sh"
+	createExecutable "$fName"
+    nano "$fName"
+}
+# Create executable bash script. Open it in vim.
+bsv() {
+    fName="$1.sh"
+	createExecutable "$fName"
+    vim "$fName"
+}
+
+# Untar file. (tar xvf)
+alias tar1='tar --extract --verbose --file'
+# Untar and unzip file. (tar xzvf)
+alias tarz='tar --extract --verbose -gunzip --file'
+alias untar='tarz'
+
+# Hexadecimal dump.
+hd1() {
+	hd "$*" | catOrLess
+}
+
+# GO
+alias run='go run'
+
+locate1() {
+	locate "$@" | catOrLess
+}
+
+#FIND
+# Recursively search for files containing pattern in their
+# names.
+# Use filesistem regexes for search (aka *.*), and always
+# suround them
+# with quotation marks
+find1() {
+	find . -name "$1" | gr $(echo "$1" | tr -d "\*")
+}
+# Print all directories recursively.
+alias findd='find . -name .git -prune -o -type d | catOrLess'
+
+# Make directory and its subdirectories and descend into.
+mkdir1() {
+	mkdir -p "$1"
+	cd "$1"
+}
+alias mkd='mkdir1'
+alias mk='mkdir1'
+
+# Simplified sed command. Usage: cat file | sed1 <change this>
+# <to this>. Warning: I don't guarantee all the quotations and
+# expansions will stay intact. It just seems like playing with
+# fire.
+sed1() {
+	input=`cat`
+	echo "$input" | sed "s/$1/$2/" | catOrLess
+}
+# Same but with g option.
+sed2() {
+	input=`cat`
+	echo "$input" | sed "s/$1/$2/g" | catOrLess
+}
+
+# Print clipboard
+alias xo='xclip -o'
+# Put in clipboard
+alias xi='xclip -i'
+
+# Turn key input repeat off
+alias norepeat='xset -r'
+# Turn key input repeat on
+alias repeat='xset r'
+
+############
+# PACKAGES #
+############
+
+# Apt-get.
+alias canhaz='sudo apt-get install'
+alias ch='canhaz'
+alias update='sudo apt-get update'
+alias upgrade='sudo apt-get upgrade'
+alias dist-upgrade='sudo apt-get dist-upgrade'
+alias remove='sudo apt-get remove && autoremove'
+alias purge='sudo apt-get purge && autoremove'
+alias autoremove='sudo apt-get autoremove'
+
+# Show installed and remote version.
+alias version='apt-cache policy'
+alias ve='apt-cache policy'
+
+# Show packages' dependencies.
+depends() {
+	apt-cache show "$@" | grep Depends | sed 's/Depends:/ /' | sed 's/,/\n /g'
+}
+
+# Print installed packages
+alias packages1='dpkg --get-selections | grep -v deinstall | catOrLess'
+
+# Print packages that were installed by the user, in order of
+# installation
+alias packages='cat /var/log/apt/history.log | grep "apt-get install" | sed "s/.* //" | catOrLessG'
+alias installed='packages'
+
+# Apropos.
+aproposM() {
+	apropos "$*" | catOrLess
+}
+alias apropos='aproposM'
+alias ap='apropos'
+
+# Run apropos with passed string, then grep output with same
+# string.
+aproposMG() {
+	apropos "$*" | gr "$*" 
+}
+alias apg='aproposMG'
+
+# Search packages, that can be installed with apt-get.
+apropos1() {
+	apt-cache search "$*" | catOrLess
+}
+alias ap1='apropos1'
+
+# Same, but grep output with same string.
+apropos1G() {
+	apt-cache search "$*" | gr "$*"
+}
+alias ap1g='apropos1G'
+alias search='apropos1G'
+
+# Same, but only search for packages containing string in their
+# name
+apropos2G() {
+	apt-cache search "$@" | gr "^[^ ]*$@[^ ]*" 
+}
+alias ap2g='apropos2G'
+
+# Searches packages based on their name and also by their
+# executables
+y() {
+	(echo   "PACKAGES CONTAINING EXECUTABLES NAMED \"$1\""
+	echo -n "========================================"
+	echo "$1" | sed 's/./=/g'
+	apt-file1 "$@" | gr "^.*:"
+	echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"	
+	echo -n   "====================================="
+	echo "$1" | sed 's/./=/g'
+	apropos2G "$@") | le 
+}
+
+# Find to which of the installed packages passed command belongs
+# to
+package() {
+	file=$(sudo which "$1")
+	if [ "$file" == "" ]; then 
+		return
+	fi	
+	resolved=$(readlink -f "$file")
+	dpkg -S "$resolved" 
+}
+
+# Find to which of all the packages the command belongs to
+apt-file1() {
+	apt-file search "$1" | grep \/"$1"$ | catOrLess 
+}
+
+
+alias wi1='whatis'
+# Prints package description. (Few lines)
+whatis2() {
+	apt-cache show "$*" | grep "^ " | catOrLess
+}
+alias wi2='whatis2'
+
+# Searches aliases for name
+whatis3() {
+	type "$*" | catOrLess
+}
+alias wi3='whatis3'
+
+# Searches all packages for file
+whatis4() {
+	package "$@"
+}
+alias wi4='whatis4'
+
+# Searches all packages for file
+whatis5() {
+	apt-file1 "$@"
+}
+alias wi5='whatis5'
+
+# Searches all packages for keyword 
+whatis6() {
+	search "$@"
+}
+alias wi6='whatis6'
+
+# Converts man section number to a description
+manSection() {
+	case "$1" in
+		1)
+			echo "user command"
+			;;
+		2)
+			echo "system call"
+			;;
+		3)
+			echo "c function"
+			;;
+		4)
+			echo "device file"
+			;;
+		5)
+			echo "file format or convention"
+			;;
+		6)
+			echo "game"
+			;;
+		7)
+			echo "miscallaneous"
+			;;
+		8)
+			echo "su command"
+			;;
+		9)
+			echo "kernel routine"
+			;;
+	esac
+}
+
+# Universal command description search function. First tries
+# whatis, then apt-cache show, then type and finally apt-file.
+# When one of them succeeds in finding the description the
+# function returns.
+whatIs() {
+	call1=`whatis "$@" 2> /dev/null`
+	if [ "$?" == "0" ]; then
+		while IFS= read -r line; do
+			commandType=$(manSection $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
+			echo "$line" "($commandType)"
+		done <<< "$call1"
+		echo -n "package: "
+		package "$@" | sed 's/:/\nlocation:/'
+		return
+	fi
+
+	call2=`apt-cache show "$*" 2> /dev/null | grep "^ "`
+	if [ "$?" == "0" ]; then
+		echo "$call2" | catOrLess
+		return
+	fi
+
+	call3=`type "$*" 2> /dev/null`
+	if [ "$?" == "0" ]; then
+		echo "$call3"
+		return
+	fi
+
+	call4=`package "$@"`
+	if [ "$call4" != "" ]; then
+		echo "$call4"
+		return
+	fi
+
+	call5=`apt-file1 "$@" | gr "^.*:"`
+	if [ "$call5" != "" ]; then
+		echo -e "You need to install one of the following packages to get the command:\n$call5" | catOrLess
+	fi
+
+	call6=`search "$@"`
+	if [ "$call6" != "" ]; then
+		echo  "$call6" | catOrLess
+	fi
+}
+alias wi='whatIs'
+
+
+#######
+# GIT #
+#######
+
+commit() {
+  if [ $# -eq 0 ]; then
+    message="regular commit"
+  else
+  	message="$*"
+  fi
+  git commit -am "$message"
+}
+alias commitm='git commit -a'
+alias init='git init'
+alias push='git push'
+alias pull='git pull'
+alias checkout='git checkout'
+alias merge='git merge'
+alias branch='git branch'
+
+clone() {
+	git clone git@github.com:/"$1".git
+}
+
+alias gs='git -c color.status=always status -sb | catOrLess'
+# Nicely decorated graph of commits
+alias gl='git log --decorate --graph --all'
+alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+alias gl2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+# Update information about state of the origin and print status
+alias gu='git remote update; git status -sb'
+alias gd='git diff'
+alias ga='git add'
+alias gm='git mv'
+alias gll='git ls-files'
+alias gb='git branch'
+alias gc='git checkout'
+
+# Add to github (first create remote repository on website,
+# init local repo and add files to it):
+# Parameter: <USERNAME>/<PROJECT>
+origin() {
+	git remote add origin git@github.com:/"$1".git
+	git pull origin master
+	git push origin master
+}
+
+# GIT MISC:
+
+# Push every project in the directory
+pushall() {
+	for a in *; do 
+		(if [ -d "$a" ]; then 
+			cd $a 
+			echo "$a" 
+			git push 
+		fi) 
+	done
+}
+
+# For all projects in the directory print the labaels of the
+# last commit
+alias gsta='for a in *; do if [[ -d "$a" ]]; then cd "$a"; echo "$a"; git remote update; git log --decorate | head -1; echo; cd ..;fi ; done'
+
+
+# Usage: cloneAll <github-username>
+# Clones all users github repos in pwd.
+cloneAll() {
+	if [[ -z "$1" ]]; then
+		exit
+	fi
+
+	tempFile=`mktemp`
+	wget 'https://github.com/gto76?tab=repositories' -O "$tempFile"
+	repos=`grep "$1"/[^//\"]* -o "$tempFile" | sort -u | grep -v follow`
+
+	while read -r line; do
+		git clone git@github.com:"$line"
+	done <<< "$repos"
+}
+
+
+# Displays lines of code per file in git repo and sum of all.
+# Only looks for files in src directory.
+gloc() {
+	git ls-files \
+		| xargs file \
+		| grep text \
+		| grep -o ^.*: \
+		| tr -d ":" \
+		| grep ^src/.* \
+	  	| xargs wc -l 
+}
+
+# Runs gloc in all subfolders and only displays totals.
+glocall() {
+	sum=0
+	for a in *; do 
+		if [ -d "$a" ]; then 
+			cd "$a"
+			tot=`gloc | grep total | grep -o [0-9]*`
+			if [ -n "$tot" ]; then
+				echo "$a"
+				echo "$tot"
+				let sum=$sum+"$tot"
+			fi
+			cd ..
+		fi
+	done
+	echo "============="
+	echo "$sum"
+}
+
+# Plot distribution of file lengths in git repo. Gnuplot and
+# gnuplot-x11 packages need to be installed.
+giplot() {
+	gitl | head -n-1 | sort -n | grep -o '^ *[0-9]* ' | tr -d ' ' > /tmp/gitlTmpFile 
+	echo "unset key; plot '/tmp/gitlTmpFile'" | gnuplot -p 
+	\rm /tmp/gitlTmpFile
+}
+
+
+###################
+# NOT SO NECESARY #
+###################
+
+# Print PATH variable, but substitute colon with new line.
+alias path='echo -e ${PATH//:/\\n}'
+
+# Print total memory in megabytes.
+alias mem="free -m | grep Mem | sed 's/^Mem: *\([0-9]*\).*/\1/'"
+
+# Print free memory in megabytes.
+fr() {
+	echo -n	$(free -m \
+		| grep Mem \
+	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/') 
+	echo " / $(mem)"
+}
+
+# Open last modified file in nano.
+alias Nano="nano `ls -t | head -1`" 
+# Open last modified file in vim.
+alias Vim="vim `ls -t | head -1`" 
+
+# Print majority of commands.
+commands() {
+	whatis `ls -1 /usr/share/man/man1/ \
+		| sed 's/\..*$//' \
+		| sed 's/-.*$//' \
+		| sed 's/_.*$//' \
+		| uniq` 2>/dev/null \
+		| grep \(1\) \
+		| sed 's/(1)//' \
+		| grep -v DOS -i \
+		| grep -v anymap \
+		| grep -v ppm \
+		| catOrLess
+}
+
+# Size of a command.
+bsize() {
+	loc=`which "$1"`
+	if [ $? -eq 0 ]; then
+		ls -Hlh "$loc" | sed 's/^[^ ]* [^ ]* [^ ]* [^ ]* \([^ ]*\).*/\1/'
+	fi
+}
+
+# Display an image.
+picture() {
+	rb eog "$@"
+}
+#alias picture='eog'
+alias image='picture'
+alias img='picture'
+alias d='picture'
+
+# Run a typing tutor.
+alias tt='gtypist'
+
+######################
+# PAGE/LINE COUNTING #
+######################
+
+# Counts number of lines in files with extension $1 
+# in current and sub directories.
+noOfLines() {
+	rootDir="$PWD"
+	no=0
+	for file in *; do
+		if [ -d "$file" ]; then
+			#echo "entering $file" >&2
+			cd "$file"
+			recRes=`noOfLines "$1"`
+			#echo "recRes is $recRes" >&2
+			let no=$no+"$recRes"
+			cd "$rootDir"
+		fi
+		if [[ "$file" == *."$1" ]]; then
+			let no=$no+`cat "$file" | wc -l`	
+		fi
+	done
+	echo $no
+}
+alias loc='noOfLines'
+# Same as noOfLines, but prints results per top directory.
+locall() {
+	table=$(for project in *; do 
+		cd "$project"
+		echo -n "$project;" 
+		lines=`loc "$1"`
+		echo "$lines" 
+		cd..
+	done)
+	sum=`echo "$table" | grep -o [0-9]*$ | sumall` 
+	folder=`echo $PWD | grep -o "[^/]*$" | tr [a-z] [A-Z]`
+	echo "$folder;$sum"
+	echo "$table"
+}
+# Sums all the numbers.
+sumall() {
+	in=`cat`
+	sum=0
+	for line in `echo "$in"`; do 
+		let sum=sum+"$line"
+	done
+	echo "$sum"
+}
+
+
+###########
+# NETWORK #
+###########
+
+# Whats my internal ip.
+ip1() {
+	/sbin/ifconfig \
+		| grep "inet addr:192.168" \
+		| grep -o addr:[0-9.]* \
+		| grep -o [0-9.]\* \
+		| cat 
+}
+# Whats my external ip. 
+alias ip2='echo `lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*`'
+# Whats gateways ip.
+alias gateway='route -n | grep "192.168." | head -n1 | grep -o "192.168.[0-9.]*"'
+# Whats my mac address.
+alias mac='ifconfig | grep HWaddr | cat'
+
+# Ping gateway.
+alias ping1='ping -c 4 `gateway`'
+# Ping ip address of noip.com.
+alias ping2='ping -c 4 8.23.224.107'
+# Ping google.
+alias ping3='ping -c 4 www.google.com'
+# Ping all of the above.
+pingAll() {
+	ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
+	ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
+	ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
+}
+alias pa=pingAll
+alias pa1='pingAll; pingAll'
+
+# How many people are on network beside you (number of hosts).
+noh() {
+	if [ $# -gt 0 ]
+	then
+		forth="$1"
+	else
+		forth="254"
+	fi
+	thirdNumberOfIp=`ip1 | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta'`
+	command="nmap -sP 192.168.$thirdNumberOfIp.0-$forth"
+	noOfHosts=`$command | grep -o "[0-9]* hosts up" | grep -o "[0-9]*"`
+	noOfOtherUsers=`expr $noOfHosts - 2`
+	echo $noOfOtherUsers
+}
+# Check only first 10 addreses.
+alias noh1='noh 10'
+
+# Scans first $1 addreses of local network.
+nmap2() {
+  if [ $# -eq 0 ]
+  then
+    third=`ip1 | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta'`
+    forth="254"
+  fi
+  if [ $# -eq 1 ]
+  then
+    third=`ip1 | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta'`
+    forth="$1"
+  fi
+  if [ $# -gt 1 ]
+  then
+    third="$1"
+    forth="$2"
+  fi
+  nmap -sP 192.168.$third.0-$forth
+}
+# Scan first 20 addreses of local network.
+alias nmap1='nmap2 20'
+
+# Retrurns OK if pingable of Fail if not. Parameter is an ip or
+# domain
+pingable() {
+	pingResult=$(ping -c 1 -q "$1" | grep --color=never -A 1 statistics | grep "1 received")
+	if [ "$pingResult" != "" ]; then
+		echo -n "OK"
+	else
+		echo -n "Fail"
+	fi
+}
+
+# Prints status of the ssh port of the passed client
+port22status() {
+	nmap $(echo "$1" | tr -d ' ') -p22 | grep '22/tcp' | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
+}
+
+# Scans the network and prints the ip-s of the conncted devices,
+# and checks if connection to the internet is avalable.
+network() {
+	localIp=$(ip1)
+	gateway=$(gateway)
+	echo "You:      $localIp   ssh: $(port22status $(ip2))"
+	echo "Gateway:  $gateway    ssh: $(port22status "$gateway")"
+	all=$(nmap1)
+	allFiltered=$(
+		echo "$all" | 
+		grep -v "$localIp" |
+		grep -v "$gateway" |
+		grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*" |
+		sed 's/^/          /g' ) 
+	len=${#allFiltered} 
+	allFiltered=${allFiltered:6:len-6} 
+	echo -n "Other:"
+
+	while IFS= read -r line; do	
+		echo -n "$line    ssh: "
+		port22status "$line"	
+	done <<< "$allFiltered"
+
+	testIp="8.23.224.107"
+	echo "Internet: $testIp   Ping: $(pingable "$testIp")"
+	testDomain="www.google.com"
+	echo "          $testDomain Ping: $(pingable "$testDomain")"
+
+}
+alias ne='network'
+
+
+############
+# WIRELESS #
+############
+
+# Block wireless device.
+alias woff='rfkill block `rfkill list | grep Wireless | grep ^[0-9] -o`'
+# Unblock wireless device.
+alias won='rfkill unblock `rfkill list | grep Wireless | grep ^[0-9] -o`'
+# Reset wireless device.
+alias wr='woff; won'
+# Wlan up/down.
+alias up='sudo ifconfig wlan0 up'
+alias down='sudo ifconfig wlan0 down'
+
+# Displays wireless networks in range.
+wlan() {
+	sudo iwlist wlan0 scan \
+		| grep Quality -A2 \
+		| tr -d "\n" \
+		| sed 's/--/\n/g' \
+		| sed -e 's/ \+/ /g' \
+		| sort -r \
+		| sed 's/ Quality=//g' \
+		| sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
+		| sed 's/ ESSID:/ /g'
+}
+# Whois piped to less if necessary.
+whois1() {
+	whois "$@" | catOrLess
+}
+
+
+############
+# INTERNET #
+############
+
+# Lynx accepting cookies, starting in Google, and in vim mode.
+alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
+
+# Rss feed reader.
+alias rss='nrss'
+
+#########
+# AUDIO #
+#########
+
+# Set master volume in rage of 0 to 100.
+vol() {
+	amixer set Master playback "$1"
+}
+# Volume up 6dB.
+a() {
+	vol "6%+" | tail -n 1
+}
+# Volume down 6dB.
+z() {
+	vol "6%-" | tail -n 1
+}
+# Volume up 2 dB.
+aa() {
+	vol "2%+" | tail -n 1
+}
+# Volume down 2 dB.
+zz() {
+	vol "2%-" | tail -n 1
+}
+
+alias pl='mplayer'
+alias mp='mplayer'
