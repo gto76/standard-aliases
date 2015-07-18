@@ -205,9 +205,6 @@ alias c='cat'
 alias v='vim -p'
 # Read only vim
 alias vv='view'
-# Scala vim (tab is 2 spaces)
-alias scv='v -c ":set ts=2" -c ":set sw=2"'
-alias vs='scv'
 # Nano with: enable experimental undo (will most probably crash
 # if going deeper than first undo level), autoindent, constantly
 # show the cursor position, log search and replace strings,
@@ -504,14 +501,22 @@ alias blue='echo -en "\e]PC7373C9"'
 # Send KILL signal instead of TERM
 alias kill1='kill -9'
 
-# Turn off laptop monitor if external is connected.
-vga() {
-	xrandr | grep VGA | grep " connected " > /dev/null
-	if [ $? -eq 0 ]; then
-    	xrandr --output LVDS1 --off
-		killall nautilus
-		nautilus -n &
-	fi
+# Turn key input repeat off
+alias norepeat='xset -r'
+# Turn key input repeat on
+alias repeat='xset r'
+
+# Print PATH variable, but substitute colon with new line.
+alias path='echo -e ${PATH//:/\\n}'
+
+# Print all and free memory in megabytes.
+fr() {
+	echo "all: "$(free -m \
+		| grep Mem \
+		| sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
+	echo "free: "$(free -m \
+		| grep Mem \
+	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
 
 
@@ -626,15 +631,8 @@ sed2() {
 	echo "$input" | sed "s/$1/$2/g" | catOrLess
 }
 
-# Print clipboard
-alias xo='xclip -o'
-# Put in clipboard
-alias xi='xclip -i'
-
-# Turn key input repeat off
-alias norepeat='xset -r'
-# Turn key input repeat on
-alias repeat='xset r'
+# Run a typing tutor.
+alias tt='gtypist'
 
 ############
 # PACKAGES #
@@ -924,103 +922,12 @@ cloneAll() {
 }
 
 
-# Displays lines of code per file in git repo and sum of all.
-# Only looks for files in src directory.
-gloc() {
-	git ls-files \
-		| xargs file \
-		| grep text \
-		| grep -o ^.*: \
-		| tr -d ":" \
-		| grep ^src/.* \
-	  	| xargs wc -l 
-}
-
-# Runs gloc in all subfolders and only displays totals.
-glocall() {
-	sum=0
-	for a in *; do 
-		if [ -d "$a" ]; then 
-			cd "$a"
-			tot=`gloc | grep total | grep -o [0-9]*`
-			if [ -n "$tot" ]; then
-				echo "$a"
-				echo "$tot"
-				let sum=$sum+"$tot"
-			fi
-			cd ..
-		fi
-	done
-	echo "============="
-	echo "$sum"
-}
-
-# Plot distribution of file lengths in git repo. Gnuplot and
-# gnuplot-x11 packages need to be installed.
-giplot() {
-	gitl | head -n-1 | sort -n | grep -o '^ *[0-9]* ' | tr -d ' ' > /tmp/gitlTmpFile 
-	echo "unset key; plot '/tmp/gitlTmpFile'" | gnuplot -p 
-	\rm /tmp/gitlTmpFile
-}
-
 
 ###################
 # NOT SO NECESARY #
 ###################
 
-# Print PATH variable, but substitute colon with new line.
-alias path='echo -e ${PATH//:/\\n}'
 
-# Print total memory in megabytes.
-alias mem="free -m | grep Mem | sed 's/^Mem: *\([0-9]*\).*/\1/'"
-
-# Print free memory in megabytes.
-fr() {
-	echo -n	$(free -m \
-		| grep Mem \
-	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/') 
-	echo " / $(mem)"
-}
-
-# Open last modified file in nano.
-alias Nano="nano `ls -t | head -1`" 
-# Open last modified file in vim.
-alias Vim="vim `ls -t | head -1`" 
-
-# Print majority of commands.
-commands() {
-	whatis `ls -1 /usr/share/man/man1/ \
-		| sed 's/\..*$//' \
-		| sed 's/-.*$//' \
-		| sed 's/_.*$//' \
-		| uniq` 2>/dev/null \
-		| grep \(1\) \
-		| sed 's/(1)//' \
-		| grep -v DOS -i \
-		| grep -v anymap \
-		| grep -v ppm \
-		| catOrLess
-}
-
-# Size of a command.
-bsize() {
-	loc=`which "$1"`
-	if [ $? -eq 0 ]; then
-		ls -Hlh "$loc" | sed 's/^[^ ]* [^ ]* [^ ]* [^ ]* \([^ ]*\).*/\1/'
-	fi
-}
-
-# Display an image.
-picture() {
-	rb eog "$@"
-}
-#alias picture='eog'
-alias image='picture'
-alias img='picture'
-alias d='picture'
-
-# Run a typing tutor.
-alias tt='gtypist'
 
 ######################
 # PAGE/LINE COUNTING #
