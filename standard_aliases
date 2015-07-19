@@ -262,7 +262,7 @@ alias rb='runInBackground'
 ##########
 # BASICS #
 ##########
-
+# TODO
 alias ba='bash'
 
 alias s='sudo'
@@ -301,76 +301,21 @@ alias ty='type'
 
 alias da='date'
 
-################
+alias makeToPager='make 2>&1 | le'
+alias ma="makeToPager"
 
-# Start a new terminal.
-alias gt='gnome-terminal'
-alias term='gnome-terminal'
-alias co='gnome-terminal'
+# Starts a new terminal.
 alias te='gnome-terminal'
-
-# Console calculator with float.
-alias bc1='gcalccmd'
-
-alias make1='make 2>&1 | le'
-
-alias ma="make1"
-
-# Execute command periodically every 2 seconds. Aliases can be
-# also used.
-alias watch1='watch bash -i -c'
-
-# Every 10 seconds.
-alias watch2='watch -n 10 bash -i -c'
-
-# 30 seconds.
-alias watch3='watch -n 30 bash -i -c'
-
-# Display disk space used by a folder or a file in human
-# readable form.
-alias du1='du --summarize --human-readable'
-
-# Set bash to vi mode.
-alias vimode='set -o vi'
-
-# Set bash to emacs (normal) mode.
-alias emacsmode='set -o emacs'
 
 # Start a file explorer
 alias na='rb nautilus .'
 
-# Get name of first file in directory
-alias first='ls | head -1'
-
-# Get name of random file in directory
-# $@ - all arguments get send to ls
-random-file() {
-	ls "$@" | sort -R | head -1
+# Makes directory and its subdirectories and descends into.
+mkdir1() {
+	mkdir -p "$1"
+	cd "$1"
 }
-alias rf='random-file'
-
-# Run profile script
-alias profile='source /etc/profile'
-
-# Switches the files. Usage: switch [FILE1] [FILE2]
-switch() {
-	TMP_NAME="f8ewn3j9"
-	cp "$1" "$TMP_NAME"
-	mv -f "$2" "$1"
-	mv "$TMP_NAME" "$2"
-}
-
-# Mount ISO file and cd into it
-mount-iso() {
-	sudo mkdir /media/"$1"
-	sudo mount -o loop "$1" /media/"$1"
-	cd /media/"$1"
-}
-alias cd-iso='mount-iso'
-
-diff1() {
-	colordiff "$@" | catOrLess
-}
+alias mk='mkdir1'
 
 
 ###########
@@ -386,20 +331,6 @@ grepHistory() {
 	fi
 }
 alias h='grepHistory'
-
-
-########
-# TMUX #
-########
-
-# Runs Tmux.
-alias tm='tmux'
-
-# Runs Tmux, and attaches to last session.
-alias tma='tmux attach'
-
-# Lists all running Tmux sessions.
-alias tml='tmux ls'
 
 
 ################
@@ -432,11 +363,12 @@ g() {
 # Runs Sublime Text in background.
 alias sub='rb sublime_text'
 
+
 ########
 # SUDO #
 ########
 
-# Run commands that require sudo with sudo
+# Aliases that run commands, that require sudo, with sudo.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
 alias ifconfig='sudo ifconfig'
@@ -455,10 +387,9 @@ alias lshw='sudo lshw'
 alias chown='sudo chown'
 alias mount='sudo mount'
 
-# Execute last command as sudo
+# Executes last command as sudo.
 alias fuck='sudo $(history -p \!\!)'
 alias fu='fuck'
-alias f='fuck'
 
 # File manipulation 
 alias scp='sudo cp -iv'
@@ -513,6 +444,20 @@ pgrep1() {
 
 
 ########
+# TMUX #
+########
+
+# Runs Tmux.
+alias tm='tmux'
+
+# Runs Tmux, and attaches to last session.
+alias tma='tmux attach'
+
+# Lists all running Tmux sessions.
+alias tml='tmux ls'
+
+
+########
 # TEXT #
 ########
 
@@ -521,30 +466,33 @@ pgrep1() {
 cut1() {
 	cut --delimiter="$1" --fields="$2" 
 }
-# Sort lines of file. Specify separator and key. Key is used to
+
+# Sorts lines of file. Specify separator and key. Key is used to
 # specify number of field you want lines to be sorted by.
 sort1() { 
 	sort --field-separator="$1" --key="$2"
 }
+
 # Makes table out of input data. You need to specify column
 # separator.
 alias table='column -t -s'
-# Delete specified characters.
+
+# Deletes specified characters.
 alias trd='tr --delete'
 
-# Change input strings notation from CamelCase to underscore.
-# (all the folowong commands work as pipe filters
+# Changes input strings notation from CamelCase to underscore.
+# (all the folowong commands work as pipe filters)
 toUnderscore() {
 	cat | sed 's/\([A-Z]\)/_\1/g' | tr [a-z] [A-Z]
 }
 
-# Change input strings notation from CamelCase to underscore.
+# Changes input strings notation from CamelCase to underscore.
 toHypenscore() {
 	cat | sed 's/\([A-Z]\)/-\1/g' | tr [A-Z] [a-z] 
 }
 alias decamelize='toHypenscore'
 
-# Vice versa.
+# Changes input strings notation from CamelCase to underscore.
 toCamel() {
 	cat | tr [A-Z] [a-z] | sed 's/[_-]\([a-z]\)/\U\1/g'
 }
@@ -554,45 +502,53 @@ toCamel() {
 # SYSTEM #
 ##########
 
-# Show processes
+# Shows detailed overview of processes.
 alias ht='htop'
 
-# Report disk space of main partitions in human readable form.
+# Reports disk space of main partitions in human readable form.
 alias df1='df -h | grep "sd\|Size" | cat'
 
-# Reset computer
+# Resets computer.
 alias restart='sudo shutdown -r now'
 alias poweroff='sudo shutdown now'
 
-# Hibernate, suspend
+# Hibernates.
 alias hib='sudo pm-hibernate'
+
+# Suspends.
 alias sus='sudo pm-suspend'
 
-# Trace system calls and signals. Print strings of maximum 2000
-# chars, and also trace child processes.
+# Traces system calls and signals. Prints strings of maximum
+# 2000 chararcters, and also traces child processes.
 alias strace1='strace -s 2000 -f'
-# Print all system information.
+
+# Prints all system information.
 alias uname1='uname -all'
-# Print verbose information of all PCI devices.
+
+# Prints verbose information of all PCI devices.
 alias lspci1='lspci -v | catOrLess'
-# Display cpu temperature.
+
+# Displays cpu temperature.
 alias temp='acpi -t'
-# Print battery status.
-alias b='acpi'
-alias batt='acpi'
+
+# Prints battery status.
 alias battery='acpi'
-# Trim SSD disk
+alias batt='acpi'
+
+# Trims SSD disk.
 alias trim='sudo fstrim -v /'
 alias ssd='trim'
-# Change blue color to blueberry in tty
+
+# Changes blue color to blueberry in tty.
 alias blue='echo -en "\e]PC7373C9"'
-# Send KILL signal instead of TERM
+
+# Sends KILL signal instead of TERM.
 alias kill1='kill -9'
 
-# Print PATH variable, each entry in its own line.
+# Prints PATH variable, each entry in its own line.
 alias path='echo -e ${PATH//:/\\n}'
 
-# Print all and free memory in megabytes.
+# Prints all and free memory in megabytes.
 fr() {
 	echo "all: "$(free -m \
 		| grep Mem \
@@ -602,6 +558,18 @@ fr() {
 	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
 
+# Displays disk space used by a folder or a file in human
+# readable form.
+alias du1='du --summarize --human-readable'
+
+# Mounts ISO file and cd-s into it.
+mount-iso() {
+	sudo mkdir /media/"$1"
+	sudo mount -o loop "$1" /media/"$1"
+	cd /media/"$1"
+}
+alias cd-iso='mount-iso'
+
 
 ############
 # KEYBOARD #
@@ -610,13 +578,13 @@ fr() {
 # Sets keyboard layout to us layout.
 alias uskeys='setxkbmap -layout us'
 
-# Get keycode for pressed key.
+# Gets keycode of pressed key.
 alias keycode='xev';
 
-# Turn key input repeat off
+# Turns key input repeat off.
 alias norepeat='xset -r'
 
-# Turn key input repeat on
+# Turns key input repeat on.
 alias repeat='xset r'
 
 
@@ -624,8 +592,8 @@ alias repeat='xset r'
 # USEFUL #
 ##########
 
-# Make grep more user friendly by highlighting matches
-# and exclude grepping through .svn and .git folders.
+# Makes grep more user friendly by highlighting matches
+# and excludes grepping through .svn and .git folders.
 alias grep1='grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git'
 gr() {
 	grep1 "$@" --ignore-case --perl-regexp --color=always | catOrLess
@@ -637,7 +605,8 @@ gr2() {
 	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn --exclude-dir=\.git | catOrLess
 }
 
-# Create executable file
+# Creates executable bash script, or just changes modifiers to
+# executable, if file already exists.
 createExecutable() {
 	if [[ ! -f "$1" ]]; then
 		echo '#!/bin/bash' >> "$1"
@@ -655,33 +624,12 @@ createExecutable() {
 }
 alias ce=createExecutable
 alias me=createExecutable    
-# Create executable file with sh extension.
-bs() {
-	fName="$1.sh"
-	createExecutable "$fName"
-}
-# Create executable bash script. Open it in gedit.
-bsg() {
-	fName="$1.sh"
-	createExecutable "$fName"
-	nohup gedit "$fName" &>/dev/null &
-}
-# Create executable bash script. Open it in nano.
-bsn() {
-    fName="$1.sh"
-	createExecutable "$fName"
-    nano "$fName"
-}
-# Create executable bash script. Open it in vim.
-bsv() {
-    fName="$1.sh"
-	createExecutable "$fName"
-    vim "$fName"
-}
 
-# Untar file. (tar xvf)
+# TODO: generig unpackaging command.
+# Untars file. (tar xvf)
 alias tar1='tar --extract --verbose --file'
-# Untar and unzip file. (tar xzvf)
+
+# Untars and unzip file. (tar xzvf)
 alias tarz='tar --extract --verbose -gunzip --file'
 alias untar='tarz'
 
@@ -694,27 +642,66 @@ locate1() {
 	locate "$@" | catOrLess
 }
 
-#FIND
-# Recursively search for files containing pattern in their
-# names.
-# Use filesistem regexes for search (aka *.*), and always
-# suround them
-# with quotation marks
+# Recursively searches for files containing pattern in their
+# names.  Use filesistem regexes for search (aka *.*), and
+# always sureound them with quotation marks.
 find1() {
 	find . -name "$1" | gr $(echo "$1" | tr -d "\*")
 }
-# Print all directories recursively.
+
+# Prints all directories recursively.
 alias findd='find . -name .git -prune -o -type d | catOrLess'
 
-# Make directory and its subdirectories and descend into.
-mkdir1() {
-	mkdir -p "$1"
-	cd "$1"
-}
-alias mk='mkdir1'
-
-# Run a typing tutor.
+# Runs a typing tutor.
 alias tt='gtypist'
+
+# Runs console calculator with decimal numbers.
+alias bc1='gcalccmd'
+
+# Executes command periodically every 2 seconds. Aliases can be
+# also used.
+alias watch1='watch bash -i -c'
+
+# Executes command periodically every 10 seconds. Aliases can be
+# also used.
+alias watch2='watch -n 10 bash -i -c'
+
+# Executes command periodically every 30 seconds. Aliases can be
+# also used.
+alias watch3='watch -n 30 bash -i -c'
+
+# Sets bash to vi mode.
+alias vimode='set -o vi'
+
+# Sets bash to emacs (normal) mode.
+alias emacsmode='set -o emacs'
+
+# Gets name of first file in directory.
+alias first='ls | head -1'
+
+# Gets name of random file in directory.
+# $@ - all arguments get send to ls
+randomFile() {
+	ls "$@" | sort -R | head -1
+}
+alias rf='randomFile'
+
+# Runs profile script.
+alias profile='source /etc/profile'
+
+# Switches the files. Usage: switch [FILE1] [FILE2]
+switch() {
+	TMP_NAME="f8ewn3j9"
+	cp "$1" "$TMP_NAME"
+	mv -f "$2" "$1"
+	mv "$TMP_NAME" "$2"
+}
+
+diff1() {
+	colordiff "$@" | catOrLess
+}
+
+# TODO: to here
 
 ############
 # PACKAGES #
@@ -981,9 +968,9 @@ cloneAll() {
 }
 
 
-######################
-# PAGE/LINE COUNTING #
-######################
+#################
+# LINE COUNTING #
+#################
 
 # Counts number of lines in files with extension $1 
 # in current and sub directories.
@@ -1006,6 +993,8 @@ noOfLines() {
 	echo $no
 }
 alias loc='noOfLines'
+
+# TODO from here up
 # Same as noOfLines, but prints results per top directory.
 locall() {
 	table=$(for project in *; do 
@@ -1020,6 +1009,7 @@ locall() {
 	echo "$folder;$sum"
 	echo "$table"
 }
+
 # Sums all the numbers.
 sumall() {
 	in=`cat`
@@ -1035,7 +1025,7 @@ sumall() {
 # NETWORK #
 ###########
 
-# Whats my internal ip.
+# Prints internal ip.
 ip1() {
 	/sbin/ifconfig \
 		| grep "inet addr:192.168" \
@@ -1043,14 +1033,17 @@ ip1() {
 		| grep -o [0-9.]\* \
 		| cat 
 }
-# Whats my external ip. 
+
+# Prints external ip. 
 alias ip2='echo `lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*`'
-# Whats gateways ip.
+
+# Prints gateways ip.
 alias gateway='route -n | grep "192.168." | head -n1 | grep -o "192.168.[0-9.]*"'
-# Whats my mac address.
+
+# Prints mac addresses of local devices.
 alias mac='ifconfig | grep HWaddr | cat'
 
-# Ping gateway, ip address of noip.com and www.google.com
+# Pings gateway, ip address of noip.com and www.google.com.
 pingAll() {
 	ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
 	ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
@@ -1077,11 +1070,12 @@ nmap2() {
   fi
   nmap -sP 192.168.$third.0-$forth
 }
-# Scan first 20 addreses of local network.
+
+# Scans first 20 addreses of local network.
 alias nmap1='nmap2 20'
 
 # Retrurns OK if pingable of Fail if not. Parameter is an ip or
-# domain
+# domain.
 pingable() {
 	pingResult=$(ping -c 1 -q "$1" | grep --color=never -A 1 statistics | grep "1 received")
 	if [ "$pingResult" != "" ]; then
@@ -1091,7 +1085,7 @@ pingable() {
 	fi
 }
 
-# Prints status of the ssh port of the passed client
+# Prints status of the ssh port of the passed client.
 port22status() {
 	nmap $(echo "$1" | tr -d ' ') -p22 | grep '22/tcp' | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
 }
@@ -1131,14 +1125,19 @@ alias ne='network'
 # WIRELESS #
 ############
 
-# Block wireless device.
+# Blocks wireless device.
 alias woff='sudo rfkill block $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)'
-# Unblock wireless device.
+
+# Unblocks wireless device.
 alias won='sudo rfkill unblock $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)'
-# Reset wireless device.
+
+# Resets wireless device.
 alias wr='woff; won'
-# Wlan up/down.
+
+# Sets wlan up.
 alias up='sudo ifconfig wlan0 up'
+
+# Sets wlan down.
 alias down='sudo ifconfig wlan0 down'
 
 # Displays wireless networks in range.
