@@ -258,32 +258,6 @@ runInBackground() {
 }
 alias rb='runInBackground'
 
-################
-# TEXT EDITORS #
-################
-
-# Calls Vim with option that opens one tab per file.
-alias v='vim -p'
-
-# Runs Vim in read only mode.
-alias vv='view'
-
-# Nano with: 
-#	* enable experimental undo (will most probably crash
-# if going deeper than first undo level!!!!!!!!!), 
-#	* autoindent, 
-#	* constantly show the cursor position, 
-#	* log search and replace strings,
-#	* enable edit of multiple files, 
-#	* treat punctuation as part of words, 
-#	* smooth scrolling, 
-#	* tab size set to 4 spaces.
-alias n='nano --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4'
-
-# Opens file in gedit.
-g() { 
-	rb gedit "$@" 
-}
 
 ##########
 # BASICS #
@@ -295,85 +269,89 @@ alias s='sudo'
 
 alias c='cat'
 
-# Print exit code of the last command.
+# Prints the exit code of the last command.
 alias ?='echo $?'
 
-alias sub='rb sublime_text'
-alias scr='screen'
-alias tm='tmux'
-alias tma='tmux attach'
-alias tml='tmux ls'
-alias clr='clear'
 alias cl='clear'
+
 alias re='reset'
-alias k='clear'
-# Greps the history, or just shows it if no argument is passed
-his() {
-	if [ "$#" -eq 0 ]; then
-		history | catOrLessG
-	else
-		history | grep "$@" | catOrLessG
-	fi
-}
-alias h='his'
-alias xx='exit'
-alias x='exit'
+
 alias q='exit'
+
 alias he='head'
+
 alias he1='head -n1'
+
 alias ta='tail'
+
 alias ta1='tail -n1'
+
 alias wcl='wc -l'
+
 alias wcw='wc -w'
+
 alias to='touch'
-# Console calculator with float.
-alias bc1='gcalccmd'
-alias make1='make 2>&1 | le'
-alias ma="make1"
-# Report disk space of main partitions in human readable form.
-alias df1='df -h | grep "sd\|Size" | cat'
-# Open pdf file
-pdf() { evince $@ & }
-# Set volume in console for all audio channels.
-alias mixer='alsamixer'
-# Get keycode for pressed key.
-alias keycode='xev';
-# Execute command periodically every 2 seconds. Aliases can be
-# also used.
-alias watch1='watch bash -i -c'
-# Every 10 seconds.
-alias watch2='watch -n 10 bash -i -c'
-# 30 seconds.
-alias watch3='watch -n 30 bash -i -c'
-# Open picture in console as ascii art.
-alias asci='asciiview'
-# Set keyboard layout to us and run xmodmap.
-alias resetkey='setxkbmap -layout us; xmodmap ~/.Xmodmap'
-alias resetkeys='resetkey'
-# Display disk space used by a folder or a file in human
-# readable form.
-alias du1='du --summarize --human-readable'
-# Set bash to vi mode.
-alias vimode='set -o vi'
-# Set bash to emacs (normal) mode.
-alias emacsmode='set -o emacs'
+
+# Opens file with default aplication for the file type.
+o() {
+	rb xdg-open "$@"
+}
+
+alias ty='type'
+
+alias da='date'
+
+################
+
 # Start a new terminal.
 alias gt='gnome-terminal'
 alias term='gnome-terminal'
 alias co='gnome-terminal'
 alias te='gnome-terminal'
+
+# Console calculator with float.
+alias bc1='gcalccmd'
+
+alias make1='make 2>&1 | le'
+
+alias ma="make1"
+
+# Execute command periodically every 2 seconds. Aliases can be
+# also used.
+alias watch1='watch bash -i -c'
+
+# Every 10 seconds.
+alias watch2='watch -n 10 bash -i -c'
+
+# 30 seconds.
+alias watch3='watch -n 30 bash -i -c'
+
+# Display disk space used by a folder or a file in human
+# readable form.
+alias du1='du --summarize --human-readable'
+
+# Set bash to vi mode.
+alias vimode='set -o vi'
+
+# Set bash to emacs (normal) mode.
+alias emacsmode='set -o emacs'
+
 # Start a file explorer
 alias na='rb nautilus .'
+
 # Get name of first file in directory
 alias first='ls | head -1'
+
 # Get name of random file in directory
 # $@ - all arguments get send to ls
 random-file() {
 	ls "$@" | sort -R | head -1
 }
 alias rf='random-file'
+
 # Run profile script
 alias profile='source /etc/profile'
+
 # Switches the files. Usage: switch [FILE1] [FILE2]
 switch() {
 	TMP_NAME="f8ewn3j9"
@@ -381,6 +359,7 @@ switch() {
 	mv -f "$2" "$1"
 	mv "$TMP_NAME" "$2"
 }
+
 # Mount ISO file and cd into it
 mount-iso() {
 	sudo mkdir /media/"$1"
@@ -388,18 +367,70 @@ mount-iso() {
 	cd /media/"$1"
 }
 alias cd-iso='mount-iso'
-# Show processes
-alias ht='htop'
-alias u='htop'
-# Open file with default aplication for the file type
-o() {
-	rb xdg-open "$@"
-}
-alias ty='type'
-alias da='date'
+
 diff1() {
 	colordiff "$@" | catOrLess
 }
+
+
+###########
+# HISTORY #
+###########
+
+# Greps the history, or just shows it if no argument is passed
+grepHistory() {
+	if [ "$#" -eq 0 ]; then
+		history | catOrLessG
+	else
+		history | grep "$@" | catOrLessG
+	fi
+}
+alias h='grepHistory'
+
+
+########
+# TMUX #
+########
+
+# Runs Tmux.
+alias tm='tmux'
+
+# Runs Tmux, and attaches to last session.
+alias tma='tmux attach'
+
+# Lists all running Tmux sessions.
+alias tml='tmux ls'
+
+
+################
+# TEXT EDITORS #
+################
+
+# Calls Vim with option that opens one tab per file.
+alias v='vim -p'
+
+# Runs Vim in read only mode.
+alias vv='view'
+
+# Runs Nano with: 
+#	* enable experimental undo (will most probably crash
+# if going deeper than first undo level!!!!!!!!!), 
+#	* autoindent, 
+#	* constantly show the cursor position, 
+#	* log search and replace strings,
+#	* enable edit of multiple files, 
+#	* treat punctuation as part of words, 
+#	* smooth scrolling, 
+#	* tab size set to 4 spaces.
+alias n='nano --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4'
+
+# Runs Gedit in background.
+g() { 
+	rb gedit "$@" 
+}
+
+# Runs Sublime Text in background.
+alias sub='rb sublime_text'
 
 ########
 # SUDO #
@@ -523,6 +554,12 @@ toCamel() {
 # SYSTEM #
 ##########
 
+# Show processes
+alias ht='htop'
+
+# Report disk space of main partitions in human readable form.
+alias df1='df -h | grep "sd\|Size" | cat'
+
 # Reset computer
 alias restart='sudo shutdown -r now'
 alias poweroff='sudo shutdown now'
@@ -552,12 +589,7 @@ alias blue='echo -en "\e]PC7373C9"'
 # Send KILL signal instead of TERM
 alias kill1='kill -9'
 
-# Turn key input repeat off
-alias norepeat='xset -r'
-# Turn key input repeat on
-alias repeat='xset r'
-
-# Print PATH variable, but substitute colon with new line.
+# Print PATH variable, each entry in its own line.
 alias path='echo -e ${PATH//:/\\n}'
 
 # Print all and free memory in megabytes.
@@ -569,6 +601,23 @@ fr() {
 		| grep Mem \
 	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
+
+
+############
+# KEYBOARD #
+############
+
+# Sets keyboard layout to us layout.
+alias uskeys='setxkbmap -layout us'
+
+# Get keycode for pressed key.
+alias keycode='xev';
+
+# Turn key input repeat off
+alias norepeat='xset -r'
+
+# Turn key input repeat on
+alias repeat='xset r'
 
 
 ##########
@@ -1132,9 +1181,13 @@ chrome() {
 #	* using vim mode for navigation.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 
+
 #########
 # AUDIO #
 #########
+
+# Set volume in console for all audio channels.
+alias mixer='alsamixer'
 
 # Set master volume in rage of 0 to 100.
 setVolume() {
