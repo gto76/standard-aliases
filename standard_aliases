@@ -247,6 +247,17 @@ alias ee='echo -e'
 alias en='echo -n'
 
 
+#####################
+# RUN IN BACKGROUND #
+#####################
+
+# Runs command in background, it doesn't hang up if the shell
+# is closed and it doesn't print output.
+runInBackground() {
+	nohup "$@" &>/dev/null &
+}
+alias rb='runInBackground'
+
 ################
 # TEXT EDITORS #
 ################
@@ -284,24 +295,9 @@ alias s='sudo'
 
 alias c='cat'
 
-# Runs command in background, it doesent hang up if the shell is
-# closed and it doesn't print output
-runInBackground() {
-	nohup "$@" &>/dev/null &
-}
-alias rb='runInBackground'
-
 # Print exit code of the last command.
 alias ?='echo $?'
 
-
-# run konsole withouth menu and tab bar
-alias konsole1="rb konsole --workdir "$PWD" --hide-menubar --hide-tabbar"
-alias ko='konsole1'
-
-
-
-alias i='chrome'
 alias sub='rb sublime_text'
 alias scr='screen'
 alias tm='tmux'
@@ -1114,18 +1110,26 @@ wlan() {
 # INTERNET #
 ############
 
-# Firefox.
+# Runs default browser in background.
+i() {
+	rb sensible-browser "$@"
+}
+
+# Runs Firefox in background.
 fire() {
 	rb firefox "$@"
 }
 
-# Runs chrome with setting that resolves some bug in some cases
-# (it is probably already fixed).
+# Runs Chrome in background with setting that resolves some bug
+# in some cases (it is probably already fixed).
 chrome() { 
 	rb google-chrome --touch-devices=123 "$@" 
 }
 
-# Lynx accepting cookies, starting in Google, and in vim mode.
+# Runs Lynx with:
+#	* accepting cookies, 
+#	* starting in Google and
+#	* using vim mode for navigation.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 
 #########
