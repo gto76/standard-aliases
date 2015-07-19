@@ -545,10 +545,10 @@ createExecutable() {
 		echo "# Usage: $1 " >> "$1"
 		echo '# ' >> "$1"
 		echo >> "$1"
-		echo '# Strict mode:' >> "$1"
+		echo '# Uncomment for Strict mode, more info at:' >> "$1"
 		echo '# http://redsymbol.net/articles/unofficial-bash-strict-mode' >> "$1"
-		echo 'set -euo pipefail' >> "$1"
-		echo "IFS=$'\n\t'" >> "$1"
+		echo '# set -euo pipefail' >> "$1"
+		echo "# IFS=$'\n\t'" >> "$1"
 		echo >> "$1"
 	fi
 	chmod u+x "$1"        
@@ -590,9 +590,6 @@ hd1() {
 	hd "$*" | catOrLess
 }
 
-# GO
-alias run='go run'
-
 locate1() {
 	locate "$@" | catOrLess
 }
@@ -614,22 +611,7 @@ mkdir1() {
 	mkdir -p "$1"
 	cd "$1"
 }
-alias mkd='mkdir1'
 alias mk='mkdir1'
-
-# Simplified sed command. Usage: cat file | sed1 <change this>
-# <to this>. Warning: I don't guarantee all the quotations and
-# expansions will stay intact. It just seems like playing with
-# fire.
-sed1() {
-	input=`cat`
-	echo "$input" | sed "s/$1/$2/" | catOrLess
-}
-# Same but with g option.
-sed2() {
-	input=`cat`
-	echo "$input" | sed "s/$1/$2/g" | catOrLess
-}
 
 # Run a typing tutor.
 alias tt='gtypist'
@@ -844,14 +826,7 @@ alias wi='whatIs'
 # GIT #
 #######
 
-commit() {
-  if [ $# -eq 0 ]; then
-    message="regular commit"
-  else
-  	message="$*"
-  fi
-  git commit -am "$message"
-}
+alias commit='git commit -am'
 alias commitm='git commit -a'
 alias init='git init'
 alias push='git push'
@@ -889,22 +864,6 @@ origin() {
 
 # GIT MISC:
 
-# Push every project in the directory
-pushall() {
-	for a in *; do 
-		(if [ -d "$a" ]; then 
-			cd $a 
-			echo "$a" 
-			git push 
-		fi) 
-	done
-}
-
-# For all projects in the directory print the labaels of the
-# last commit
-alias gsta='for a in *; do if [[ -d "$a" ]]; then cd "$a"; echo "$a"; git remote update; git log --decorate | head -1; echo; cd ..;fi ; done'
-
-
 # Usage: cloneAll <github-username>
 # Clones all users github repos in pwd.
 cloneAll() {
@@ -920,13 +879,6 @@ cloneAll() {
 		git clone git@github.com:"$line"
 	done <<< "$repos"
 }
-
-
-
-###################
-# NOT SO NECESARY #
-###################
-
 
 
 ######################
@@ -998,37 +950,13 @@ alias gateway='route -n | grep "192.168." | head -n1 | grep -o "192.168.[0-9.]*"
 # Whats my mac address.
 alias mac='ifconfig | grep HWaddr | cat'
 
-# Ping gateway.
-alias ping1='ping -c 4 `gateway`'
-# Ping ip address of noip.com.
-alias ping2='ping -c 4 8.23.224.107'
-# Ping google.
-alias ping3='ping -c 4 www.google.com'
-# Ping all of the above.
+# Ping gateway, ip address of noip.com and www.google.com
 pingAll() {
 	ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
 	ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
 	ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
 alias pa=pingAll
-alias pa1='pingAll; pingAll'
-
-# How many people are on network beside you (number of hosts).
-noh() {
-	if [ $# -gt 0 ]
-	then
-		forth="$1"
-	else
-		forth="254"
-	fi
-	thirdNumberOfIp=`ip1 | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta'`
-	command="nmap -sP 192.168.$thirdNumberOfIp.0-$forth"
-	noOfHosts=`$command | grep -o "[0-9]* hosts up" | grep -o "[0-9]*"`
-	noOfOtherUsers=`expr $noOfHosts - 2`
-	echo $noOfOtherUsers
-}
-# Check only first 10 addreses.
-alias noh1='noh 10'
 
 # Scans first $1 addreses of local network.
 nmap2() {
@@ -1095,7 +1023,6 @@ network() {
 	echo "Internet: $testIp   Ping: $(pingable "$testIp")"
 	testDomain="www.google.com"
 	echo "          $testDomain Ping: $(pingable "$testDomain")"
-
 }
 alias ne='network'
 
@@ -1105,9 +1032,9 @@ alias ne='network'
 ############
 
 # Block wireless device.
-alias woff='rfkill block `rfkill list | grep Wireless | grep ^[0-9] -o`'
+alias woff='sudo rfkill block $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)'
 # Unblock wireless device.
-alias won='rfkill unblock `rfkill list | grep Wireless | grep ^[0-9] -o`'
+alias won='sudo rfkill unblock $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)'
 # Reset wireless device.
 alias wr='woff; won'
 # Wlan up/down.
@@ -1126,10 +1053,6 @@ wlan() {
 		| sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
 		| sed 's/ ESSID:/ /g'
 }
-# Whois piped to less if necessary.
-whois1() {
-	whois "$@" | catOrLess
-}
 
 
 ############
@@ -1139,33 +1062,28 @@ whois1() {
 # Lynx accepting cookies, starting in Google, and in vim mode.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 
-# Rss feed reader.
-alias rss='nrss'
-
 #########
 # AUDIO #
 #########
 
 # Set master volume in rage of 0 to 100.
-vol() {
+setVolume() {
 	amixer set Master playback "$1"
 }
 # Volume up 6dB.
 a() {
-	vol "6%+" | tail -n 1
+	setVolume "6%+" | tail -n 1
 }
 # Volume down 6dB.
 z() {
-	vol "6%-" | tail -n 1
+	setVolume "6%-" | tail -n 1
 }
 # Volume up 2 dB.
 aa() {
-	vol "2%+" | tail -n 1
+	setVolume "2%+" | tail -n 1
 }
 # Volume down 2 dB.
 zz() {
-	vol "2%-" | tail -n 1
+	setVolume "2%-" | tail -n 1
 }
 
-alias pl='mplayer'
-alias mp='mplayer'
