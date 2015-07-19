@@ -12,25 +12,30 @@
 # LESS #
 ########
 
-# Run less with: ignore case when searching, do not ring a bell,
-# do not mark empty lines with ~, format prompt as 'page
-# number'/'all pages' 'filename', set tabs to 4 spaces.
+# Runs less with: 
+# 	* ignore case when searching, 
+#	* do not ring a bell,
+#	* do not mark empty lines with ~, 
+#	* format prompt as "<page-number>/<all-pages> <filename>",
+#	* set tabs to 4 spaces.
 alias le='less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4'
 
-# Open cat or less, depending on no of lines of file or input.
+# Opens cat or less, depending on number of lines in file or
+# input.
 catOrLess() {
-	if [ $# -gt 0 ]
-	then
-		noOfLines=`cat "$1" 2>/dev/null | fold -w"$COLUMNS" | wc -l`
-		if [ $LINES -gt $noOfLines ]; then
-			cat "$1"	
+	if [[ "$#" -gt 0 ]]; then
+		noOfLines=$(cat "$1" 2>/dev/null \
+			| fold -w"$COLUMNS" \
+			| wc -l)
+		if [[ "$LINES" -gt "$noOfLines" ]]; then
+			cat "$1"
 		else
 			le "$1" 2>/dev/null 
 		fi
 	else
-		input=`cat`
-		noOfLines=`echo "$input" | fold -w"$COLUMNS" | wc -l`
-		if [ $LINES -gt $noOfLines ]; then
+		input=$(cat)
+		noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
+		if [[ "$LINES" -gt "$noOfLines" ]]; then
 			echo "$input" | cat	
 		else
 			echo "$input" | le 2>/dev/null 
@@ -42,25 +47,25 @@ alias m='catOrLess'
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
 catOrLessG() {
-	if [ $# -gt 0 ]
-	then
-		noOfLines=`cat "$1" 2>/dev/null | fold -w"$COLUMNS" | wc -l`
-		if [ $LINES -gt $noOfLines ]; then
+	if [[ "$#" -gt 0 ]]; then
+		noOfLines=$(cat "$1" 2>/dev/null \
+			| fold -w"$COLUMNS" \
+			| wc -l)
+		if [[ "$LINES" -gt "$noOfLines" ]]; then
 			cat "$1"	
 		else
 			cat "$1" | le +G 2>/dev/null
 		fi
 	else
-		input=`cat`
-		noOfLines=`echo "$input" | fold -w"$COLUMNS" | wc -l`
-		if [ $LINES -gt $noOfLines ]; then
+		input=$(cat)
+		noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
+		if [[ "$LINES" -gt "$noOfLines" ]]; then
 			echo "$input" | cat	
 		else
 			echo "$input" | le +G 2>/dev/null
 		fi
 	fi
 }
-alias mEnd='catOrLessG'
 
 
 ######
@@ -68,32 +73,44 @@ alias mEnd='catOrLessG'
 ######
 
 # All other ls aliases end up calling this one. It runs ls with:
-# append indicator, sort alphabetically by extension, list by
-# columns, use color when stdout is connected to terminal, group
-# directories before files.
+#	* append indicator, 
+#	* sort alphabetically by extension, 
+#	* list by columns, 
+#	* use color when stdout is connected to terminal, 
+#	* group directories before files.
 alias ls1='ls --classify -X -C --color=auto --group-directories-first'
 
-# Calls ls1 with: assumes screen width to be 69, so there aren't
-# too many columns.
+# Calls ls1 with: 
+#	* set width to screen width or 69, whichever is smaller.
 alias listShort='ls1 --width=$(widthLimit=69; if [[ "$COLUMNS" -lt "$widthLimit" ]]; then echo "$COLUMNS"; else echo "$widthLimit"; fi)'
-# Calls ls1 with: use long listing format, do not print groups,
-# do not list owner, print sizes in human readable format, print
-# date as: 'month by word, day of month, year, hour:minute'.
+
+# Calls ls1 with: 
+#	* use long listing format, 
+#	* do not print groups,
+# 	* do not list owner, 
+#	* print sizes in human readable format, 
+#	* print date as: '<month-by-word>, <day-of-month>, <year>,
+#	<hour>:<minute>'.
 alias listMed='ls1 -l --no-group -g --human-readable --time-style="+%b %d %Y %H:%M"'
-# Calls ls1 with: use long listing format. 
+
+# Calls ls1 with: 
+#	* use long listing format. 
 alias listLong='ls1 -l'
 
 # Functions that call aliases above, and pipe output to less.
-# They override color option of ls to always and add
-# RAW-CONTROL-CHARS option to less alias. This enables the
-# transfer of colors from ls to less. Also start less at end of
-# file.
+# They: 
+#	* override color option of ls to 'always' and 
+#	* pipe output to le with RAW-CONTROL-CHARS option.
+# This enables the transfer of colors from ls to less. They also
+# start less at end of file.
 listShortLess() { 
   listShort --color=always $* | le --RAW-CONTROL-CHARS +G
 }
+
 listMedLess() { 
   listMed --color=always $* | le --RAW-CONTROL-CHARS +G 
 }
+
 listLongLess() { 
   listLong --color=always $* | le --RAW-CONTROL-CHARS +G 
 }
@@ -102,24 +119,26 @@ listLongLess() {
 # version of the listShort/Med/Long function. It depends on
 # whether the output of ls will fit on screen.
 l() {
-	noOfLines=`listShort "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l`
-	if [ $LINES -gt $noOfLines ]; then
+	noOfLines=$(listShort "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l)
+	if [[ "$LINES" -gt "$noOfLines" ]]; then
 		listShort "$@"	
 	else
 		listShortLess "$@" 
 	fi
 }
+
 ll() {
-	noOfLines=`listMed "$@" 2> /dev/null | fold -w"$COLUMNS" | wc -l`
-	if [ $LINES -gt $noOfLines ]; then
+	noOfLines=$(listMed "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l)
+	if [[ "$LINES" -gt "$noOfLines" ]]; then
 		listMed "$@"
 	else
 		listMedLess "$@"    
 	fi
 }
+
 lll() {
-	noOfLines=`listLong "$@" 2> /dev/null | fold -w"$COLUMNS" | wc -l`
-	if [ $LINES -gt $noOfLines ]; then
+	noOfLines=$(listLong "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l)
+	if [[ "$LINES" -gt "$noOfLines" ]]; then
 		listLong "$@"
 	else
 		listLongLess "$@"    
@@ -131,41 +150,41 @@ lll() {
 alias la='l --almost-all'
 alias lla='ll --almost-all'
 alias llla='lll --almost-all'
+
 # Variations, that list directory entries instead of contents.
 alias dl='l --directory'
 alias dll='ll --directory'
 alias dlll='lll --directory'
-# Variations that sort files by date
+
+# Variations that sort files by date.
 alias lt='l -t'
 alias llt='ll -t'
 alias lllt='lll -t'
+
 # Variations of listShort that list one entry per line.
 alias l1='l -1'
 alias la1='la -1'
-# Display tree structure of folders belove PWD
+
+
+########
+# TREE #
+########
+
+# Displays tree structure of folders below PWD.
 tree1() {
 	tree -C -I .git --dirsfirst "$@" | catOrLess
 }
 alias t='tree1'
+
 # Same, but all files
-alias tree2='tree1 -a'
-alias t1='tree2'
+alias t1='tree1 -a'
 
 
-##########
-# BASICS #
-##########
+######
+# CD #
+######
 
-# Make some possibly destructive commands more interactive.
-alias rmdir='rm -rI'
-alias rmd='rmdir'
-alias cpdir='cp -arv'
-alias rm='rm -i'
-alias mv='mv -iv'
-alias cp='cp -iv'
-alias mvdir='mv'
-
-# Simplify going up in directory hierarchy.
+# Aliases that simplify going up in directory hierarchy.
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ,,='cd ..'
@@ -176,15 +195,36 @@ alias ,,,,='cd ..; cd ..; cd ..;'
 alias .....='cd ..; cd ..; cd ..; cd..'
 alias ......='cd ..; cd ..; cd ..; cd..; cd..'
 alias .......='cd ..; cd ..; cd ..; cd..; cd..; cd..'
-alias ..l='cd ..; l'
 
-# Combine cd and ls.
+# Combines cd and ls.
 cdl() {	
 	cd "$@"; l
 }
+
+
+#########
+# FILES #
+#########
+
+# TODO
+# Aliases that make some possibly destructive commands more
+# interactive.
+alias rmdir='rm -rI'
+alias cpdir='cp -arv'
+alias rm='rm -i'
+alias mv='mv -iv'
+alias cp='cp -iv'
+alias mvdir='mv'
+
+
+#######
+# PWD #
+#######
+
+# Prints PWD.
 alias .='echo $PWD'
 
-# If no file specified, print PWD, else full path of the file.
+# If no file specified, prints PWD, else full path of the file.
 p() {
 	if [ $# -eq 0 ]; then
 		echo "$PWD"
@@ -193,59 +233,74 @@ p() {
 	fi		
 }
 
-alias ba='bash'
-alias s='sudo'
+
+########
+# ECHO #
+########
+
 alias e='echo'
-# Echo with backslash escapes (\n,...)
+
+# Echo that interpets backslashed characters (\n,...).
 alias ee='echo -e'
+
 # Echo withouth new line at the end.
 alias en='echo -n'
-alias c='cat'
-# Vim - open one tab per file
+
+
+################
+# TEXT EDITORS #
+################
+
+# Calls Vim with option that opens one tab per file.
 alias v='vim -p'
-# Read only vim
+
+# Runs Vim in read only mode.
 alias vv='view'
-# Nano with: enable experimental undo (will most probably crash
-# if going deeper than first undo level), autoindent, constantly
-# show the cursor position, log search and replace strings,
-# enable edit of multiple files, treat punctuation as part of
-# words, smooth scrolling, tab size is 4 spaces.
+
+# Nano with: 
+#	* enable experimental undo (will most probably crash
+# if going deeper than first undo level!!!!!!!!!), 
+#	* autoindent, 
+#	* constantly show the cursor position, 
+#	* log search and replace strings,
+#	* enable edit of multiple files, 
+#	* treat punctuation as part of words, 
+#	* smooth scrolling, 
+#	* tab size set to 4 spaces.
 alias n='nano --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4'
+
+# Opens file in gedit.
+g() { 
+	rb gedit "$@" 
+}
+
+##########
+# BASICS #
+##########
+
+alias ba='bash'
+
+alias s='sudo'
+
+alias c='cat'
+
 # Runs command in background, it doesent hang up if the shell is
 # closed and it doesn't print output
 runInBackground() {
 	nohup "$@" &>/dev/null &
 }
 alias rb='runInBackground'
-alias r='runInBackground'
-# print exit code of last command
+
+# Print exit code of the last command.
 alias ?='echo $?'
 
-# open file in gedit
-g() { 
-	rb gedit "$@" 
-}
 
 # run konsole withouth menu and tab bar
 alias konsole1="rb konsole --workdir "$PWD" --hide-menubar --hide-tabbar"
 alias ko='konsole1'
 
-# open vim in konsole with light theme
-vvv() { 
-	rb konsole --workdir "$PWD" --hide-menubar --hide-tabbar -e vim -p -c "set background=light" -c "colorscheme github" -c "set fo-=t"  "$@"
-}
-# open vim in console with tab width 2
-vvvv() {
-	vvv -c ":set ts=2" -c ":set sw=2" "$@"
-}
 
-fire() {
-	rb firefox "$@"
-}
 
-chrome() { 
-	rb google-chrome --touch-devices=123 "$@" 
-}
 alias i='chrome'
 alias sub='rb sublime_text'
 alias scr='screen'
@@ -1058,6 +1113,17 @@ wlan() {
 ############
 # INTERNET #
 ############
+
+# Firefox.
+fire() {
+	rb firefox "$@"
+}
+
+# Runs chrome with setting that resolves some bug in some cases
+# (it is probably already fixed).
+chrome() { 
+	rb google-chrome --touch-devices=123 "$@" 
+}
 
 # Lynx accepting cookies, starting in Google, and in vim mode.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
