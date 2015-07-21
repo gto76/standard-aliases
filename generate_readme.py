@@ -18,7 +18,7 @@ def getIndexOfLastCommentedLineBefore(i):
     while i > 0:
         line = content[i]
         if not line.startswith('#'):
-            return i
+            return i + 1
         i -= 1
     return 0
 
@@ -30,9 +30,12 @@ def getIndexOfLastCommentedLineBefore(i):
 def getCommentForLine(i):
     commentEnd = getIndexOfFirstCommentedLineBefore(i)
     commentStart = getIndexOfLastCommentedLineBefore(commentEnd)
+    # print "commentStart", commentStart
+    # print "commentEnd", commentEnd
     out = ""
-    for i in range(commentStart, commentEnd):
-        out += content[i]
+    for i in range(commentStart, commentEnd+1):
+        lineWithRemovedComment = re.sub(r'^# *', "", content[i])
+        out += lineWithRemovedComment
     return out
 
 ##### MAIN #####
@@ -50,8 +53,5 @@ for i in range(len(content)):
         name = re.sub(r'=.*', "", name)        
         name = re.sub(r'\n', "", name)        
         comment = getCommentForLine(i)
-        #firstLineOfComment = getFirstLineOfComment(i-1)
-        #shortExplanation = content[firstLineOfComment]
-        #shortExplanation = re.sub(r'# *', "", shortExplanation)        
         print(name + " - " + comment)
 
