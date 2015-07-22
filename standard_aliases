@@ -12,7 +12,7 @@
 # LESS #
 ########
 
-# Runs less with: 
+# Runs less with a few sensible options.
 # 	* ignore case when searching, 
 #	* do not ring a bell,
 #	* do not mark empty lines with ~, 
@@ -20,7 +20,7 @@
 #	* set tabs to 4 spaces.
 alias le='less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4'
 
-# Opens cat or less, depending on number of lines in file or
+# Runs cat or less, depending on number of lines in file or
 # input.
 catOrLess() {
 	if [[ "$#" -gt 0 ]]; then
@@ -152,30 +152,30 @@ lsLong() {
 	fi
 }
 
-# Calls ls (with a lot of options) that lists only names. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that lists only names.
 alias l='lsShort'
-# Calls ls (with a lot of options) that uses shortened long listing format. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that uses shortened long listing format.
 alias ll='lsMed'
-# Calls ls (with a lot of options) that uses long listing format. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that uses long listing format.
 alias lll='lsLong'
 
-# Calls ls (with a lot of options) that lists only filenames, also showing hidden files. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that lists only filenames, also showing hidden files.
 alias la='lsShort --almost-all'
-# Calls ls (with a lot of options) that uses shortened long listing format, also showing hidden files. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that uses shortened long listing format, also showing hidden files.
 alias lla='lsMed --almost-all'
-# Calls ls (with a lot of options) that uses long listing format, also showing hidden files. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that uses long listing format, also showing hidden files.
 alias llla='lsLong --almost-all'
 
-# Calls ls (with a lot of options) that lists only names and sorts files by date. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that lists only names and sorts files by date.
 alias lt='lsShort -t'
-# Calls ls (with a lot of options) that uses shortened long listing format and sorts files by date. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that uses shortened long listing format and sorts files by date.
 alias llt='lsMed -t'
-# Calls ls (with a lot of options) that uses long listing format and sorts files by date. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that uses long listing format and sorts files by date.
 alias lllt='lsLong -t'
 
-# Calls ls (with a lot of options) that lists one name per line. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that lists one name per line.
 alias l1='lsShort -1'
-# Calls ls (with a lot of options) that lists one name per line and also shows hidden files. Output is sent to pager if necesarry.
+# Calls ls (with a lot of options) that lists one name per line and also shows hidden files.
 alias la1='la -1'
 
 
@@ -194,7 +194,7 @@ alias t='tree1'
 # CD #
 ######
 
-# Aliases that simplify going up in directory hierarchy.
+# Simplifies going up in directory hierarchy.
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ,,='cd ..'
@@ -207,53 +207,60 @@ alias ......='cd ..; cd ..; cd ..; cd..; cd..'
 alias .......='cd ..; cd ..; cd ..; cd..; cd..; cd..'
 
 # Combines cd and ls.
-cdl() {	
+cdLs() {	
 	cd "$@"; l
 }
+alias cdl='cdLs'
 
 
 #########
 # FILES #
 #########
 
-# TODO
-# Aliases that make some possibly destructive commands more
-# interactive.
-alias rmdir='rm -rI'
-alias cpdir='cp -arv'
-alias rm='rm -i'
-alias mv='mv -iv'
+# Runs cp in interactive mode (asks before it overwities anything).
 alias cp='cp -iv'
-alias mvdir='mv'
+# Runs mv in interactive mode (asks before it overwities anything).
+alias mv='mv -iv'
+# Runs rm in interactive mode (asks you for every file, if you really want to delete it). Run with -f option to override interactive mode.
+alias rm='rm -i'
+
+# Copies whole directory in interactive mode (asks before it overwities anything).
+alias cpdir='cp -iarv'
+# Moves whole directory in interactive mode (asks before it overwities anything).
+alias mvdir='mv -iv'
+# Removes whole directory in interactive mode (checks for every file if you really want to delete it). Run with -f option to override interactive mode.
+alias rmdir='rm -ir'
 
 
 #######
 # PWD #
 #######
 
-# Prints PWD.
+# Prints working directory.
 alias .='echo $PWD'
 
-# If no file specified, prints PWD, else full path of the file.
-p() {
+# If no file specified, prints working directory, else full path of the file.
+pwdOrPath() {
 	if [ $# -eq 0 ]; then
 		echo "$PWD"
 	else
 		echo `echo "$PWD"`/"$@"
 	fi		
 }
+alias p='pwdOrPath'
 
 
 ########
 # ECHO #
 ########
 
+# Runs echo.
 alias e='echo'
 
-# Echo that interpets backslashed characters (\n,...).
+# Runs echo that interprets backslashed characters (\n,...).
 alias ee='echo -e'
 
-# Echo withouth new line at the end.
+# Runs echo that doesen't print new line at the end.
 alias en='echo -n'
 
 
@@ -261,7 +268,7 @@ alias en='echo -n'
 # RUN IN BACKGROUND #
 #####################
 
-# Runs command in background, it doesn't hang up if the shell
+# Runs command in background, it doesn't hang up if shell
 # is closed and it doesn't print output.
 runInBackground() {
 	nohup "$@" &>/dev/null &
@@ -294,13 +301,13 @@ alias re='reset'
 # Exits shell.
 alias q='exit'
 
-# Runs head.
+# Runs head (prints first 10 lines of file or piped stream).
 alias he='head'
 
-# Prints first line.
+# Prints first line of file or piped stream.
 alias he1='head -n1'
 
-# Runs tail.
+# Runs tail (prints last 10 lines of file or piped stream).
 alias ta='tail'
 
 # Prints last line of file or piped stream.
@@ -316,24 +323,24 @@ alias wcw='wc -w'
 alias to='touch'
 
 # Opens file with default aplication for the file type.
-o() {
-	rb xdg-open "$@"
-}
+alias o='runInBackground xdg-open'
 
+# Prints location of passed command, or it's definition if it is an alias.
 alias ty='type'
 
+# Prints current date and time.
 alias da='date'
 
-alias makeToPager='make 2>&1 | le'
-alias ma="makeToPager"
+# Runs make and sends both out and error streams to pager if necesary.
+alias ma='make 2>&1 | le'
 
-# Starts a new terminal.
+# Starts a new terminal, with same PWD.
 alias te='gnome-terminal'
 
-# Start a file explorer
+# Start a file explorer in background.
 alias na='rb nautilus .'
 
-# Makes directory and its subdirectories and descends into.
+# Makes directory (and its parent directories if necesarry) and descends into.
 mkdir1() {
 	mkdir -p "$1"
 	cd "$1"
@@ -345,7 +352,7 @@ alias mk='mkdir1'
 # HISTORY #
 ###########
 
-# Greps the history, or just shows it if no argument is passed
+# Searches command history for pattern, or if none is specified, prints it whole.
 grepHistory() {
 	if [ "$#" -eq 0 ]; then
 		history | catOrLessG
@@ -363,10 +370,10 @@ alias h='grepHistory'
 # Calls Vim with option that opens one tab per file.
 alias v='vim -p'
 
-# Runs Vim in read only mode.
-alias vv='view'
+# Runs Vim in read only mode, and with option that opens one tab per file.
+alias vv='view -p'
 
-# Runs Nano with: 
+# Runs Nano with a few sensible options.
 #	* enable experimental undo (will most probably crash
 # if going deeper than first undo level!!!!!!!!!), 
 #	* autoindent, 
@@ -379,9 +386,7 @@ alias vv='view'
 alias n='nano --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4'
 
 # Runs Gedit in background.
-g() { 
-	rb gedit "$@" 
-}
+alias g='rb gedit'
 
 # Runs Sublime Text in background.
 alias sub='rb sublime_text'
@@ -391,7 +396,7 @@ alias sub='rb sublime_text'
 # SUDO #
 ########
 
-# Aliases that run commands, that require sudo, with sudo.
+# Alias that puts 'sudo' in front of a command that needs super user privilages to run.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
 alias ifconfig='sudo ifconfig'
@@ -411,20 +416,26 @@ alias chown='sudo chown'
 alias mount='sudo mount'
 
 # Executes last command as sudo.
-alias fuck='sudo $(history -p \!\!)'
+fuck() {
+	sudo $(history -p \!\!)
+}
 alias fu='fuck'
 
-# File manipulation 
+# Runs cp as sudo in interactive mode.
 alias scp='sudo cp -iv'
+# Runs mv as sudo in interactive mode.
 alias smv='sudo mv -iv'
+# Runs rm as sudo in interactive mode (use -f to override interactive mode).
 alias srm='sudo rm -i'
 
-# Dir manipulation 
+# Copies whole directory to specified destination as sudo.
 alias scpdir='sudo cp -arv'
-alias smvdir='sudo mv'
-alias srmdir='sudo rm -rI'
+# Moves whole directory to specified destination as sudo.
+alias smvdir='sudo mv -iv'
+# Removes whole directory as sudo in interactive mode (use -f to override interactive mode).
+alias srmdir='sudo rm -ir'
 
-# Backup file
+# Backups file, by making a copy with '.bak' extension. All file's attributes are preserved.
 backup() {
 	sudo cp --preserve "$1"{,.bak}
 }
