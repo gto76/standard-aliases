@@ -421,18 +421,18 @@ fuck() {
 }
 alias fu='fuck'
 
-# Runs cp as sudo in interactive mode.
+# Runs cp as su in interactive mode.
 alias scp='sudo cp -iv'
-# Runs mv as sudo in interactive mode.
+# Runs mv as su in interactive mode.
 alias smv='sudo mv -iv'
-# Runs rm as sudo in interactive mode (use -f to override interactive mode).
+# Runs rm as su in interactive mode (use -f to override interactive mode).
 alias srm='sudo rm -i'
 
-# Copies whole directory to specified destination as sudo.
+# Copies whole directory as su in interactive mode.
 alias scpdir='sudo cp -arv'
-# Moves whole directory to specified destination as sudo.
+#Moves whole directory as su in interactive mode.
 alias smvdir='sudo mv -iv'
-# Removes whole directory as sudo in interactive mode (use -f to override interactive mode).
+# Removes whole directory as su in interactive mode (use -f to override interactive mode).
 alias srmdir='sudo rm -ir'
 
 # Backups file, by making a copy with '.bak' extension. All file's attributes are preserved.
@@ -441,37 +441,34 @@ backup() {
 }
 alias bk='backup'
 
+# Runs less as su.
+alias sm='sudo less'
 
-sg() { 
-	sudo gedit "$*" 
-}
-sn() {
-	sudo nano -icHFwST 4 "$*"
-}
-sm() {
-	sudo le "$*"
-}
-sv() {
-	sudo vim "$*"
-}
+# Runs Nano as su.
+alias sn='sudo nano -icHFwST 4'
+
+# Runs Vim as su.
+alias sv='sudo vim'
+
+# Runs Gedit as su.
+alias sg='sudo gedit'
 
 
 ######
 # PS #
 ######
 
-# Pipe output of ps to catOrLess.
-psM() {
+# Sends output of 'ps' to pager if necesary..
+ps1() {
 	ps "$@" | catOrLess
 }
-alias ps='psM'
+alias psm='ps1'
 
-# Print every process on the system.
-alias pse='ps -e | catOrLess'
-alias psa='ps -e | catOrLess'
-alias ps1='ps -e | catOrLess'
+# Prints every process on the system.
+alias pse='ps1 -e'
+alias psa='ps1 -e'
 
-# Print matching processes and their pids.
+# Prints processes matching specified pattern, and their pids.
 pgrep1() {
 	pgrep --list-name "$@" | catOrLess
 }
@@ -495,41 +492,43 @@ alias tml='tmux ls'
 # TEXT #
 ########
 
-# Removes columns specified by second argument. Specify
-# delimiter with first argument.
-cut1() {
-	cut --delimiter="$1" --fields="$2" 
-}
-
-# Sorts lines of file. Specify separator and key. Key is used to
-# specify number of field you want lines to be sorted by.
-sort1() { 
-	sort --field-separator="$1" --key="$2"
-}
-
-# Makes table out of input data. You need to specify column
-# separator.
-alias table='column -t -s'
-
 # Deletes specified characters.
 alias trd='tr --delete'
 
-# Changes input strings notation from CamelCase to underscore.
-# (all the folowong commands work as pipe filters)
-toUnderscore() {
-	cat | sed 's/\([A-Z]\)/_\1/g' | tr [a-z] [A-Z]
+# Changes input string's notation from CamelCase to UNDER_SCORE.
+toUnder() {
+	cat | sed 's/^\([A-Z]\)/\L\1/' | sed 's/\([A-Z]\)/_\1/g' | tr [a-z] [A-Z]
+} 
+
+# Changes input strings notation from CamelCase to hypen-score.
+toHypen() {
+	cat | sed 's/^\([A-Z]\)/\L\1/' | sed 's/\([A-Z]\)/-\1/g' | tr [A-Z] [a-z] 
 }
 
-# Changes input strings notation from CamelCase to underscore.
-toHypenscore() {
-	cat | sed 's/\([A-Z]\)/-\1/g' | tr [A-Z] [a-z] 
-}
-alias decamelize='toHypenscore'
-
-# Changes input strings notation from CamelCase to underscore.
+# Changes input strings notation from UNDER_SCORE or hypen-score to CamelCase.
 toCamel() {
 	cat | tr [A-Z] [a-z] | sed 's/[_-]\([a-z]\)/\U\1/g'
 }
+
+
+##########
+# TABLES #
+##########
+
+# Creates table out of input lines (lines up the columns). You need to specify the delimiter character with first argument.
+alias table='column -t -s'
+
+# Treats input lines as rows of a table. With second argument you specify the columns you want to retain, and with first, the delimiter character. For more columns use comma or hypen (for ranges).
+keepColumns() {
+	cut --delimiter="$1" --fields="$2" 
+}
+alias cut1='keepColumns'
+
+# Treats input lines as rows of a table and sorts them by column you specify with second parameter. First argument specifies the delimiter character. Using comma, more columns can be specified (in order of importance).
+sortByColumn() { 
+	sort --field-separator="$1" --key="$2"
+}
+alias sort1='sortByColumn'
 
 
 ##########
@@ -542,8 +541,10 @@ alias ht='htop'
 # Reports disk space of main partitions in human readable form.
 alias df1='df -h | grep "sd\|Size" | cat'
 
-# Resets computer.
+# Restarts computer.
 alias restart='sudo shutdown -r now'
+
+# Shuts down computer.
 alias poweroff='sudo shutdown now'
 
 # Hibernates.
@@ -554,15 +555,19 @@ alias sus='sudo pm-suspend'
 
 # Traces system calls and signals. Prints strings of maximum
 # 2000 chararcters, and also traces child processes.
-alias strace1='strace -s 2000 -f'
+strace1() {
+	strace -s 2000 -f "$@" 2>&1 | catOrLess
+}
+alias st='strace1'
 
-# Prints all system information.
-alias uname1='uname -all'
+# Prints kernel version and linux distribution.
+alias uname1='uname --all'
 
-# Prints verbose information of all PCI devices.
+# Prints verbose information about all PCI devices.
 alias lspci1='lspci -v | catOrLess'
 
 # Displays cpu temperature.
+alias temperature='acpi -t'
 alias temp='acpi -t'
 
 # Prints battery status.
@@ -570,20 +575,20 @@ alias battery='acpi'
 alias batt='acpi'
 
 # Trims SSD disk.
-alias trim='sudo fstrim -v /'
+alias trimSsd='sudo fstrim -v /'
 alias ssd='trim'
 
 # Changes blue color to blueberry in tty.
 alias blue='echo -en "\e]PC7373C9"'
 
-# Sends KILL signal instead of TERM.
+# Sends KILL signal instead of TERM to process with specified PID.
 alias kill1='kill -9'
 
 # Prints PATH variable, each entry in its own line.
 alias path='echo -e ${PATH//:/\\n}'
 
 # Prints all and free memory in megabytes.
-fr() {
+free1() {
 	echo "all: "$(free -m \
 		| grep Mem \
 		| sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
@@ -591,6 +596,7 @@ fr() {
 		| grep Mem \
 	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
+alias fr='free1'
 
 # Displays disk space used by a folder or a file in human
 # readable form.
@@ -613,7 +619,7 @@ alias cd-iso='mount-iso'
 alias uskeys='setxkbmap -layout us'
 
 # Gets keycode of pressed key.
-alias keycode='xev';
+alias keycode='xev'
 
 # Turns key input repeat off.
 alias norepeat='xset -r'
@@ -622,22 +628,37 @@ alias norepeat='xset -r'
 alias repeat='xset r'
 
 
+########
+# GREP #
+########
+
+# Runs grep with highlighting matches
+# and not grepping through .svn and .git folders.
+alias grep1='grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git'
+
+# Runs grep with highlighting matches, not grepping through .svn and .git folders, ignoring case and using Perl regex format.
+grepPerl() {
+	grep1 "$@" --ignore-case --perl-regexp --color=always | catOrLess
+}
+alias gr='grepPerl'
+
+# Runs grep with highlighting matches, not grepping through .svn and .git folders, ignoring case, using Perl regex format and only showing matching parts of pattern.
+grepPerlOnlyMatching() {
+	grep1 "$@" --ignore-case --perl-regexp --only-matching | catOrLess
+}
+alias gr1='grepPerlOnlyMatching'
+
+# Runs grep with highlighting matches,
+# not grepping through .svn and .git folders, ignoring case and using extended regex format.
+grepExtended() {
+	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn --exclude-dir=\.git | catOrLess
+}
+alias gr2='grepExtended'
+
+
 ##########
 # USEFUL #
 ##########
-
-# Makes grep more user friendly by highlighting matches
-# and excludes grepping through .svn and .git folders.
-alias grep1='grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git'
-gr() {
-	grep1 "$@" --ignore-case --perl-regexp --color=always | catOrLess
-}
-gr1() {
-	gr "$@" --ignore-case --perl-regexp --only-matching | catOrLess
-}
-gr2() {
-	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn --exclude-dir=\.git | catOrLess
-}
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
@@ -656,8 +677,8 @@ createExecutable() {
 	fi
 	chmod u+x "$1"        
 }
-alias ce=createExecutable
 alias me=createExecutable    
+alias ce=createExecutable
 
 # TODO: generig unpackaging command.
 # Untars file. (tar xvf)

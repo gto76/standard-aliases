@@ -4,6 +4,14 @@ Most aliases will send output to pager if it will be too long to fit the screen.
 
 Some aliases require special tools that are not installed by default on most systems. You can install them all with command belove, but it is probably more reasonable to just install them when demand arises.
 
+Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or by just sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
+ps1
+pgrep1
+tree1
+mkdir1
+
+Only aliases that override the commands are cp, mv and rm. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this promptint, then use -f (force) option. 
+
 If the list belowe seems too long here is a shorthened list of aliases, that I consider almost necesary:)
 m
 l/ll/lll
