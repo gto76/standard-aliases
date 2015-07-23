@@ -783,6 +783,15 @@ alias findd='find . -name .git -prune -o -type d | catOrLess'
 # MISC #
 ########
 
+# Changes blue color, that is hard to read, to blueberry in tty.
+alias blue='echo -en "\e]PC7373C9"'
+
+# Prints PATH variable, each entry in its own line.
+alias path='echo -e ${PATH//:/\\n}'
+
+# Runs console calculator with decimal numbers.
+alias bc1='gcalccmd'
+
 # Prints hexadecimal representation of file or piped stream.
 hexadecimalDump() {
 	hd "$@" | catOrLess
@@ -792,15 +801,6 @@ alias hd1='hexadecimalDump'
 # Trims SSD disk.
 alias trimSsd='sudo fstrim -v /'
 alias ssd='trimSsd'
-
-# Changes blue color to blueberry in tty.
-alias blue='echo -en "\e]PC7373C9"'
-
-# Prints PATH variable, each entry in its own line.
-alias path='echo -e ${PATH//:/\\n}'
-
-# Runs console calculator with decimal numbers.
-alias bc1='gcalccmd'
 
 # TODO simplify
 
