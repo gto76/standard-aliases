@@ -611,11 +611,11 @@ alias fr='free1'
 
 # Displays cpu temperature.
 alias temperature='acpi -t'
-alias temp='acpi -t'
+alias temp='temperature'
 
 # Prints battery status.
 alias battery='acpi'
-alias batt='acpi'
+alias batt='battery'
 
 # Prints kernel version and linux distribution.
 alias uname1='uname --all'
@@ -736,7 +736,7 @@ alias hd1='hexadecimalDump'
 
 # Trims SSD disk.
 alias trimSsd='sudo fstrim -v /'
-alias ssd='trim'
+alias ssd='trimSsd'
 
 # Changes blue color to blueberry in tty.
 alias blue='echo -en "\e]PC7373C9"'
@@ -783,6 +783,28 @@ switch() {
 # Runs a typing tutor.
 alias tt='gtypist'
 
+# Counts number of lines in files with specified extension 
+# in current and sub-directories.
+linesOfCode() {
+	rootDir="$PWD"
+	no=0
+	for file in *; do
+		if [ -d "$file" ]; then
+			#echo "entering $file" >&2
+			cd "$file"
+			recRes=`linesOfCode "$1"`
+			#echo "recRes is $recRes" >&2
+			let no=$no+"$recRes"
+			cd "$rootDir"
+		fi
+		if [[ "$file" == *."$1" ]]; then
+			let no=$no+`cat "$file" | wc -l`	
+		fi
+	done
+	echo $no
+}
+alias loc='linesOfCode'
+
 
 ############
 # PACKAGES #
@@ -812,7 +834,7 @@ alias autoremove='sudo apt-get autoremove'
 
 # Prints installed and remote version of package.
 alias version='apt-cache policy'
-alias ve='apt-cache policy'
+alias ve='version'
 
 # Prints packages that were installed by the user, in order of
 # installation.
@@ -832,34 +854,30 @@ depends() {
 # PACKAGE/COMMAND SEARCH #
 ##########################
 
-# Prints location of passed command, or it's definition if it is an alias.
+# Prints location of passed command, or it's definition, if it is an alias.
 alias ty='type'
 
-# Run apropos, then highlights matches with grep.
-aproposWithHighlight() {
-	apropos "$@" | gr "$@" 
+# Runs apropos, that searches installed commands, by their names and short descriptions. Matches get highlighted.
+apropos1() {
+	apropos "$@" | gr "$@"
 }
 alias ap='aproposWithHighlight'
 
-# Search packages, that can be installed with apt-get.
-apropos1() {
-	apt-cache search "$*" | catOrLess
+# Searches packages, that can be installed with apt-get. Search is performed on their names and short descriptions.
+searchPackages() {
+	apt-cache search "$@" | gr "$@"
 }
-alias ap1='apropos1'
+alias search='searchPackages'
 
-# Same, but grep output with same string.
-apropos1G() {
-	apt-cache search "$*" | gr "$*"
-}
-alias ap1g='apropos1G'
-alias search='apropos1G'
-
-# Same, but only search for packages containing string in their
-# name
-apropos2G() {
+# Searches packages, that can be installed with apt-get. Search is performed only on their names.
+searchPackages1() {
 	apt-cache search "$@" | gr "^[^ ]*$@[^ ]*" 
 }
-alias ap2g='apropos2G'
+alias search1='searchPackages1'
+
+#######################################
+
+# TODO from here to end of section
 
 # Searches packages based on their name and also by their
 # executables
@@ -871,7 +889,7 @@ y() {
 	echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"	
 	echo -n   "====================================="
 	echo "$1" | sed 's/./=/g'
-	apropos2G "$@") | le 
+	searchPackages1 "$@") | le 
 }
 
 # Find to which of the installed packages passed command belongs
@@ -889,7 +907,6 @@ package() {
 apt-file1() {
 	apt-file search "$1" | grep \/"$1"$ | catOrLess 
 }
-
 
 alias wi1='whatis'
 # Prints package description. (Few lines)
@@ -1006,47 +1023,78 @@ alias wi='whatIs'
 # GIT #
 #######
 
+# Commits changed and deleted files. Commit message must be entered as parameter.
 alias commit='git commit -am'
-alias commitm='git commit -a'
-alias init='git init'
-alias push='git push'
-alias pull='git pull'
-alias checkout='git checkout'
-alias merge='git merge'
-alias branch='git branch'
 
-clone() {
+# Commits changed and deleted files. Opens text editor, so proper commit message can be entered.
+alias commitm='git commit -a'
+
+# Creates an empty Git repository or reinitializes an existing one.
+alias init='git init'
+
+# Pushes changes to remote repository.
+alias push='git push'
+
+# Pulls changes from remote repository.
+alias pull='git pull'
+
+# Joins specified branch with current one.
+alias merge='git merge'
+
+# Switches to another branch, or checks-out a file from repository.
+alias checkout='git checkout'
+alias gc='checkout'
+
+# Prints all branches, or creates new one, if name is specified. 
+alias branch='git branch'
+alias gb='branch'
+
+# Prints short status of repository.
+alias gs='git -c color.status=always status -sb | catOrLess'
+
+# Prints nicely decorated graph of commits, with commit messages, full hashes and full dates.	
+alias gl='git log --decorate --graph --all'
+
+# Prints nicely decorated graph of commits, with only first lines of commit messages, shortended hashes and full dates.
+alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+
+# Updates information about state of the remote repository and prints status.
+alias gu='git remote update; git status -sb'
+
+# Shows changes between commits. If no parameter is given, then shows changes between last commit and current state.
+alias gd='git diff'
+
+# Adds file to repository.
+alias ga='git add'
+
+# Moves file or directory. Git will in most cases recognize that files were moved even if regular 'mv' command was used, but this way it is for shure.
+alias gm='git mv'
+
+# Prints files that are in repository.
+alias lsgit='git ls-files'
+alias gls='lsgit'
+
+
+##########
+# GITHUB #
+##########
+
+# Clones project from Github. User and project names must be specified as <user>/<project>.
+cloneGithubProject() {
 	git clone git@github.com:/"$1".git
 }
+alias clone='cloneGithubProject'
 
-alias gs='git -c color.status=always status -sb | catOrLess'
-# Nicely decorated graph of commits
-alias gl='git log --decorate --graph --all'
-alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
-alias gl2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
-# Update information about state of the origin and print status
-alias gu='git remote update; git status -sb'
-alias gd='git diff'
-alias ga='git add'
-alias gm='git mv'
-alias gll='git ls-files'
-alias gb='git branch'
-alias gc='git checkout'
-
-# Add to github (first create remote repository on website,
-# init local repo and add files to it):
-# Parameter: <USERNAME>/<PROJECT>
-origin() {
+# Sets remote repository to specified Github project. Repository must be entered as <user>/<project>.
+setGithubOrigin() {
 	git remote add origin git@github.com:/"$1".git
 	git pull origin master
 	git push origin master
 }
+alias origin='setGithubOrigin'
 
-# GIT MISC:
-
-# Usage: cloneAll <github-username>
-# Clones all users github repos in pwd.
-cloneAll() {
+# Clones all users Github projects in working directory.
+cloneAllUsersGithubProjects() {
 	if [[ -z "$1" ]]; then
 		exit
 	fi
@@ -1059,59 +1107,7 @@ cloneAll() {
 		git clone git@github.com:"$line"
 	done <<< "$repos"
 }
-
-
-#################
-# LINE COUNTING #
-#################
-
-# Counts number of lines in files with extension $1 
-# in current and sub directories.
-noOfLines() {
-	rootDir="$PWD"
-	no=0
-	for file in *; do
-		if [ -d "$file" ]; then
-			#echo "entering $file" >&2
-			cd "$file"
-			recRes=`noOfLines "$1"`
-			#echo "recRes is $recRes" >&2
-			let no=$no+"$recRes"
-			cd "$rootDir"
-		fi
-		if [[ "$file" == *."$1" ]]; then
-			let no=$no+`cat "$file" | wc -l`	
-		fi
-	done
-	echo $no
-}
-alias loc='noOfLines'
-
-# TODO from here up
-# Same as noOfLines, but prints results per top directory.
-locall() {
-	table=$(for project in *; do 
-		cd "$project"
-		echo -n "$project;" 
-		lines=`loc "$1"`
-		echo "$lines" 
-		cd..
-	done)
-	sum=`echo "$table" | grep -o [0-9]*$ | sumall` 
-	folder=`echo $PWD | grep -o "[^/]*$" | tr [a-z] [A-Z]`
-	echo "$folder;$sum"
-	echo "$table"
-}
-
-# Sums all the numbers.
-sumall() {
-	in=`cat`
-	sum=0
-	for line in `echo "$in"`; do 
-		let sum=sum+"$line"
-	done
-	echo "$sum"
-}
+alias cloneAll='cloneAllUsersGithubProjects'
 
 
 ###########
@@ -1119,16 +1115,20 @@ sumall() {
 ###########
 
 # Prints internal ip.
-ip1() {
+internalIp() {
 	/sbin/ifconfig \
 		| grep "inet addr:192.168" \
 		| grep -o addr:[0-9.]* \
 		| grep -o [0-9.]\* \
 		| cat 
 }
+alias ip1='internalIp'
 
 # Prints external ip. 
-alias ip2='echo `lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*`'
+externalIp() {
+	lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*
+}
+alias ip2='externalIp'
 
 # Prints gateways ip.
 alias gateway='route -n | grep "192.168." | head -n1 | grep -o "192.168.[0-9.]*"'
@@ -1143,6 +1143,10 @@ pingAll() {
 	ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
 alias pa=pingAll
+
+#############################
+
+#TODO rename...
 
 # Scans first $1 addreses of local network.
 nmap2() {
@@ -1183,8 +1187,8 @@ port22status() {
 	nmap $(echo "$1" | tr -d ' ') -p22 | grep '22/tcp' | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
 }
 
-# Scans the network and prints the ip-s of the conncted devices,
-# and checks if connection to the internet is avalable.
+# Scans first 20 addresses of local network and prints yours, gateways and the ip-s of other conncted devices. Also checks their ssh port status.
+# After that checks checks if connection to the internet is avalable by pinging Google and ip address of noip.com.
 network() {
 	localIp=$(ip1)
 	gateway=$(gateway)
@@ -1218,23 +1222,28 @@ alias ne='network'
 # WIRELESS #
 ############
 
-# Blocks wireless device.
-alias woff='sudo rfkill block $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)'
+# Disables wireless device.
+blockWireless() {
+	sudo rfkill block $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)
+}
+alias woff='blockWireless'
 
-# Unblocks wireless device.
-alias won='sudo rfkill unblock $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)'
+# Enables wireless device.
+unblockWireless() {
+	sudo rfkill unblock $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)
+alias won='unblockWireless'
 
 # Resets wireless device.
 alias wr='woff; won'
 
-# Sets wlan up.
+# Activates wireless interface (driver).
 alias up='sudo ifconfig wlan0 up'
 
-# Sets wlan down.
+# Shuts down wireless interface (driver).
 alias down='sudo ifconfig wlan0 down'
 
 # Displays wireless networks in range.
-wlan() {
+wirelessNetworks() {
 	sudo iwlist wlan0 scan \
 		| grep Quality -A2 \
 		| tr -d "\n" \
@@ -1245,6 +1254,7 @@ wlan() {
 		| sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
 		| sed 's/ ESSID:/ /g'
 }
+alias wlan='wirelessNetworks'
 
 
 ############
@@ -1252,25 +1262,19 @@ wlan() {
 ############
 
 # Runs default browser in background.
-i() {
-	rb sensible-browser "$@"
-}
+alias internet='runInBackground sensible-browser'
+alias i='internet'
 
 # Runs Firefox in background.
-fire() {
-	rb firefox "$@"
-}
+alias firefoxInBackground='runInBackground firefox'
+alias fire='firefoxInBackground'
 
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
-chrome() { 
-	rb google-chrome --touch-devices=123 "$@" 
-}
+alias chromeInBackground='runInBackground google-chrome --touch-devices=123'
+alias chrome='chromeInBackground'
 
-# Runs Lynx with:
-#	* accepting cookies, 
-#	* starting in Google and
-#	* using vim mode for navigation.
+# Runs Lynx that accepts all cookies, starts in Google and is using vim mode for navigation.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 
 
@@ -1278,27 +1282,35 @@ alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 # AUDIO #
 #########
 
-# Set volume in console for all audio channels.
+# Control volume of all audio channels.
 alias mixer='alsamixer'
 
 # Set master volume in rage of 0 to 100.
 setVolume() {
 	amixer set Master playback "$1"
 }
-# Volume up 6dB.
-a() {
+
+# Increases volume by 6dB.
+volumeUp6Db() {
 	setVolume "6%+" | tail -n 1
 }
-# Volume down 6dB.
-z() {
+alias a='volumeUp6Db'
+
+# Decreases volume by 6dB.
+volumeDown6Db() {
 	setVolume "6%-" | tail -n 1
 }
-# Volume up 2 dB.
-aa() {
+alias z='volumeDown6Db'
+
+# Increases volume by 2dB.
+volumeUp2Db() {
 	setVolume "2%+" | tail -n 1
 }
-# Volume down 2 dB.
-zz() {
+alias aa='volumeUp2Db'
+
+# Decreases volume by 2dB.
+volumeDown2Db() {
 	setVolume "2%-" | tail -n 1
 }
+alias zz='volumeDown2Db'
 
