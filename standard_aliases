@@ -234,21 +234,21 @@ alias cd-iso='mount-iso'
 # FILES #
 #########
 
-# Runs cp in interactive mode (asks before it overwities anything).
+# Runs cp in interactive mode (asks before it overwrites anything).
 alias cp='cp -iv'
-# Runs mv in interactive mode (asks before it overwities anything).
+# Runs mv in interactive mode (asks before it overwrites anything).
 alias mv='mv -iv'
 # Runs rm in interactive mode (asks you for every file, if you really want to delete it). Run with -f option to override interactive mode.
 alias rm='rm -i'
 
-# Copies whole directory in interactive mode (asks before it overwities anything).
+# Copies whole directory in interactive mode (asks before it overwrites anything).
 alias cpdir='cp -iarv'
-# Moves whole directory in interactive mode (asks before it overwities anything).
+# Moves whole directory in interactive mode (asks before it overwrites anything).
 alias mvdir='mv -iv'
 # Removes whole directory in interactive mode (checks for every file if you really want to delete it). Run with -f option to override interactive mode.
 alias rmdir='rm -ir'
 
-# Makes directory (and its parent directories if necesarry) and descends into.
+# Makes directory (and its parent directories if necessary) and descends into.
 mkdir1() {
 	mkdir -p "$1"
 	cd "$1"
@@ -286,7 +286,7 @@ alias e='echo'
 # Runs echo that interprets backslashed characters (\n,...).
 alias ee='echo -e'
 
-# Runs echo that doesen't print new line at the end.
+# Runs echo that doesn't print new line at the end.
 alias en='echo -n'
 
 
@@ -345,25 +345,25 @@ alias wcl='wc -l'
 # Counts words in file or piped stream.
 alias wcw='wc -w'
 
-# Updates file's timestamp, or creates empty file, if it doesen't exits.
+# Updates file's timestamp, or creates empty file, if it doesn't exits.
 alias to='touch'
 
-# Opens file with default aplication for the file type.
+# Opens file with default application for the file type.
 alias o='runInBackground xdg-open'
 
 # Prints current date and time.
 alias da='date'
 
-# Runs make and sends both out and error streams to pager if necesary.
+# Runs make and sends both out and error streams to pager if necessary.
 alias ma='make 2>&1 | le'
 
-# Starts a new terminal, with same PWD.
+# Starts a new terminal, with same working directory. 
 alias te='gnome-terminal'
 
 # Start a file explorer in background.
 alias na='rb nautilus .'
 
-# Runs diff with colors and sends output to pager if necesary.
+# Runs diff with colors and sends output to pager if necessary.
 diffWithColors() {
 	colordiff "$@" | catOrLess
 }
@@ -438,7 +438,7 @@ alias sub='rb sublime_text'
 # SUDO #
 ########
 
-# Alias that puts 'sudo' in front of a command that needs super user privilages to run.
+# Alias that puts 'sudo' in front of a command that needs super user privileges to run.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
 alias ifconfig='sudo ifconfig'
@@ -503,7 +503,7 @@ alias sg='sudo gedit'
 # Shows detailed overview of processes.
 alias ht='htop'
 
-# Prints user's processes and sends output to pager if necesary.
+# Prints user's processes and sends output to pager if necessary.
 psWithPager() {
 	ps "$@" | catOrLess
 }
@@ -513,17 +513,17 @@ alias ps1='psWithPager'
 alias pse='ps1 -e'
 alias psa='ps1 -e'
 
-# Prints procesess with names, containing specified pattern, together with their PIDs.
+# Prints processes with names, containing specified pattern, together with their PIDs.
 pgrepListName() {
 	pgrep --list-name "$@" | catOrLess
 }
 alias pgrep1='pgrepListName'
 
-# Sends KILL signal to process with specified PID. (Instead of kills default signal TERM.)
+# Sends KILL signal to process with specified PID, instead of kill's default signal TERM.
 alias kill1='kill -9'
 
 # Traces system calls and signals. Prints strings of maximum
-# 2000 chararcters, and also traces child processes.
+# 2000 characters, and also traces child processes.
 strace1() {
 	strace -s 2000 -f "$@" 2>&1 | catOrLess
 }
@@ -574,7 +574,7 @@ toCamel() {
 # Creates table out of input lines (lines up the columns). You need to specify the delimiter character with first argument.
 alias table='column -t -s'
 
-# Treats input lines as rows of a table. With second argument you specify the columns you want to retain, and with first, the delimiter character. For more columns use comma or hypen (for ranges).
+# Treats input lines as rows of a table. With second argument you specify the columns you want to retain, and with first, the delimiter character. For more columns use comma or dash (for ranges).
 keepColumns() {
 	cut --delimiter="$1" --fields="$2" 
 }
@@ -609,7 +609,7 @@ free1() {
 }
 alias fr='free1'
 
-# Displays cpu temperature.
+# Displays CPU's temperature.
 alias temperature='acpi -t'
 alias temp='temperature'
 
@@ -617,7 +617,7 @@ alias temp='temperature'
 alias battery='acpi'
 alias batt='battery'
 
-# Prints kernel version and linux distribution.
+# Prints kernel version and Linux distribution.
 alias uname1='uname --all'
 
 # Prints verbose information about all PCI devices.
@@ -820,7 +820,7 @@ alias update='sudo apt-get update'
 # Upgrades all packages to newest available version.
 alias upgrade='sudo apt-get upgrade'
 
-# Tries to upgrade all packages. If any depencency conflicts arise, then it handles them inteligently, by upgrading the most important packages at the expense of less important ones.
+# Tries to upgrade all packages. If any dependency conflicts arise, then it handles them intelligently, by upgrading the most important packages at the expense of less important ones.
 alias dist-upgrade='sudo apt-get dist-upgrade'
 
 # Removes package and all the packages this package dependent on and were only used by this package.
@@ -829,7 +829,7 @@ alias remove='sudo apt-get remove && autoremove'
 # Removes package, together with its configuration files. All the packages this package dependent on and were only used by this package are also removed.
 alias purge='sudo apt-get purge && autoremove'
 
-# Removes packages that were automatically installed to satisfy dencies for other packages and are now no longer needed.
+# Removes packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
 alias autoremove='sudo apt-get autoremove'
 
 # Prints installed and remote version of package.
@@ -1055,7 +1055,7 @@ alias gs='git -c color.status=always status -sb | catOrLess'
 # Prints nicely decorated graph of commits, with commit messages, full hashes and full dates.	
 alias gl='git log --decorate --graph --all'
 
-# Prints nicely decorated graph of commits, with only first lines of commit messages, shortended hashes and full dates.
+# Prints nicely decorated graph of commits, with only first lines of commit messages, shortened hashes and full dates.
 alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
 # Updates information about state of the remote repository and prints status.
@@ -1148,7 +1148,7 @@ alias pa=pingAll
 
 #TODO rename...
 
-# Scans first $1 addreses of local network.
+# Scans first $1 addresses of local network.
 nmap2() {
   if [ $# -eq 0 ]
   then
@@ -1168,10 +1168,10 @@ nmap2() {
   nmap -sP 192.168.$third.0-$forth
 }
 
-# Scans first 20 addreses of local network.
+# Scans first 20 addresses of local network.
 alias nmap1='nmap2 20'
 
-# Retrurns OK if pingable of Fail if not. Parameter is an ip or
+# Returns OK if pingable of Fail if not. Parameter is an ip or
 # domain.
 pingable() {
 	pingResult=$(ping -c 1 -q "$1" | grep --color=never -A 1 statistics | grep "1 received")
@@ -1187,8 +1187,8 @@ port22status() {
 	nmap $(echo "$1" | tr -d ' ') -p22 | grep '22/tcp' | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
 }
 
-# Scans first 20 addresses of local network and prints yours, gateways and the ip-s of other conncted devices. Also checks their ssh port status.
-# After that checks checks if connection to the internet is avalable by pinging Google and ip address of noip.com.
+# Scans first 20 addresses of local network and prints yours, gateways and the ip-s of other connected devices. Also checks their ssh port status.
+# After that checks checks if connection to the internet is available by pinging Google and ip address of noip.com.
 network() {
 	localIp=$(ip1)
 	gateway=$(gateway)
@@ -1274,7 +1274,7 @@ alias fire='firefoxInBackground'
 alias chromeInBackground='runInBackground google-chrome --touch-devices=123'
 alias chrome='chromeInBackground'
 
-# Runs Lynx that accepts all cookies, starts in Google and is using vim mode for navigation.
+# Runs Lynx that accepts all cookies, starts in Google and is using Vim mode for navigation.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 
 
