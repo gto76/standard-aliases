@@ -154,29 +154,39 @@ lsLong() {
 
 # Calls ls (with a lot of options) that lists only names.
 alias l='lsShort'
-# Calls ls (with a lot of options) that uses shortened long listing format.
+# Calls ls (with a lot of options) that uses shortened long
+# listing format.
 alias ll='lsMed'
-# Calls ls (with a lot of options) that uses long listing format.
+# Calls ls (with a lot of options) that uses long listing
+# format.
 alias lll='lsLong'
 
-# Calls ls (with a lot of options) that lists only filenames, also showing hidden files.
+# Calls ls (with a lot of options) that lists only filenames,
+# also showing hidden files.
 alias la='lsShort --almost-all'
-# Calls ls (with a lot of options) that uses shortened long listing format, also showing hidden files.
+# Calls ls (with a lot of options) that uses shortened long
+# listing format, also showing hidden files.
 alias lla='lsMed --almost-all'
-# Calls ls (with a lot of options) that uses long listing format, also showing hidden files.
+# Calls ls (with a lot of options) that uses long listing
+# format, also showing hidden files.
 alias llla='lsLong --almost-all'
 
-# Calls ls (with a lot of options) that lists only names and sorts files by date.
+# Calls ls (with a lot of options) that lists only names and
+# sorts files by date.
 alias lt='lsShort -t'
-# Calls ls (with a lot of options) that uses shortened long listing format and sorts files by date.
+# Calls ls (with a lot of options) that uses shortened long
+# listing format and sorts files by date.
 alias llt='lsMed -t'
-# Calls ls (with a lot of options) that uses long listing format and sorts files by date.
+# Calls ls (with a lot of options) that uses long listing format
+# and sorts files by date.
 alias lllt='lsLong -t'
 
 # Calls ls (with a lot of options) that lists one name per line.
 alias l1='lsShort -1'
-# Calls ls (with a lot of options) that lists one name per line and also shows hidden files.
+# Calls ls (with a lot of options) that lists one name per line
+# and also shows hidden files.
 alias la1='la -1'
+
 
 # Gets name of first file in the directory.
 alias first='ls | head -1'
@@ -234,21 +244,31 @@ alias cd-iso='mount-iso'
 # FILES #
 #########
 
-# Runs cp in interactive mode (asks before it overwrites anything).
+# Runs cp in interactive mode (asks before it overwrites
+# anything).
 alias cp='cp -iv'
-# Runs mv in interactive mode (asks before it overwrites anything).
+# Runs mv in interactive mode (asks before it overwrites
+# anything).
 alias mv='mv -iv'
-# Runs rm in interactive mode (asks you for every file, if you really want to delete it). Run with -f option to override interactive mode.
+# Runs rm in interactive mode (asks you for every file, if you
+# really want to delete it). Run with -f option to override
+# interactive mode.
 alias rm='rm -i'
 
-# Copies whole directory in interactive mode (asks before it overwrites anything).
+# Copies whole directory in interactive mode (asks before it
+# overwrites anything).
 alias cpdir='cp -iarv'
-# Moves whole directory in interactive mode (asks before it overwrites anything).
+# Moves whole directory in interactive mode (asks before it
+# overwrites anything).
 alias mvdir='mv -iv'
-# Removes whole directory in interactive mode (checks for every file if you really want to delete it). Run with -f option to override interactive mode.
+# Removes whole directory in interactive mode (checks for every
+# file if you really want to delete it). Run with -f option to
+# override interactive mode.
 alias rmdir='rm -ir'
 
-# Makes directory (and its parent directories if necessary) and descends into.
+
+# Makes directory (and its parent directories if necessary) and
+# descends into.
 mkdir1() {
 	mkdir -p "$1"
 	cd "$1"
@@ -263,7 +283,8 @@ alias mk='mkdir1'
 # Prints working directory.
 alias .='echo $PWD'
 
-# If no file specified, prints working directory, else full path of the file.
+# If no file specified, prints working directory, else full path
+# of the file.
 pwdOrPath() {
 	if [ $# -eq 0 ]; then
 		echo "$PWD"
@@ -345,7 +366,8 @@ alias wcl='wc -l'
 # Counts words in file or piped stream.
 alias wcw='wc -w'
 
-# Updates file's timestamp, or creates empty file, if it doesn't exits.
+# Updates file's timestamp, or creates empty file, if it doesn't
+# exits.
 alias to='touch'
 
 # Opens file with default application for the file type.
@@ -354,7 +376,8 @@ alias o='runInBackground xdg-open'
 # Prints current date and time.
 alias da='date'
 
-# Runs make and sends both out and error streams to pager if necessary.
+# Runs make and sends both out and error streams to pager if
+# necessary.
 alias ma='make 2>&1 | le'
 
 # Starts a new terminal, with same working directory. 
@@ -394,7 +417,8 @@ alias ce=createExecutable
 # HISTORY #
 ###########
 
-# Searches command history for pattern, or if none is specified, prints it whole.
+# Searches command history for pattern, or if none is specified,
+# prints it whole.
 grepHistory() {
 	if [ "$#" -eq 0 ]; then
 		history | catOrLessG
@@ -412,7 +436,8 @@ alias h='grepHistory'
 # Calls Vim with option that opens one tab per file.
 alias v='vim -p'
 
-# Runs Vim in read only mode, and with option that opens one tab per file.
+# Runs Vim in read only mode, and with option that opens one tab
+# per file.
 alias vv='view -p'
 
 # Runs Nano with a few sensible options.
@@ -438,7 +463,8 @@ alias sub='rb sublime_text'
 # SUDO #
 ########
 
-# Alias that puts 'sudo' in front of a command that needs super user privileges to run.
+# Alias that puts 'sudo' in front of a command that needs super
+# user privileges to run.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
 alias ifconfig='sudo ifconfig'
@@ -467,17 +493,20 @@ alias fu='fuck'
 alias scp='sudo cp -iv'
 # Runs mv as su in interactive mode.
 alias smv='sudo mv -iv'
-# Runs rm as su in interactive mode (use -f to override interactive mode).
+# Runs rm as su in interactive mode (use -f to override
+# interactive mode).
 alias srm='sudo rm -i'
 
 # Copies whole directory as su in interactive mode.
 alias scpdir='sudo cp -arv'
 #Moves whole directory as su in interactive mode.
 alias smvdir='sudo mv -iv'
-# Removes whole directory as su in interactive mode (use -f to override interactive mode).
+# Removes whole directory as su in interactive mode (use -f to
+# override interactive mode).
 alias srmdir='sudo rm -ir'
 
-# Backups file, by making a copy with '.bak' extension. All file's attributes are preserved.
+# Backups file, by making a copy with '.bak' extension. All
+# file's attributes are preserved.
 backup() {
 	sudo cp --preserve "$1"{,.bak}
 }
@@ -503,7 +532,8 @@ alias sg='sudo gedit'
 # Shows detailed overview of processes.
 alias ht='htop'
 
-# Prints user's processes and sends output to pager if necessary.
+# Prints user's processes and sends output to pager if
+# necessary.
 psWithPager() {
 	ps "$@" | catOrLess
 }
@@ -513,13 +543,15 @@ alias ps1='psWithPager'
 alias pse='ps1 -e'
 alias psa='ps1 -e'
 
-# Prints processes with names, containing specified pattern, together with their PIDs.
+# Prints processes with names, containing specified pattern,
+# together with their PIDs.
 pgrepListName() {
 	pgrep --list-name "$@" | catOrLess
 }
 alias pgrep1='pgrepListName'
 
-# Sends KILL signal to process with specified PID, instead of kill's default signal TERM.
+# Sends KILL signal to process with specified PID, instead of
+# kill's default signal TERM.
 alias kill1='kill -9'
 
 # Traces system calls and signals. Prints strings of maximum
@@ -561,7 +593,8 @@ toHypen() {
 	cat | sed 's/^\([A-Z]\)/\L\1/' | sed 's/\([A-Z]\)/-\1/g' | tr [A-Z] [a-z] 
 }
 
-# Changes input strings notation from UNDER_SCORE or hypen-score to CamelCase.
+# Changes input strings notation from UNDER_SCORE or hypen-score
+# to CamelCase.
 toCamel() {
 	cat | tr [A-Z] [a-z] | sed 's/[_-]\([a-z]\)/\U\1/g'
 }
@@ -571,16 +604,23 @@ toCamel() {
 # TABLES #
 ##########
 
-# Creates table out of input lines (lines up the columns). You need to specify the delimiter character with first argument.
+# Creates table out of input lines (lines up the columns). You
+# need to specify the delimiter character with first argument.
 alias table='column -t -s'
 
-# Treats input lines as rows of a table. With second argument you specify the columns you want to retain, and with first, the delimiter character. For more columns use comma or dash (for ranges).
+# Treats input lines as rows of a table. With second argument
+# you specify the columns you want to retain, and with first,
+# the delimiter character. For more columns use comma or dash
+# (for ranges).
 keepColumns() {
 	cut --delimiter="$1" --fields="$2" 
 }
 alias cut1='keepColumns'
 
-# Treats input lines as rows of a table and sorts them by column you specify with second parameter. First argument specifies the delimiter character. Using comma, more columns can be specified (in order of importance).
+# Treats input lines as rows of a table and sorts them by column
+# you specify with second parameter. First argument specifies
+# the delimiter character. Using comma, more columns can be
+# specified (in order of importance).
 sortByColumn() { 
 	sort --field-separator="$1" --key="$2"
 }
@@ -668,20 +708,24 @@ alias repeat='xset r'
 # and not grepping through .svn and .git folders.
 alias grep1='grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git'
 
-# Runs grep with highlighting matches, not grepping through .svn and .git folders, ignoring case and using Perl regex format.
+# Runs grep with highlighting matches, not grepping through .svn
+# and .git folders, ignoring case and using Perl regex format.
 grepPerl() {
 	grep1 "$@" --ignore-case --perl-regexp --color=always | catOrLess
 }
 alias gr='grepPerl'
 
-# Runs grep with highlighting matches, not grepping through .svn and .git folders, ignoring case, using Perl regex format and only showing matching parts of pattern.
+# Runs grep with highlighting matches, not grepping through .svn
+# and .git folders, ignoring case, using Perl regex format and
+# only showing matching parts of pattern.
 grepPerlOnlyMatching() {
 	grep1 "$@" --ignore-case --perl-regexp --only-matching | catOrLess
 }
 alias gr1='grepPerlOnlyMatching'
 
-# Runs grep with highlighting matches,
-# not grepping through .svn and .git folders, ignoring case and using extended regex format.
+# Runs grep with highlighting matches, not grepping through .svn
+# and .git folders, ignoring case and using extended regex
+# format.
 grepExtended() {
 	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn --exclude-dir=\.git | catOrLess
 }
@@ -706,15 +750,17 @@ alias untar='tarz'
 # SEARCH #
 ##########
 
-# Tries to find specified file using index. (Run 'sudo updatedb' to update the index)
+# Tries to find specified file using index. (Run 'sudo updatedb'
+# to update the index)
 locateWithPager() {
 	locate "$@" | catOrLess
 }
 alias locate1='locateWithPager'
 
-# Searches for files containing pattern in their
-# names in current and sub-directories.  Use filesystem regexes for search (aka *.*), and
-# always surround them with quotation marks. Also highlights the matches.
+# Searches for files containing pattern in their names in
+# current and sub-directories.  Use filesystem regexes for
+# search (aka *.*), and always surround them with quotation
+# marks. Also highlights the matches.
 findWithHighlight() {
 	find . -name "$1" | gr $(echo "$1" | tr -d "\*")
 }
@@ -820,16 +866,22 @@ alias update='sudo apt-get update'
 # Upgrades all packages to newest available version.
 alias upgrade='sudo apt-get upgrade'
 
-# Tries to upgrade all packages. If any dependency conflicts arise, then it handles them intelligently, by upgrading the most important packages at the expense of less important ones.
+# Tries to upgrade all packages. If any dependency conflicts
+# arise, then it handles them intelligently, by upgrading the
+# most important packages at the expense of less important ones.
 alias dist-upgrade='sudo apt-get dist-upgrade'
 
-# Removes package and all the packages this package dependent on and were only used by this package.
+# Removes package and all the packages this package dependent on
+# and were only used by this package.
 alias remove='sudo apt-get remove && autoremove'
 
-# Removes package, together with its configuration files. All the packages this package dependent on and were only used by this package are also removed.
+# Removes package, together with its configuration files. All
+# the packages this package dependent on and were only used by
+# this package are also removed.
 alias purge='sudo apt-get purge && autoremove'
 
-# Removes packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
+# Removes packages that were automatically installed to satisfy
+# dependencies for other packages and are now no longer needed.
 alias autoremove='sudo apt-get autoremove'
 
 # Prints installed and remote version of package.
@@ -854,22 +906,26 @@ depends() {
 # PACKAGE/COMMAND SEARCH #
 ##########################
 
-# Prints location of passed command, or it's definition, if it is an alias.
+# Prints location of passed command, or it's definition, if it
+# is an alias.
 alias ty='type'
 
-# Runs apropos, that searches installed commands, by their names and short descriptions. Matches get highlighted.
+# Runs apropos, that searches installed commands, by their names
+# and short descriptions. Matches get highlighted.
 apropos1() {
 	apropos "$@" | gr "$@"
 }
 alias ap='aproposWithHighlight'
 
-# Searches packages, that can be installed with apt-get. Search is performed on their names and short descriptions.
+# Searches packages, that can be installed with apt-get. Search
+# is performed on their names and short descriptions.
 searchPackages() {
 	apt-cache search "$@" | gr "$@"
 }
 alias search='searchPackages'
 
-# Searches packages, that can be installed with apt-get. Search is performed only on their names.
+# Searches packages, that can be installed with apt-get. Search
+# is performed only on their names.
 searchPackages1() {
 	apt-cache search "$@" | gr "^[^ ]*$@[^ ]*" 
 }
@@ -1023,13 +1079,16 @@ alias wi='whatIs'
 # GIT #
 #######
 
-# Commits changed and deleted files. Commit message must be entered as parameter.
+# Commits changed and deleted files. Commit message must be
+# entered as parameter.
 alias commit='git commit -am'
 
-# Commits changed and deleted files. Opens text editor, so proper commit message can be entered.
+# Commits changed and deleted files. Opens text editor, so
+# proper commit message can be entered.
 alias commitm='git commit -a'
 
-# Creates an empty Git repository or reinitializes an existing one.
+# Creates an empty Git repository or reinitializes an existing
+# one.
 alias init='git init'
 
 # Pushes changes to remote repository.
@@ -1041,7 +1100,8 @@ alias pull='git pull'
 # Joins specified branch with current one.
 alias merge='git merge'
 
-# Switches to another branch, or checks-out a file from repository.
+# Switches to another branch, or checks-out a file from
+# repository.
 alias checkout='git checkout'
 alias gc='checkout'
 
@@ -1052,22 +1112,28 @@ alias gb='branch'
 # Prints short status of repository.
 alias gs='git -c color.status=always status -sb | catOrLess'
 
-# Prints nicely decorated graph of commits, with commit messages, full hashes and full dates.	
+# Prints nicely decorated graph of commits, with commit
+# messages, full hashes and full dates.	
 alias gl='git log --decorate --graph --all'
 
-# Prints nicely decorated graph of commits, with only first lines of commit messages, shortened hashes and full dates.
+# Prints nicely decorated graph of commits, with only first
+# lines of commit messages, shortened hashes and full dates.
 alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
-# Updates information about state of the remote repository and prints status.
+# Updates information about state of the remote repository and
+# prints status.
 alias gu='git remote update; git status -sb'
 
-# Shows changes between commits. If no parameter is given, then shows changes between last commit and current state.
+# Shows changes between commits. If no parameter is given, then
+# shows changes between last commit and current state.
 alias gd='git diff'
 
 # Adds file to repository.
 alias ga='git add'
 
-# Moves file or directory. Git will in most cases recognize that files were moved even if regular 'mv' command was used, but this way it is for shure.
+# Moves file or directory. Git will in most cases recognize that
+# files were moved even if regular 'mv' command was used, but
+# this way it is for shure.
 alias gm='git mv'
 
 # Prints files that are in repository.
@@ -1079,13 +1145,15 @@ alias gls='lsgit'
 # GITHUB #
 ##########
 
-# Clones project from Github. User and project names must be specified as <user>/<project>.
+# Clones project from Github. User and project names must be
+# specified as <user>/<project>.
 cloneGithubProject() {
 	git clone git@github.com:/"$1".git
 }
 alias clone='cloneGithubProject'
 
-# Sets remote repository to specified Github project. Repository must be entered as <user>/<project>.
+# Sets remote repository to specified Github project. Repository
+# must be entered as <user>/<project>.
 setGithubOrigin() {
 	git remote add origin git@github.com:/"$1".git
 	git pull origin master
@@ -1187,8 +1255,11 @@ port22status() {
 	nmap $(echo "$1" | tr -d ' ') -p22 | grep '22/tcp' | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
 }
 
-# Scans first 20 addresses of local network and prints yours, gateways and the ip-s of other connected devices. Also checks their ssh port status.
-# After that checks checks if connection to the internet is available by pinging Google and ip address of noip.com.
+# Scans first 20 addresses of local network and prints yours,
+# gateways and the ip-s of other connected devices. Also checks
+# their ssh port status.  After that checks checks if connection
+# to the internet is available by pinging Google and ip address
+# of noip.com.
 network() {
 	localIp=$(ip1)
 	gateway=$(gateway)
@@ -1274,7 +1345,8 @@ alias fire='firefoxInBackground'
 alias chromeInBackground='runInBackground google-chrome --touch-devices=123'
 alias chrome='chromeInBackground'
 
-# Runs Lynx that accepts all cookies, starts in Google and is using Vim mode for navigation.
+# Runs Lynx that accepts all cookies, starts in Google and is
+# using Vim mode for navigation.
 alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
 
 
