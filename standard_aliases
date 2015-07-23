@@ -85,7 +85,13 @@ lsUniversal() {
 # Calls lsUniversal with: 
 #	* set width to screen width or 69, whichever is smaller.
 lsShortCat() {
-	width=$(widthLimit=69; if [[ "$COLUMNS" -lt "$widthLimit" ]]; then echo "$COLUMNS"; else echo "$widthLimit"; fi)
+	width=$(
+		widthLimit=69
+		if [[ "$COLUMNS" -lt "$widthLimit" ]]; then 
+			echo "$COLUMNS"
+		else 
+			echo "$widthLimit"
+		fi)
 	lsUniversal --width="$width" "$@"
 }
 
@@ -97,7 +103,8 @@ lsShortCat() {
 #	* print date as: '<month-by-word>, <day-of-month>, <year>,
 #	<hour>:<minute>'.
 lsMedCat() {
-	lsUniversal -l --no-group -g --human-readable --time-style="+%b %d %Y %H:%M" "$@"
+	lsUniversal -l --no-group -g --human-readable \
+		--time-style="+%b %d %Y %H:%M" "$@"
 }
 
 # Calls lsUniversal with: 
@@ -450,7 +457,8 @@ alias vv='view -p'
 #	* treat punctuation as part of words, 
 #	* smooth scrolling, 
 #	* tab size set to 4 spaces.
-alias n='nano --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4'
+alias n='nano --undo --autoindent --const --historylog --multibuffer \
+	--wordbounds --smooth --tabsize=4'
 
 # Runs Gedit in background.
 alias g='rb gedit'
@@ -727,7 +735,8 @@ alias gr1='grepPerlOnlyMatching'
 # and .git folders, ignoring case and using extended regex
 # format.
 grepExtended() {
-	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn --exclude-dir=\.git | catOrLess
+	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn \
+		--exclude-dir=\.git | catOrLess
 }
 alias gr2='grepExtended'
 
@@ -890,15 +899,22 @@ alias ve='version'
 
 # Prints packages that were installed by the user, in order of
 # installation.
-alias packages='cat /var/log/apt/history.log | grep "apt-get install" | sed "s/.* //" | catOrLessG'
+alias packages='cat /var/log/apt/history.log \
+	| grep "apt-get install" \
+	| sed "s/.* //" \
+	| catOrLessG'
 alias installed='packages'
 
 # Prints all installed packages.
 alias packages1='dpkg --get-selections | grep -v deinstall | catOrLess'
 
-# Shows packages' dependencies.
+# Shows on which packages specified package depends.
 depends() {
-	apt-cache show "$@" | grep Depends | sed 's/Depends:/ /' | sed 's/,/\n /g' | catOrLess
+	apt-cache show "$@" \
+		| grep Depends \
+		| sed 's/Depends:/ /' \
+		| sed 's/,/\n /g' \
+		| catOrLess
 }
 
 
@@ -1118,7 +1134,10 @@ alias gl='git log --decorate --graph --all'
 
 # Prints nicely decorated graph of commits, with only first
 # lines of commit messages, shortened hashes and full dates.
-alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+alias gl1="git log --graph --abbrev-commit --decorate \
+	--format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) \
+	%C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
+	%C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
 # Updates information about state of the remote repository and
 # prints status.
@@ -1199,7 +1218,8 @@ externalIp() {
 alias ip2='externalIp'
 
 # Prints gateways ip.
-alias gateway='route -n | grep "192.168." | head -n1 | grep -o "192.168.[0-9.]*"'
+alias gateway='route -n | grep "192.168." | head -n1 \
+	| grep -o "192.168.[0-9.]*"'
 
 # Prints mac addresses of local devices.
 alias mac='ifconfig | grep HWaddr | cat'
@@ -1242,7 +1262,10 @@ alias nmap1='nmap2 20'
 # Returns OK if pingable of Fail if not. Parameter is an ip or
 # domain.
 pingable() {
-	pingResult=$(ping -c 1 -q "$1" | grep --color=never -A 1 statistics | grep "1 received")
+	pingResult=$(
+		ping -c 1 -q "$1" \
+			| grep --color=never -A 1 statistics \
+			| grep "1 received")
 	if [ "$pingResult" != "" ]; then
 		echo -n "OK"
 	else
@@ -1252,7 +1275,9 @@ pingable() {
 
 # Prints status of the ssh port of the passed client.
 port22status() {
-	nmap $(echo "$1" | tr -d ' ') -p22 | grep '22/tcp' | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
+	nmap $(echo "$1" | tr -d ' ') -p22 \
+		| grep '22/tcp' \
+		| sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
 }
 
 # Scans first 20 addresses of local network and prints yours,
