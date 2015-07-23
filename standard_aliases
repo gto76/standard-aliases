@@ -178,6 +178,15 @@ alias l1='lsShort -1'
 # Calls ls (with a lot of options) that lists one name per line and also shows hidden files.
 alias la1='la -1'
 
+# Gets name of first file in the directory.
+alias first='ls | head -1'
+
+# Gets name of a random file in the directory.
+randomFile() {
+	ls "$@" | sort -R | head -1
+}
+alias rf='randomFile'
+
 
 ########
 # TREE #
@@ -212,6 +221,14 @@ cdLs() {
 }
 alias cdl='cdLs'
 
+# Mounts ISO file and cd-s into it.
+mount-iso() {
+	sudo mkdir /media/"$1"
+	sudo mount -o loop "$1" /media/"$1"
+	cd /media/"$1"
+}
+alias cd-iso='mount-iso'
+
 
 #########
 # FILES #
@@ -230,6 +247,13 @@ alias cpdir='cp -iarv'
 alias mvdir='mv -iv'
 # Removes whole directory in interactive mode (checks for every file if you really want to delete it). Run with -f option to override interactive mode.
 alias rmdir='rm -ir'
+
+# Makes directory (and its parent directories if necesarry) and descends into.
+mkdir1() {
+	mkdir -p "$1"
+	cd "$1"
+}
+alias mk='mkdir1'
 
 
 #######
@@ -253,6 +277,8 @@ alias p='pwdOrPath'
 ########
 # ECHO #
 ########
+
+# TODO use printf
 
 # Runs echo.
 alias e='echo'
@@ -325,9 +351,6 @@ alias to='touch'
 # Opens file with default aplication for the file type.
 alias o='runInBackground xdg-open'
 
-# Prints location of passed command, or it's definition if it is an alias.
-alias ty='type'
-
 # Prints current date and time.
 alias da='date'
 
@@ -340,12 +363,31 @@ alias te='gnome-terminal'
 # Start a file explorer in background.
 alias na='rb nautilus .'
 
-# Makes directory (and its parent directories if necesarry) and descends into.
-mkdir1() {
-	mkdir -p "$1"
-	cd "$1"
+# Runs diff with colors and sends output to pager if necesary.
+diffWithColors() {
+	colordiff "$@" | catOrLess
 }
-alias mk='mkdir1'
+alias diff1='diffWithColors'
+
+# Creates executable bash script, or just changes modifiers to
+# executable, if file already exists.
+createExecutable() {
+	if [[ ! -f "$1" ]]; then
+		echo '#!/bin/bash' >> "$1"
+		echo '#' >> "$1"
+		echo "# Usage: $1 " >> "$1"
+		echo '# ' >> "$1"
+		echo >> "$1"
+		echo '# Uncomment for Strict mode, more info at:' >> "$1"
+		echo '# http://redsymbol.net/articles/unofficial-bash-strict-mode' >> "$1"
+		echo '# set -euo pipefail' >> "$1"
+		echo "# IFS=$'\n\t'" >> "$1"
+		echo >> "$1"
+	fi
+	chmod u+x "$1"        
+}
+alias me=createExecutable    
+alias ce=createExecutable
 
 
 ###########
@@ -454,24 +496,38 @@ alias sv='sudo vim'
 alias sg='sudo gedit'
 
 
-######
-# PS #
-######
+#############
+# PROCESESS #
+#############
 
-# Sends output of 'ps' to pager if necesary..
-ps1() {
+# Shows detailed overview of processes.
+alias ht='htop'
+
+# Prints user's processes and sends output to pager if necesary.
+psWithPager() {
 	ps "$@" | catOrLess
 }
-alias psm='ps1'
+alias ps1='psWithPager'
 
 # Prints every process on the system.
 alias pse='ps1 -e'
 alias psa='ps1 -e'
 
-# Prints processes matching specified pattern, and their pids.
-pgrep1() {
+# Prints procesess with names, containing specified pattern, together with their PIDs.
+pgrepListName() {
 	pgrep --list-name "$@" | catOrLess
 }
+alias pgrep1='pgrepListName'
+
+# Sends KILL signal to process with specified PID. (Instead of kills default signal TERM.)
+alias kill1='kill -9'
+
+# Traces system calls and signals. Prints strings of maximum
+# 2000 chararcters, and also traces child processes.
+strace1() {
+	strace -s 2000 -f "$@" 2>&1 | catOrLess
+}
+alias st='strace1'
 
 
 ########
@@ -531,61 +587,16 @@ sortByColumn() {
 alias sort1='sortByColumn'
 
 
-##########
-# SYSTEM #
-##########
-
-# Shows detailed overview of processes.
-alias ht='htop'
+######################
+# SYSTEM INFORMATION #
+######################
 
 # Reports disk space of main partitions in human readable form.
 alias df1='df -h | grep "sd\|Size" | cat'
 
-# Restarts computer.
-alias restart='sudo shutdown -r now'
-
-# Shuts down computer.
-alias poweroff='sudo shutdown now'
-
-# Hibernates.
-alias hib='sudo pm-hibernate'
-
-# Suspends.
-alias sus='sudo pm-suspend'
-
-# Traces system calls and signals. Prints strings of maximum
-# 2000 chararcters, and also traces child processes.
-strace1() {
-	strace -s 2000 -f "$@" 2>&1 | catOrLess
-}
-alias st='strace1'
-
-# Prints kernel version and linux distribution.
-alias uname1='uname --all'
-
-# Prints verbose information about all PCI devices.
-alias lspci1='lspci -v | catOrLess'
-
-# Displays cpu temperature.
-alias temperature='acpi -t'
-alias temp='acpi -t'
-
-# Prints battery status.
-alias battery='acpi'
-alias batt='acpi'
-
-# Trims SSD disk.
-alias trimSsd='sudo fstrim -v /'
-alias ssd='trim'
-
-# Changes blue color to blueberry in tty.
-alias blue='echo -en "\e]PC7373C9"'
-
-# Sends KILL signal instead of TERM to process with specified PID.
-alias kill1='kill -9'
-
-# Prints PATH variable, each entry in its own line.
-alias path='echo -e ${PATH//:/\\n}'
+# Displays disk space used by a folder or a file in human
+# readable form.
+alias du1='du --summarize --human-readable'
 
 # Prints all and free memory in megabytes.
 free1() {
@@ -598,17 +609,36 @@ free1() {
 }
 alias fr='free1'
 
-# Displays disk space used by a folder or a file in human
-# readable form.
-alias du1='du --summarize --human-readable'
+# Displays cpu temperature.
+alias temperature='acpi -t'
+alias temp='acpi -t'
 
-# Mounts ISO file and cd-s into it.
-mount-iso() {
-	sudo mkdir /media/"$1"
-	sudo mount -o loop "$1" /media/"$1"
-	cd /media/"$1"
-}
-alias cd-iso='mount-iso'
+# Prints battery status.
+alias battery='acpi'
+alias batt='acpi'
+
+# Prints kernel version and linux distribution.
+alias uname1='uname --all'
+
+# Prints verbose information about all PCI devices.
+alias lspci1='lspci -v | catOrLess'
+
+
+#########
+# POWER #
+#########
+
+# Restarts computer.
+alias restart='sudo shutdown -r now'
+
+# Shuts down computer.
+alias poweroff='sudo shutdown now'
+
+# Hibernates.
+alias hib='sudo pm-hibernate'
+
+# Suspends.
+alias sus='sudo pm-suspend'
 
 
 ############
@@ -631,6 +661,8 @@ alias repeat='xset r'
 ########
 # GREP #
 ########
+
+#TODO: Simplify
 
 # Runs grep with highlighting matches
 # and not grepping through .svn and .git folders.
@@ -656,62 +688,66 @@ grepExtended() {
 alias gr2='grepExtended'
 
 
-##########
-# USEFUL #
-##########
+############
+# ARCHIVES #
+############
 
-# Creates executable bash script, or just changes modifiers to
-# executable, if file already exists.
-createExecutable() {
-	if [[ ! -f "$1" ]]; then
-		echo '#!/bin/bash' >> "$1"
-		echo '#' >> "$1"
-		echo "# Usage: $1 " >> "$1"
-		echo '# ' >> "$1"
-		echo >> "$1"
-		echo '# Uncomment for Strict mode, more info at:' >> "$1"
-		echo '# http://redsymbol.net/articles/unofficial-bash-strict-mode' >> "$1"
-		echo '# set -euo pipefail' >> "$1"
-		echo "# IFS=$'\n\t'" >> "$1"
-		echo >> "$1"
-	fi
-	chmod u+x "$1"        
-}
-alias me=createExecutable    
-alias ce=createExecutable
+# TODO: add universal archive tool
 
-# TODO: generig unpackaging command.
 # Untars file. (tar xvf)
 alias tar1='tar --extract --verbose --file'
 
-# Untars and unzip file. (tar xzvf)
+# Untars and unzips file. (tar xzvf)
 alias tarz='tar --extract --verbose -gunzip --file'
 alias untar='tarz'
 
-# Hexadecimal dump.
-hd1() {
-	hd "$*" | catOrLess
-}
 
-locate1() {
+##########
+# SEARCH #
+##########
+
+# Tries to find specified file using index. (Run 'sudo updatedb' to update the index)
+locateWithPager() {
 	locate "$@" | catOrLess
 }
+alias locate1='locateWithPager'
 
-# Recursively searches for files containing pattern in their
-# names.  Use filesistem regexes for search (aka *.*), and
-# always sureound them with quotation marks.
-find1() {
+# Searches for files containing pattern in their
+# names in current and sub-directories.  Use filesystem regexes for search (aka *.*), and
+# always surround them with quotation marks. Also highlights the matches.
+findWithHighlight() {
 	find . -name "$1" | gr $(echo "$1" | tr -d "\*")
 }
+find1='findWithHighlight'
 
-# Prints all directories recursively.
+# Prints all directories in current and sub-directories.
 alias findd='find . -name .git -prune -o -type d | catOrLess'
 
-# Runs a typing tutor.
-alias tt='gtypist'
+
+########
+# MISC #
+########
+
+# Prints hexadecimal representation of file or piped stream.
+hexadecimalDump() {
+	hd "$@" | catOrLess
+}
+alias hd1='hexadecimalDump'
+
+# Trims SSD disk.
+alias trimSsd='sudo fstrim -v /'
+alias ssd='trim'
+
+# Changes blue color to blueberry in tty.
+alias blue='echo -en "\e]PC7373C9"'
+
+# Prints PATH variable, each entry in its own line.
+alias path='echo -e ${PATH//:/\\n}'
 
 # Runs console calculator with decimal numbers.
 alias bc1='gcalccmd'
+
+# TODO simplify
 
 # Executes command periodically every 2 seconds. Aliases can be
 # also used.
@@ -731,18 +767,10 @@ alias vimode='set -o vi'
 # Sets bash to emacs (normal) mode.
 alias emacsmode='set -o emacs'
 
-# Gets name of first file in directory.
-alias first='ls | head -1'
-
-# Gets name of random file in directory.
-# $@ - all arguments get send to ls
-randomFile() {
-	ls "$@" | sort -R | head -1
-}
-alias rf='randomFile'
-
 # Runs profile script.
 alias profile='source /etc/profile'
+
+# TODO: use tmp folder, or tmp command
 
 # Switches the files. Usage: switch [FILE1] [FILE2]
 switch() {
@@ -752,56 +780,66 @@ switch() {
 	mv "$TMP_NAME" "$2"
 }
 
-diff1() {
-	colordiff "$@" | catOrLess
-}
+# Runs a typing tutor.
+alias tt='gtypist'
 
-# TODO: to here
 
 ############
 # PACKAGES #
 ############
 
-# Apt-get.
+# Installs package.
 alias canhaz='sudo apt-get install'
 alias ch='canhaz'
+
+# Updates package information.
 alias update='sudo apt-get update'
+
+# Upgrades all packages to newest available version.
 alias upgrade='sudo apt-get upgrade'
+
+# Tries to upgrade all packages. If any depencency conflicts arise, then it handles them inteligently, by upgrading the most important packages at the expense of less important ones.
 alias dist-upgrade='sudo apt-get dist-upgrade'
+
+# Removes package and all the packages this package dependent on and were only used by this package.
 alias remove='sudo apt-get remove && autoremove'
+
+# Removes package, together with its configuration files. All the packages this package dependent on and were only used by this package are also removed.
 alias purge='sudo apt-get purge && autoremove'
+
+# Removes packages that were automatically installed to satisfy dencies for other packages and are now no longer needed.
 alias autoremove='sudo apt-get autoremove'
 
-# Show installed and remote version.
+# Prints installed and remote version of package.
 alias version='apt-cache policy'
 alias ve='apt-cache policy'
 
-# Show packages' dependencies.
-depends() {
-	apt-cache show "$@" | grep Depends | sed 's/Depends:/ /' | sed 's/,/\n /g'
-}
-
-# Print installed packages
-alias packages1='dpkg --get-selections | grep -v deinstall | catOrLess'
-
-# Print packages that were installed by the user, in order of
-# installation
+# Prints packages that were installed by the user, in order of
+# installation.
 alias packages='cat /var/log/apt/history.log | grep "apt-get install" | sed "s/.* //" | catOrLessG'
 alias installed='packages'
 
-# Apropos.
-aproposM() {
-	apropos "$*" | catOrLess
-}
-alias apropos='aproposM'
-alias ap='apropos'
+# Prints all installed packages.
+alias packages1='dpkg --get-selections | grep -v deinstall | catOrLess'
 
-# Run apropos with passed string, then grep output with same
-# string.
-aproposMG() {
-	apropos "$*" | gr "$*" 
+# Shows packages' dependencies.
+depends() {
+	apt-cache show "$@" | grep Depends | sed 's/Depends:/ /' | sed 's/,/\n /g' | catOrLess
 }
-alias apg='aproposMG'
+
+
+##########################
+# PACKAGE/COMMAND SEARCH #
+##########################
+
+# Prints location of passed command, or it's definition if it is an alias.
+alias ty='type'
+
+# Run apropos, then highlights matches with grep.
+aproposWithHighlight() {
+	apropos "$@" | gr "$@" 
+}
+alias ap='aproposWithHighlight'
 
 # Search packages, that can be installed with apt-get.
 apropos1() {
