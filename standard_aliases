@@ -135,7 +135,10 @@ lsLongLess() {
 # version of the lstShort/Med/Long function. It depends on
 # whether the output of ls will fit on screen.
 lsShort() {
-	noOfLines=$(lsShortCat "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l)
+	noOfLines=$(
+		lsShortCat "$@" 2> /dev/null \
+			| fold -w"$COLUMNS" \
+			|  wc -l)
 	if [[ "$LINES" -gt "$noOfLines" ]]; then
 		lsShortCat "$@"	
 	else
@@ -143,7 +146,10 @@ lsShort() {
 	fi
 }
 lsMed() {
-	noOfLines=$(lsMedCat "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l)
+	noOfLines=$(
+		lsMedCat "$@" 2> /dev/null \
+			| fold -w"$COLUMNS" \
+			|  wc -l)
 	if [[ "$LINES" -gt "$noOfLines" ]]; then
 		lsMedCat "$@"
 	else
@@ -151,7 +157,10 @@ lsMed() {
 	fi
 }
 lsLong() {
-	noOfLines=$(lsLongCat "$@" 2> /dev/null | fold -w"$COLUMNS" |  wc -l)
+	noOfLines=$(
+		lsLongCat "$@" 2> /dev/null \
+			| fold -w"$COLUMNS" \
+			|  wc -l)
 	if [[ "$LINES" -gt "$noOfLines" ]]; then
 		lsLongCat "$@"
 	else
@@ -306,8 +315,6 @@ alias p='pwdOrPath'
 # ECHO #
 ########
 
-# TODO use printf
-
 # Runs echo.
 alias e='echo'
 
@@ -457,8 +464,8 @@ alias vv='view -p'
 #	* treat punctuation as part of words, 
 #	* smooth scrolling, 
 #	* tab size set to 4 spaces.
-alias n='nano --undo --autoindent --const --historylog --multibuffer \
-	--wordbounds --smooth --tabsize=4'
+alias n='nano --undo --autoindent --const --historylog \
+	--multibuffer --wordbounds --smooth --tabsize=4'
 
 # Runs Gedit in background.
 alias g='rb gedit'
@@ -593,18 +600,26 @@ alias trd='tr --delete'
 
 # Changes input string's notation from CamelCase to UNDER_SCORE.
 toUnder() {
-	cat | sed 's/^\([A-Z]\)/\L\1/' | sed 's/\([A-Z]\)/_\1/g' | tr [a-z] [A-Z]
+	cat \
+		| sed 's/^\([A-Z]\)/\L\1/' \
+		| sed 's/\([A-Z]\)/_\1/g' \
+		| tr [a-z] [A-Z]
 } 
 
 # Changes input strings notation from CamelCase to hypen-score.
 toHypen() {
-	cat | sed 's/^\([A-Z]\)/\L\1/' | sed 's/\([A-Z]\)/-\1/g' | tr [A-Z] [a-z] 
+	cat \
+		| sed 's/^\([A-Z]\)/\L\1/' \
+		| sed 's/\([A-Z]\)/-\1/g' \
+		| tr [A-Z] [a-z] 
 }
 
 # Changes input strings notation from UNDER_SCORE or hypen-score
 # to CamelCase.
 toCamel() {
-	cat | tr [A-Z] [a-z] | sed 's/[_-]\([a-z]\)/\U\1/g'
+	cat \
+		| tr [A-Z] [a-z] \
+		| sed 's/[_-]\([a-z]\)/\U\1/g'
 }
 
 
@@ -714,12 +729,14 @@ alias repeat='xset r'
 
 # Runs grep with highlighting matches
 # and not grepping through .svn and .git folders.
-alias grep1='grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git'
+alias grep1='grep --color=auto --exclude-dir=\.svn \
+	--exclude-dir=\.git'
 
 # Runs grep with highlighting matches, not grepping through .svn
 # and .git folders, ignoring case and using Perl regex format.
 grepPerl() {
-	grep1 "$@" --ignore-case --perl-regexp --color=always | catOrLess
+	grep1 "$@" --ignore-case --perl-regexp --color=always \
+		| catOrLess
 }
 alias gr='grepPerl'
 
@@ -727,7 +744,8 @@ alias gr='grepPerl'
 # and .git folders, ignoring case, using Perl regex format and
 # only showing matching parts of pattern.
 grepPerlOnlyMatching() {
-	grep1 "$@" --ignore-case --perl-regexp --only-matching | catOrLess
+	grep1 "$@" --ignore-case --perl-regexp --only-matching \
+		| catOrLess
 }
 alias gr1='grepPerlOnlyMatching'
 
@@ -736,7 +754,8 @@ alias gr1='grepPerlOnlyMatching'
 # format.
 grepExtended() {
 	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn \
-		--exclude-dir=\.git | catOrLess
+		--exclude-dir=\.git \
+		| catOrLess
 }
 alias gr2='grepExtended'
 
@@ -906,7 +925,9 @@ alias packages='cat /var/log/apt/history.log \
 alias installed='packages'
 
 # Prints all installed packages.
-alias packages1='dpkg --get-selections | grep -v deinstall | catOrLess'
+alias packages1='dpkg --get-selections \
+	| grep -v deinstall \
+	| catOrLess'
 
 # Shows on which packages specified package depends.
 depends() {
@@ -1052,7 +1073,11 @@ whatIs() {
 	call1=`whatis "$@" 2> /dev/null`
 	if [ "$?" == "0" ]; then
 		while IFS= read -r line; do
-			commandType=$(manSection $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
+			commandType=$(
+				manSection $(
+					echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'
+				)
+			)
 			echo "$line" "($commandType)"
 		done <<< "$call1"
 		echo -n "package: "
@@ -1080,7 +1105,8 @@ whatIs() {
 
 	call5=`apt-file1 "$@" | gr "^.*:"`
 	if [ "$call5" != "" ]; then
-		echo -e "You need to install one of the following packages to get the command:\n$call5" | catOrLess
+		echo -n "You need to install one of the following packages"
+		echo -e " to get the command:\n$call5" | catOrLess
 	fi
 
 	call6=`search "$@"`
@@ -1135,7 +1161,8 @@ alias gl='git log --decorate --graph --all'
 # Prints nicely decorated graph of commits, with only first
 # lines of commit messages, shortened hashes and full dates.
 alias gl1="git log --graph --abbrev-commit --decorate \
-	--format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) \
+	--format=format:'%C(bold blue)%h%C(reset) \
+	- %C(bold cyan)%aD%C(reset) \
 	%C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
 	%C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
@@ -1188,7 +1215,9 @@ cloneAllUsersGithubProjects() {
 
 	tempFile=`mktemp`
 	wget 'https://github.com/gto76?tab=repositories' -O "$tempFile"
-	repos=`grep "$1"/[^//\"]* -o "$tempFile" | sort -u | grep -v follow`
+	repos=$(grep "$1"/[^//\"]* -o "$tempFile" \
+		| sort -u \
+		| grep -v follow)
 
 	while read -r line; do
 		git clone git@github.com:"$line"
@@ -1238,22 +1267,21 @@ alias pa=pingAll
 
 # Scans first $1 addresses of local network.
 nmap2() {
-  if [ $# -eq 0 ]
-  then
-    third=`ip1 | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta'`
-    forth="254"
-  fi
-  if [ $# -eq 1 ]
-  then
-    third=`ip1 | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta'`
-    forth="$1"
-  fi
-  if [ $# -gt 1 ]
-  then
-    third="$1"
-    forth="$2"
-  fi
-  nmap -sP 192.168.$third.0-$forth
+	if [[ $# -eq 0 ]]; then
+		third=$(ip1 \
+			| sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
+		forth="254"
+	fi
+	if [[ $# -eq 1 ]]; then
+		third=$(ip1 \
+			| sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
+		forth="$1"
+	fi
+	if [[ $# -gt 1 ]]; then
+		third="$1"
+		forth="$2"
+	fi
+	nmap -sP 192.168."$third".0-"$forth"
 }
 
 # Scans first 20 addresses of local network.
@@ -1320,13 +1348,20 @@ alias ne='network'
 
 # Disables wireless device.
 blockWireless() {
-	sudo rfkill block $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)
+	sudo rfkill block $(
+		sudo rfkill list \
+			| grep Wireless \
+			| grep ^[0-9] -o)
 }
 alias woff='blockWireless'
 
 # Enables wireless device.
 unblockWireless() {
-	sudo rfkill unblock $(sudo rfkill list | grep Wireless | grep ^[0-9] -o)
+	sudo rfkill unblock $(
+		sudo rfkill list \
+			| grep Wireless \
+			| grep ^[0-9] -o)
+}
 alias won='unblockWireless'
 
 # Resets wireless device.
