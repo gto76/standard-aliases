@@ -203,7 +203,6 @@ alias l1='lsShort -1'
 # and also shows hidden files.
 alias la1='la -1'
 
-
 # Gets name of first file in the directory.
 alias first='ls | head -1'
 
