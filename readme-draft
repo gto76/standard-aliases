@@ -41,7 +41,7 @@ mk
 
 When adding new alias alwalys check if it is already taken by any command with `wi <alias>`.
 
-Do not change the names of the functions, because other functions and/or aliases may be using it. You can however freely change the names of the functions ?
+Do not change the names of the functions, because other functions and/or aliases may be using it. You can however freely change the names of the aliases.
 
 
 // Intentions

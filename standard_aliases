@@ -282,7 +282,6 @@ alias mvdir='mv -iv'
 # override interactive mode.
 alias rmdir='rm -ir'
 
-
 # Makes directory (and its parent directories if necessary) and
 # descends into.
 mkdir1() {
@@ -302,10 +301,10 @@ alias .='echo $PWD'
 # If no file specified, prints working directory, else full path
 # of the file.
 pwdOrPath() {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		echo "$PWD"
 	else
-		echo `echo "$PWD"`/"$@"
+		echo "$PWD"/"$@"
 	fi		
 }
 alias p='pwdOrPath'
@@ -416,7 +415,8 @@ createExecutable() {
 		echo '# ' >> "$1"
 		echo >> "$1"
 		echo '# Uncomment for Strict mode, more info at:' >> "$1"
-		echo '# http://redsymbol.net/articles/unofficial-bash-strict-mode' >> "$1"
+		echo -n '# http://redsymbol.net/articles/' >> "$1"
+		echo 'unofficial-bash-strict-mode' >> "$1"
 		echo '# set -euo pipefail' >> "$1"
 		echo "# IFS=$'\n\t'" >> "$1"
 		echo >> "$1"
@@ -668,7 +668,8 @@ free1() {
 		| sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
 	echo "free: "$(free -m \
 		| grep Mem \
-	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
+	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ \
+]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
 alias fr='free1'
 
@@ -725,53 +726,55 @@ alias repeat='xset r'
 # GREP #
 ########
 
-#TODO: Simplify
-
-# Runs grep with highlighting matches
-# and not grepping through .svn and .git folders.
+# Runs grep with highlighting matches and not grepping through
+# .svn and .git folders.
 alias grep1='grep --color=auto --exclude-dir=\.svn \
 	--exclude-dir=\.git'
 
-# Runs grep with highlighting matches, not grepping through .svn
-# and .git folders, ignoring case and using Perl regex format.
+# Runs grep in perl regex mode (that has some additional operators, like '+' for matching one or more times), ignoring case, with highlighting matches, not grepping through .svn and .git folders and sends output to pager.
 grepPerl() {
-	grep1 "$@" --ignore-case --perl-regexp --color=always \
+	grep1 --ignore-case --perl-regexp --color=always "$@" \
 		| catOrLess
 }
 alias gr='grepPerl'
-
-# Runs grep with highlighting matches, not grepping through .svn
-# and .git folders, ignoring case, using Perl regex format and
-# only showing matching parts of pattern.
-grepPerlOnlyMatching() {
-	grep1 "$@" --ignore-case --perl-regexp --only-matching \
-		| catOrLess
-}
-alias gr1='grepPerlOnlyMatching'
-
-# Runs grep with highlighting matches, not grepping through .svn
-# and .git folders, ignoring case and using extended regex
-# format.
-grepExtended() {
-	egrep "$@" --ignore-case --color=always --exclude-dir=\.svn \
-		--exclude-dir=\.git \
-		| catOrLess
-}
-alias gr2='grepExtended'
 
 
 ############
 # ARCHIVES #
 ############
 
-# TODO: add universal archive tool
-
-# Untars file. (tar xvf)
-alias tar1='tar --extract --verbose --file'
-
-# Untars and unzips file. (tar xzvf)
-alias tarz='tar --extract --verbose -gunzip --file'
-alias untar='tarz'
+# Extracts archive of any type.
+extract() {
+	if [ -z "$1" ]; then
+		# display usage if no parameters given
+		echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+	else
+		if [ -f "$1" ] ; then
+			NAME=${1%.*}
+			#mkdir $NAME && cd $NAME
+			case "$1" in
+				*.tar.bz2)   tar xvjf ./"$1"    ;;
+				*.tar.gz)    tar xvzf ./"$1"    ;;
+				*.tar.xz)    tar xvJf ./"$1"    ;;
+				*.lzma)      unlzma ./"$1"      ;;
+				*.bz2)       bunzip2 ./"$1"     ;;
+				*.rar)       unrar x -ad ./"$1" ;;
+				*.gz)        gunzip ./"$1"      ;;
+				*.tar)       tar xvf ./"$1"     ;;
+				*.tbz2)      tar xvjf ./"$1"    ;;
+				*.tgz)       tar xvzf ./"$1"    ;;
+				*.zip)       unzip ./"$1"       ;;
+				*.Z)         uncompress ./"$1"  ;;
+				*.7z)        7z x ./"$1"        ;;
+				*.xz)        unxz ./"$1"        ;;
+				*.exe)       cabextract ./"$1"  ;;
+				*)           echo "extract: '$1' - unknown archive method" ;;
+			esac
+		else
+			echo "'$1' - file does not exist"
+		fi
+	fi
+}
 
 
 ##########
@@ -790,7 +793,7 @@ alias locate1='locateWithPager'
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
 findWithHighlight() {
-	find . -name "$1" | gr $(echo "$1" | tr -d "\*")
+	find . -name "$1" | grepPerl $(echo "$1" | tr -d "\*")
 }
 find1='findWithHighlight'
 
@@ -950,21 +953,21 @@ alias ty='type'
 # Runs apropos, that searches installed commands, by their names
 # and short descriptions. Matches get highlighted.
 apropos1() {
-	apropos "$@" | gr "$@"
+	apropos "$@" | grepPerl "$@"
 }
 alias ap='aproposWithHighlight'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
 searchPackages() {
-	apt-cache search "$@" | gr "$@"
+	apt-cache search "$@" | grepPerl "$@"
 }
 alias search='searchPackages'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
 searchPackages1() {
-	apt-cache search "$@" | gr "^[^ ]*$@[^ ]*" 
+	apt-cache search "$@" | grepPerl "^[^ ]*$@[^ ]*" 
 }
 alias search1='searchPackages1'
 
@@ -978,7 +981,7 @@ y() {
 	(echo   "PACKAGES CONTAINING EXECUTABLES NAMED \"$1\""
 	echo -n "========================================"
 	echo "$1" | sed 's/./=/g'
-	apt-file1 "$@" | gr "^.*:"
+	apt-file1 "$@" | grepPerl "^.*:"
 	echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"	
 	echo -n   "====================================="
 	echo "$1" | sed 's/./=/g'
@@ -1103,7 +1106,7 @@ whatIs() {
 		return
 	fi
 
-	call5=`apt-file1 "$@" | gr "^.*:"`
+	call5=`apt-file1 "$@" | grepPerl "^.*:"`
 	if [ "$call5" != "" ]; then
 		echo -n "You need to install one of the following packages"
 		echo -e " to get the command:\n$call5" | catOrLess
@@ -1212,13 +1215,11 @@ cloneAllUsersGithubProjects() {
 	if [[ -z "$1" ]]; then
 		exit
 	fi
-
 	tempFile=`mktemp`
 	wget 'https://github.com/gto76?tab=repositories' -O "$tempFile"
 	repos=$(grep "$1"/[^//\"]* -o "$tempFile" \
 		| sort -u \
 		| grep -v follow)
-
 	while read -r line; do
 		git clone git@github.com:"$line"
 	done <<< "$repos"
@@ -1402,7 +1403,8 @@ alias fire='firefoxInBackground'
 
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
-alias chromeInBackground='runInBackground google-chrome --touch-devices=123'
+alias chromeInBackground='runInBackground google-chrome \
+	--touch-devices=123'
 alias chrome='chromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
