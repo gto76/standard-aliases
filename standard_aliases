@@ -704,14 +704,17 @@ alias sort1='sortByColumn'
 ######################
 
 # Reports disk space of main partitions in human readable form.
-alias df1='df -h | grep "sd\|Size" | cat'
+diskSpaceUsageSimplified() {
+    df -h | grep "sd\|Size" | cat
+}
+alias df1='diskSpaceUsageSimplified'
 
 # Displays disk space used by a folder or a file in human
 # readable form.
 alias du1='du --summarize --human-readable'
 
 # Prints all and free memory in megabytes.
-free1() {
+freeAndAllMemory() {
     echo "all: "$(free -m \
         | grep Mem \
         | sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
@@ -720,15 +723,22 @@ free1() {
         | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ \
 ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
-alias fr='free1'
+alias free1='freeAndAllMemory'
+alias fr='freeAndAllMemory'
 
 # Displays CPU's temperature.
-alias temperature='acpi -t'
-alias temp='temperature'
+cpusTemperature() {
+    acpi -t
+}
+alias temperature='cpusTemperature'
+alias temp='cpusTemperature'
 
 # Prints battery status.
-alias battery='acpi'
-alias batt='battery'
+batteryStatus() {
+    acpi
+}
+alias battery='batteryStatus'
+alias batt='batteryStatus'
 
 # Prints kernel version and Linux distribution.
 alias uname1='uname --all'
@@ -775,6 +785,8 @@ alias repeat='xset r'
 # GREP #
 ########
 
+# TODO till here
+
 # Runs grep with highlighting matches and not grepping through
 # .svn and .git folders.
 alias grep1='grep --color=auto --exclude-dir=\.svn \
@@ -792,8 +804,9 @@ alias gr='grepPerl'
 # ARCHIVES #
 ############
 
-# Extracts archive of any type.
-extract() {
+# Extracts archive of any type. (Author (Vitalii
+# Tereshchuk)[https://github.com/xvoland])
+extractArchiveOfAnyType() {
     if [ -z "$1" ]; then
         # display usage if no parameters given
         echo -n "Usage: extract <path/file_name>"
@@ -826,6 +839,7 @@ extract() {
         fi
     fi
 }
+alias extract='extractArchiveOfAnyType'
 
 
 ##########
