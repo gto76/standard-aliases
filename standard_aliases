@@ -13,58 +13,61 @@
 ########
 
 # Runs less with a few sensible options.
-# 	* ignore case when searching, 
-#	* do not ring a bell,
-#	* do not mark empty lines with ~, 
-#	* format prompt as "<page-number>/<all-pages> <filename>",
-#	* set tabs to 4 spaces.
-alias le='less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4'
+#   * ignore case when searching, 
+#   * do not ring a bell,
+#   * do not mark empty lines with ~, 
+#   * format prompt as "<page-number>/<all-pages> <filename>",
+#   * set tabs to 4 spaces.
+less1() {
+    less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4 "$@"
+}
+alias le='less1'
 
 # Runs cat or less, depending on number of lines in file or
 # input.
 catOrLess() {
-	if [[ "$#" -gt 0 ]]; then
-		noOfLines=$(cat "$1" 2>/dev/null \
-			| fold -w"$COLUMNS" \
-			| wc -l)
-		if [[ "$LINES" -gt "$noOfLines" ]]; then
-			cat "$1"
-		else
-			le "$1" 2>/dev/null 
-		fi
-	else
-		input=$(cat)
-		noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
-		if [[ "$LINES" -gt "$noOfLines" ]]; then
-			echo "$input" | cat	
-		else
-			echo "$input" | le 2>/dev/null 
-		fi
-	fi
+    if [[ "$#" -gt 0 ]]; then
+        noOfLines=$(cat "$1" 2>/dev/null \
+            | fold -w"$COLUMNS" \
+            | wc -l)
+        if [[ "$LINES" -gt "$noOfLines" ]]; then
+            cat "$1"
+        else
+            le "$1" 2>/dev/null 
+        fi
+    else
+        input=$(cat)
+        noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
+        if [[ "$LINES" -gt "$noOfLines" ]]; then
+            echo "$input" | cat 
+        else
+            echo "$input" | less1 2>/dev/null 
+        fi
+    fi
 }
 alias m='catOrLess'
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
 catOrLessG() {
-	if [[ "$#" -gt 0 ]]; then
-		noOfLines=$(cat "$1" 2>/dev/null \
-			| fold -w"$COLUMNS" \
-			| wc -l)
-		if [[ "$LINES" -gt "$noOfLines" ]]; then
-			cat "$1"	
-		else
-			cat "$1" | le +G 2>/dev/null
-		fi
-	else
-		input=$(cat)
-		noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
-		if [[ "$LINES" -gt "$noOfLines" ]]; then
-			echo "$input" | cat	
-		else
-			echo "$input" | le +G 2>/dev/null
-		fi
-	fi
+    if [[ "$#" -gt 0 ]]; then
+        noOfLines=$(cat "$1" 2>/dev/null \
+            | fold -w"$COLUMNS" \
+            | wc -l)
+        if [[ "$LINES" -gt "$noOfLines" ]]; then
+            cat "$1"    
+        else
+            cat "$1" | less1 +G 2>/dev/null
+        fi
+    else
+        input=$(cat)
+        noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
+        if [[ "$LINES" -gt "$noOfLines" ]]; then
+            echo "$input" | cat 
+        else
+            echo "$input" | less1 +G 2>/dev/null
+        fi
+    fi
 }
 
 
@@ -73,106 +76,112 @@ catOrLessG() {
 ######
 
 # All other ls aliases end up calling this one. It runs ls with:
-#	* append indicator, 
-#	* sort alphabetically by extension, 
-#	* list by columns, 
-#	* use color when stdout is connected to terminal, 
-#	* group directories before files.
+#   * append indicator, 
+#   * sort alphabetically by extension, 
+#   * list by columns, 
+#   * use color when stdout is connected to terminal, 
+#   * group directories before files.
 lsUniversal() {
-	ls --classify -X -C --color=auto --group-directories-first "$@"
+    ls --classify -X -C --color=auto --group-directories-first "$@"
 }
 
 # Calls lsUniversal with: 
-#	* set width to screen width or 69, whichever is smaller.
+#   * set width to screen width or 69, whichever is smaller.
 lsShortCat() {
-	width=$(
-		widthLimit=69
-		if [[ "$COLUMNS" -lt "$widthLimit" ]]; then 
-			echo "$COLUMNS"
-		else 
-			echo "$widthLimit"
-		fi)
-	lsUniversal --width="$width" "$@"
+    width=$(
+        widthLimit=69
+        if [[ "$COLUMNS" -lt "$widthLimit" ]]; then 
+            echo "$COLUMNS"
+        else 
+            echo "$widthLimit"
+        fi)
+    lsUniversal --width="$width" "$@"
 }
 
 # Calls lsUniversal with: 
-#	* use long listing format, 
-#	* do not print groups,
-# 	* do not list owner, 
-#	* print sizes in human readable format, 
-#	* print date as: '<month-by-word>, <day-of-month>, <year>,
-#	<hour>:<minute>'.
+#   * use long listing format, 
+#   * do not print groups,
+#   * do not list owner, 
+#   * print sizes in human readable format, 
+#   * print date as: '<month-by-word>, <day-of-month>, <year>,
+#   <hour>:<minute>'.
 lsMedCat() {
-	lsUniversal -l --no-group -g --human-readable \
-		--time-style="+%b %d %Y %H:%M" "$@"
+    lsUniversal -l --no-group -g --human-readable \
+        --time-style="+%b %d %Y %H:%M" "$@"
 }
 
 # Calls lsUniversal with: 
-#	* use long listing format. 
+#   * use long listing format. 
 lsLongCat() {
-	lsUniversal -l "$@"
+    lsUniversal -l "$@"
 }
 
 # Functions that call aliases above, and pipe output to less.
 # They: 
-#	* override color option of ls to 'always' and 
-#	* pipe output to le with RAW-CONTROL-CHARS option.
+#   * override color option of ls to 'always' and 
+#   * pipe output to le with RAW-CONTROL-CHARS option.
 # This enables the transfer of colors from ls to less. They also
 # start less at end of file.
+
 lsShortLess() { 
-	lsShortCat --color=always $* | le --RAW-CONTROL-CHARS +G
+    lsShortCat --color=always $* | less1 --RAW-CONTROL-CHARS +G
 }
 
 lsMedLess() { 
-	lsMedCat --color=always $* | le --RAW-CONTROL-CHARS +G 
+    lsMedCat --color=always $* | less1 --RAW-CONTROL-CHARS +G 
 }
 
 lsLongLess() { 
-	lsLongCat --color=always $* | le --RAW-CONTROL-CHARS +G 
+    lsLongCat --color=always $* | less1 --RAW-CONTROL-CHARS +G 
 }
 
 # This functions decide weather they will call cat or less
 # version of the lstShort/Med/Long function. It depends on
 # whether the output of ls will fit on screen.
+
 lsShort() {
-	noOfLines=$(
-		lsShortCat "$@" 2> /dev/null \
-			| fold -w"$COLUMNS" \
-			|  wc -l)
-	if [[ "$LINES" -gt "$noOfLines" ]]; then
-		lsShortCat "$@"	
-	else
-		lsShortLess "$@" 
-	fi
+    noOfLines=$(
+        lsShortCat "$@" 2> /dev/null \
+            | fold -w"$COLUMNS" \
+            |  wc -l)
+    if [[ "$LINES" -gt "$noOfLines" ]]; then
+        lsShortCat "$@" 
+    else
+        lsShortLess "$@" 
+    fi
 }
+
 lsMed() {
-	noOfLines=$(
-		lsMedCat "$@" 2> /dev/null \
-			| fold -w"$COLUMNS" \
-			|  wc -l)
-	if [[ "$LINES" -gt "$noOfLines" ]]; then
-		lsMedCat "$@"
-	else
-		lsMedLess "$@"    
-	fi
+    noOfLines=$(
+        lsMedCat "$@" 2> /dev/null \
+            | fold -w"$COLUMNS" \
+            |  wc -l)
+    if [[ "$LINES" -gt "$noOfLines" ]]; then
+        lsMedCat "$@"
+    else
+        lsMedLess "$@"    
+    fi
 }
+
 lsLong() {
-	noOfLines=$(
-		lsLongCat "$@" 2> /dev/null \
-			| fold -w"$COLUMNS" \
-			|  wc -l)
-	if [[ "$LINES" -gt "$noOfLines" ]]; then
-		lsLongCat "$@"
-	else
-		lsLongLess "$@"    
-	fi
+    noOfLines=$(
+        lsLongCat "$@" 2> /dev/null \
+            | fold -w"$COLUMNS" \
+            |  wc -l)
+    if [[ "$LINES" -gt "$noOfLines" ]]; then
+        lsLongCat "$@"
+    else
+        lsLongLess "$@"    
+    fi
 }
 
 # Calls ls (with a lot of options) that lists only names.
 alias l='lsShort'
+
 # Calls ls (with a lot of options) that uses shortened long
 # listing format.
 alias ll='lsMed'
+
 # Calls ls (with a lot of options) that uses long listing
 # format.
 alias lll='lsLong'
@@ -180,9 +189,11 @@ alias lll='lsLong'
 # Calls ls (with a lot of options) that lists only filenames,
 # also showing hidden files.
 alias la='lsShort --almost-all'
+
 # Calls ls (with a lot of options) that uses shortened long
 # listing format, also showing hidden files.
 alias lla='lsMed --almost-all'
+
 # Calls ls (with a lot of options) that uses long listing
 # format, also showing hidden files.
 alias llla='lsLong --almost-all'
@@ -190,15 +201,18 @@ alias llla='lsLong --almost-all'
 # Calls ls (with a lot of options) that lists only names and
 # sorts files by date.
 alias lt='lsShort -t'
+
 # Calls ls (with a lot of options) that uses shortened long
 # listing format and sorts files by date.
 alias llt='lsMed -t'
+
 # Calls ls (with a lot of options) that uses long listing format
 # and sorts files by date.
 alias lllt='lsLong -t'
 
 # Calls ls (with a lot of options) that lists one name per line.
 alias l1='lsShort -1'
+
 # Calls ls (with a lot of options) that lists one name per line
 # and also shows hidden files.
 alias la1='la -1'
@@ -208,7 +222,7 @@ alias first='ls | head -1'
 
 # Gets name of a random file in the directory.
 randomFile() {
-	ls "$@" | sort -R | head -1
+    ls "$@" | sort -R | head -1
 }
 alias rf='randomFile'
 
@@ -219,7 +233,7 @@ alias rf='randomFile'
 
 # Displays tree structure of current or specified folder.
 tree1() {
-	tree -C -I .git --dirsfirst "$@" | catOrLess
+    tree -C -I .git --dirsfirst "$@" | catOrLess
 }
 alias t='tree1'
 
@@ -241,16 +255,16 @@ alias ......='cd ..; cd ..; cd ..; cd..; cd..'
 alias .......='cd ..; cd ..; cd ..; cd..; cd..; cd..'
 
 # Combines cd and ls.
-cdLs() {	
-	cd "$@"; l
+cdLs() {    
+    cd "$@"; l
 }
 alias cdl='cdLs'
 
 # Mounts ISO file and cd-s into it.
 mount-iso() {
-	sudo mkdir /media/"$1"
-	sudo mount -o loop "$1" /media/"$1"
-	cd /media/"$1"
+    sudo mkdir /media/"$1"
+    sudo mount -o loop "$1" /media/"$1"
+    cd /media/"$1"
 }
 alias cd-iso='mount-iso'
 
@@ -262,9 +276,11 @@ alias cd-iso='mount-iso'
 # Runs cp in interactive mode (asks before it overwrites
 # anything).
 alias cp='cp -iv'
+
 # Runs mv in interactive mode (asks before it overwrites
 # anything).
 alias mv='mv -iv'
+
 # Runs rm in interactive mode (asks you for every file, if you
 # really want to delete it). Run with -f option to override
 # interactive mode.
@@ -273,9 +289,11 @@ alias rm='rm -i'
 # Copies whole directory in interactive mode (asks before it
 # overwrites anything).
 alias cpdir='cp -iarv'
+
 # Moves whole directory in interactive mode (asks before it
 # overwrites anything).
 alias mvdir='mv -iv'
+
 # Removes whole directory in interactive mode (checks for every
 # file if you really want to delete it). Run with -f option to
 # override interactive mode.
@@ -284,10 +302,17 @@ alias rmdir='rm -ir'
 # Makes directory (and its parent directories if necessary) and
 # descends into.
 mkdir1() {
-	mkdir -p "$1"
-	cd "$1"
+    mkdir -p "$1"
+    cd "$1"
 }
 alias mk='mkdir1'
+
+# Backups file, by making a copy with '.bak' extension. All
+# file's attributes are preserved.
+backup() {
+    sudo cp --preserve "$1"{,.bak}
+}
+alias bk='backup'
 
 
 #######
@@ -300,11 +325,11 @@ alias .='echo $PWD'
 # If no file specified, prints working directory, else full path
 # of the file.
 pwdOrPath() {
-	if [[ $# -eq 0 ]]; then
-		echo "$PWD"
-	else
-		echo "$PWD"/"$@"
-	fi		
+    if [[ $# -eq 0 ]]; then
+        echo "$PWD"
+    else
+        echo "$PWD"/"$@"
+    fi      
 }
 alias p='pwdOrPath'
 
@@ -330,7 +355,7 @@ alias en='echo -n'
 # Runs command in background, it doesn't hang up if shell
 # is closed and it doesn't print output.
 runInBackground() {
-	nohup "$@" &>/dev/null &
+    nohup "$@" &>/dev/null &
 }
 alias rb='runInBackground'
 
@@ -400,27 +425,27 @@ alias na='rb nautilus .'
 
 # Runs diff with colors and sends output to pager if necessary.
 diffWithColors() {
-	colordiff "$@" | catOrLess
+    colordiff "$@" | catOrLess
 }
 alias diff1='diffWithColors'
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
 createExecutable() {
-	if [[ ! -f "$1" ]]; then
-		echo '#!/bin/bash' >> "$1"
-		echo '#' >> "$1"
-		echo "# Usage: $1 " >> "$1"
-		echo '# ' >> "$1"
-		echo >> "$1"
-		echo '# Uncomment for Strict mode, more info at:' >> "$1"
-		echo -n '# http://redsymbol.net/articles/' >> "$1"
-		echo 'unofficial-bash-strict-mode' >> "$1"
-		echo '# set -euo pipefail' >> "$1"
-		echo "# IFS=$'\n\t'" >> "$1"
-		echo >> "$1"
-	fi
-	chmod u+x "$1"        
+    if [[ ! -f "$1" ]]; then
+        echo '#!/bin/bash' >> "$1"
+        echo '#' >> "$1"
+        echo "# Usage: $1 " >> "$1"
+        echo '# ' >> "$1"
+        echo >> "$1"
+        echo '# Uncomment for Strict mode, more info at:' >> "$1"
+        echo -n '# http://redsymbol.net/articles/' >> "$1"
+        echo 'unofficial-bash-strict-mode' >> "$1"
+        echo '# set -euo pipefail' >> "$1"
+        echo "# IFS=$'\n\t'" >> "$1"
+        echo >> "$1"
+    fi
+    chmod u+x "$1"        
 }
 alias me=createExecutable    
 alias ce=createExecutable
@@ -433,11 +458,11 @@ alias ce=createExecutable
 # Searches command history for pattern, or if none is specified,
 # prints it whole.
 grepHistory() {
-	if [ "$#" -eq 0 ]; then
-		history | catOrLessG
-	else
-		history | grep "$@" | catOrLessG
-	fi
+    if [ "$#" -eq 0 ]; then
+        history | catOrLessG
+    else
+        history | grep "$@" | catOrLessG
+    fi
 }
 alias h='grepHistory'
 
@@ -454,17 +479,17 @@ alias v='vim -p'
 alias vv='view -p'
 
 # Runs Nano with a few sensible options.
-#	* enable experimental undo (will most probably crash
+#   * enable experimental undo (will most probably crash
 # if going deeper than first undo level!!!!!!!!!), 
-#	* autoindent, 
-#	* constantly show the cursor position, 
-#	* log search and replace strings,
-#	* enable edit of multiple files, 
-#	* treat punctuation as part of words, 
-#	* smooth scrolling, 
-#	* tab size set to 4 spaces.
+#   * autoindent, 
+#   * constantly show the cursor position, 
+#   * log search and replace strings,
+#   * enable edit of multiple files, 
+#   * treat punctuation as part of words, 
+#   * smooth scrolling, 
+#   * tab size set to 4 spaces.
 alias n='nano --undo --autoindent --const --historylog \
-	--multibuffer --wordbounds --smooth --tabsize=4'
+    --multibuffer --wordbounds --smooth --tabsize=4'
 
 # Runs Gedit in background.
 alias g='rb gedit'
@@ -479,6 +504,7 @@ alias sub='rb sublime_text'
 
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
+# As long as this line of text stays here and is not modified, that long all the aliases and functions untill next comment will not get documented in README.md.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
 alias ifconfig='sudo ifconfig'
@@ -499,32 +525,29 @@ alias mount='sudo mount'
 
 # Executes last command as sudo.
 fuck() {
-	sudo $(history -p \!\!)
+    sudo $(history -p \!\!)
 }
 alias fu='fuck'
 
 # Runs cp as su in interactive mode.
 alias scp='sudo cp -iv'
+
 # Runs mv as su in interactive mode.
 alias smv='sudo mv -iv'
+
 # Runs rm as su in interactive mode (use -f to override
 # interactive mode).
 alias srm='sudo rm -i'
 
 # Copies whole directory as su in interactive mode.
 alias scpdir='sudo cp -arv'
+
 #Moves whole directory as su in interactive mode.
 alias smvdir='sudo mv -iv'
+
 # Removes whole directory as su in interactive mode (use -f to
 # override interactive mode).
 alias srmdir='sudo rm -ir'
-
-# Backups file, by making a copy with '.bak' extension. All
-# file's attributes are preserved.
-backup() {
-	sudo cp --preserve "$1"{,.bak}
-}
-alias bk='backup'
 
 # Runs less as su.
 alias sm='sudo less'
@@ -549,7 +572,7 @@ alias ht='htop'
 # Prints user's processes and sends output to pager if
 # necessary.
 psWithPager() {
-	ps "$@" | catOrLess
+    ps "$@" | catOrLess
 }
 alias ps1='psWithPager'
 
@@ -560,7 +583,7 @@ alias psa='ps1 -e'
 # Prints processes with names, containing specified pattern,
 # together with their PIDs.
 pgrepListName() {
-	pgrep --list-name "$@" | catOrLess
+    pgrep --list-name "$@" | catOrLess
 }
 alias pgrep1='pgrepListName'
 
@@ -571,7 +594,7 @@ alias kill1='kill -9'
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 strace1() {
-	strace -s 2000 -f "$@" 2>&1 | catOrLess
+    strace -s 2000 -f "$@" 2>&1 | catOrLess
 }
 alias st='strace1'
 
@@ -599,26 +622,26 @@ alias trd='tr --delete'
 
 # Changes input string's notation from CamelCase to UNDER_SCORE.
 toUnder() {
-	cat \
-		| sed 's/^\([A-Z]\)/\L\1/' \
-		| sed 's/\([A-Z]\)/_\1/g' \
-		| tr [a-z] [A-Z]
+    cat \
+        | sed 's/^\([A-Z]\)/\L\1/' \
+        | sed 's/\([A-Z]\)/_\1/g' \
+        | tr [a-z] [A-Z]
 } 
 
 # Changes input strings notation from CamelCase to hypen-score.
 toHypen() {
-	cat \
-		| sed 's/^\([A-Z]\)/\L\1/' \
-		| sed 's/\([A-Z]\)/-\1/g' \
-		| tr [A-Z] [a-z] 
+    cat \
+        | sed 's/^\([A-Z]\)/\L\1/' \
+        | sed 's/\([A-Z]\)/-\1/g' \
+        | tr [A-Z] [a-z] 
 }
 
 # Changes input strings notation from UNDER_SCORE or hypen-score
 # to CamelCase.
 toCamel() {
-	cat \
-		| tr [A-Z] [a-z] \
-		| sed 's/[_-]\([a-z]\)/\U\1/g'
+    cat \
+        | tr [A-Z] [a-z] \
+        | sed 's/[_-]\([a-z]\)/\U\1/g'
 }
 
 
@@ -635,7 +658,7 @@ alias table='column -t -s'
 # the delimiter character. For more columns use comma or dash
 # (for ranges).
 keepColumns() {
-	cut --delimiter="$1" --fields="$2" 
+    cut --delimiter="$1" --fields="$2" 
 }
 alias cut1='keepColumns'
 
@@ -644,7 +667,7 @@ alias cut1='keepColumns'
 # the delimiter character. Using comma, more columns can be
 # specified (in order of importance).
 sortByColumn() { 
-	sort --field-separator="$1" --key="$2"
+    sort --field-separator="$1" --key="$2"
 }
 alias sort1='sortByColumn'
 
@@ -662,12 +685,12 @@ alias du1='du --summarize --human-readable'
 
 # Prints all and free memory in megabytes.
 free1() {
-	echo "all: "$(free -m \
-		| grep Mem \
-		| sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
-	echo "free: "$(free -m \
-		| grep Mem \
-	  	| sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ \
+    echo "all: "$(free -m \
+        | grep Mem \
+        | sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
+    echo "free: "$(free -m \
+        | grep Mem \
+        | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ \
 ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
 alias fr='free1'
@@ -728,12 +751,12 @@ alias repeat='xset r'
 # Runs grep with highlighting matches and not grepping through
 # .svn and .git folders.
 alias grep1='grep --color=auto --exclude-dir=\.svn \
-	--exclude-dir=\.git'
+    --exclude-dir=\.git'
 
 # Runs grep in perl regex mode (that has some additional operators, like '+' for matching one or more times), ignoring case, with highlighting matches, not grepping through .svn and .git folders and sends output to pager.
 grepPerl() {
-	grep1 --ignore-case --perl-regexp --color=always "$@" \
-		| catOrLess
+    grep1 --ignore-case --perl-regexp --color=always "$@" \
+        | catOrLess
 }
 alias gr='grepPerl'
 
@@ -744,35 +767,35 @@ alias gr='grepPerl'
 
 # Extracts archive of any type.
 extract() {
-	if [ -z "$1" ]; then
-		# display usage if no parameters given
-		echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-	else
-		if [ -f "$1" ] ; then
-			NAME=${1%.*}
-			#mkdir $NAME && cd $NAME
-			case "$1" in
-				*.tar.bz2)   tar xvjf ./"$1"    ;;
-				*.tar.gz)    tar xvzf ./"$1"    ;;
-				*.tar.xz)    tar xvJf ./"$1"    ;;
-				*.lzma)      unlzma ./"$1"      ;;
-				*.bz2)       bunzip2 ./"$1"     ;;
-				*.rar)       unrar x -ad ./"$1" ;;
-				*.gz)        gunzip ./"$1"      ;;
-				*.tar)       tar xvf ./"$1"     ;;
-				*.tbz2)      tar xvjf ./"$1"    ;;
-				*.tgz)       tar xvzf ./"$1"    ;;
-				*.zip)       unzip ./"$1"       ;;
-				*.Z)         uncompress ./"$1"  ;;
-				*.7z)        7z x ./"$1"        ;;
-				*.xz)        unxz ./"$1"        ;;
-				*.exe)       cabextract ./"$1"  ;;
-				*)           echo "extract: '$1' - unknown archive method" ;;
-			esac
-		else
-			echo "'$1' - file does not exist"
-		fi
-	fi
+    if [ -z "$1" ]; then
+        # display usage if no parameters given
+        echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    else
+        if [ -f "$1" ] ; then
+            NAME=${1%.*}
+            #mkdir $NAME && cd $NAME
+            case "$1" in
+                *.tar.bz2)   tar xvjf ./"$1"    ;;
+                *.tar.gz)    tar xvzf ./"$1"    ;;
+                *.tar.xz)    tar xvJf ./"$1"    ;;
+                *.lzma)      unlzma ./"$1"      ;;
+                *.bz2)       bunzip2 ./"$1"     ;;
+                *.rar)       unrar x -ad ./"$1" ;;
+                *.gz)        gunzip ./"$1"      ;;
+                *.tar)       tar xvf ./"$1"     ;;
+                *.tbz2)      tar xvjf ./"$1"    ;;
+                *.tgz)       tar xvzf ./"$1"    ;;
+                *.zip)       unzip ./"$1"       ;;
+                *.Z)         uncompress ./"$1"  ;;
+                *.7z)        7z x ./"$1"        ;;
+                *.xz)        unxz ./"$1"        ;;
+                *.exe)       cabextract ./"$1"  ;;
+                *)           echo "extract: '$1' - unknown archive method" ;;
+            esac
+        else
+            echo "'$1' - file does not exist"
+        fi
+    fi
 }
 
 
@@ -783,7 +806,7 @@ extract() {
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 locateWithPager() {
-	locate "$@" | catOrLess
+    locate "$@" | catOrLess
 }
 alias locate1='locateWithPager'
 
@@ -792,7 +815,7 @@ alias locate1='locateWithPager'
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
 findWithHighlight() {
-	find . -name "$1" | grepPerl $(echo "$1" | tr -d "\*")
+    find . -name "$1" | grepPerl $(echo "$1" | tr -d "\*")
 }
 find1='findWithHighlight'
 
@@ -804,7 +827,7 @@ alias findd='find . -name .git -prune -o -type d | catOrLess'
 # MISC #
 ########
 
-# Changes blue color, that is hard to read, to blueberry in tty.
+# Changes the hue of default blue color in Linux terminal (tty), that is otherwise hard to read.
 alias blue='echo -en "\e]PC7373C9"'
 
 # Prints PATH variable, each entry in its own line.
@@ -815,7 +838,7 @@ alias bc1='gcalccmd'
 
 # Prints hexadecimal representation of file or piped stream.
 hexadecimalDump() {
-	hd "$@" | catOrLess
+    hd "$@" | catOrLess
 }
 alias hd1='hexadecimalDump'
 
@@ -850,10 +873,10 @@ alias profile='source /etc/profile'
 
 # Switches the files. Usage: switch [FILE1] [FILE2]
 switch() {
-	TMP_NAME="f8ewn3j9"
-	cp "$1" "$TMP_NAME"
-	mv -f "$2" "$1"
-	mv "$TMP_NAME" "$2"
+    TMP_NAME="f8ewn3j9"
+    cp "$1" "$TMP_NAME"
+    mv -f "$2" "$1"
+    mv "$TMP_NAME" "$2"
 }
 
 # Runs a typing tutor.
@@ -862,22 +885,22 @@ alias tt='gtypist'
 # Counts number of lines in files with specified extension 
 # in current and sub-directories.
 linesOfCode() {
-	rootDir="$PWD"
-	no=0
-	for file in *; do
-		if [ -d "$file" ]; then
-			#echo "entering $file" >&2
-			cd "$file"
-			recRes=`linesOfCode "$1"`
-			#echo "recRes is $recRes" >&2
-			let no=$no+"$recRes"
-			cd "$rootDir"
-		fi
-		if [[ "$file" == *."$1" ]]; then
-			let no=$no+`cat "$file" | wc -l`	
-		fi
-	done
-	echo $no
+    rootDir="$PWD"
+    no=0
+    for file in *; do
+        if [ -d "$file" ]; then
+            #echo "entering $file" >&2
+            cd "$file"
+            recRes=`linesOfCode "$1"`
+            #echo "recRes is $recRes" >&2
+            let no=$no+"$recRes"
+            cd "$rootDir"
+        fi
+        if [[ "$file" == *."$1" ]]; then
+            let no=$no+`cat "$file" | wc -l`    
+        fi
+    done
+    echo $no
 }
 alias loc='linesOfCode'
 
@@ -921,23 +944,23 @@ alias ve='version'
 # Prints packages that were installed by the user, in order of
 # installation.
 alias packages='cat /var/log/apt/history.log \
-	| grep "apt-get install" \
-	| sed "s/.* //" \
-	| catOrLessG'
+    | grep "apt-get install" \
+    | sed "s/.* //" \
+    | catOrLessG'
 alias installed='packages'
 
 # Prints all installed packages.
 alias packages1='dpkg --get-selections \
-	| grep -v deinstall \
-	| catOrLess'
+    | grep -v deinstall \
+    | catOrLess'
 
 # Shows on which packages specified package depends.
 depends() {
-	apt-cache show "$@" \
-		| grep Depends \
-		| sed 's/Depends:/ /' \
-		| sed 's/,/\n /g' \
-		| catOrLess
+    apt-cache show "$@" \
+        | grep Depends \
+        | sed 's/Depends:/ /' \
+        | sed 's/,/\n /g' \
+        | catOrLess
 }
 
 
@@ -952,21 +975,21 @@ alias ty='type'
 # Runs apropos, that searches installed commands, by their names
 # and short descriptions. Matches get highlighted.
 apropos1() {
-	apropos "$@" | grepPerl "$@"
+    apropos "$@" | grepPerl "$@"
 }
 alias ap='aproposWithHighlight'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
 searchPackages() {
-	apt-cache search "$@" | grepPerl "$@"
+    apt-cache search "$@" | grepPerl "$@"
 }
 alias search='searchPackages'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
 searchPackages1() {
-	apt-cache search "$@" | grepPerl "^[^ ]*$@[^ ]*" 
+    apt-cache search "$@" | grepPerl "^[^ ]*$@[^ ]*" 
 }
 alias search1='searchPackages1'
 
@@ -977,94 +1000,94 @@ alias search1='searchPackages1'
 # Searches packages based on their name and also by their
 # executables
 y() {
-	(echo   "PACKAGES CONTAINING EXECUTABLES NAMED \"$1\""
-	echo -n "========================================"
-	echo "$1" | sed 's/./=/g'
-	apt-file1 "$@" | grepPerl "^.*:"
-	echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"	
-	echo -n   "====================================="
-	echo "$1" | sed 's/./=/g'
-	searchPackages1 "$@") | le 
+    (echo   "PACKAGES CONTAINING EXECUTABLES NAMED \"$1\""
+    echo -n "========================================"
+    echo "$1" | sed 's/./=/g'
+    apt-file1 "$@" | grepPerl "^.*:"
+    echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
+    echo -n   "====================================="
+    echo "$1" | sed 's/./=/g'
+    searchPackages1 "$@") | less1 
 }
 
 # Find to which of the installed packages passed command belongs
 # to
 package() {
-	file=$(sudo which "$1")
-	if [ "$file" == "" ]; then 
-		return
-	fi	
-	resolved=$(readlink -f "$file")
-	dpkg -S "$resolved" 
+    file=$(sudo which "$1")
+    if [ "$file" == "" ]; then 
+        return
+    fi  
+    resolved=$(readlink -f "$file")
+    dpkg -S "$resolved" 
 }
 
 # Find to which of all the packages the command belongs to
 apt-file1() {
-	apt-file search "$1" | grep \/"$1"$ | catOrLess 
+    apt-file search "$1" | grep \/"$1"$ | catOrLess 
 }
 
 alias wi1='whatis'
 # Prints package description. (Few lines)
 whatis2() {
-	apt-cache show "$*" | grep "^ " | catOrLess
+    apt-cache show "$*" | grep "^ " | catOrLess
 }
 alias wi2='whatis2'
 
 # Searches aliases for name
 whatis3() {
-	type "$*" | catOrLess
+    type "$*" | catOrLess
 }
 alias wi3='whatis3'
 
 # Searches all packages for file
 whatis4() {
-	package "$@"
+    package "$@"
 }
 alias wi4='whatis4'
 
 # Searches all packages for file
 whatis5() {
-	apt-file1 "$@"
+    apt-file1 "$@"
 }
 alias wi5='whatis5'
 
 # Searches all packages for keyword 
 whatis6() {
-	search "$@"
+    search "$@"
 }
 alias wi6='whatis6'
 
 # Converts man section number to a description
 manSection() {
-	case "$1" in
-		1)
-			echo "user command"
-			;;
-		2)
-			echo "system call"
-			;;
-		3)
-			echo "c function"
-			;;
-		4)
-			echo "device file"
-			;;
-		5)
-			echo "file format or convention"
-			;;
-		6)
-			echo "game"
-			;; 
-		7)
-			echo "miscallaneous"
-			;;
-		8)
-			echo "su command"
-			;;
-		9)
-			echo "kernel routine"
-			;;
-	esac
+    case "$1" in
+        1)
+            echo "user command"
+            ;;
+        2)
+            echo "system call"
+            ;;
+        3)
+            echo "c function"
+            ;;
+        4)
+            echo "device file"
+            ;;
+        5)
+            echo "file format or convention"
+            ;;
+        6)
+            echo "game"
+            ;; 
+        7)
+            echo "miscallaneous"
+            ;;
+        8)
+            echo "su command"
+            ;;
+        9)
+            echo "kernel routine"
+            ;;
+    esac
 }
 
 # Universal command description search function. First tries
@@ -1072,49 +1095,49 @@ manSection() {
 # When one of them succeeds in finding the description the
 # function returns.
 whatIs() {
-	call1=`whatis "$@" 2> /dev/null`
-	if [ "$?" == "0" ]; then
-		while IFS= read -r line; do
-			commandType=$(
-				manSection $(
-					echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'
-				)
-			)
-			echo "$line" "($commandType)"
-		done <<< "$call1"
-		echo -n "package: "
-		package "$@" | sed 's/:/\nlocation:/'
-		return
-	fi
+    call1=`whatis "$@" 2> /dev/null`
+    if [ "$?" == "0" ]; then
+        while IFS= read -r line; do
+            commandType=$(
+                manSection $(
+                    echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'
+                )
+            )
+            echo "$line" "($commandType)"
+        done <<< "$call1"
+        echo -n "package: "
+        package "$@" | sed 's/:/\nlocation:/'
+        return
+    fi
 
-	call2=`apt-cache show "$*" 2> /dev/null | grep "^ "`
-	if [ "$?" == "0" ]; then
-		echo "$call2" | catOrLess
-		return
-	fi
+    call2=`apt-cache show "$*" 2> /dev/null | grep "^ "`
+    if [ "$?" == "0" ]; then
+        echo "$call2" | catOrLess
+        return
+    fi
 
-	call3=`type "$*" 2> /dev/null`
-	if [ "$?" == "0" ]; then
-		echo "$call3"
-		return
-	fi
+    call3=`type "$*" 2> /dev/null`
+    if [ "$?" == "0" ]; then
+        echo "$call3"
+        return
+    fi
 
-	call4=`package "$@"`
-	if [ "$call4" != "" ]; then
-		echo "$call4"
-		return
-	fi
+    call4=`package "$@"`
+    if [ "$call4" != "" ]; then
+        echo "$call4"
+        return
+    fi
 
-	call5=`apt-file1 "$@" | grepPerl "^.*:"`
-	if [ "$call5" != "" ]; then
-		echo -n "You need to install one of the following packages"
-		echo -e " to get the command:\n$call5" | catOrLess
-	fi
+    call5=`apt-file1 "$@" | grepPerl "^.*:"`
+    if [ "$call5" != "" ]; then
+        echo -n "You need to install one of the following packages"
+        echo -e " to get the command:\n$call5" | catOrLess
+    fi
 
-	call6=`search "$@"`
-	if [ "$call6" != "" ]; then
-		echo  "$call6" | catOrLess
-	fi
+    call6=`search "$@"`
+    if [ "$call6" != "" ]; then
+        echo  "$call6" | catOrLess
+    fi
 }
 alias wi='whatIs'
 
@@ -1157,16 +1180,16 @@ alias gb='branch'
 alias gs='git -c color.status=always status -sb | catOrLess'
 
 # Prints nicely decorated graph of commits, with commit
-# messages, full hashes and full dates.	
+# messages, full hashes and full dates. 
 alias gl='git log --decorate --graph --all'
 
 # Prints nicely decorated graph of commits, with only first
 # lines of commit messages, shortened hashes and full dates.
 alias gl1="git log --graph --abbrev-commit --decorate \
-	--format=format:'%C(bold blue)%h%C(reset) \
-	- %C(bold cyan)%aD%C(reset) \
-	%C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
-	%C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+    --format=format:'%C(bold blue)%h%C(reset) \
+    - %C(bold cyan)%aD%C(reset) \
+    %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
+    %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
 # Updates information about state of the remote repository and
 # prints status.
@@ -1196,32 +1219,32 @@ alias gls='lsgit'
 # Clones project from Github. User and project names must be
 # specified as <user>/<project>.
 cloneGithubProject() {
-	git clone git@github.com:/"$1".git
+    git clone git@github.com:/"$1".git
 }
 alias clone='cloneGithubProject'
 
 # Sets remote repository to specified Github project. Repository
 # must be entered as <user>/<project>.
 setGithubOrigin() {
-	git remote add origin git@github.com:/"$1".git
-	git pull origin master
-	git push origin master
+    git remote add origin git@github.com:/"$1".git
+    git pull origin master
+    git push origin master
 }
 alias origin='setGithubOrigin'
 
 # Clones all users Github projects in working directory.
 cloneAllUsersGithubProjects() {
-	if [[ -z "$1" ]]; then
-		exit
-	fi
-	tempFile=`mktemp`
-	wget 'https://github.com/gto76?tab=repositories' -O "$tempFile"
-	repos=$(grep "$1"/[^//\"]* -o "$tempFile" \
-		| sort -u \
-		| grep -v follow)
-	while read -r line; do
-		git clone git@github.com:"$line"
-	done <<< "$repos"
+    if [[ -z "$1" ]]; then
+        exit
+    fi
+    tempFile=`mktemp`
+    wget 'https://github.com/gto76?tab=repositories' -O "$tempFile"
+    repos=$(grep "$1"/[^//\"]* -o "$tempFile" \
+        | sort -u \
+        | grep -v follow)
+    while read -r line; do
+        git clone git@github.com:"$line"
+    done <<< "$repos"
 }
 alias cloneAll='cloneAllUsersGithubProjects'
 
@@ -1232,32 +1255,32 @@ alias cloneAll='cloneAllUsersGithubProjects'
 
 # Prints internal ip.
 internalIp() {
-	/sbin/ifconfig \
-		| grep "inet addr:192.168" \
-		| grep -o addr:[0-9.]* \
-		| grep -o [0-9.]\* \
-		| cat 
+    /sbin/ifconfig \
+        | grep "inet addr:192.168" \
+        | grep -o addr:[0-9.]* \
+        | grep -o [0-9.]\* \
+        | cat 
 }
 alias ip1='internalIp'
 
 # Prints external ip. 
 externalIp() {
-	lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*
+    lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*
 }
 alias ip2='externalIp'
 
 # Prints gateways ip.
 alias gateway='route -n | grep "192.168." | head -n1 \
-	| grep -o "192.168.[0-9.]*"'
+    | grep -o "192.168.[0-9.]*"'
 
 # Prints mac addresses of local devices.
 alias mac='ifconfig | grep HWaddr | cat'
 
 # Pings gateway, ip address of noip.com and www.google.com.
 pingAll() {
-	ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
-	ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
-	ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
+    ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
+    ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
+    ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
 alias pa=pingAll
 
@@ -1267,21 +1290,21 @@ alias pa=pingAll
 
 # Scans first $1 addresses of local network.
 nmap2() {
-	if [[ $# -eq 0 ]]; then
-		third=$(ip1 \
-			| sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
-		forth="254"
-	fi
-	if [[ $# -eq 1 ]]; then
-		third=$(ip1 \
-			| sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
-		forth="$1"
-	fi
-	if [[ $# -gt 1 ]]; then
-		third="$1"
-		forth="$2"
-	fi
-	nmap -sP 192.168."$third".0-"$forth"
+    if [[ $# -eq 0 ]]; then
+        third=$(ip1 \
+            | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
+        forth="254"
+    fi
+    if [[ $# -eq 1 ]]; then
+        third=$(ip1 \
+            | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
+        forth="$1"
+    fi
+    if [[ $# -gt 1 ]]; then
+        third="$1"
+        forth="$2"
+    fi
+    nmap -sP 192.168."$third".0-"$forth"
 }
 
 # Scans first 20 addresses of local network.
@@ -1290,22 +1313,22 @@ alias nmap1='nmap2 20'
 # Returns OK if pingable of Fail if not. Parameter is an ip or
 # domain.
 pingable() {
-	pingResult=$(
-		ping -c 1 -q "$1" \
-			| grep --color=never -A 1 statistics \
-			| grep "1 received")
-	if [ "$pingResult" != "" ]; then
-		echo -n "OK"
-	else
-		echo -n "Fail"
-	fi
+    pingResult=$(
+        ping -c 1 -q "$1" \
+            | grep --color=never -A 1 statistics \
+            | grep "1 received")
+    if [ "$pingResult" != "" ]; then
+        echo -n "OK"
+    else
+        echo -n "Fail"
+    fi
 }
 
 # Prints status of the ssh port of the passed client.
 port22status() {
-	nmap $(echo "$1" | tr -d ' ') -p22 \
-		| grep '22/tcp' \
-		| sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
+    nmap $(echo "$1" | tr -d ' ') -p22 \
+        | grep '22/tcp' \
+        | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
 }
 
 # Scans first 20 addresses of local network and prints yours,
@@ -1314,30 +1337,30 @@ port22status() {
 # to the internet is available by pinging Google and ip address
 # of noip.com.
 network() {
-	localIp=$(ip1)
-	gateway=$(gateway)
-	echo "You:      $localIp   ssh: $(port22status $(ip2))"
-	echo "Gateway:  $gateway    ssh: $(port22status "$gateway")"
-	all=$(nmap1)
-	allFiltered=$(
-		echo "$all" | 
-		grep -v "$localIp" |
-		grep -v "$gateway" |
-		grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*" |
-		sed 's/^/          /g' ) 
-	len=${#allFiltered} 
-	allFiltered=${allFiltered:6:len-6} 
-	echo -n "Other:"
+    localIp=$(ip1)
+    gateway=$(gateway)
+    echo "You:      $localIp   ssh: $(port22status $(ip2))"
+    echo "Gateway:  $gateway    ssh: $(port22status "$gateway")"
+    all=$(nmap1)
+    allFiltered=$(
+        echo "$all" | 
+        grep -v "$localIp" |
+        grep -v "$gateway" |
+        grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*" |
+        sed 's/^/          /g' ) 
+    len=${#allFiltered} 
+    allFiltered=${allFiltered:6:len-6} 
+    echo -n "Other:"
 
-	while IFS= read -r line; do	
-		echo -n "$line    ssh: "
-		port22status "$line"	
-	done <<< "$allFiltered"
+    while IFS= read -r line; do 
+        echo -n "$line    ssh: "
+        port22status "$line"    
+    done <<< "$allFiltered"
 
-	testIp="8.23.224.107"
-	echo "Internet: $testIp   Ping: $(pingable "$testIp")"
-	testDomain="www.google.com"
-	echo "          $testDomain Ping: $(pingable "$testDomain")"
+    testIp="8.23.224.107"
+    echo "Internet: $testIp   Ping: $(pingable "$testIp")"
+    testDomain="www.google.com"
+    echo "          $testDomain Ping: $(pingable "$testDomain")"
 }
 alias ne='network'
 
@@ -1348,19 +1371,19 @@ alias ne='network'
 
 # Disables wireless device.
 blockWireless() {
-	sudo rfkill block $(
-		sudo rfkill list \
-			| grep Wireless \
-			| grep ^[0-9] -o)
+    sudo rfkill block $(
+        sudo rfkill list \
+            | grep Wireless \
+            | grep ^[0-9] -o)
 }
 alias woff='blockWireless'
 
 # Enables wireless device.
 unblockWireless() {
-	sudo rfkill unblock $(
-		sudo rfkill list \
-			| grep Wireless \
-			| grep ^[0-9] -o)
+    sudo rfkill unblock $(
+        sudo rfkill list \
+            | grep Wireless \
+            | grep ^[0-9] -o)
 }
 alias won='unblockWireless'
 
@@ -1375,15 +1398,15 @@ alias down='sudo ifconfig wlan0 down'
 
 # Displays wireless networks in range.
 wirelessNetworks() {
-	sudo iwlist wlan0 scan \
-		| grep Quality -A2 \
-		| tr -d "\n" \
-		| sed 's/--/\n/g' \
-		| sed -e 's/ \+/ /g' \
-		| sort -r \
-		| sed 's/ Quality=//g' \
-		| sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
-		| sed 's/ ESSID:/ /g'
+    sudo iwlist wlan0 scan \
+        | grep Quality -A2 \
+        | tr -d "\n" \
+        | sed 's/--/\n/g' \
+        | sed -e 's/ \+/ /g' \
+        | sort -r \
+        | sed 's/ Quality=//g' \
+        | sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
+        | sed 's/ ESSID:/ /g'
 }
 alias wlan='wirelessNetworks'
 
@@ -1403,7 +1426,7 @@ alias fire='firefoxInBackground'
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
 alias chromeInBackground='runInBackground google-chrome \
-	--touch-devices=123'
+    --touch-devices=123'
 alias chrome='chromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
@@ -1420,30 +1443,30 @@ alias mixer='alsamixer'
 
 # Set master volume in rage of 0 to 100.
 setVolume() {
-	amixer set Master playback "$1"
+    amixer set Master playback "$1"
 }
 
 # Increases volume by 6dB.
 volumeUp6Db() {
-	setVolume "6%+" | tail -n 1
+    setVolume "6%+" | tail -n 1
 }
 alias a='volumeUp6Db'
 
 # Decreases volume by 6dB.
 volumeDown6Db() {
-	setVolume "6%-" | tail -n 1
+    setVolume "6%-" | tail -n 1
 }
 alias z='volumeDown6Db'
 
 # Increases volume by 2dB.
 volumeUp2Db() {
-	setVolume "2%+" | tail -n 1
+    setVolume "2%+" | tail -n 1
 }
 alias aa='volumeUp2Db'
 
 # Decreases volume by 2dB.
 volumeDown2Db() {
-	setVolume "2%-" | tail -n 1
+    setVolume "2%-" | tail -n 1
 }
 alias zz='volumeDown2Db'
 
