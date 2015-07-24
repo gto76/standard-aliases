@@ -314,6 +314,14 @@ backup() {
 }
 alias bk='backup'
 
+# Switches the contents of two specified files.
+switch() {
+    tempFile=`mktemp`
+    sudo cp "$1" "$tempFile"
+    sudo cp -f --no-preserve=mode,ownership "$2" "$1"
+    sudo cp -f --no-preserve=mode,ownership "$tempFile" "$2"
+}
+
 
 #######
 # PWD #
@@ -769,7 +777,9 @@ alias gr='grepPerl'
 extract() {
     if [ -z "$1" ]; then
         # display usage if no parameters given
-        echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+        echo -n "Usage: extract <path/file_name>"
+        echo -n ".<zip|rar|bz2|gz|tar|tbz2|tgz|Z|"
+        echo "7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
     else
         if [ -f "$1" ] ; then
             NAME=${1%.*}
@@ -846,20 +856,6 @@ alias hd1='hexadecimalDump'
 alias trimSsd='sudo fstrim -v /'
 alias ssd='trimSsd'
 
-# TODO simplify
-
-# Executes command periodically every 2 seconds. Aliases can be
-# also used.
-alias watch1='watch bash -i -c'
-
-# Executes command periodically every 10 seconds. Aliases can be
-# also used.
-alias watch2='watch -n 10 bash -i -c'
-
-# Executes command periodically every 30 seconds. Aliases can be
-# also used.
-alias watch3='watch -n 30 bash -i -c'
-
 # Sets bash to vi mode.
 alias vimode='set -o vi'
 
@@ -868,16 +864,6 @@ alias emacsmode='set -o emacs'
 
 # Runs profile script.
 alias profile='source /etc/profile'
-
-# TODO: use tmp folder, or tmp command
-
-# Switches the files. Usage: switch [FILE1] [FILE2]
-switch() {
-    TMP_NAME="f8ewn3j9"
-    cp "$1" "$TMP_NAME"
-    mv -f "$2" "$1"
-    mv "$TMP_NAME" "$2"
-}
 
 # Runs a typing tutor.
 alias tt='gtypist'
@@ -1277,19 +1263,16 @@ alias gateway='route -n | grep "192.168." | head -n1 \
 alias mac='ifconfig | grep HWaddr | cat'
 
 # Pings gateway, ip address of noip.com and www.google.com.
-pingAll() {
+pingGatewayIpAndGoogle() {
     ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
     ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
     ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
-alias pa=pingAll
+alias pingAll='pingGatewayIpAndGoogle'
+alias pa='pingGatewayIpAndGoogle'
 
-#############################
-
-#TODO rename...
-
-# Scans first $1 addresses of local network.
-nmap2() {
+# Scans addresses of local network. If a number is specified it scans local addresses up to this number (0-255).
+scanLocalNetwork() {
     if [[ $# -eq 0 ]]; then
         third=$(ip1 \
             | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
@@ -1306,12 +1289,9 @@ nmap2() {
     fi
     nmap -sP 192.168."$third".0-"$forth"
 }
+alias nmap1='scanLocalNetwork'
 
-# Scans first 20 addresses of local network.
-alias nmap1='nmap2 20'
-
-# Returns OK if pingable of Fail if not. Parameter is an ip or
-# domain.
+# Prints 'OK' if specified address or ip can be reached with ping, or 'Fail' if not.
 pingable() {
     pingResult=$(
         ping -c 1 -q "$1" \
@@ -1324,7 +1304,7 @@ pingable() {
     fi
 }
 
-# Prints status of the ssh port of the passed client.
+# Prints status of the ssh port of the specified client.
 port22status() {
     nmap $(echo "$1" | tr -d ' ') -p22 \
         | grep '22/tcp' \
@@ -1336,12 +1316,12 @@ port22status() {
 # their ssh port status.  After that checks checks if connection
 # to the internet is available by pinging Google and ip address
 # of noip.com.
-network() {
+networkStatus() {
     localIp=$(ip1)
     gateway=$(gateway)
     echo "You:      $localIp   ssh: $(port22status $(ip2))"
     echo "Gateway:  $gateway    ssh: $(port22status "$gateway")"
-    all=$(nmap1)
+    all=$(nmap1 20)
     allFiltered=$(
         echo "$all" | 
         grep -v "$localIp" |
@@ -1362,7 +1342,8 @@ network() {
     testDomain="www.google.com"
     echo "          $testDomain Ping: $(pingable "$testDomain")"
 }
-alias ne='network'
+alias network='networkStatus'
+alias ne='networkStatus'
 
 
 ############
