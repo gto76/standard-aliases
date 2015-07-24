@@ -12,6 +12,13 @@ te
 mk
 ty
 
+Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
+
+Also only aliases get documented by generate-readme script.
+
+By convention a function that calls the a command with some set of options that are quiet sensible for that command to be run with is named <command-name>WithSensibleOptions. This function is then usualy aliased with <command-name>1, and often also with a two letter aberration.
+
+
 
 
 This aliases were made for debian based linux (ubuntu, mint,...) with gnome desktop environment, but most aliases will work on all systems with bash shell.
@@ -20,7 +27,7 @@ Most aliases will send output to pager if it will be too long to fit the screen.
 
 Some aliases require special tools that are not installed by default on most systems. You can install them all at one with command belove, but it is probably more reasonable to just install them when demand arises.
 
-Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or by just sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
+Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or just by sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
 ps1
 pgrep1
 tree1

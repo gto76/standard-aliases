@@ -375,8 +375,14 @@ alias rb='runInBackground'
 # BASICS #
 ##########
 
-# Runs bash.
+# Runs bash. Run this command for changes to this file to take
+# effect!
 alias ba='bash'
+
+# Prints location of specified command, or it's definition, if
+# it is an alias. Run this command if you are not shure what an
+# alias does!
+alias ty='type'
 
 # Runs command as sudo.
 alias s='sudo'
@@ -395,6 +401,12 @@ alias re='reset'
 
 # Exits shell.
 alias q='exit'
+
+# Opens file with default application for it's file type.
+alias o='runInBackground xdg-open'
+
+# Starts a new terminal, with same working directory. 
+alias te='gnome-terminal'
 
 # Runs head (prints first 10 lines of file or piped stream).
 alias he='head'
@@ -418,22 +430,16 @@ alias wcw='wc -w'
 # exits.
 alias to='touch'
 
-# Opens file with default application for it's file type.
-alias o='runInBackground xdg-open'
-
 # Prints current date and time.
 alias da='date'
 
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
-makeToPager() {
+makeWithPager() {
     make 2>&1 | lessWithSensibleOptions
 }
-alias make1='makeToPager'
-alias ma='makeToPager'
-
-# Starts a new terminal, with same working directory. 
-alias te='gnome-terminal'
+alias make1='makeWithPager'
+alias ma='makeWithPager'
 
 # Start Nautilus file explorer in background.
 alias na='runInBackground nautilus .'
@@ -627,49 +633,11 @@ alias st='straceAlsoChildren'
 
 
 ########
-# TMUX #
-########
-
-# Runs Tmux.
-alias tm='tmux'
-
-# Runs Tmux, and attaches to last session.
-alias tma='tmux attach'
-
-# Lists all running Tmux sessions.
-alias tml='tmux ls'
-
-
-########
 # TEXT #
 ########
 
 # Deletes specified characters.
 alias trd='tr --delete'
-
-# Changes input string's notation from CamelCase to UNDER_SCORE.
-toUnder() {
-    cat \
-        | sed 's/^\([A-Z]\)/\L\1/' \
-        | sed 's/\([A-Z]\)/_\1/g' \
-        | tr [a-z] [A-Z]
-} 
-
-# Changes input strings notation from CamelCase to hypen-score.
-toHypen() {
-    cat \
-        | sed 's/^\([A-Z]\)/\L\1/' \
-        | sed 's/\([A-Z]\)/-\1/g' \
-        | tr [A-Z] [a-z] 
-}
-
-# Changes input strings notation from UNDER_SCORE or hypen-score
-# to CamelCase.
-toCamel() {
-    cat \
-        | tr [A-Z] [a-z] \
-        | sed 's/[_-]\([a-z]\)/\U\1/g'
-}
 
 
 ##########
@@ -697,6 +665,115 @@ sortByColumn() {
     sort --field-separator="$1" --key="$2"
 }
 alias sort1='sortByColumn'
+
+
+##########
+# SEARCH #
+##########
+
+# Runs grep with highlighting matches and not grepping through
+# .svn and .git folders.
+#grepWithSensibleOptions() {
+#       grep --color=auto --exclude-dir=\.svn \
+#    --exclude-dir=\.git "$@"
+#}
+
+# Runs grep in perl regex mode (that has some additional operators, like '+' for matching one or more times), ignoring case, with highlighting matches, not grepping through .svn and .git folders and sends output to pager.
+#grepPerl() {
+#    grepWithSensibleOptions --ignore-case --perl-regexp --color=always "$@" \
+#        | catOrLess
+#}
+#alias gr='grepPerl'
+
+# Runs grep with highlighting matches, not grepping through .svn
+# and .git folders, using perl reges format (it has some
+# additional operators, for instance, '+' for matching one or
+# more times), ignoring case and it sends output to pager.
+grepWithSensibleOptions() {
+    grep --exclude-dir=\.svn --exclude-dir=\.git \
+        --ignore-case --perl-regexp --color=always "$@" \
+        | catOrLess
+}
+alias grep1='grepWithSensibleOptions'
+alias gr='grepWithSensibleOptions'
+
+# Tries to find specified file using index. (Run 'sudo updatedb'
+# to update the index)
+locateWithPager() {
+    locate "$@" | catOrLess
+}
+alias locate1='locateWithPager'
+
+# Searches for files containing pattern in their names in
+# current and sub-directories.  Use filesystem regexes for
+# search (aka *.*), and always surround them with quotation
+# marks. Also highlights the matches.
+findWithHighlight() {
+    find . -name "$1" | grepWithSensibleOptions $(echo "$1" | tr -d "\*")
+}
+find1='findWithHighlight'
+
+# Prints all directories in current and sub-directories.
+printAllDirectoriesBelove() {
+	find . -name .git -prune -o -type d | catOrLess
+}
+alias findd=printAllDirectoriesBelove
+
+
+############
+# ARCHIVES #
+############
+
+# Extracts archive of any type. (Author (Vitalii
+# Tereshchuk)[https://github.com/xvoland])
+extractArchiveOfAnyType() {
+    if [ -z "$1" ]; then
+        # display usage if no parameters given
+        echo -n "Usage: extract <path/file_name>"
+        echo -n ".<zip|rar|bz2|gz|tar|tbz2|tgz|Z|"
+        echo "7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    else
+        if [ -f "$1" ] ; then
+            NAME=${1%.*}
+            #mkdir $NAME && cd $NAME
+            case "$1" in
+                *.tar.bz2)   tar xvjf ./"$1"    ;;
+                *.tar.gz)    tar xvzf ./"$1"    ;;
+                *.tar.xz)    tar xvJf ./"$1"    ;;
+                *.lzma)      unlzma ./"$1"      ;;
+                *.bz2)       bunzip2 ./"$1"     ;;
+                *.rar)       unrar x -ad ./"$1" ;;
+                *.gz)        gunzip ./"$1"      ;;
+                *.tar)       tar xvf ./"$1"     ;;
+                *.tbz2)      tar xvjf ./"$1"    ;;
+                *.tgz)       tar xvzf ./"$1"    ;;
+                *.zip)       unzip ./"$1"       ;;
+                *.Z)         uncompress ./"$1"  ;;
+                *.7z)        7z x ./"$1"        ;;
+                *.xz)        unxz ./"$1"        ;;
+                *.exe)       cabextract ./"$1"  ;;
+                *)           echo "extract: '$1' - unknown archive method" ;;
+            esac
+        else
+            echo "'$1' - file does not exist"
+        fi
+    fi
+}
+alias extract='extractArchiveOfAnyType'
+
+
+########
+# TMUX #
+########
+
+# Runs Tmux.
+alias tm='tmux'
+
+# Runs Tmux, and attaches to last session.
+alias tma='tmux attach'
+
+# Lists all running Tmux sessions.
+alias tml='tmux ls'
 
 
 ######################
@@ -782,95 +859,11 @@ alias repeat='xset r'
 
 
 ########
-# GREP #
-########
-
-# TODO till here
-
-# Runs grep with highlighting matches and not grepping through
-# .svn and .git folders.
-alias grep1='grep --color=auto --exclude-dir=\.svn \
-    --exclude-dir=\.git'
-
-# Runs grep in perl regex mode (that has some additional operators, like '+' for matching one or more times), ignoring case, with highlighting matches, not grepping through .svn and .git folders and sends output to pager.
-grepPerl() {
-    grep1 --ignore-case --perl-regexp --color=always "$@" \
-        | catOrLess
-}
-alias gr='grepPerl'
-
-
-############
-# ARCHIVES #
-############
-
-# Extracts archive of any type. (Author (Vitalii
-# Tereshchuk)[https://github.com/xvoland])
-extractArchiveOfAnyType() {
-    if [ -z "$1" ]; then
-        # display usage if no parameters given
-        echo -n "Usage: extract <path/file_name>"
-        echo -n ".<zip|rar|bz2|gz|tar|tbz2|tgz|Z|"
-        echo "7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-    else
-        if [ -f "$1" ] ; then
-            NAME=${1%.*}
-            #mkdir $NAME && cd $NAME
-            case "$1" in
-                *.tar.bz2)   tar xvjf ./"$1"    ;;
-                *.tar.gz)    tar xvzf ./"$1"    ;;
-                *.tar.xz)    tar xvJf ./"$1"    ;;
-                *.lzma)      unlzma ./"$1"      ;;
-                *.bz2)       bunzip2 ./"$1"     ;;
-                *.rar)       unrar x -ad ./"$1" ;;
-                *.gz)        gunzip ./"$1"      ;;
-                *.tar)       tar xvf ./"$1"     ;;
-                *.tbz2)      tar xvjf ./"$1"    ;;
-                *.tgz)       tar xvzf ./"$1"    ;;
-                *.zip)       unzip ./"$1"       ;;
-                *.Z)         uncompress ./"$1"  ;;
-                *.7z)        7z x ./"$1"        ;;
-                *.xz)        unxz ./"$1"        ;;
-                *.exe)       cabextract ./"$1"  ;;
-                *)           echo "extract: '$1' - unknown archive method" ;;
-            esac
-        else
-            echo "'$1' - file does not exist"
-        fi
-    fi
-}
-alias extract='extractArchiveOfAnyType'
-
-
-##########
-# SEARCH #
-##########
-
-# Tries to find specified file using index. (Run 'sudo updatedb'
-# to update the index)
-locateWithPager() {
-    locate "$@" | catOrLess
-}
-alias locate1='locateWithPager'
-
-# Searches for files containing pattern in their names in
-# current and sub-directories.  Use filesystem regexes for
-# search (aka *.*), and always surround them with quotation
-# marks. Also highlights the matches.
-findWithHighlight() {
-    find . -name "$1" | grepPerl $(echo "$1" | tr -d "\*")
-}
-find1='findWithHighlight'
-
-# Prints all directories in current and sub-directories.
-alias findd='find . -name .git -prune -o -type d | catOrLess'
-
-
-########
 # MISC #
 ########
 
-# Changes the hue of default blue color in Linux terminal (tty), that is otherwise hard to read.
+# Changes the hue of default blue color in Linux terminal (tty),
+# that is otherwise hard to read.
 alias blue='echo -en "\e]PC7373C9"'
 
 # Prints PATH variable, each entry in its own line.
@@ -880,13 +873,15 @@ alias path='echo -e ${PATH//:/\\n}'
 alias bc1='gcalccmd'
 
 # Prints hexadecimal representation of file or piped stream.
-hexadecimalDump() {
+hdWithPager() {
     hd "$@" | catOrLess
 }
-alias hd1='hexadecimalDump'
+alias hd1='hdWithPager'
 
 # Trims SSD disk.
-alias trimSsd='sudo fstrim -v /'
+trimSsd() {
+	sudo fstrim -v /
+}
 alias ssd='trimSsd'
 
 # Sets bash to vi mode.
@@ -962,55 +957,60 @@ alias ve='version'
 
 # Prints packages that were installed by the user, in order of
 # installation.
-alias packages='cat /var/log/apt/history.log \
-    | grep "apt-get install" \
-    | sed "s/.* //" \
-    | catOrLessG'
-alias installed='packages'
+installedPackagesByUser() {
+    cat /var/log/apt/history.log \
+        | grep "apt-get install" \
+        | sed "s/.* //" \
+        | catOrLessG'
+}
+alias packages='installedPackagesByUser'
+alias installed='installedPackagesByUser' 
 
 # Prints all installed packages.
-alias packages1='dpkg --get-selections \
-    | grep -v deinstall \
-    | catOrLess'
+installedPackages() {
+    dpkg --get-selections \
+        | grep -v deinstall \
+        | catOrLess'
+}
+alias packages1='installedPackages'
+alias installed1='installedPackages'
 
 # Shows on which packages specified package depends.
-depends() {
+packageDependsOn() {
     apt-cache show "$@" \
         | grep Depends \
         | sed 's/Depends:/ /' \
         | sed 's/,/\n /g' \
         | catOrLess
 }
+alias depends='packageDependsOn'
 
 
 ##########################
 # PACKAGE/COMMAND SEARCH #
 ##########################
 
-# Prints location of passed command, or it's definition, if it
-# is an alias.
-alias ty='type'
-
 # Runs apropos, that searches installed commands, by their names
 # and short descriptions. Matches get highlighted.
-apropos1() {
-    apropos "$@" | grepPerl "$@"
+aproposWithHighlight() {
+    apropos "$@" | grepWithSensibleOptions  "$@"
 }
+alias apropos1='aproposWithHighlight'
 alias ap='aproposWithHighlight'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
-searchPackages() {
-    apt-cache search "$@" | grepPerl "$@"
+searchInstallablePackagesAndTheirDescriptions() {
+    apt-cache search "$@" | grepWithSensibleOptions  "$@"
 }
-alias search='searchPackages'
+alias search='searchInstallablePackagesAndTheirDescriptions'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
-searchPackages1() {
-    apt-cache search "$@" | grepPerl "^[^ ]*$@[^ ]*" 
+searchInstallablePackages() {
+    apt-cache search "$@" | grepWithSensibleOptions "^[^ ]*$@[^ ]*" 
 }
-alias search1='searchPackages1'
+alias search1='searchInstallablePackages'
 
 #######################################
 
@@ -1022,11 +1022,11 @@ y() {
     (echo   "PACKAGES CONTAINING EXECUTABLES NAMED \"$1\""
     echo -n "========================================"
     echo "$1" | sed 's/./=/g'
-    apt-file1 "$@" | grepPerl "^.*:"
+    apt-file1 "$@" | grepWithSensibleOptions "^.*:"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    searchPackages1 "$@") | lessWithSensibleOptions 
+    searchInstallablePackages "$@") | lessWithSensibleOptions 
 }
 
 # Find to which of the installed packages passed command belongs
@@ -1147,7 +1147,7 @@ whatIs() {
         return
     fi
 
-    call5=`apt-file1 "$@" | grepPerl "^.*:"`
+    call5=`apt-file1 "$@" | grepWithSensibleOptions "^.*:"`
     if [ "$call5" != "" ]; then
         echo -n "You need to install one of the following packages"
         echo -e " to get the command:\n$call5" | catOrLess
@@ -1196,23 +1196,36 @@ alias branch='git branch'
 alias gb='branch'
 
 # Prints short status of repository.
-alias gs='git -c color.status=always status -sb | catOrLess'
+shortGitStatus() {
+    git -c color.status=always status -sb | catOrLess
+}
+alias gs='shortGitStatus'
 
 # Prints nicely decorated graph of commits, with commit
 # messages, full hashes and full dates. 
-alias gl='git log --decorate --graph --all'
+fullGitLogWithGraph() {
+    git log --decorate --graph --all
+}
+alias gl='fullGitLogWithGraph'
 
 # Prints nicely decorated graph of commits, with only first
 # lines of commit messages, shortened hashes and full dates.
-alias gl1="git log --graph --abbrev-commit --decorate \
-    --format=format:'%C(bold blue)%h%C(reset) \
-    - %C(bold cyan)%aD%C(reset) \
-    %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
-    %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+minimalGitLogWithGraph() {
+    git log --graph --abbrev-commit --decorate \
+        --format=format:'%C(bold blue)%h%C(reset) \
+        - %C(bold cyan)%aD%C(reset) \
+        %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
+        %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+}
+alias gl1='minimalGitLogWithGraph'
 
 # Updates information about state of the remote repository and
 # prints status.
-alias gu='git remote update; git status -sb'
+gitRemoteUpdateAndPrintStatus() {
+    git remote update
+    shortGitStatus
+}
+alias gu='gitRemoteUpdateAndPrintStatus'
 
 # Shows changes between commits. If no parameter is given, then
 # shows changes between last commit and current state.
@@ -1384,34 +1397,44 @@ alias ne='networkStatus'
 ############
 
 # Disables wireless device.
-blockWireless() {
+blockWirelessDevice() {
     sudo rfkill block $(
         sudo rfkill list \
             | grep Wireless \
             | grep ^[0-9] -o)
 }
-alias woff='blockWireless'
+alias woff='blockWirelessDevice'
 
 # Enables wireless device.
-unblockWireless() {
+unblockWirelessDevice() {
     sudo rfkill unblock $(
         sudo rfkill list \
             | grep Wireless \
             | grep ^[0-9] -o)
 }
-alias won='unblockWireless'
+alias won='unblockWirelessDevice'
 
 # Resets wireless device.
-alias wr='woff; won'
+resetWirelessDevice() {
+    woff
+    won
+}
+alias wr='resetWirelessDevice'
 
 # Activates wireless interface (driver).
-alias up='sudo ifconfig wlan0 up'
+activateWirelessInterface() {
+    sudo ifconfig wlan0 up
+}
+alias up='activateWirelessInterface'
 
 # Shuts down wireless interface (driver).
-alias down='sudo ifconfig wlan0 down'
+deactivateWirelessInterface() {
+    sudo ifconfig wlan0 down
+}
+alias down='deactivateWirelessInterface'
 
 # Displays wireless networks in range.
-wirelessNetworks() {
+wirelessNetworksInRange() {
     sudo iwlist wlan0 scan \
         | grep Quality -A2 \
         | tr -d "\n" \
@@ -1422,7 +1445,7 @@ wirelessNetworks() {
         | sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
         | sed 's/ ESSID:/ /g'
 }
-alias wlan='wirelessNetworks'
+alias wlan='wirelessNetworksInRange'
 
 
 ############
@@ -1430,22 +1453,31 @@ alias wlan='wirelessNetworks'
 ############
 
 # Runs default browser in background.
-alias internet='runInBackground sensible-browser'
-alias i='internet'
+defaultBrowserInBackground() {
+    runInBackground sensible-browser "$@"
+}
+alias internet='defaultBrowserInBackground'
+alias i='defaultBrowserInBackground'
 
 # Runs Firefox in background.
-alias firefoxInBackground='runInBackground firefox'
+firefoxInBackground() {
+    runInBackground firefox "$@"
+}
 alias fire='firefoxInBackground'
 
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
-alias chromeInBackground='runInBackground google-chrome \
-    --touch-devices=123'
+chromeInBackground() {
+    runInBackground google-chrome --touch-devices=123
+}
 alias chrome='chromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
-alias lynx1='lynx -accept_all_cookies -vikeys www.google.com'
+lynxWithSensibleOptions() {
+    lynx -accept_all_cookies -vikeys www.google.com "$@"
+}
+alias lynx1='lynxWithSensibleOptions'
 
 
 #########
