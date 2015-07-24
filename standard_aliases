@@ -18,10 +18,11 @@
 #   * do not mark empty lines with ~, 
 #   * format prompt as "<page-number>/<all-pages> <filename>",
 #   * set tabs to 4 spaces.
-less1() {
+lessWithSensibleOptions() {
     less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4 "$@"
 }
-alias le='less1'
+alias less1='lessWithSensibleOptions'
+alias le='lessWithSensibleOptions'
 
 # Runs cat or less, depending on number of lines in file or
 # input.
@@ -33,7 +34,7 @@ catOrLess() {
         if [[ "$LINES" -gt "$noOfLines" ]]; then
             cat "$1"
         else
-            le "$1" 2>/dev/null 
+            lessWithSensibleOptions "$1" 2>/dev/null 
         fi
     else
         input=$(cat)
@@ -41,7 +42,7 @@ catOrLess() {
         if [[ "$LINES" -gt "$noOfLines" ]]; then
             echo "$input" | cat 
         else
-            echo "$input" | less1 2>/dev/null 
+            echo "$input" | lessWithSensibleOptions 2>/dev/null 
         fi
     fi
 }
@@ -57,7 +58,7 @@ catOrLessG() {
         if [[ "$LINES" -gt "$noOfLines" ]]; then
             cat "$1"    
         else
-            cat "$1" | less1 +G 2>/dev/null
+            cat "$1" | lessWithSensibleOptions +G 2>/dev/null
         fi
     else
         input=$(cat)
@@ -65,7 +66,7 @@ catOrLessG() {
         if [[ "$LINES" -gt "$noOfLines" ]]; then
             echo "$input" | cat 
         else
-            echo "$input" | less1 +G 2>/dev/null
+            echo "$input" | lessWithSensibleOptions +G 2>/dev/null
         fi
     fi
 }
@@ -81,11 +82,11 @@ catOrLessG() {
 #   * list by columns, 
 #   * use color when stdout is connected to terminal, 
 #   * group directories before files.
-lsUniversal() {
+lsWithSensibleOptions() {
     ls --classify -X -C --color=auto --group-directories-first "$@"
 }
 
-# Calls lsUniversal with: 
+# Calls lsWithSensibleOptions with: 
 #   * set width to screen width or 69, whichever is smaller.
 lsShortCat() {
     width=$(
@@ -95,10 +96,10 @@ lsShortCat() {
         else 
             echo "$widthLimit"
         fi)
-    lsUniversal --width="$width" "$@"
+    lsWithSensibleOptions --width="$width" "$@"
 }
 
-# Calls lsUniversal with: 
+# Calls lsWithSensibleOptions with: 
 #   * use long listing format, 
 #   * do not print groups,
 #   * do not list owner, 
@@ -106,14 +107,14 @@ lsShortCat() {
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
 #   <hour>:<minute>'.
 lsMedCat() {
-    lsUniversal -l --no-group -g --human-readable \
+   lsWithSensibleOptions -l --no-group -g --human-readable \
         --time-style="+%b %d %Y %H:%M" "$@"
 }
 
-# Calls lsUniversal with: 
+# CallslsWithSensibleOptions with: 
 #   * use long listing format. 
 lsLongCat() {
-    lsUniversal -l "$@"
+   lsWithSensibleOptions -l "$@"
 }
 
 # Functions that call aliases above, and pipe output to less.
@@ -124,15 +125,19 @@ lsLongCat() {
 # start less at end of file.
 
 lsShortLess() { 
-    lsShortCat --color=always $* | less1 --RAW-CONTROL-CHARS +G
+    # EX: lsShortCat --color=always $* | lessWithSensibleOptions --RAW-CONTROL-CHARS +G
+    lsShortCat --color=always "$@" \
+        | lessWithSensibleOptions --RAW-CONTROL-CHARS +G
 }
 
 lsMedLess() { 
-    lsMedCat --color=always $* | less1 --RAW-CONTROL-CHARS +G 
+    lsMedCat --color=always "$@" \
+        | lessWithSensibleOptions --RAW-CONTROL-CHARS +G 
 }
 
 lsLongLess() { 
-    lsLongCat --color=always $* | less1 --RAW-CONTROL-CHARS +G 
+    lsLongCat --color=always "$@" \
+        | lessWithSensibleOptions --RAW-CONTROL-CHARS +G 
 }
 
 # This functions decide weather they will call cat or less
@@ -232,10 +237,11 @@ alias rf='randomFile'
 ########
 
 # Displays tree structure of current or specified folder.
-tree1() {
+treeWithSensibleOptions() {
     tree -C -I .git --dirsfirst "$@" | catOrLess
 }
-alias t='tree1'
+alias tree1='treeWithSensibleOptions'
+alias t='treeWithSensibleOptions'
 
 
 ######
@@ -254,19 +260,13 @@ alias .....='cd ..; cd ..; cd ..; cd..'
 alias ......='cd ..; cd ..; cd ..; cd..; cd..'
 alias .......='cd ..; cd ..; cd ..; cd..; cd..; cd..'
 
-# Combines cd and ls.
-cdLs() {    
-    cd "$@"; l
-}
-alias cdl='cdLs'
-
 # Mounts ISO file and cd-s into it.
-mount-iso() {
+mountIsoAndCdInto() {
     sudo mkdir /media/"$1"
     sudo mount -o loop "$1" /media/"$1"
     cd /media/"$1"
 }
-alias cd-iso='mount-iso'
+alias cdiso='mountIsoAndCdInto'
 
 
 #########
@@ -301,26 +301,29 @@ alias rmdir='rm -ir'
 
 # Makes directory (and its parent directories if necessary) and
 # descends into.
-mkdir1() {
+mkdirAndDescendInto() {
     mkdir -p "$1"
     cd "$1"
 }
-alias mk='mkdir1'
+alias mkdir1='mkdirAndDescendInto'
+alias mk='mkdirAndDescendInto'
 
 # Backups file, by making a copy with '.bak' extension. All
 # file's attributes are preserved.
-backup() {
+backupFile() {
     sudo cp --preserve "$1"{,.bak}
 }
-alias bk='backup'
+alias backup='backupFile'
+alias bk='backupFile'
 
 # Switches the contents of two specified files.
-switch() {
-    tempFile=`mktemp`
+switchContentsOfFiles() {
+    tempFile=$(mktemp)
     sudo cp "$1" "$tempFile"
     sudo cp -f --no-preserve=mode,ownership "$2" "$1"
     sudo cp -f --no-preserve=mode,ownership "$tempFile" "$2"
 }
+alias switch='switchContentsOfFiles'
 
 
 #######
@@ -332,14 +335,14 @@ alias .='echo $PWD'
 
 # If no file specified, prints working directory, else full path
 # of the file.
-pwdOrPath() {
+printPwdOrPath() {
     if [[ $# -eq 0 ]]; then
         echo "$PWD"
     else
         echo "$PWD"/"$@"
     fi      
 }
-alias p='pwdOrPath'
+alias p='printPwdOrPath'
 
 
 ########
@@ -415,21 +418,25 @@ alias wcw='wc -w'
 # exits.
 alias to='touch'
 
-# Opens file with default application for the file type.
+# Opens file with default application for it's file type.
 alias o='runInBackground xdg-open'
 
 # Prints current date and time.
 alias da='date'
 
-# Runs make and sends both out and error streams to pager if
+# Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
-alias ma='make 2>&1 | le'
+makeToPager() {
+    make 2>&1 | lessWithSensibleOptions
+}
+alias make1='makeToPager'
+alias ma='makeToPager'
 
 # Starts a new terminal, with same working directory. 
 alias te='gnome-terminal'
 
-# Start a file explorer in background.
-alias na='rb nautilus .'
+# Start Nautilus file explorer in background.
+alias na='runInBackground nautilus .'
 
 # Runs diff with colors and sends output to pager if necessary.
 diffWithColors() {
@@ -439,7 +446,7 @@ alias diff1='diffWithColors'
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
-createExecutable() {
+makeExecutable() {
     if [[ ! -f "$1" ]]; then
         echo '#!/bin/bash' >> "$1"
         echo '#' >> "$1"
@@ -455,8 +462,7 @@ createExecutable() {
     fi
     chmod u+x "$1"        
 }
-alias me=createExecutable    
-alias ce=createExecutable
+alias me=makeExecutable    
 
 
 ###########
@@ -472,6 +478,7 @@ grepHistory() {
         history | grep "$@" | catOrLessG
     fi
 }
+alias history1='grepHistory'
 alias h='grepHistory'
 
 
@@ -496,14 +503,18 @@ alias vv='view -p'
 #   * treat punctuation as part of words, 
 #   * smooth scrolling, 
 #   * tab size set to 4 spaces.
-alias n='nano --undo --autoindent --const --historylog \
-    --multibuffer --wordbounds --smooth --tabsize=4'
+nanoWithSensibleOptions() {
+    nano --undo --autoindent --const --historylog \
+        --multibuffer --wordbounds --smooth --tabsize=4
+}
+alias nano1='nanoWithSensibleOptions'
+alias n='nanoWithSensibleOptions'
 
 # Runs Gedit in background.
-alias g='rb gedit'
+alias g='runInBackground gedit'
 
 # Runs Sublime Text in background.
-alias sub='rb sublime_text'
+alias sub='runInBackground sublime_text'
 
 
 ########
@@ -512,7 +523,9 @@ alias sub='rb sublime_text'
 
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
-# As long as this line of text stays here and is not modified, that long all the aliases and functions untill next comment will not get documented in README.md.
+# As long as this line of text stays here and is not modified,
+# that long all the aliases and functions untill next comment
+# will not get documented in README.md.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
 alias ifconfig='sudo ifconfig'
@@ -532,10 +545,12 @@ alias chown='sudo chown'
 alias mount='sudo mount'
 
 # Executes last command as sudo.
-fuck() {
+executeLastCommandAsSudo() {
     sudo $(history -p \!\!)
 }
-alias fu='fuck'
+alias fuck='executeLastCommandAsSudo'
+alias fu='executeLastCommandAsSudo'
+alias f='executeLastCommandAsSudo'
 
 # Runs cp as su in interactive mode.
 alias scp='sudo cp -iv'
@@ -585,26 +600,30 @@ psWithPager() {
 alias ps1='psWithPager'
 
 # Prints every process on the system.
-alias pse='ps1 -e'
-alias psa='ps1 -e'
+alias pse='psWithPager -e'
+alias psa='psWithPager -e'
 
-# Prints processes with names, containing specified pattern,
+# Prints processes with specified pattern in their names,
 # together with their PIDs.
-pgrepListName() {
+pgrepWithNames() {
     pgrep --list-name "$@" | catOrLess
 }
-alias pgrep1='pgrepListName'
+alias pgrep1='pgrepWithNames'
 
 # Sends KILL signal to process with specified PID, instead of
 # kill's default signal TERM.
-alias kill1='kill -9'
+killWithKillSignal() {
+    kill -9 "$@"
+}
+alias kill1='killWithKillSignal'
 
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
-strace1() {
+straceAlsoChildren() {
     strace -s 2000 -f "$@" 2>&1 | catOrLess
 }
-alias st='strace1'
+alias strace1='straceAlsoChildren'
+alias st='straceAlsoChildren'
 
 
 ########
@@ -993,7 +1012,7 @@ y() {
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    searchPackages1 "$@") | less1 
+    searchPackages1 "$@") | lessWithSensibleOptions 
 }
 
 # Find to which of the installed packages passed command belongs
@@ -1292,7 +1311,7 @@ scanLocalNetwork() {
 alias nmap1='scanLocalNetwork'
 
 # Prints 'OK' if specified address or ip can be reached with ping, or 'Fail' if not.
-pingable() {
+isReachable() {
     pingResult=$(
         ping -c 1 -q "$1" \
             | grep --color=never -A 1 statistics \
@@ -1338,9 +1357,9 @@ networkStatus() {
     done <<< "$allFiltered"
 
     testIp="8.23.224.107"
-    echo "Internet: $testIp   Ping: $(pingable "$testIp")"
+    echo "Internet: $testIp   Ping: $(isReachable "$testIp")"
     testDomain="www.google.com"
-    echo "          $testDomain Ping: $(pingable "$testDomain")"
+    echo "          $testDomain Ping: $(isReachable "$testDomain")"
 }
 alias network='networkStatus'
 alias ne='networkStatus'
