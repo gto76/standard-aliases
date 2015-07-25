@@ -990,27 +990,34 @@ alias depends='packageDependsOn'
 # PACKAGE/COMMAND SEARCH #
 ##########################
 
-# Runs apropos, that searches installed commands, by their names
-# and short descriptions. Matches get highlighted.
-aproposWithHighlight() {
+# Runs apropos, a command that finds installed commands, with
+# provided pattern in their names or descriptions. Matches get
+# highlighted.
+findInstalledCommandsWithNameOrDescription() {
     apropos "$@" | grepWithSensibleOptions  "$@"
 }
-alias apropos1='aproposWithHighlight'
-alias ap='aproposWithHighlight'
+alias apropos1='findInstalledCommandsWithNameOrDescription'
+alias ap='findInstalledCommandsWithNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
-searchInstallablePackagesAndTheirDescriptions() {
+findAvailablePackagesWithNameOrDescription() {
     apt-cache search "$@" | grepWithSensibleOptions  "$@"
 }
-alias search='searchInstallablePackagesAndTheirDescriptions'
+alias search='findAvailablePackagesWithNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
-searchInstallablePackages() {
+findAvailablePackagesWithName() {
     apt-cache search "$@" | grepWithSensibleOptions "^[^ ]*$@[^ ]*" 
 }
-alias search1='searchInstallablePackages'
+alias search1='findAvailablePackagesWithName'
+
+# Finds which available packages contain specified file.
+findAvailablePakagesContainingFile() {
+    apt-file search "$1" | grep \/"$1"$ | catOrLess 
+}
+alias apt-file1='findAvailablePakagesContainingFile'
 
 #######################################
 
@@ -1040,10 +1047,6 @@ package() {
     dpkg -S "$resolved" 
 }
 
-# Find to which of all the packages the command belongs to
-apt-file1() {
-    apt-file search "$1" | grep \/"$1"$ | catOrLess 
-}
 
 alias wi1='whatis'
 # Prints package description. (Few lines)
