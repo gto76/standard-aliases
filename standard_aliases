@@ -1009,106 +1009,65 @@ alias search='findAvailablePackagesWithNameOrDescription'
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
 findAvailablePackagesWithName() {
-    apt-cache search "$@" | grepWithSensibleOptions "^[^ ]*$@[^ ]*" 
+    #apt-cache search "$@" | grepWithSensibleOptions "^[^ ]*$@[^ ]*" 
+    apt-cache search "$1" \
+        | grepWithSensibleOptions "^[^ ]*$1[^ ]*" \
+        | grepWithSensibleOptions "$1" 
 }
 alias search1='findAvailablePackagesWithName'
 
 # Finds which available packages contain specified file.
 findAvailablePakagesContainingFile() {
-    apt-file search "$1" | grep \/"$1"$ | catOrLess 
+    apt-file search "$1" \
+        | grep \/"$1"$ \
+        | grepWithSensibleOptions "^.*:"
 }
 alias apt-file1='findAvailablePakagesContainingFile'
 
-#######################################
-
-# TODO from here to end of section
-
-# Searches packages based on their name and also by their
-# executables
-y() {
-    (echo   "PACKAGES CONTAINING EXECUTABLES NAMED \"$1\""
+# Finds which available packages contain specified file or have
+# the pattern in their names.
+findAvailablePackagesWithNameOrContainingFile() {
+    (echo   "PACKAGES CONTAINING FILES NAMED \"$1\""
     echo -n "========================================"
     echo "$1" | sed 's/./=/g'
-    apt-file1 "$@" | grepWithSensibleOptions "^.*:"
+    findAvailablePakagesContainingFile "$@"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    searchInstallablePackages "$@") | lessWithSensibleOptions 
+    findAvailablePackagesWithName "$@") | lessWithSensibleOptions 
 }
+alias y='findAvailablePackagesWithNameOrContainingFile'
 
-# Find to which of the installed packages passed command belongs
-# to
-package() {
+# Find which installed package provides specified command.
+findInstalledPackageProvidingCommand() {
     file=$(sudo which "$1")
     if [ "$file" == "" ]; then 
         return
     fi  
     resolved=$(readlink -f "$file")
-    dpkg -S "$resolved" 
+    dpkg -S "$resolved" \
+        | grepWithSensibleOptions "^.*:"
 }
+alias package='findInstalledPackageProvidingCommand'	
 
-
-alias wi1='whatis'
-# Prints package description. (Few lines)
-whatis2() {
+# Prints package description.
+packageDescription() {
     apt-cache show "$*" | grep "^ " | catOrLess
 }
-alias wi2='whatis2'
+alias describe='packageDescription'
 
-# Searches aliases for name
-whatis3() {
-    type "$*" | catOrLess
-}
-alias wi3='whatis3'
-
-# Searches all packages for file
-whatis4() {
-    package "$@"
-}
-alias wi4='whatis4'
-
-# Searches all packages for file
-whatis5() {
-    apt-file1 "$@"
-}
-alias wi5='whatis5'
-
-# Searches all packages for keyword 
-whatis6() {
-    search "$@"
-}
-alias wi6='whatis6'
-
-# Converts man section number to a description
+# Converts man section number into a description.
 manSection() {
     case "$1" in
-        1)
-            echo "user command"
-            ;;
-        2)
-            echo "system call"
-            ;;
-        3)
-            echo "c function"
-            ;;
-        4)
-            echo "device file"
-            ;;
-        5)
-            echo "file format or convention"
-            ;;
-        6)
-            echo "game"
-            ;; 
-        7)
-            echo "miscallaneous"
-            ;;
-        8)
-            echo "su command"
-            ;;
-        9)
-            echo "kernel routine"
-            ;;
+        1)      echo "user command"                     ;;
+        2)      echo "system call"                      ;;
+        3)      echo "c function"                       ;;
+        4)      echo "device file"                      ;;
+        5)      echo "file format or convention"        ;;
+        6)      echo "game"                             ;; 
+        7)      echo "miscallaneous"                    ;;
+        8)      echo "su command"                       ;;
+        9)      echo "kernel routine"                   ;;
     esac
 }
 
