@@ -1302,11 +1302,19 @@ externalIp() {
 alias ip2='externalIp'
 
 # Prints gateways ip.
-alias gateway='route -n | grep "192.168." | head -n1 \
-    | grep -o "192.168.[0-9.]*"'
+gatewaysIp() {
+    route -n \
+        | grep "192.168." \
+        | head -n1 \
+        | grep -o "192.168.[0-9.]*"
+}
+alias gateway='gatewaysIp'
 
 # Prints mac addresses of local devices.
-alias mac='ifconfig | grep HWaddr | cat'
+macAdressesOfLocalDevices() {
+    ifconfig | grep HWaddr | cat
+}
+alias mac='macAdressesOfLocalDevices'
 
 # Pings gateway, ip address of noip.com and www.google.com.
 pingGatewayIpAndGoogle() {
