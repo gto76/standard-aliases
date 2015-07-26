@@ -1019,7 +1019,6 @@ findAvailablePackagesWithName() {
         | grepWithSensibleOptions "^[^ ]*$1[^ ]*" \
         | grepWithPager "$1" 
 }
-alias search1='findAvailablePackagesWithName'
 
 # Finds which available packages provide specified command.
 findAvailablePakagesProvidingCommand() {
@@ -1031,8 +1030,8 @@ alias apt-file1='findAvailablePakagesProvidingCommand'
 
 # Finds which available packages contain specified file or have
 # the pattern in their names.
-findAvailablePackagesWithNameOrContainingFile() {
-    (echo   "PACKAGES CONTAINING FILES NAMED \"$1\""
+findAvailablePackagesWithNameOrProvidingCommand {
+    (echo   "PACKAGES CONTAINING COMMAND NAMED \"$1\""
     echo -n "========================================"
     echo "$1" | sed 's/./=/g'
     findAvailablePakagesProvidingCommand "$@"
@@ -1041,7 +1040,6 @@ findAvailablePackagesWithNameOrContainingFile() {
     echo "$1" | sed 's/./=/g'
     findAvailablePackagesWithName "$@") | lessWithSensibleOptions 
 }
-alias y='findAvailablePackagesWithNameOrContainingFile'
 
 # Find which installed package provides specified command.
 findInstalledPackageProvidingCommand() {
@@ -1089,54 +1087,47 @@ availableCommandsDescriptionPackageAndLocation() {
         package "$@" | sed 's/: /\nlocation: /'
     fi
 }
+whatis1='availableCommandsDescriptionPackageAndLocation'
 
 aliasDefinition() {
     type "$@" 
 }
-
-#TODO
 
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
 # When one of them succeeds in finding the description the
 # function returns.
 comprehensiveInquiry() {
+    # Checks if it is installed command.
     call1=$(availableCommandsDescriptionPackageAndLocation "$@")
     if [ "$call1" != "" ]; then
         echo "$call1"
         return
     fi
 
+    # Checks if it is a package.
     call2=$(packageDescription "$@" 2> /dev/null) 
     if [ "$call2" != "" ]; then
         echo "$call2" | catOrLess
         return
     fi
 
+    # Checks if it is a alias.
     call3=$(aliasDefinition "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
         echo "$call3"
         return
     fi
 
+    # Checks if is a command,
     call4=$(findInstalledPackageProvidingCommand "$@")
     if [ "$call4" != "" ]; then
         echo "$call4"
         return
     fi
 
-    call5=$(findAvailablePakagesProvidingCommand "$@")
-    if [ "$call5" != "" ]; then
-        echo -n "You need to install one of the following packages"
-        echo -e " to get the command:\n$call5" | catOrLess
-    fi
-
-    call6=$(findAvailablePackagesWithNameOrDescription "$@")
-    if [ "$call6" != "" ]; then
-        echo  "$call6" | catOrLess
-    fi
+    findAvailablePackagesWithNameOrProvidingCommand "$@" 
 }
-alias whatIs='comprehensiveInquiry'
 alias wi='comprehensiveInquiry'
 
 
