@@ -688,14 +688,19 @@ alias sort1='sortByColumn'
 # Runs grep with highlighting matches, not grepping through .svn
 # and .git folders, using perl reges format (it has some
 # additional operators, for instance, '+' for matching one or
-# more times), ignoring case and it sends output to pager.
+# more times) and ignoring case.
 grepWithSensibleOptions() {
-    grep --exclude-dir=\.svn --exclude-dir=\.git \
-        --ignore-case --perl-regexp --color=always "$@" \
-        | catOrLess
+    grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git \
+        --ignore-case --perl-regexp "$@"
 }
 alias grep1='grepWithSensibleOptions'
-alias gr='grepWithSensibleOptions'
+
+# Runs grepWithSensibleOptions and sends output to pager.
+grepWithPager() {
+    grepWithSensibleOptions --color=always "$@" \
+        | catOrLess
+}
+alias gr='grepWithPager'
 
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
@@ -709,7 +714,7 @@ alias locate1='locateWithPager'
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
 findWithHighlight() {
-    find . -name "$1" | grepWithSensibleOptions $(echo "$1" | tr -d "\*")
+    find . -name "$1" | grepWithPager $(echo "$1" | tr -d "\*")
 }
 find1='findWithHighlight'
 
@@ -994,7 +999,7 @@ alias depends='packageDependsOn'
 # provided pattern in their names or descriptions. Matches get
 # highlighted.
 findInstalledCommandsWithNameOrDescription() {
-    apropos "$@" | grepWithSensibleOptions  "$@"
+    apropos "$@" | grepWithPager  "$@"
 }
 alias apropos1='findInstalledCommandsWithNameOrDescription'
 alias ap='findInstalledCommandsWithNameOrDescription'
@@ -1002,27 +1007,27 @@ alias ap='findInstalledCommandsWithNameOrDescription'
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
 findAvailablePackagesWithNameOrDescription() {
-    apt-cache search "$@" | grepWithSensibleOptions  "$@"
+    apt-cache search "$@" | grepWithPager  "$@"
 }
 alias search='findAvailablePackagesWithNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
 findAvailablePackagesWithName() {
-    #apt-cache search "$@" | grepWithSensibleOptions "^[^ ]*$@[^ ]*" 
+    #apt-cache search "$@" | grepWithPager "^[^ ]*$@[^ ]*" 
     apt-cache search "$1" \
         | grepWithSensibleOptions "^[^ ]*$1[^ ]*" \
-        | grepWithSensibleOptions "$1" 
+        | grepWithPager "$1" 
 }
 alias search1='findAvailablePackagesWithName'
 
-# Finds which available packages contain specified file.
-findAvailablePakagesContainingFile() {
+# Finds which available packages provide specified command.
+findAvailablePakagesProvidingCommand() {
     apt-file search "$1" \
-        | grep \/"$1"$ \
-        | grepWithSensibleOptions "^.*:"
+        | grep \/bin\/"$1"$ \
+        | grepWithPager "^.*:"
 }
-alias apt-file1='findAvailablePakagesContainingFile'
+alias apt-file1='findAvailablePakagesProvidingCommand'
 
 # Finds which available packages contain specified file or have
 # the pattern in their names.
@@ -1030,7 +1035,7 @@ findAvailablePackagesWithNameOrContainingFile() {
     (echo   "PACKAGES CONTAINING FILES NAMED \"$1\""
     echo -n "========================================"
     echo "$1" | sed 's/./=/g'
-    findAvailablePakagesContainingFile "$@"
+    findAvailablePakagesProvidingCommand "$@"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
@@ -1052,7 +1057,7 @@ alias package='findInstalledPackageProvidingCommand'
 
 # Prints package description.
 packageDescription() {
-    apt-cache show "$*" | grep "^ " | catOrLess
+    apt-cache show "$@" | grep "^ " | catOrLess
 }
 alias describe='packageDescription'
 
@@ -1071,56 +1076,71 @@ manSection() {
     esac
 }
 
+# If command is available then it prints it's description, package and location
+availableCommandsDescriptionPackageAndLocation() {
+    call1=$(whatis "$@" 2> /dev/null)
+    if [ "$?" == "0" ]; then 
+        while IFS= read -r line; do
+            commandType=$(manSection $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
+            echo "$line" "($commandType)"
+        done <<< "$call1"
+        echo -n "package:  "
+        package "$@" | sed 's/: /\nlocation: /'
+    fi
+}
+
+#TODO
+
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
 # When one of them succeeds in finding the description the
 # function returns.
-whatIs() {
-    call1=`whatis "$@" 2> /dev/null`
-    if [ "$?" == "0" ]; then
-        while IFS= read -r line; do
-            commandType=$(
-                manSection $(
-                    echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'
-                )
-            )
-            echo "$line" "($commandType)"
-        done <<< "$call1"
-        echo -n "package: "
-        package "$@" | sed 's/:/\nlocation:/'
+#findCommandAliasOrPackage
+#describeCommandOrPackageIfInstalledOr
+comprehensiveInquiry() {
+    call1=$(availableCommandsDescriptionPackageAndLocation "$@")
+    if [ "$call1" != "" ]; then
+        echo "$call1"
         return
     fi
 
-    call2=`apt-cache show "$*" 2> /dev/null | grep "^ "`
+# Prints package description.
+#packageDescription() {
+#    apt-cache show "$@" | grep "^ " | catOrLess
+#}
+#alias describe='packageDescription'
+    call2=$(apt-cache show "$@" 2> /dev/null | grep "^ ")
     if [ "$?" == "0" ]; then
         echo "$call2" | catOrLess
         return
     fi
 
-    call3=`type "$*" 2> /dev/null`
+    call3=$(type "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then
         echo "$call3"
         return
     fi
 
-    call4=`package "$@"`
+    call4=$(findInstalledPackageProvidingCommand "$@")
     if [ "$call4" != "" ]; then
         echo "$call4"
         return
     fi
 
-    call5=`apt-file1 "$@" | grepWithSensibleOptions "^.*:"`
+    # Todo: Message at call 6, and both to same pager, and message at call5 also to pager.
+    call5=$(findAvailablePakagesProvidingCommand "$@")
     if [ "$call5" != "" ]; then
         echo -n "You need to install one of the following packages"
         echo -e " to get the command:\n$call5" | catOrLess
     fi
 
-    call6=`search "$@"`
+    call6=$(findAvailablePackagesWithNameOrDescription "$@")
     if [ "$call6" != "" ]; then
         echo  "$call6" | catOrLess
     fi
 }
-alias wi='whatIs'
+alias whatIs='comprehensiveInquiry'
+alias wi='comprehensiveInquiry'
 
 
 #######
