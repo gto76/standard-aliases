@@ -430,7 +430,8 @@ alias re='reset'
 # Exits shell.
 alias q='exit'
 
-# Opens file with default application for it's file type.
+# Opens file with default application for it's file type, and
+# runs in background.
 alias o='runInBackground xdg-open'
 
 # Starts a new terminal, with same working directory. 
@@ -667,13 +668,8 @@ alias st='straceAlsoChildren'
 # Deletes specified characters.
 alias trd='tr --delete'
 
-
-##########
-# TABLES #
-##########
-
 # Creates table out of input lines (lines up the columns). You
-# need to specify the delimiter character with first argument.
+# need to specify the delimiter character.
 alias table='column -t -s'
 
 # Treats input lines as rows of a table. With second argument

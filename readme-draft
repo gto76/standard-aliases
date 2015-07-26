@@ -2,15 +2,34 @@ Make Linux more user friendly with this collection of bash aliases.
 
 Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones i find most useful:
-m
+
 l/ll/lll
 cpdir/mvdir/rmdir
-rb
-o
-te
-(ma)
-mk
-ty
+rb - runs command in background
+o  - open file with default app
+mk - mkdir and descend into
+me - make executable
+gr - grep with pager
+extract - extracts archive of any type
+ch - can haz
+version
+wi - what is
+gs - git status
+gl - git log
+gd - git diff
+ip1 - internal ip
+ip2 - external ip
+pa - ping all
+ne - network status
+wr - wireless reset
+i - internet: default browser in background
+
+?ma - make with pager
+?m  - cat or less
+?te - open another terminal with same working directory
+?fu - fuck: runs last command as sudo
+?ty - type
+
 
 Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
 
