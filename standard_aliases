@@ -27,7 +27,7 @@ alias le='lessWithSensibleOptions'
 # Runs cat or less, depending on number of lines in file or
 # input.
 catOrLess() {
-    if [[ "$#" -gt 0 ]]; then
+    if [[ "$@" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
             | fold -w"$COLUMNS" \
             | wc -l)
@@ -51,7 +51,7 @@ alias m='catOrLess'
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
 catOrLessG() {
-    if [[ "$#" -gt 0 ]]; then
+    if [[ "$@" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
             | fold -w"$COLUMNS" \
             | wc -l)
@@ -70,6 +70,34 @@ catOrLessG() {
         fi
     fi
 }
+
+# If file specified then runs cat or less, depending on no of lines of file. If intput is piped, then it prints line by line. If all screen is filled, then it runs less.
+catAndLessIfNecessary() {
+    if [[ "$@" -gt 0 ]]; then
+        noOfLines=$(cat "$1" 2>/dev/null \
+            | fold -w"$COLUMNS" \
+            | wc -l)
+        if [[ "$LINES" -gt "$noOfLines" ]]; then
+            cat "$1"
+        else
+            lessWithSensibleOptions "$1" 2>/dev/null 
+        fi
+    else
+        noOfLines=0
+        input=""
+        while read -r line; do 
+            input="$input""$line\n"
+            realLines=$(echo "$line" | fold -w"$COLUMNS" | wc -l)
+            let noOfLines="$noOfLines"+"$realLines"
+            if [ $noOfLines -gt $LINES ]; then 
+                echo -e "$input" | less 2>/dev/null 
+                exit 
+            fi   
+            echo "$line"
+        done 
+    fi   
+}
+alias mm='catAndLessIfNecessary'
 
 
 ######
@@ -671,20 +699,6 @@ alias sort1='sortByColumn'
 # SEARCH #
 ##########
 
-# Runs grep with highlighting matches and not grepping through
-# .svn and .git folders.
-#grepWithSensibleOptions() {
-#       grep --color=auto --exclude-dir=\.svn \
-#    --exclude-dir=\.git "$@"
-#}
-
-# Runs grep in perl regex mode (that has some additional operators, like '+' for matching one or more times), ignoring case, with highlighting matches, not grepping through .svn and .git folders and sends output to pager.
-#grepPerl() {
-#    grepWithSensibleOptions --ignore-case --perl-regexp --color=always "$@" \
-#        | catOrLess
-#}
-#alias gr='grepPerl'
-
 # Runs grep with highlighting matches, not grepping through .svn
 # and .git folders, using perl reges format (it has some
 # additional operators, for instance, '+' for matching one or
@@ -1041,18 +1055,6 @@ findAvailablePackagesWithNameOrProvidingCommand {
     findAvailablePackagesWithName "$@") | lessWithSensibleOptions 
 }
 
-# Find which installed package provides specified command.
-findInstalledPackageProvidingCommand() {
-    file=$(sudo which "$1")
-    if [ "$file" == "" ]; then 
-        return
-    fi  
-    resolved=$(readlink -f "$file")
-    dpkg -S "$resolved" \
-        | grepWithSensibleOptions "^.*:"
-}
-alias package='findInstalledPackageProvidingCommand'	
-
 # Prints package description.
 packageDescription() {
     apt-cache show "$@" | grep "^ " | catOrLess
@@ -1074,9 +1076,23 @@ manSection() {
     esac
 }
 
+# TODO: compare these two
+
+# Find which installed package provides specified command.
+findInstalledPackageProvidingCommand() {
+    file=$(sudo which "$1")
+    if [ "$file" == "" ]; then 
+        return
+    fi  
+    resolved=$(readlink -f "$file")
+    dpkg -S "$resolved" \
+        | grepWithSensibleOptions "^.*:"
+}
+alias package='findInstalledPackageProvidingCommand'	
+
 # If command is available then it prints it's description, package and
 # location.
-availableCommandsDescriptionPackageAndLocation() {
+infoAboutInstalledCommand() {
     call1=$(whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
@@ -1087,7 +1103,6 @@ availableCommandsDescriptionPackageAndLocation() {
         package "$@" | sed 's/: /\nlocation: /'
     fi
 }
-whatis1='availableCommandsDescriptionPackageAndLocation'
 
 aliasDefinition() {
     type "$@" 
@@ -1099,27 +1114,27 @@ aliasDefinition() {
 # function returns.
 comprehensiveInquiry() {
     # Checks if it is installed command.
-    call1=$(availableCommandsDescriptionPackageAndLocation "$@")
+    call1=$(infoAboutInstalledCommand "$@")
     if [ "$call1" != "" ]; then
         echo "$call1"
         return
     fi
 
-    # Checks if it is a package.
+    # Checks if it is an package.
     call2=$(packageDescription "$@" 2> /dev/null) 
     if [ "$call2" != "" ]; then
         echo "$call2" | catOrLess
         return
     fi
 
-    # Checks if it is a alias.
+    # Checks if it is an alias.
     call3=$(aliasDefinition "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
         echo "$call3"
         return
     fi
 
-    # Checks if is a command,
+    # Checks if it is a command,
     call4=$(findInstalledPackageProvidingCommand "$@")
     if [ "$call4" != "" ]; then
         echo "$call4"
@@ -1128,6 +1143,7 @@ comprehensiveInquiry() {
 
     findAvailablePackagesWithNameOrProvidingCommand "$@" 
 }
+alias whatis='comprehensiveInquiry'
 alias wi='comprehensiveInquiry'
 
 
