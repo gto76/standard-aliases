@@ -1076,7 +1076,8 @@ manSection() {
     esac
 }
 
-# If command is available then it prints it's description, package and location
+# If command is available then it prints it's description, package and
+# location.
 availableCommandsDescriptionPackageAndLocation() {
     call1=$(whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
@@ -1089,14 +1090,16 @@ availableCommandsDescriptionPackageAndLocation() {
     fi
 }
 
+aliasDefinition() {
+    type "$@" 
+}
+
 #TODO
 
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
 # When one of them succeeds in finding the description the
 # function returns.
-#findCommandAliasOrPackage
-#describeCommandOrPackageIfInstalledOr
 comprehensiveInquiry() {
     call1=$(availableCommandsDescriptionPackageAndLocation "$@")
     if [ "$call1" != "" ]; then
@@ -1104,19 +1107,14 @@ comprehensiveInquiry() {
         return
     fi
 
-# Prints package description.
-#packageDescription() {
-#    apt-cache show "$@" | grep "^ " | catOrLess
-#}
-#alias describe='packageDescription'
-    call2=$(apt-cache show "$@" 2> /dev/null | grep "^ ")
-    if [ "$?" == "0" ]; then
+    call2=$(packageDescription "$@" 2> /dev/null) 
+    if [ "$call2" != "" ]; then
         echo "$call2" | catOrLess
         return
     fi
 
-    call3=$(type "$@" 2> /dev/null)
-    if [ "$?" == "0" ]; then
+    call3=$(aliasDefinition "$@" 2> /dev/null)
+    if [ "$call3" != "" ]; then
         echo "$call3"
         return
     fi
@@ -1127,7 +1125,6 @@ comprehensiveInquiry() {
         return
     fi
 
-    # Todo: Message at call 6, and both to same pager, and message at call5 also to pager.
     call5=$(findAvailablePakagesProvidingCommand "$@")
     if [ "$call5" != "" ]; then
         echo -n "You need to install one of the following packages"
