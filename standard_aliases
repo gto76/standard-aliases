@@ -25,16 +25,22 @@ alias less1='lessWithSensibleOptions'
 alias le='lessWithSensibleOptions'
 
 # Runs cat or less, depending on number of lines in file or
-# input.
-catOrLess() {
-    if [[ "$#" -gt 0 ]]; then
-        noOfLines=$(cat "$1" 2>/dev/null \
+# input. First argument must be either 'true' or some other
+# value, true meaning that lessgets run with G option. G option
+# starts less at the end of the input (scrolled to the bottom).
+catOrLessWithOrWithoutG() {
+    if [[ "$#" -gt 1 ]]; then
+        noOfLines=$(cat "$2" 2>/dev/null \
             | fold -w"$COLUMNS" \
             | wc -l)
         if [[ "$LINES" -gt "$noOfLines" ]]; then
-            cat "$1"
+            cat "$2"
         else
-            lessWithSensibleOptions "$1" 2>/dev/null 
+            if [[ "$1" == 'true' ]]; then
+                lessWithSensibleOptions +G "$2" 2>/dev/null 
+            else
+                lessWithSensibleOptions "$2" 2>/dev/null 
+            fi
         fi
     else
         input=$(cat)
@@ -42,33 +48,26 @@ catOrLess() {
         if [[ "$LINES" -gt "$noOfLines" ]]; then
             echo "$input" | cat 
         else
-            echo "$input" | lessWithSensibleOptions 2>/dev/null 
+            if [[ "$1" == 'true' ]]; then
+                echo "$input" | lessWithSensibleOptions +G 2>/dev/null 
+            else
+                echo "$input" | lessWithSensibleOptions 2>/dev/null 
+            fi
         fi
     fi
+}
+
+# Runs cat or less, depending on number of lines in file or
+# input.
+catOrLess() {
+    catOrLessWithOrWithoutG 'false' "$@"
 }
 alias m='catOrLess'
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
 catOrLessG() {
-    if [[ "$#" -gt 0 ]]; then
-        noOfLines=$(cat "$1" 2>/dev/null \
-            | fold -w"$COLUMNS" \
-            | wc -l)
-        if [[ "$LINES" -gt "$noOfLines" ]]; then
-            cat "$1"    
-        else
-            cat "$1" | lessWithSensibleOptions +G 2>/dev/null
-        fi
-    else
-        input=$(cat)
-        noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
-        if [[ "$LINES" -gt "$noOfLines" ]]; then
-            echo "$input" | cat 
-        else
-            echo "$input" | lessWithSensibleOptions +G 2>/dev/null
-        fi
-    fi
+    catOrLessWithOrWithoutG 'true' "$@"
 }
 
 # If file specified then runs cat or less, depending on no of
