@@ -177,6 +177,7 @@ lsLongLess() {
 # version of the lsShort/Med/Long function. It depends on
 # whether the output of ls will fit on screen.
 
+# Calls ls (with a lot of options).
 lsShort() {
     noOfLines=$(
         lsShortCat "$@" 2> /dev/null \
@@ -189,6 +190,8 @@ lsShort() {
     fi
 }
 
+# Calls ls (with a lot of options) that uses shortened long
+# listing format.
 lsMed() {
     noOfLines=$(
         lsMedCat "$@" 2> /dev/null \
@@ -201,6 +204,8 @@ lsMed() {
     fi
 }
 
+# Calls ls (with a lot of options) that uses long listing
+# format.
 lsLong() {
     noOfLines=$(
         lsLongCat "$@" 2> /dev/null \
@@ -213,66 +218,98 @@ lsLong() {
     fi
 }
 
-# Calls ls (with a lot of options).
 alias l='lsShort'
 
-# Calls ls (with a lot of options) that uses shortened long
-# listing format.
 alias ll='lsMed'
 
-# Calls ls (with a lot of options) that uses long listing
-# format.
 alias lll='lsLong'
 
 # Calls ls (with a lot of options) that shows hidden files.
-alias la='lsShort --almost-all'
+lsShortShowHiddenFiles() {
+    lsShort --almost-all "$@"
+}
+alias la='lsShortShowHiddenFiles'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using shortened long listing format.
+lsMedShowHiddenFiles() {
+    lsMed --almost-all "$@"
+}
 alias lla='lsMed --almost-all'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using  long listing format.
-alias llla='lsLong --almost-all'
+lsLongShowHiddenFiles() {
+    lsLong --almost-all "$@"
+}
+alias llla='lsLongShowHiddenFiles'
 
 # Calls ls (with a lot of options) that sorts files by date.
-alias lt='lsShort -t'
+lsShortOrderByDate() {
+    lsShort -t "$@"
+}
+alias lt='lsShortOrderByDate'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using shortened long listing format.
-alias llt='lsMed -t'
+lsMedOrderByDate() {
+    lsMed -t "$@"
+}
+alias llt='lsMedOrderByDate'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using long listing format.
-alias lllt='lsLong -t'
+lsLongOrderByDate() {
+    lsLong -t "$@"
+}
+alias lllt='lsLongOrderByDate'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern.
-alias dl='l --directory'
+lsShortListMatchingDirectories() {
+    lsShort --directory "$@"
+}
+alias dl='lsShortListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using shortened long format.
-alias dll='ll --directory'
+lsMedListMatchingDirectories() {
+    lsMed --directory "$@"
+}
+alias dll='lsMedListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using long format.
-alias dlll='lll --directory'
+lsLongListMatchingDirectories() {
+    lsLong --directory
+}
+alias dlll='lsLongListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists one name per line.
-alias l1='lsShort -1'
+lsShortOnePerLine() {
+    lsShort -1 "$@"
+}
+alias l1='lsShortOnePerLine'
 
 # Calls ls (with a lot of options) that lists one name per line
 # and also shows hidden files.
-alias la1='la -1'
+lsShortShowHiddenFilesOnePerLine() {
+    la -1 "$@"
+}
+alias la1='lsShortShowHiddenFilesOnePerLine'
 
 # Gets name of first file in the directory.
-alias first='ls | head -1'
+getFirstFileInDir() {
+    ls | head -1
+}
+alias first='getFirstFileInDir'
 
 # Gets name of a random file in the directory.
-randomFile() {
+getRandomFile() {
     ls "$@" | sort -R | head -1
 }
-alias rf='randomFile'
+alias randomFile='getRandomFile'
+alias rf='getRandomFile'
 
 
 ########
@@ -419,7 +456,8 @@ alias rb='runInBackground'
 ##########
 
 # Opens this file in Vim.
-alias al='vim ~/.standard_aliases'
+alias aliases='vim ~/.standard_aliases'
+alias al='al'
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
