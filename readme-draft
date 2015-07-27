@@ -3,25 +3,25 @@ Make Linux more user friendly with this collection of bash aliases.
 Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones i find most useful:
 
-t - tree
+** t - tree (slikca)
 l/ll/lll
 cpdir/mvdir/rmdir
-rb - runs command in background
-o  - open file with default app
+** rb - runs command in background
+** o  - open file with default app
 mk - mkdir and descend into
 me - make executable
 gr - grep with pager
-extract - extracts archive of any type
+** extract - extracts archive of any type
 ch - can haz
 version
-wi - what is
+** wi - what is (slikce)
 gs - git status
 gl - git log
 gd - git diff
 ip1 - internal ip
 ip2 - external ip
 pa - ping all
-ne - network status
+** ne - network status (slikca)
 wr - wireless reset
 i - internet: default browser in background
 al - opens this file in vim

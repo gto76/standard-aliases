@@ -1102,8 +1102,13 @@ infoAboutInstalledCommandWithFullName() {
             commandType=$(manSection $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
             echo "$line" "($commandType)"
         done <<< "$call1"
-        echo -n "package:  "
-        findInstalledPackageWithFullCommandName "$@" | sed 's/: /\nlocation: /'
+        echo -n "Package:   "
+        packageInfo=$(findInstalledPackageWithFullCommandName "$@")
+        echo "$packageInfo" | sed 's/: /\nLocation:  /'
+        versionInfo=$(version $(echo "$packageInfo" | sed 's/:.*$//'))
+        echo "$versionInfo" | grep Installed | sed 's/^ *//'
+        echo "$versionInfo" | grep Candidate | sed 's/^ *//'
+        #findInstalledPackageWithFullCommandName "$@" | sed 's/: /\nlocation: /'
     fi
 }
 alias package='infoAboutInstalledCommandWithFullName'
