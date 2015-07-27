@@ -71,7 +71,9 @@ catOrLessG() {
     fi
 }
 
-# If file specified then runs cat or less, depending on no of lines of file. If intput is piped, then it prints line by line. If all screen is filled, then it runs less.
+# If file specified then runs cat or less, depending on no of
+# lines of file. If input is piped, then it prints line by
+# line. If all screen is filled, then it runs less.
 catAndLessIfNecessary() {
     if [[ "$#" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
@@ -86,13 +88,10 @@ catAndLessIfNecessary() {
         noOfLines=0
         input=""
         while read -r line; do 
-            #input="$input""$line\n"
             input+=("$line")
             realLines=$(echo "$line" | fold -w"$COLUMNS" | wc -l)
             let noOfLines="$noOfLines"+"$realLines"
             if [ $noOfLines -gt $LINES ]; then 
-                #echo -en "$input" #| less 2>/dev/null 
-                #echo ${input[@]}
                 (for inputLine in "${input[@]}"; do
                     echo "$inputLine" 
                 done
@@ -161,7 +160,6 @@ lsLongCat() {
 # start less at end of file.
 
 lsShortLess() { 
-    # EX: lsShortCat --color=always $* | lessWithSensibleOptions --RAW-CONTROL-CHARS +G
     lsShortCat --color=always "$@" \
         | lessWithSensibleOptions --RAW-CONTROL-CHARS +G
 }
@@ -177,7 +175,7 @@ lsLongLess() {
 }
 
 # This functions decide weather they will call cat or less
-# version of the lstShort/Med/Long function. It depends on
+# version of the lsShort/Med/Long function. It depends on
 # whether the output of ls will fit on screen.
 
 lsShort() {
@@ -419,7 +417,7 @@ alias al='vim ~/.standard_aliases'
 alias ba='bash'
 
 # Prints location of specified command, or it's definition, if
-# it is an alias. Run this command if you are not shure what an
+# it is an alias. Run this command if you are not sure what an
 # alias does!
 alias ty='type'
 
@@ -570,7 +568,7 @@ alias sub='runInBackground sublime_text'
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
 # As long as this line of text stays here and is not modified,
-# that long all the aliases and functions untill next comment
+# that long all the aliases and functions until next comment
 # will not get documented in README.md.
 alias fdisk='sudo fdisk'
 alias updatedb='sudo updatedb'
@@ -707,7 +705,7 @@ alias sort1='sortByColumn'
 ##########
 
 # Runs grep with highlighting matches, not grepping through .svn
-# and .git folders, using perl reges format (it has some
+# and .git folders, using Perl regex format (it has some
 # additional operators, for instance, '+' for matching one or
 # more times) and ignoring case.
 grepWithSensibleOptions() {
@@ -1108,7 +1106,6 @@ infoAboutInstalledCommandWithFullName() {
         versionInfo=$(version $(echo "$packageInfo" | sed 's/:.*$//'))
         echo "$versionInfo" | grep Installed | sed 's/^ *//'
         echo "$versionInfo" | grep Candidate | sed 's/^ *//'
-        #findInstalledPackageWithFullCommandName "$@" | sed 's/: /\nlocation: /'
     fi
 }
 alias package='infoAboutInstalledCommandWithFullName'
@@ -1143,7 +1140,7 @@ comprehensiveInquiry() {
         return
     fi
 
-    # Search all available comands and packages with part of the
+    # Search all available commands and packages with part of the
     # name.
     findAvailablePackagesWithPartOfNameOrPartOfCommand "$@" 
 }
@@ -1315,7 +1312,8 @@ pingGatewayIpAndGoogle() {
 alias pingAll='pingGatewayIpAndGoogle'
 alias pa='pingGatewayIpAndGoogle'
 
-# Scans addresses of local network. If a number is specified it scans local addresses up to this number (0-255).
+# Scans addresses of local network. If a number is specified it
+# scans local addresses up to this number (0-255).
 scanLocalNetwork() {
     if [[ $# -eq 0 ]]; then
         third=$(ip1 \
@@ -1335,7 +1333,8 @@ scanLocalNetwork() {
 }
 alias nmap1='scanLocalNetwork'
 
-# Prints 'OK' if specified address or ip can be reached with ping, or 'Fail' if not.
+# Prints 'OK' if specified address or ip can be reached with
+# ping, or 'Fail' if not.
 isReachable() {
     pingResult=$(
         ping -c 1 -q "$1" \
