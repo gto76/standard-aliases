@@ -27,7 +27,7 @@ alias le='lessWithSensibleOptions'
 # Runs cat or less, depending on number of lines in file or
 # input.
 catOrLess() {
-    if [[ "$@" -gt 0 ]]; then
+    if [[ "$#" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
             | fold -w"$COLUMNS" \
             | wc -l)
@@ -51,7 +51,7 @@ alias m='catOrLess'
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
 catOrLessG() {
-    if [[ "$@" -gt 0 ]]; then
+    if [[ "$#" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
             | fold -w"$COLUMNS" \
             | wc -l)
@@ -73,7 +73,7 @@ catOrLessG() {
 
 # If file specified then runs cat or less, depending on no of lines of file. If intput is piped, then it prints line by line. If all screen is filled, then it runs less.
 catAndLessIfNecessary() {
-    if [[ "$@" -gt 0 ]]; then
+    if [[ "$#" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
             | fold -w"$COLUMNS" \
             | wc -l)
@@ -86,11 +86,19 @@ catAndLessIfNecessary() {
         noOfLines=0
         input=""
         while read -r line; do 
-            input="$input""$line\n"
+            #input="$input""$line\n"
+            input+=("$line")
             realLines=$(echo "$line" | fold -w"$COLUMNS" | wc -l)
             let noOfLines="$noOfLines"+"$realLines"
             if [ $noOfLines -gt $LINES ]; then 
-                echo -e "$input" | less 2>/dev/null 
+                #echo -en "$input" #| less 2>/dev/null 
+                #echo ${input[@]}
+                (for inputLine in "${input[@]}"; do
+                    echo "$inputLine" 
+                done
+                while read -r line; do 
+                    echo "$line"
+                done) | less 2>/dev/null
                 exit 
             fi   
             echo "$line"
@@ -403,6 +411,9 @@ alias rb='runInBackground'
 # BASICS #
 ##########
 
+# Opens this file in Vim.
+alias al='vim ~/.standard_aliases'
+
 # Runs bash. Run this command for changes to this file to take
 # effect!
 alias ba='bash'
@@ -655,7 +666,7 @@ alias kill1='killWithKillSignal'
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 straceAlsoChildren() {
-    strace -s 2000 -f "$@" 2>&1 | catOrLess
+    strace -s 2000 -f "$@" 2>&1 | catAndLessIfNecessary 
 }
 alias strace1='straceAlsoChildren'
 alias st='straceAlsoChildren'
@@ -715,7 +726,7 @@ alias gr='grepWithPager'
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 locateWithPager() {
-    locate "$@" | catOrLess
+    locate "$@" | grepWithPager "$@" 
 }
 alias locate1='locateWithPager'
 
@@ -726,7 +737,7 @@ alias locate1='locateWithPager'
 findWithHighlight() {
     find . -name "$1" | grepWithPager $(echo "$1" | tr -d "\*")
 }
-find1='findWithHighlight'
+alias find1='findWithHighlight'
 
 # Prints all directories in current and sub-directories.
 printAllDirectoriesBelove() {
@@ -807,13 +818,12 @@ alias du1='du --summarize --human-readable'
 
 # Prints all and free memory in megabytes.
 freeAndAllMemory() {
-    echo "all: "$(free -m \
+    echo "all:  "$(free -m \
         | grep Mem \
         | sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
     echo "free: "$(free -m \
         | grep Mem \
-        | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ \
-]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
+        | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
 alias free1='freeAndAllMemory'
 alias fr='freeAndAllMemory'
@@ -976,7 +986,7 @@ installedPackagesByUser() {
     cat /var/log/apt/history.log \
         | grep "apt-get install" \
         | sed "s/.* //" \
-        | catOrLessG'
+        | catOrLessG
 }
 alias packages='installedPackagesByUser'
 alias installed='installedPackagesByUser' 
@@ -985,7 +995,7 @@ alias installed='installedPackagesByUser'
 installedPackages() {
     dpkg --get-selections \
         | grep -v deinstall \
-        | catOrLess'
+        | catOrLess
 }
 alias packages1='installedPackages'
 alias installed1='installedPackages'
@@ -1008,22 +1018,22 @@ alias depends='packageDependsOn'
 # Runs apropos, a command that finds installed commands, with
 # provided pattern in their names or descriptions. Matches get
 # highlighted.
-findInstalledCommandsWithNameOrDescription() {
+findInstalledCommandsWithPartOfNameOrDescription() {
     apropos "$@" | grepWithPager  "$@"
 }
-alias apropos1='findInstalledCommandsWithNameOrDescription'
-alias ap='findInstalledCommandsWithNameOrDescription'
+alias apropos1='findInstalledCommandsWithPartOfNameOrDescription'
+alias ap='findInstalledCommandsWithPartOfNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
-findAvailablePackagesWithNameOrDescription() {
+findAvailablePackagesWithPartOfNameOrDescription() {
     apt-cache search "$@" | grepWithPager  "$@"
 }
-alias search='findAvailablePackagesWithNameOrDescription'
+alias search='findAvailablePackagesWithPartOfNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
-findAvailablePackagesWithName() {
+findAvailablePackagesWithPartOfName() {
     #apt-cache search "$@" | grepWithPager "^[^ ]*$@[^ ]*" 
     apt-cache search "$1" \
         | grepWithSensibleOptions "^[^ ]*$1[^ ]*" \
@@ -1031,24 +1041,24 @@ findAvailablePackagesWithName() {
 }
 
 # Finds which available packages provide specified command.
-findAvailablePakagesProvidingCommand() {
+findAvailablePakagesWithPartOfCommand() {
     apt-file search "$1" \
         | grep \/bin\/"$1"$ \
         | grepWithPager "^.*:"
 }
-alias apt-file1='findAvailablePakagesProvidingCommand'
+alias apt-file1='findAvailablePakagesWithPartOfCommand'
 
 # Finds which available packages contain specified file or have
 # the pattern in their names.
-findAvailablePackagesWithNameOrProvidingCommand {
+findAvailablePackagesWithPartOfNameOrPartOfCommand() {
     (echo   "PACKAGES CONTAINING COMMAND NAMED \"$1\""
-    echo -n "========================================"
+    echo -n "====================================="
     echo "$1" | sed 's/./=/g'
-    findAvailablePakagesProvidingCommand "$@"
+    findAvailablePakagesWithPartOfCommand "$@"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    findAvailablePackagesWithName "$@") | lessWithSensibleOptions 
+    findAvailablePackagesWithPartOfName "$@") | catAndLessIfNecessary 
 }
 
 # Prints package description.
@@ -1075,7 +1085,7 @@ manSection() {
 # TODO: compare these two
 
 # Find which installed package provides specified command.
-findInstalledPackageProvidingCommand() {
+findInstalledPackageWithFullCommandName() {
     file=$(sudo which "$1")
     if [ "$file" == "" ]; then 
         return
@@ -1084,7 +1094,7 @@ findInstalledPackageProvidingCommand() {
     dpkg -S "$resolved" \
         | grepWithSensibleOptions "^.*:"
 }
-alias package='findInstalledPackageProvidingCommand'	
+alias package='findInstalledPackageWithFullCommandName'
 
 # If command is available then it prints it's description, package and
 # location.
@@ -1131,13 +1141,13 @@ comprehensiveInquiry() {
     fi
 
     # Checks if it is a command,
-    call4=$(findInstalledPackageProvidingCommand "$@")
+    call4=$(findInstalledPackageWithFullCommandName "$@")
     if [ "$call4" != "" ]; then
         echo "$call4"
         return
     fi
 
-    findAvailablePackagesWithNameOrProvidingCommand "$@" 
+    findAvailablePackagesWithPartOfNameOrPartOfCommand "$@" 
 }
 alias whatis='comprehensiveInquiry'
 alias wi='comprehensiveInquiry'

@@ -3,6 +3,7 @@ Make Linux more user friendly with this collection of bash aliases.
 Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones i find most useful:
 
+t - tree
 l/ll/lll
 cpdir/mvdir/rmdir
 rb - runs command in background
@@ -23,6 +24,7 @@ pa - ping all
 ne - network status
 wr - wireless reset
 i - internet: default browser in background
+al - opens this file in vim
 
 ?ma - make with pager
 ?m  - cat or less
