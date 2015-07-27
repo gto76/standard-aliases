@@ -214,7 +214,7 @@ lsLong() {
     fi
 }
 
-# Calls ls (with a lot of options) that lists only names.
+# Calls ls (with a lot of options).
 alias l='lsShort'
 
 # Calls ls (with a lot of options) that uses shortened long
@@ -225,29 +225,39 @@ alias ll='lsMed'
 # format.
 alias lll='lsLong'
 
-# Calls ls (with a lot of options) that lists only filenames,
-# also showing hidden files.
+# Calls ls (with a lot of options) that shows hidden files.
 alias la='lsShort --almost-all'
 
-# Calls ls (with a lot of options) that uses shortened long
-# listing format, also showing hidden files.
+# Calls ls (with a lot of options) that shows hidden files,
+# using shortened long listing format.
 alias lla='lsMed --almost-all'
 
-# Calls ls (with a lot of options) that uses long listing
-# format, also showing hidden files.
+# Calls ls (with a lot of options) that shows hidden files,
+# using  long listing format.
 alias llla='lsLong --almost-all'
 
-# Calls ls (with a lot of options) that lists only names and
-# sorts files by date.
+# Calls ls (with a lot of options) that sorts files by date.
 alias lt='lsShort -t'
 
-# Calls ls (with a lot of options) that uses shortened long
-# listing format and sorts files by date.
+# Calls ls (with a lot of options) that sorts files by date,
+# using shortened long listing format.
 alias llt='lsMed -t'
 
-# Calls ls (with a lot of options) that uses long listing format
-# and sorts files by date.
+# Calls ls (with a lot of options) that sorts files by date,
+# using long listing format.
 alias lllt='lsLong -t'
+
+# Calls ls (with a lot of options) that lists directories
+# matching pattern.
+alias dl='l --directory'
+
+# Calls ls (with a lot of options) that lists directories
+# matching pattern, using shortened long format.
+alias dll='ll --directory'
+
+# Calls ls (with a lot of options) that lists directories
+# matching pattern, using long format.
+alias dlll='lll --directory'
 
 # Calls ls (with a lot of options) that lists one name per line.
 alias l1='lsShort -1'
@@ -1064,6 +1074,7 @@ packageDescriptionWithFullName() {
     apt-cache show "$@" | grep "^ " | catOrLess
 }
 alias describe='packageDescriptionWithFullName'
+alias pd='packageDescriptionWithFullName'
 
 # Converts man section number into a description.
 manSection() {
@@ -1154,7 +1165,7 @@ alias wi='comprehensiveInquiry'
 
 # Commits changed and deleted files. Commit message must be
 # entered as parameter.
-alias commit='git commit -am'
+#alias commit='git commit -am'
 
 # Commits changed and deleted files. Opens text editor, so
 # proper commit message can be entered.
