@@ -1052,7 +1052,7 @@ alias apt-file1='findAvailablePakagesWithPartOfCommand'
 # the pattern in their names.
 findAvailablePackagesWithPartOfNameOrPartOfCommand() {
     (echo   "PACKAGES CONTAINING COMMAND NAMED \"$1\""
-    echo -n "====================================="
+    echo -n "===================================="
     echo "$1" | sed 's/./=/g'
     findAvailablePakagesWithPartOfCommand "$@"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
@@ -1062,10 +1062,10 @@ findAvailablePackagesWithPartOfNameOrPartOfCommand() {
 }
 
 # Prints package description.
-packageDescription() {
+packageDescriptionWithFullName() {
     apt-cache show "$@" | grep "^ " | catOrLess
 }
-alias describe='packageDescription'
+alias describe='packageDescriptionWithFullName'
 
 # Converts man section number into a description.
 manSection() {
@@ -1082,8 +1082,6 @@ manSection() {
     esac
 }
 
-# TODO: compare these two
-
 # Find which installed package provides specified command.
 findInstalledPackageWithFullCommandName() {
     file=$(sudo which "$1")
@@ -1094,23 +1092,23 @@ findInstalledPackageWithFullCommandName() {
     dpkg -S "$resolved" \
         | grepWithSensibleOptions "^.*:"
 }
-alias package='findInstalledPackageWithFullCommandName'
 
 # If command is available then it prints it's description, package and
 # location.
-infoAboutInstalledCommand() {
-    call1=$(whatis "$@" 2> /dev/null)
+infoAboutInstalledCommandWithFullName() {
+    call1=$(sudo whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
             commandType=$(manSection $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
             echo "$line" "($commandType)"
         done <<< "$call1"
         echo -n "package:  "
-        package "$@" | sed 's/: /\nlocation: /'
+        findInstalledPackageWithFullCommandName "$@" | sed 's/: /\nlocation: /'
     fi
 }
+alias package='infoAboutInstalledCommandWithFullName'
 
-aliasDefinition() {
+aliasDefinitionWithFullName() {
     type "$@" 
 }
 
@@ -1119,37 +1117,32 @@ aliasDefinition() {
 # When one of them succeeds in finding the description the
 # function returns.
 comprehensiveInquiry() {
-    # Checks if it is installed command.
-    call1=$(infoAboutInstalledCommand "$@")
+    # Checks if it is an installed command.
+    call1=$(infoAboutInstalledCommandWithFullName "$@")
     if [ "$call1" != "" ]; then
         echo "$call1"
         return
     fi
 
-    # Checks if it is an package.
-    call2=$(packageDescription "$@" 2> /dev/null) 
+    # Checks if it is a package.
+    call2=$(packageDescriptionWithFullName "$@" 2> /dev/null) 
     if [ "$call2" != "" ]; then
         echo "$call2" | catOrLess
         return
     fi
 
     # Checks if it is an alias.
-    call3=$(aliasDefinition "$@" 2> /dev/null)
+    call3=$(aliasDefinitionWithFullName "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
         echo "$call3"
         return
     fi
 
-    # Checks if it is a command,
-    call4=$(findInstalledPackageWithFullCommandName "$@")
-    if [ "$call4" != "" ]; then
-        echo "$call4"
-        return
-    fi
-
+    # Search all available comands and packages with part of the
+    # name.
     findAvailablePackagesWithPartOfNameOrPartOfCommand "$@" 
 }
-alias whatis='comprehensiveInquiry'
+alias whatis1='comprehensiveInquiry'
 alias wi='comprehensiveInquiry'
 
 
