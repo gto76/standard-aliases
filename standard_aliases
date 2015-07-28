@@ -706,69 +706,105 @@ alias f='executeLastCommandAsSudo'
 # TODO from here
 
 # Runs cp as su in interactive mode.
-alias scp='sudo cp -iv'
+sudoCpSave() {
+    sudo cp -iv "$@"
+}
+alias scp='sudoCpSave'
 
 # Runs mv as su in interactive mode.
-alias smv='sudo mv -iv'
+sudoMvSave() {
+    sudo mv -iv "$@"
+}
+alias smv='sudoMvSave'
 
 # Runs rm as su in interactive mode (use -f to override
 # interactive mode).
-alias srm='sudo rm -i'
+sudoRmSave() {
+    sudo rm -i "$@"
+}
+alias srm='sudoRmSave'
 
 # Copies whole directory as su in interactive mode.
-alias scpdir='sudo cp -arv'
+sudoCpdirSave() {
+    sudo cp -arv "$@"
+}
+alias scpdir='sudoCpdirSave'
 
 #Moves whole directory as su in interactive mode.
-alias smvdir='sudo mv -iv'
+sudoMvdirSave() {
+    sudo mv -iv "$@"
+}
+alias smvdir='sudoMvdirSave'
 
 # Removes whole directory as su in interactive mode (use -f to
 # override interactive mode).
-alias srmdir='sudo rm -ir'
+sudoRmdirSave() {
+    sudo rm -ir "$@"
+}
+alias srmdir='sudoRmdirSave'
 
 # Runs less as su.
-alias sm='sudo less'
+sudoLess() {
+    sudo less "$@"
+}
+alias sm='sudoLess'
 
 # Runs Nano as su.
-alias sn='sudo nano -icHFwST 4'
+sudoNano() {
+    sudo nano -icHFwST 4 "$@"
+}
+alias sn='sudoNano'
 
 # Runs Vim as su.
-alias sv='sudo vim'
+sudoVim() {
+    sudo vim "$@"
+}
+alias sv='sudoVim'
 
 # Runs Gedit as su.
-alias sg='sudo gedit'
+sudoGedit() {
+    sudo gedit "$@"
+}
+alias sg='sudoGedit'
 
 
 #############
 # PROCESESS #
 #############
 
-# Shows detailed overview of processes.
-alias ht='htop'
+# Shows detailed overview of processes (task manager).
+runTaskManager() {
+    htop "$@"
+}
+alias ht='runTaskManager'
 
 # Prints user's processes and sends output to pager if
 # necessary.
-psWithPager() {
+printUsersProcesses() {
     ps "$@" | catOrLess
 }
-alias ps1='psWithPager'
+alias ps1='printUsersProcesses'
 
 # Prints every process on the system.
-alias pse='psWithPager -e'
-alias psa='psWithPager -e'
+printAllProcesses() {
+    psWithPager -e "$@"
+}
+alias pse='printAllProcesses'
+alias psa='printAllProcesses'
 
 # Prints processes with specified pattern in their names,
 # together with their PIDs.
-pgrepWithNames() {
+printProcessesWithPartOfName() {
     pgrep --list-name "$@" | catOrLess
 }
-alias pgrep1='pgrepWithNames'
+alias pgrep1='printProcessesWithPartOfName'
 
 # Sends KILL signal to process with specified PID, instead of
 # kill's default signal TERM.
-killWithKillSignal() {
+killProcessWithKillSignal() {
     kill -9 "$@"
 }
-alias kill1='killWithKillSignal'
+alias kill1='killProcessWithKillSignal'
 
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
