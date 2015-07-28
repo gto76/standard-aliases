@@ -18,17 +18,17 @@
 #   * do not mark empty lines with ~, 
 #   * format prompt as "<page-number>/<all-pages> <filename>",
 #   * set tabs to 4 spaces.
-lessWithSensibleOptions() {
+__displayTextInPager() {
     less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4 "$@"
 }
-alias less1='lessWithSensibleOptions'
-alias le='lessWithSensibleOptions'
+alias less1='__displayTextInPager'
+alias le='__displayTextInPager'
 
 # Runs cat or less, depending on number of lines in file or
 # input. First argument must be either 'true' or some other
 # value, true meaning that lessgets run with G option. G option
 # starts less at the end of the input (scrolled to the bottom).
-catOrLessWithOrWithoutG() {
+__printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
     if [[ "$#" -gt 1 ]]; then
         noOfLines=$(cat "$2" 2>/dev/null \
             | fold -w"$COLUMNS" \
@@ -37,9 +37,9 @@ catOrLessWithOrWithoutG() {
             cat "$2"
         else
             if [[ "$1" == 'true' ]]; then
-                lessWithSensibleOptions +G "$2" 2>/dev/null
+                __displayTextInPager +G "$2" 2>/dev/null
             else
-                lessWithSensibleOptions "$2" 2>/dev/null
+                __displayTextInPager "$2" 2>/dev/null
             fi
         fi
     else
@@ -49,9 +49,9 @@ catOrLessWithOrWithoutG() {
             echo "$input" | cat 
         else
             if [[ "$1" == 'true' ]]; then
-                echo "$input" | lessWithSensibleOptions +G 2>/dev/null
+                echo "$input" | __displayTextInPager +G 2>/dev/null
             else
-                echo "$input" | lessWithSensibleOptions 2>/dev/null
+                echo "$input" | __displayTextInPager 2>/dev/null
             fi
         fi
     fi
@@ -59,21 +59,21 @@ catOrLessWithOrWithoutG() {
 
 # Runs cat or less, depending on number of lines in file or
 # input.
-catOrLess() {
-    catOrLessWithOrWithoutG 'false' "$@"
+__printOrDisplayTextInPager() {
+    __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'false' "$@"
 }
-alias m='catOrLess'
+alias m='__printOrDisplayTextInPager'
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
-catOrLessG() {
-    catOrLessWithOrWithoutG 'true' "$@"
+__printOrDisplayTextInPagerStartingAtEnd() {
+    __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'true' "$@"
 }
 
 # If file specified then runs cat or less, depending on no of
 # lines of file. If input is piped, then it prints line by
 # line. If all screen is filled, then it runs less.
-catAndLessIfNecessary() {
+__printAndDisplayTextInPagerIfNecessary() {
     if [[ "$#" -gt 0 ]]; then
         noOfLines=$(cat "$1" 2>/dev/null \
             | fold -w"$COLUMNS" \
@@ -81,7 +81,7 @@ catAndLessIfNecessary() {
         if [[ "$LINES" -gt "$noOfLines" ]]; then
             cat "$1"
         else
-            lessWithSensibleOptions "$1" 2>/dev/null 
+            __displayTextInPager "$1" 2>/dev/null 
         fi
     else
         noOfLines=0
@@ -103,7 +103,7 @@ catAndLessIfNecessary() {
         done 
     fi   
 }
-alias mm='catAndLessIfNecessary'
+alias mm='__printAndDisplayTextInPagerIfNecessary'
 
 
 ######
@@ -154,21 +154,22 @@ lsLongCat() {
 # Calls lsShortCat and sends output to pager.
 lsShortLess() { 
     lsShortCat --color=always "$@" \
-        | lessWithSensibleOptions --RAW-CONTROL-CHARS +G
+        | __displayTextInPager --RAW-CONTROL-CHARS +G
 }
 
 # Calls lsMedCat and sends output to pager.
 lsMedLess() { 
     lsMedCat --color=always "$@" \
-        | lessWithSensibleOptions --RAW-CONTROL-CHARS +G 
+        | __displayTextInPager --RAW-CONTROL-CHARS +G 
 }
 
 # Calls lsLongCat and sends output to pager.
 lsLongLess() { 
     lsLongCat --color=always "$@" \
-        | lessWithSensibleOptions --RAW-CONTROL-CHARS +G 
+        | __displayTextInPager --RAW-CONTROL-CHARS +G 
 }
 
+# TODO combine
 # Calls lsShortCat if it's output fits on screen, otherwise
 # calls lsShortLess.
 lsShort() {
@@ -295,17 +296,17 @@ lsShortShowHiddenFilesOnePerLine() {
 alias la1='lsShortShowHiddenFilesOnePerLine'
 
 # Gets name of first file in the directory.
-getFirstFileInDir() {
+__getFirstFileInDir() {
     ls | head -1
 }
-alias first='getFirstFileInDir'
+alias first='__getFirstFileInDir'
 
 # Gets name of a random file in the directory.
-getRandomFile() {
+__getRandomFileFromDir() {
     ls "$@" | sort -R | head -1
 }
-alias randomFile='getRandomFile'
-alias rf='getRandomFile'
+alias randomFile='__getRandomFileFromDir'
+alias rf='__getRandomFileFromDir'
 
 
 ########
@@ -313,11 +314,11 @@ alias rf='getRandomFile'
 ########
 
 # Displays tree structure of current or specified folder.
-treeWithSensibleOptions() {
-    tree -C -I .git --dirsfirst "$@" | catOrLess
+__printDirStructure() {
+    tree -C -I .git --dirsfirst "$@" | __printOrDisplayTextInPager
 }
-alias tree1='treeWithSensibleOptions'
-alias t='treeWithSensibleOptions'
+alias tree1='__printDirStructure'
+alias t='__printDirStructure'
 
 
 ######
@@ -326,7 +327,7 @@ alias t='treeWithSensibleOptions'
 
 # Goes up in the directory hierarchy the specified number of
 # levels.
-goUpNoOfDirectories() {
+__goUpNumberOfDirectories() {
     if [[ "$#" -lt 1 ]]; then
         # Needs parameter.
         return 1
@@ -343,24 +344,24 @@ goUpNoOfDirectories() {
     done
 }
 
-alias cd..='goUpNoOfDirectories 1'
-alias ..='goUpNoOfDirectories 1'
-alias ,,='goUpNoOfDirectories 1'
-alias ...='goUpNoOfDirectories 2'
-alias ,,,='goUpNoOfDirectories 2'
-alias ....='goUpNoOfDirectories 3'
-alias ,,,,='goUpNoOfDirectories 3'
-alias .....='goUpNoOfDirectories 4'
-alias ......='goUpNoOfDirectories 5'
-alias .......='goUpNoOfDirectories 6'
+alias cd..='__goUpNumberOfDirectories 1'
+alias ..='__goUpNumberOfDirectories 1'
+alias ,,='__goUpNumberOfDirectories 1'
+alias ...='__goUpNumberOfDirectories 2'
+alias ,,,='__goUpNumberOfDirectories 2'
+alias ....='__goUpNumberOfDirectories 3'
+alias ,,,,='__goUpNumberOfDirectories 3'
+alias .....='__goUpNumberOfDirectories 4'
+alias ......='__goUpNumberOfDirectories 5'
+alias .......='__goUpNumberOfDirectories 6'
 
 # Mounts ISO file and cd-s into it.
-mountIsoAndCdInto() {
+__mountIsoAndCdInto() {
     sudo mkdir /media/"$1"
     sudo mount -o loop "$1" /media/"$1"
     cd /media/"$1"
 }
-alias cdiso='mountIsoAndCdInto'
+alias cdiso='__mountIsoAndCdInto'
 
 
 #########
@@ -369,77 +370,77 @@ alias cdiso='mountIsoAndCdInto'
 
 # Runs cp in interactive mode (asks before it overwrites
 # anything).
-cpSafe() {
-    cp -iv "$@"
+__copyFilesSafely() {
+    cp --interactive --verbose "$@"
 }
-alias cp='cpSafe'
+alias cp='__copyFilesSafely'
 
 # Runs mv in interactive mode (asks before it overwrites
 # anything).
-mvSafe() {
-    mv -iv "$@"
+__moveFilesSafely() {
+    mv --interactive --verbose  "$@"
 }
-alias mv='mvSafe'
+alias mv='__moveFilesSafely'
 
 # Runs rm in interactive mode (asks you for every file, if you
 # really want to delete it). Run with -f option to override
 # interactive mode.
-rmSave() {
-    rm -i "$@"
+__deleteFilesSafely() {
+    rm --interactive "$@"
 }
-alias rm='rmSave'
+alias rm='__deleteFilesSafely'
 
 # Copies whole directory in interactive mode (asks before it
 # overwrites anything).
-cpdirSave() {
-    cp -iarv "$@"
+__copyDirectoriesSafely() {
+    cp --interactive --verbose --archive --recursive "$@"
 }
-complete -F _filedir_xspec cpdirSave 
-alias cpdir='cpdirSave'
+complete -F _filedir_xspec __copyDirectoriesSafely 
+alias cpdir='__copyDirectoriesSafely'
 
 # Moves whole directory in interactive mode (asks before it
 # overwrites anything).
-mvdirSave() {
-    mv -iv "$@"
+__moveDirectoriesSafely() {
+    mv --interactive --verbose "$@"
 }
-complete -F _filedir_xspec mvdirSave 
-alias mvdir='mvdirSave'
+complete -F _filedir_xspec __moveDirectoriesSafely 
+alias mvdir='__moveDirectoriesSafely'
 
 # Removes whole directory in interactive mode (checks for every
 # file if you really want to delete it). Run with -f option to
 # override interactive mode.
-rmdirSave() {
-    rm -ir "$@"
+__removeDirectoriesSafely() {
+    rm --interactive --recursive "$@"
 }
 #TODO find correct complete
-complete -F _filedir_xspec rmdirSave 
-alias rmdir='rmdirSave'
+complete -F _filedir_xspec __removeDirectoriesSafely 
+alias rmdir='__removeDirectoriesSafely'
 
 # Makes directory (and its parent directories if necessary) and
 # descends into.
-mkdirAndDescendInto() {
-    mkdir -p "$1"
+__createDirectoryAndDescendInto() {
+    mkdir --parents "$1"
     cd "$1"
 }
-alias mkdir1='mkdirAndDescendInto'
-alias mk='mkdirAndDescendInto'
+alias mkdir1='__createDirectoryAndDescendInto'
+alias mk='__createDirectoryAndDescendInto'
 
 # Backups file, by making a copy with '.bak' extension. All
 # file's attributes are preserved.
-backupFile() {
+__backupFile() {
     sudo cp --preserve "$1"{,.bak}
 }
-alias backup='backupFile'
-alias bk='backupFile'
+alias backup='__backupFile'
+alias bk='__backupFile'
 
 # Switches the contents of two specified files.
-switchContentsOfFiles() {
+__switchContentsOfFiles() {
     tempFile=$(mktemp)
     sudo cp "$1" "$tempFile"
     sudo cp -f --no-preserve=mode,ownership "$2" "$1"
     sudo cp -f --no-preserve=mode,ownership "$tempFile" "$2"
 }
-alias switch='switchContentsOfFiles'
+alias switch='__switchContentsOfFiles'
 
 
 #######
@@ -510,7 +511,7 @@ alias ba='bash'
 # it is an alias. Run this command if you are not sure what an
 # alias does!
 typeWithPager() {
-    type "$@" | catOrLess
+    type "$@" | __printOrDisplayTextInPager
 }
 complete -F _command typeWithPager
 alias ty='typeWithPager'
@@ -571,7 +572,7 @@ alias da='date'
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
 makeWithPager() {
-    make 2>&1 | lessWithSensibleOptions
+    make 2>&1 | __displayTextInPager
 }
 #TODO check if exists
 . /usr/share/bash-completion/completions/make
@@ -584,7 +585,7 @@ alias na='runInBackground nautilus .'
 
 # Runs diff with colors and sends output to pager if necessary.
 diffWithColors() {
-    colordiff "$@" | catOrLess
+    colordiff "$@" | __printOrDisplayTextInPager
 }
 alias diff1='diffWithColors'
 
@@ -617,9 +618,9 @@ alias me=makeExecutable
 # prints it whole.
 grepHistory() {
     if [ "$#" -eq 0 ]; then
-        history | catOrLessG
+        history | __printOrDisplayTextInPagerStartingAtEnd
     else
-        history | grep "$@" | catOrLessG
+        history | grep "$@" | __printOrDisplayTextInPagerStartingAtEnd
     fi
 }
 alias history1='grepHistory'
@@ -719,29 +720,29 @@ alias smv='sudoMvSave'
 
 # Runs rm as su in interactive mode (use -f to override
 # interactive mode).
-sudoRmSave() {
+sudo__deleteFilesSafely() {
     sudo rm -i "$@"
 }
-alias srm='sudoRmSave'
+alias srm='sudo__deleteFilesSafely'
 
 # Copies whole directory as su in interactive mode.
-sudoCpdirSave() {
+sudo__copyDirectoriesSafely() {
     sudo cp -arv "$@"
 }
-alias scpdir='sudoCpdirSave'
+alias scpdir='sudo__copyDirectoriesSafely'
 
 #Moves whole directory as su in interactive mode.
-sudoMvdirSave() {
+sudo__moveDirectoriesSafely() {
     sudo mv -iv "$@"
 }
-alias smvdir='sudoMvdirSave'
+alias smvdir='sudo__moveDirectoriesSafely'
 
 # Removes whole directory as su in interactive mode (use -f to
 # override interactive mode).
-sudoRmdirSave() {
+sudo__removeDirectoriesSafely() {
     sudo rm -ir "$@"
 }
-alias srmdir='sudoRmdirSave'
+alias srmdir='sudo__removeDirectoriesSafely'
 
 # Runs less as su.
 sudoLess() {
@@ -781,7 +782,7 @@ alias ht='runTaskManager'
 # Prints user's processes and sends output to pager if
 # necessary.
 printUsersProcesses() {
-    ps "$@" | catOrLess
+    ps "$@" | __printOrDisplayTextInPager
 }
 alias ps1='printUsersProcesses'
 
@@ -795,7 +796,7 @@ alias psa='printAllProcesses'
 # Prints processes with specified pattern in their names,
 # together with their PIDs.
 printProcessesWithPartOfName() {
-    pgrep --list-name "$@" | catOrLess
+    pgrep --list-name "$@" | __printOrDisplayTextInPager
 }
 alias pgrep1='printProcessesWithPartOfName'
 
@@ -810,7 +811,7 @@ alias kill1='killProcessWithKillSignal'
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 straceAlsoChildren() {
-    strace -s 2000 -f "$@" 2>&1 | catAndLessIfNecessary 
+    strace -s 2000 -f "$@" 2>&1 | __printAndDisplayTextInPagerIfNecessary 
 }
 alias strace1='straceAlsoChildren'
 alias st='straceAlsoChildren'
@@ -863,7 +864,7 @@ alias grep1='grepWithSensibleOptions'
 # Runs grepWithSensibleOptions and sends output to pager.
 grepWithPager() {
     grepWithSensibleOptions --color=always "$@" \
-        | catOrLess
+        | __printOrDisplayTextInPager
 }
 alias gr='grepWithPager'
 
@@ -886,7 +887,7 @@ alias find1='findWithHighlight'
 
 # Prints all directories in current and sub-directories.
 printAllDirectoriesBelove() {
-	find . -name .git -prune -o -type d | catOrLess
+	find . -name .git -prune -o -type d | __printOrDisplayTextInPager
 }
 alias findd=printAllDirectoriesBelove
 
@@ -991,7 +992,7 @@ alias batt='batteryStatus'
 alias uname1='uname --all'
 
 # Prints verbose information about all PCI devices.
-alias lspci1='lspci -v | catOrLess'
+alias lspci1='lspci -v | __printOrDisplayTextInPager'
 
 
 #########
@@ -1044,7 +1045,7 @@ alias bc1='gcalccmd'
 
 # Prints hexadecimal representation of file or piped stream.
 hdWithPager() {
-    hd "$@" | catOrLess
+    hd "$@" | __printOrDisplayTextInPager
 }
 alias hd1='hdWithPager'
 
@@ -1131,7 +1132,7 @@ installedPackagesByUser() {
     cat /var/log/apt/history.log \
         | grep "apt-get install" \
         | sed "s/.* //" \
-        | catOrLessG
+        | __printOrDisplayTextInPagerStartingAtEnd
 }
 alias packages='installedPackagesByUser'
 alias installed='installedPackagesByUser' 
@@ -1140,7 +1141,7 @@ alias installed='installedPackagesByUser'
 installedPackages() {
     dpkg --get-selections \
         | grep -v deinstall \
-        | catOrLess
+        | __printOrDisplayTextInPager
 }
 alias packages1='installedPackages'
 alias installed1='installedPackages'
@@ -1151,7 +1152,7 @@ packageDependsOn() {
         | grep Depends \
         | sed 's/Depends:/ /' \
         | sed 's/,/\n /g' \
-        | catOrLess
+        | __printOrDisplayTextInPager
 }
 alias depends='packageDependsOn'
 
@@ -1203,12 +1204,12 @@ findAvailablePackagesWithPartOfNameOrPartOfCommand() {
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    findAvailablePackagesWithPartOfName "$@") | catAndLessIfNecessary 
+    findAvailablePackagesWithPartOfName "$@") | __printAndDisplayTextInPagerIfNecessary 
 }
 
 # Prints package description.
 packageDescriptionWithFullName() {
-    apt-cache show "$@" | grep "^ " | catOrLess
+    apt-cache show "$@" | grep "^ " | __printOrDisplayTextInPager
 }
 alias describe='packageDescriptionWithFullName'
 alias pd='packageDescriptionWithFullName'
@@ -1277,7 +1278,7 @@ comprehensiveInquiry() {
     # Checks if it is a package.
     call2=$(packageDescriptionWithFullName "$@" 2> /dev/null) 
     if [ "$call2" != "" ]; then
-        echo "$call2" | catOrLess
+        echo "$call2" | __printOrDisplayTextInPager
         return
     fi
 
@@ -1309,7 +1310,7 @@ alias commit='git commit -am'
 alias commitm='git commit -a'
 
 # Creates an empty Git repository or reinitializes an existing
-# one.
+# one (nondestructive).
 alias init='git init'
 
 # Pushes changes to remote repository.
@@ -1332,7 +1333,7 @@ alias gb='branch'
 
 # Prints short status of repository.
 shortGitStatus() {
-    git -c color.status=always status -sb | catOrLess
+    git -c color.status=always status -sb | __printOrDisplayTextInPager
 }
 alias gs='shortGitStatus'
 
