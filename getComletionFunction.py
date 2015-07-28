@@ -1,25 +1,7 @@
 #!/usr/bin/python
 import sys
 import re
-
-# My take on automatic completion generation for aliases.
-# Sets automoatic completion function to same function as the first command in
-# alias has.
-# $1 - alias
-# $2 - first command of alias
-#setCompletionFunctionForAlias() {
-    #aliasName="$1"
-    #commandName="$2"
-    #completionFunction=$(complete -p "$2" 2>/dev/null)
-    #if [[ "$completionFunction" == "" ]]; then
-    #    return 1
-    #fi  
-    #completionFunction=$(
-    #    echo "$completionFunction" \
-    #        | cut --delimiter=' ' --fields=3)
-    #complete -F "$completionFunction" "$1"
-#}
-
+import string
 
 #### MAIN ####
 
@@ -32,10 +14,7 @@ aliases = sys.argv[1]
 completions = sys.argv[2]
 
 # 2. Returns list of completions...
-
-#print(aliases)
-
-import string
+out = ""
 
 for alias in string.split(aliases, '\n'):
     aliasName = re.sub(r'^alias ', "", alias) 
@@ -50,8 +29,9 @@ for alias in string.split(aliases, '\n'):
         if completion.endswith(" "+commandName):
             parts = completion.strip().split(' ')
             completionFunction= parts[2]
-            #print("completion function: "+ completionFunction)
-            print("complete -F "+completionFunction+" "+aliasName)
+            out += "complete -F "+completionFunction+" "+aliasName+"\n"
+
+print(out)
 
 
 

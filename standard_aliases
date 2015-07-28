@@ -1584,6 +1584,11 @@ alias zz='volumeDown2Db'
 # COMPLETIONS #
 ###############
 
+# Calling python function
+completionDefsForAliases=$(/home/minerva/github/standard-aliases/getComletionFunction.py "$(alias)" "$(complete)")
+echo "$completionDefsForAliases"
+eval "$completionDefsForAliases"
+
 #makeWithPager() {
 #    make 2>&1 | lessWithSensibleOptions
 #}
@@ -1610,7 +1615,7 @@ setCompletionFunctionForAlias() {
     #complete -F "$completionFunction" "$1"
     return 1
 }
-eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\).*'\''/setCompletionFunctionForAlias \1 \2/')"
+#eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\).*'\''/setCompletionFunctionForAlias \1 \2/')"
 
 # from stackowerflow:
 #eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\) *\(.*\)'\''/wrap_alias \1 \2 '\''\3'\'' /')"
