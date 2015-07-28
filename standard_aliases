@@ -37,9 +37,9 @@ catOrLessWithOrWithoutG() {
             cat "$2"
         else
             if [[ "$1" == 'true' ]]; then
-                lessWithSensibleOptions +G "$2" 2>/dev/null 
+                lessWithSensibleOptions +G "$2" 2>/dev/null
             else
-                lessWithSensibleOptions "$2" 2>/dev/null 
+                lessWithSensibleOptions "$2" 2>/dev/null
             fi
         fi
     else
@@ -49,9 +49,9 @@ catOrLessWithOrWithoutG() {
             echo "$input" | cat 
         else
             if [[ "$1" == 'true' ]]; then
-                echo "$input" | lessWithSensibleOptions +G 2>/dev/null 
+                echo "$input" | lessWithSensibleOptions +G 2>/dev/null
             else
-                echo "$input" | lessWithSensibleOptions 2>/dev/null 
+                echo "$input" | lessWithSensibleOptions 2>/dev/null
             fi
         fi
     fi
@@ -806,6 +806,7 @@ killProcessWithKillSignal() {
 }
 alias kill1='killProcessWithKillSignal'
 
+# TODO from here
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 straceAlsoChildren() {
@@ -1301,7 +1302,7 @@ alias wi='comprehensiveInquiry'
 
 # Commits changed and deleted files. Commit message must be
 # entered as parameter.
-#alias commit='git commit -am'
+alias commit='git commit -am'
 
 # Commits changed and deleted files. Opens text editor, so
 # proper commit message can be entered.
@@ -1667,39 +1668,8 @@ alias zz='volumeDown2Db'
 
 # Calling python function
 completionDefsForAliases=$(/home/minerva/github/standard-aliases/getComletionFunction.py "$(alias)" "$(complete)")
-echo "$completionDefsForAliases"
 eval "$completionDefsForAliases"
-
-#makeWithPager() {
-#    make 2>&1 | lessWithSensibleOptions
-#}
-#. /usr/share/bash-completion/completions/make
-#complete -F _make  makeWithPager
-#alias make1='makeWithPager'
-#alias ma='makeWithPager'
-
-# My take on automatic completion generation for aliases.
-# Sets automoatic completion function to same function as the first command in
-# alias has.
-# $1 - alias
-# $2 - first command of alias
-#setCompletionFunctionForAlias() {
-    #aliasName="$1"
-    #commandName="$2"
-    #completionFunction=$(complete -p "$2" 2>/dev/null)
-    #if [[ "$completionFunction" == "" ]]; then
-    #    return 1
-    #fi
-    #completionFunction=$(
-    #    echo "$completionFunction" \
-    #        | cut --delimiter=' ' --fields=3)
-    #complete -F "$completionFunction" "$1"
-#    return 1
-#}
-#eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\).*'\''/setCompletionFunctionForAlias \1 \2/')"
-
-# from stackowerflow:
-#eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\) *\(.*\)'\''/wrap_alias \1 \2 '\''\3'\'' /')"
+#echo "$completionDefsForAliases"
 
 
 # Automatically add completion for all aliases to commands having completion functions
