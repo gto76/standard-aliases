@@ -467,7 +467,7 @@ alias rb='runInBackground'
 
 # Opens this file in Vim.
 alias aliases='vim ~/.standard_aliases'
-alias al='al'
+alias al='aliases'
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
@@ -1598,18 +1598,17 @@ alias zz='volumeDown2Db'
 # $1 - alias
 # $2 - first command of alias
 setCompletionFunctionForAlias() {
-    aliasName="$1"
-    commandName="$2"
-    #echo aliasName: "$aliasName" 
-    #echo commandName: "$commandName"
-    completionFunction=$(complete -p "$2" 2>/dev/null)
-    if [[ "$completionFunction" == "" ]]; then
-        return 1
-    fi
-    completionFunction=$(
-        echo "$completionFunction" \
-            | cut --delimiter=' ' --fields=3)
-    complete -F "$completionFunction" "$1"
+    #aliasName="$1"
+    #commandName="$2"
+    #completionFunction=$(complete -p "$2" 2>/dev/null)
+    #if [[ "$completionFunction" == "" ]]; then
+    #    return 1
+    #fi
+    #completionFunction=$(
+    #    echo "$completionFunction" \
+    #        | cut --delimiter=' ' --fields=3)
+    #complete -F "$completionFunction" "$1"
+    return 1
 }
 eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\).*'\''/setCompletionFunctionForAlias \1 \2/')"
 
