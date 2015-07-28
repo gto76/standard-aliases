@@ -28,7 +28,7 @@ alias le='lessWithSensibleOptions'
 # input. First argument must be either 'true' or some other
 # value, true meaning that lessgets run with G option. G option
 # starts less at the end of the input (scrolled to the bottom).
-__catOrLessWithOrWithoutG() {
+catOrLessWithOrWithoutG() {
     if [[ "$#" -gt 1 ]]; then
         noOfLines=$(cat "$2" 2>/dev/null \
             | fold -w"$COLUMNS" \
@@ -60,14 +60,14 @@ __catOrLessWithOrWithoutG() {
 # Runs cat or less, depending on number of lines in file or
 # input.
 catOrLess() {
-    __catOrLessWithOrWithoutG 'false' "$@"
+    catOrLessWithOrWithoutG 'false' "$@"
 }
 alias m='catOrLess'
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
 catOrLessG() {
-    __catOrLessWithOrWithoutG 'true' "$@"
+    catOrLessWithOrWithoutG 'true' "$@"
 }
 
 # If file specified then runs cat or less, depending on no of
@@ -262,6 +262,7 @@ alias lllt='lsLongOrderByDate'
 lsShortListMatchingDirectories() {
     lsShort --directory "$@"
 }
+complete -F _filedir lsShortListMatchingDirectories 
 alias dl='lsShortListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists directories
@@ -269,6 +270,7 @@ alias dl='lsShortListMatchingDirectories'
 lsMedListMatchingDirectories() {
     lsMed --directory "$@"
 }
+complete -F _filedir lsMedListMatchingDirectories 
 alias dll='lsMedListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists directories
@@ -276,6 +278,7 @@ alias dll='lsMedListMatchingDirectories'
 lsLongListMatchingDirectories() {
     lsLong --directory
 }
+complete -F _filedir_xspec lsLongListMatchingDirectories 
 alias dlll='lsLongListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists one name per line.
@@ -366,31 +369,51 @@ alias cdiso='mountIsoAndCdInto'
 
 # Runs cp in interactive mode (asks before it overwrites
 # anything).
-alias cp='cp -iv'
-
-alias cp='cp -iv'
+cpSafe() {
+    cp -iv "$@"
+}
+alias cp='cpSafe'
 
 # Runs mv in interactive mode (asks before it overwrites
 # anything).
-alias mv='mv -iv'
+mvSafe() {
+    mv -iv "$@"
+}
+alias mv='mvSafe'
 
 # Runs rm in interactive mode (asks you for every file, if you
 # really want to delete it). Run with -f option to override
 # interactive mode.
-alias rm='rm -i'
+rmSave() {
+    rm -i "$@"
+}
+alias rm='rmSave'
 
 # Copies whole directory in interactive mode (asks before it
 # overwrites anything).
-alias cpdir='cp -iarv'
+cpdirSave() {
+    cp -iarv "$@"
+}
+complete -F _filedir_xspec cpdirSave 
+alias cpdir='cpdirSave'
 
 # Moves whole directory in interactive mode (asks before it
 # overwrites anything).
-alias mvdir='mv -iv'
+mvdirSave() {
+    mv -iv "$@"
+}
+complete -F _filedir_xspec mvdirSave 
+alias mvdir='mvdirSave'
 
 # Removes whole directory in interactive mode (checks for every
 # file if you really want to delete it). Run with -f option to
 # override interactive mode.
-alias rmdir='rm -ir'
+rmdirSave() {
+    rm -ir "$@"
+}
+#TODO find correct complete
+complete -F _filedir_xspec rmdirSave 
+alias rmdir='rmdirSave'
 
 # Makes directory (and its parent directories if necessary) and
 # descends into.
@@ -443,10 +466,16 @@ alias p='printPwdOrPath'
 alias e='echo'
 
 # Runs echo that interprets backslashed characters (\n,...).
-alias ee='echo -e'
+echoWithEscapes() {
+    echo -e "$@"
+}
+alias ee='echoWithEscapes'
 
 # Runs echo that doesn't print new line at the end.
-alias en='echo -n'
+echoWithoutNewline() {
+    echo -n "$@"
+}
+alias en='echoWithoutNewline'
 
 
 #####################
@@ -458,6 +487,7 @@ alias en='echo -n'
 runInBackground() {
     nohup "$@" &>/dev/null &
 }
+complete -F _command runInBackground
 alias rb='runInBackground'
 
 
@@ -466,8 +496,11 @@ alias rb='runInBackground'
 ##########
 
 # Opens this file in Vim.
-alias aliases='vim ~/.standard_aliases'
-alias al='aliases'
+editBashAliases() {
+    vim ~/.standard_aliases
+}
+alias aliases='editBashAliases'
+alias al='editBashAliases'
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
@@ -502,7 +535,10 @@ alias q='exit'
 
 # Opens file with default application for it's file type, and
 # runs in background.
-alias o='runInBackground xdg-open'
+openFileWithDefaultApp() {
+    runInBackground xdg-open "$@"
+}
+alias o='openFileWithDefaultApp'
 
 # Starts a new terminal, with same working directory. 
 alias te='gnome-terminal'
@@ -537,6 +573,7 @@ alias da='date'
 makeWithPager() {
     make 2>&1 | lessWithSensibleOptions
 }
+#TODO check if exists
 . /usr/share/bash-completion/completions/make
 complete -F _make  makeWithPager
 alias make1='makeWithPager'
@@ -618,10 +655,16 @@ alias nano1='nanoWithSensibleOptions'
 alias n='nanoWithSensibleOptions'
 
 # Runs Gedit in background.
-alias g='runInBackground gedit'
+runGedit() {
+    runInBackground gedit "$@"
+}
+alias g='runGedit'
 
 # Runs Sublime Text in background.
-alias sub='runInBackground sublime_text'
+runSublimeText() {
+    runInBackground sublime_text "$@"
+}
+alias sub='runSublimeText'
 
 
 ########
@@ -659,6 +702,8 @@ executeLastCommandAsSudo() {
 alias fuck='executeLastCommandAsSudo'
 alias fu='executeLastCommandAsSudo'
 alias f='executeLastCommandAsSudo'
+
+# TODO from here
 
 # Runs cp as su in interactive mode.
 alias scp='sudo cp -iv'
@@ -1602,7 +1647,7 @@ eval "$completionDefsForAliases"
 # alias has.
 # $1 - alias
 # $2 - first command of alias
-setCompletionFunctionForAlias() {
+#setCompletionFunctionForAlias() {
     #aliasName="$1"
     #commandName="$2"
     #completionFunction=$(complete -p "$2" 2>/dev/null)
@@ -1613,8 +1658,8 @@ setCompletionFunctionForAlias() {
     #    echo "$completionFunction" \
     #        | cut --delimiter=' ' --fields=3)
     #complete -F "$completionFunction" "$1"
-    return 1
-}
+#    return 1
+#}
 #eval "$(alias -p | sed -e 's/alias \([^=][^=]*\)='\''\([^ ][^ ]*\).*'\''/setCompletionFunctionForAlias \1 \2/')"
 
 # from stackowerflow:
