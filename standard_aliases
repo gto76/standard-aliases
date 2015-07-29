@@ -860,47 +860,50 @@ alias sg='__editFileWithGeditAsSuperUser'
 #############
 
 # Shows detailed overview of processes (task manager).
-runTaskManager() {
+__runTaskManager() {
     htop "$@"
 }
-alias ht='runTaskManager'
+alias taskManager='__runTaskManager'
+alias ht='__runTaskManager'
 
 # Prints user's processes and sends output to pager if
 # necessary.
-printUsersProcesses() {
+__printUsersProcesses() {
     ps "$@" | __printOrDisplayTextInPager
 }
-alias ps1='printUsersProcesses'
+alias ps1='__printUsersProcesses'
 
 # Prints every process on the system.
-printAllProcesses() {
+__printAllProcesses() {
     psWithPager -e "$@"
 }
-alias pse='printAllProcesses'
-alias psa='printAllProcesses'
+alias processes='__printAllProcesses'
+alias pse='__printAllProcesses'
+alias psa='__printAllProcesses'
 
 # Prints processes with specified pattern in their names,
 # together with their PIDs.
-printProcessesWithPartOfName() {
+__findProcessesWithPartOfName() {
     pgrep --list-name "$@" | __printOrDisplayTextInPager
 }
-alias pgrep1='printProcessesWithPartOfName'
+alias pgrep1='__findProcessesWithPartOfName'
 
 # Sends KILL signal to process with specified PID, instead of
 # kill's default signal TERM.
-killProcessWithKillSignal() {
+__killProcessWithKillSignal() {
     kill -9 "$@"
 }
-alias kill1='killProcessWithKillSignal'
+alias kill1='__killProcessWithKillSignal'
 
-# TODO from here
+# TODO options
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
-straceAlsoChildren() {
+__traceSystemCalls() {
     strace -s 2000 -f "$@" 2>&1 | __printAndDisplayTextInPagerIfNecessary 
 }
-alias strace1='straceAlsoChildren'
-alias st='straceAlsoChildren'
+alias trace='__traceSystemCalls'
+alias strace1='__traceSystemCalls'
+alias st='__traceSystemCalls'
 
 
 ########
@@ -908,35 +911,45 @@ alias st='straceAlsoChildren'
 ########
 
 # Deletes specified characters.
-alias trd='tr --delete'
+__deleteCharacters() {
+    tr --delete "$@"
+}
+alias trd='__deleteCharacters'
 
 # Creates table out of input lines (lines up the columns). You
 # need to specify the delimiter character.
-alias table='column -t -s'
+__lineUpColumns() {
+    column -t -s "$@"
+}
+alias table='__lineUpColumns'
 
+# TODO parameters
 # Treats input lines as rows of a table. With second argument
 # you specify the columns you want to retain, and with first,
 # the delimiter character. For more columns use comma or dash
 # (for ranges).
-keepColumns() {
+__keepColumns() {
     cut --delimiter="$1" --fields="$2" 
 }
-alias cut1='keepColumns'
+alias keepColumns='__keepColumns'
+alias cut1='__keepColumns'
 
+# TODO parameters
 # Treats input lines as rows of a table and sorts them by column
 # you specify with second parameter. First argument specifies
 # the delimiter character. Using comma, more columns can be
 # specified (in order of importance).
-sortByColumn() { 
+__sortLinesByColumn() { 
     sort --field-separator="$1" --key="$2"
 }
-alias sort1='sortByColumn'
+alias sort1='__sortLinesByColumn'
 
 
 ##########
 # SEARCH #
 ##########
 
+# TODO options
 # Runs grep with highlighting matches, not grepping through .svn
 # and .git folders, using Perl regex format (it has some
 # additional operators, for instance, '+' for matching one or
