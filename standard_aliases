@@ -449,14 +449,14 @@ alias switch='__switchContentsOfFiles'
 
 # If no file specified, prints working directory, else full path
 # of the file.
-printPwdOrPath() {
+__printWorkingDirectoryOrPathToFile() {
     if [[ $# -eq 0 ]]; then
         echo "$PWD"
     else
         echo "$PWD"/"$@"
     fi      
 }
-alias p='printPwdOrPath'
+alias p='__printWorkingDirectoryOrPathToFile'
 
 
 ########
@@ -464,32 +464,36 @@ alias p='printPwdOrPath'
 ########
 
 # Runs echo.
-alias e='echo'
+__printText() {
+    echo "$@"
+}
+alias e='__printText'
 
 # Runs echo that interprets backslashed characters (\n,...).
-echoWithEscapes() {
+__printTextInterpretingBackslashedCharacters() {
     echo -e "$@"
 }
-alias ee='echoWithEscapes'
+alias ee='__printTextInterpretingBackslashedCharacters'
 
 # Runs echo that doesn't print new line at the end.
-echoWithoutNewline() {
+__printTextWithoutTrailingNewline() {
     echo -n "$@"
 }
-alias en='echoWithoutNewline'
+alias en='__printTextWithoutTrailingNewline'
 
 
 #####################
 # RUN IN BACKGROUND #
 #####################
 
-# Runs command in background, it doesn't hang up if shell
+# Runs command in background. It doesn't hang up if shell
 # is closed and it doesn't print output.
-runInBackground() {
+__runCommandInBackground() {
     nohup "$@" &>/dev/null &
 }
-complete -F _command runInBackground
-alias rb='runInBackground'
+complete -F _command __runCommandInBackground
+alias runInBackground='__runCommandInBackground'
+alias rb='__runCommandInBackground'
 
 
 ##########
@@ -497,101 +501,155 @@ alias rb='runInBackground'
 ##########
 
 # Opens this file in Vim.
-editBashAliases() {
+__editBashAliases() {
     vim ~/.standard_aliases
 }
-alias aliases='editBashAliases'
-alias al='editBashAliases'
+alias aliases='__editBashAliases'
+alias al='__editBashAliases'
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
-alias ba='bash'
+__startNewBashShell() {
+    bash "$@"
+}
+alias ba='__startNewBashShell'
 
 # Prints location of specified command, or it's definition, if
 # it is an alias. Run this command if you are not sure what an
 # alias does!
-typeWithPager() {
+__printLocationOfCommandOrAliasDefinition() {
     type "$@" | __printOrDisplayTextInPager
 }
-complete -F _command typeWithPager
-alias ty='typeWithPager'
-
-# Runs command as sudo.
-alias s='sudo'
+complete -F _command __printLocationOfCommandOrAliasDefinition
+alias type1='__printLocationOfCommandOrAliasDefinition'
+alias ty='__printLocationOfCommandOrAliasDefinition'
 
 # Runs cat.
-alias c='cat'
+__printContentsOfFile() {
+    cat "$@"
+}
+alias c='__printContentsOfFile'
 
 # Prints the exit code of the last command.
-alias ?='echo $?'
+__printExitCodeOfLastCommand() {
+    echo $?
+}
+alias exitCode='__printExitCodeOfLastCommand'
+alias ?='__printExitCodeOfLastCommand'
 
 # Clears the screen.
-alias cl='clear'
+__clearTheScreen() {
+    clear
+}
+alias cl='__clearTheScreen'
 
 # Resets the screen.
-alias re='reset'
+__resetTheScreen() {
+    reset "$@"
+}
+alias re='__resetTheScreen'
 
 # Exits shell.
-alias q='exit'
+__exitBashShell() {
+    exit
+}
+alias q='__exitBashShell'
 
 # Opens file with default application for it's file type, and
 # runs in background.
-openFileWithDefaultApp() {
-    runInBackground xdg-open "$@"
+__openFileWithDefaultApp() {
+    __runCommandInBackground xdg-open "$@"
 }
-alias o='openFileWithDefaultApp'
+alias openFile='__openFileWithDefaultApp'
+alias o='__openFileWithDefaultApp'
 
 # Starts a new terminal, with same working directory. 
-alias te='gnome-terminal'
+__openNewTerminalWithSameWorkingDirectory() {
+    gnome-terminal "$@"
+}
+alias terminal='__openNewTerminalWithSameWorkingDirectory'
+alias te='__openNewTerminalWithSameWorkingDirectory'
 
 # Runs head (prints first 10 lines of file or piped stream).
-alias he='head'
+__printFirst10Lines() {
+    head "$@"
+}
+alias he='__printFirst10Lines'
 
 # Prints first line of file or piped stream.
-alias he1='head -n1'
+__printFirstLine() {
+    head -n1 "$@"
+}
+alias firstLine='__printFirstLine'
+alias he1='__printFirstLine'
 
 # Runs tail (prints last 10 lines of file or piped stream).
-alias ta='tail'
+__printLast10Lines() {
+    tail "$@"
+}
+alias ta='__printLast10Lines'
 
 # Prints last line of file or piped stream.
-alias ta1='tail -n1'
+__printLastLine() {
+    tail -n1 "$@"
+}
+alias lastLine='__printLastLine'
+alias ta1='__printLastLine'
 
 # Counts lines in file or piped stream.
-alias wcl='wc -l'
+__countLines() {
+    wc -l "$@"
+}
+alias countLines='__countLines'
+alias wcl='__countLines'
 
 # Counts words in file or piped stream.
-alias wcw='wc -w'
+__countWords() {
+    wc -w "$@"
+}
+alias countWords='__countWords'
+alias wcw='__countWords'
 
 # Updates file's timestamp, or creates empty file, if it doesn't
 # exits.
-alias to='touch'
+__updateFilesTimestampOrCreateNewOne() {
+    touch "$@"
+}
+alias to='__updateFilesTimestampOrCreateNewOne'
 
 # Prints current date and time.
-alias da='date'
+__printDateAndTime() {
+    date "$@"
+}
+alias da='__printDateAndTime'
 
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
-makeWithPager() {
+__runMakeWithPager() {
     make 2>&1 | __displayTextInPager
 }
 #TODO check if exists
 . /usr/share/bash-completion/completions/make
-complete -F _make  makeWithPager
-alias make1='makeWithPager'
-alias ma='makeWithPager'
+complete -F _make  __runMakeWithPager
+alias make1='__runMakeWithPager'
+alias ma='__runMakeWithPager'
 
 # Start Nautilus file explorer in background.
-alias na='runInBackground nautilus .'
+__startFileExplorerInBackgroundInWorkingDir() {
+    __runCommandInBackground nautilus .
+}
+alias explorer='__startFileExplorerInBackgroundInWorkingDir'
+alias na='__startFileExplorerInBackgroundInWorkingDir'
 
 # Runs diff with colors and sends output to pager if necessary.
-diffWithColors() {
+__compareFilesLineByLineInColors() {
     colordiff "$@" | __printOrDisplayTextInPager
 }
-alias diff1='diffWithColors'
+alias diff1='__compareFilesLineByLineInColors'
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
-makeExecutable() {
+__makeFileExecutableOrCreateNewBashScript() {
     if [[ ! -f "$1" ]]; then
         echo '#!/bin/bash' >> "$1"
         echo '#' >> "$1"
@@ -607,7 +665,8 @@ makeExecutable() {
     fi
     chmod u+x "$1"        
 }
-alias me=makeExecutable    
+alias makeExecutable='__makeFileExecutableOrCreateNewBashScript'
+alias me='__makeFileExecutableOrCreateNewBashScript'  
 
 
 ###########
@@ -616,15 +675,15 @@ alias me=makeExecutable
 
 # Searches command history for pattern, or if none is specified,
 # prints it whole.
-grepHistory() {
+__searchCommandHistoryForPattern() {
     if [ "$#" -eq 0 ]; then
         history | __printOrDisplayTextInPagerStartingAtEnd
     else
         history | grep "$@" | __printOrDisplayTextInPagerStartingAtEnd
     fi
 }
-alias history1='grepHistory'
-alias h='grepHistory'
+alias history1='__searchCommandHistoryForPattern'
+alias h='__searchCommandHistoryForPattern'
 
 
 ################
@@ -632,11 +691,17 @@ alias h='grepHistory'
 ################
 
 # Calls Vim with option that opens one tab per file.
-alias v='vim -p'
+__editFileWithVim() {
+    vim -p "$@"
+}
+alias v='__editFileWithVim'
 
 # Runs Vim in read only mode, and with option that opens one tab
 # per file.
-alias vv='view -p'
+__viewFileInVim() {
+    view -p "$@"
+}
+alias vv='__viewFileInVim'
 
 # Runs Nano with a few sensible options.
 #   * enable experimental undo (will most probably crash
@@ -657,13 +722,13 @@ alias n='nanoWithSensibleOptions'
 
 # Runs Gedit in background.
 runGedit() {
-    runInBackground gedit "$@"
+    __runCommandInBackground gedit "$@"
 }
 alias g='runGedit'
 
 # Runs Sublime Text in background.
 runSublimeText() {
-    runInBackground sublime_text "$@"
+    __runCommandInBackground sublime_text "$@"
 }
 alias sub='runSublimeText'
 
@@ -695,6 +760,13 @@ alias ntfsundelete='sudo ntfsundelete'
 alias lshw='sudo lshw'
 alias chown='sudo chown'
 alias mount='sudo mount'
+
+# Runs command as sudo.
+__runCommandAsSuperUser() {
+    sudo "$@"
+}
+complete -F _command __runCommandAsSuperUser
+alias s='__runCommandAsSuperUser'
 
 # Executes last command as sudo.
 executeLastCommandAsSudo() {
@@ -1255,7 +1327,9 @@ infoAboutInstalledCommandWithFullName() {
         versionInfo=$(version $(echo "$packageInfo" | sed 's/:.*$//'))
         echo "$versionInfo" | grep Installed | sed 's/^ *//'
         echo "$versionInfo" | grep Candidate | sed 's/^ *//'
+        return 0
     fi
+    return 1
 }
 alias package='infoAboutInstalledCommandWithFullName'
 
@@ -1269,9 +1343,8 @@ aliasDefinitionWithFullName() {
 # function returns.
 comprehensiveInquiry() {
     # Checks if it is an installed command.
-    call1=$(infoAboutInstalledCommandWithFullName "$@")
-    if [ "$call1" != "" ]; then
-        echo "$call1"
+    infoAboutInstalledCommandWithFullName "$@"
+    if [ "$?" == "0" ]; then 
         return
     fi
 
@@ -1600,21 +1673,21 @@ alias wlan='wirelessNetworksInRange'
 
 # Runs default browser in background.
 defaultBrowserInBackground() {
-    runInBackground sensible-browser "$@"
+    __runCommandInBackground sensible-browser "$@"
 }
 alias internet='defaultBrowserInBackground'
 alias i='defaultBrowserInBackground'
 
 # Runs Firefox in background.
 firefoxInBackground() {
-    runInBackground firefox "$@"
+    __runCommandInBackground firefox "$@"
 }
 alias fire='firefoxInBackground'
 
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
 chromeInBackground() {
-    runInBackground google-chrome --touch-devices=123
+    __runCommandInBackground google-chrome --touch-devices=123
 }
 alias chrome='chromeInBackground'
 
