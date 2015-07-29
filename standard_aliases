@@ -954,41 +954,43 @@ alias sort1='__sortLinesByColumn'
 # and .git folders, using Perl regex format (it has some
 # additional operators, for instance, '+' for matching one or
 # more times) and ignoring case.
-grepWithSensibleOptions() {
+__printLinesContainingPattern() {
     grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git \
         --ignore-case --perl-regexp "$@"
 }
-alias grep1='grepWithSensibleOptions'
+alias grep1='__printLinesContainingPattern'
 
-# Runs grepWithSensibleOptions and sends output to pager.
-grepWithPager() {
-    grepWithSensibleOptions --color=always "$@" \
+# Runs __printLinesContainingPattern and sends output to pager.
+__printOrDisplayWithPagerLinesContainingPattern() {
+    __printLinesContainingPattern --color=always "$@" \
         | __printOrDisplayTextInPager
 }
-alias gr='grepWithPager'
+alias gr='__printOrDisplayWithPagerLinesContainingPattern'
 
+# TODO doesent work, probably because gr uses different regex, so argument needs to be stripped of *.
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
-locateWithPager() {
-    locate "$@" | grepWithPager "$@" 
+__locateFilesContainingPatternInTheirNamesGlobaly() {
+    locate "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
 }
-alias locate1='locateWithPager'
-alias lo='locateWithPager'
+alias locate1='__locateFilesContainingPatternInTheirNamesGlobaly'
+alias lo='__locateFilesContainingPatternInTheirNamesGlobaly'
 
 # Searches for files containing pattern in their names in
 # current and sub-directories.  Use filesystem regexes for
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
-findWithHighlight() {
-    find . -name "$1" | grepWithPager $(echo "$1" | tr -d "\*")
+__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirs() {
+    find . -name "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
 }
-alias find1='findWithHighlight'
+alias find1='__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirs'
 
 # Prints all directories in current and sub-directories.
-printAllDirectoriesBelove() {
+__printAllSubdirectories() {
 	find . -name .git -prune -o -type d | __printOrDisplayTextInPager
 }
-alias findd=printAllDirectoriesBelove
+alias directories='__printAllSubdirectories'
+alias findd='__printAllSubdirectories'
 
 
 ############
@@ -997,7 +999,7 @@ alias findd=printAllDirectoriesBelove
 
 # Extracts archive of any type. (Author (Vitalii
 # Tereshchuk)[https://github.com/xvoland])
-extractArchiveOfAnyType() {
+__extractArchiveOfAnyType() {
     if [ -z "$1" ]; then
         # display usage if no parameters given
         echo -n "Usage: extract <path/file_name>"
@@ -1030,7 +1032,7 @@ extractArchiveOfAnyType() {
         fi
     fi
 }
-alias extract='extractArchiveOfAnyType'
+alias extract='__extractArchiveOfAnyType'
 
 
 ########
@@ -1038,13 +1040,22 @@ alias extract='extractArchiveOfAnyType'
 ########
 
 # Runs Tmux.
-alias tm='tmux'
+__runTerminalMultiplexer() {
+    tmux "$@"
+}
+alias tm='__runTerminalMultiplexer'
 
 # Runs Tmux, and attaches to last session.
-alias tma='tmux attach'
+__runTerminalMultiplexerAndAttachToSession() {
+    tmux attach "$@"
+}
+alias tma='__runTerminalMultiplexerAndAttachToSession'
 
 # Lists all running Tmux sessions.
-alias tml='tmux ls'
+__printTerminalMultiplexersSessions() {
+    tmux ls
+}
+alias tml='__printTerminalMultiplexersSessions'
 
 
 ######################
@@ -1052,17 +1063,20 @@ alias tml='tmux ls'
 ######################
 
 # Reports disk space of main partitions in human readable form.
-diskSpaceUsageSimplified() {
+__printDiskSpaceUsageInSimplifiedForm() {
     df -h | grep "sd\|Size" | cat
 }
-alias df1='diskSpaceUsageSimplified'
+alias df1='__printDiskSpaceUsageInSimplifiedForm'
 
 # Displays disk space used by a folder or a file in human
 # readable form.
-alias du1='du --summarize --human-readable'
+__printDiskUsageOfFileOrFolder() {
+    du --summarize --human-readable "$@"
+}
+alias du1='__printDiskUsageOfFileOrFolder'
 
 # Prints all and free memory in megabytes.
-freeAndAllMemory() {
+__printMemoryStatusInSimplifiedForm() {
     echo "all:  "$(free -m \
         | grep Mem \
         | sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
@@ -1070,45 +1084,67 @@ freeAndAllMemory() {
         | grep Mem \
         | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
-alias free1='freeAndAllMemory'
-alias fr='freeAndAllMemory'
+alias free1='__printMemoryStatusInSimplifiedForm'
+alias fr='__printMemoryStatusInSimplifiedForm'
 
 # Displays CPU's temperature.
-cpusTemperature() {
+__printTemperatureOfCpu() {
     acpi -t
 }
-alias temperature='cpusTemperature'
-alias temp='cpusTemperature'
+alias temperature='__printTemperatureOfCpu'
+alias temp='__printTemperatureOfCpu'
 
 # Prints battery status.
-batteryStatus() {
+__printBatteryStatus() {
     acpi
 }
-alias battery='batteryStatus'
-alias batt='batteryStatus'
+alias battery='__printBatteryStatus'
+alias batt='__printBatteryStatus'
 
 # Prints kernel version and Linux distribution.
-alias uname1='uname --all'
+# todo: sed
+__printOperatingSystemInformation() {
+    uname --all
+}
+alias kernelVersion='__printOperatingSystemInformation'
+alias uname1='__printOperatingSystemInformation'
 
-# Prints verbose information about all PCI devices.
-alias lspci1='lspci -v | __printOrDisplayTextInPager'
+# Prints verbose information about all PCI devices. 
+__printInfoAboutPciDevices() {
+    lspci -v "$@" | __printOrDisplayTextInPager
+}
+alias lspci1='__printInfoAboutPciDevices'
+alias pci='__printInfoAboutPciDevices'
 
 
 #########
 # POWER #
 #########
-
+ 
+# TODO research
 # Restarts computer.
-alias restart='sudo shutdown -r now'
+__restartComputer() {
+    sudo shutdown -r now
+}
+alias restart='__restartComputer'
 
 # Shuts down computer.
-alias poweroff='sudo shutdown now'
+__shutDownComputer() {
+    sudo shutdown now
+}
+alias poweroff='__shutDownComputer'
 
 # Hibernates.
-alias hib='sudo pm-hibernate'
+__hibernateComputer() {
+    sudo pm-hibernate
+}
+alias hib='__hibernateComputer'
 
 # Suspends.
-alias sus='sudo pm-suspend'
+__suspendComputer() {
+    sudo pm-suspend
+}
+alias sus='__suspendComputer'
 
 
 ############
@@ -1116,16 +1152,28 @@ alias sus='sudo pm-suspend'
 ############
 
 # Sets keyboard layout to us layout.
-alias uskeys='setxkbmap -layout us'
+__changeKeyboardLayoutToAmerican() {
+    setxkbmap -layout us "$@"
+}
+alias uskeys='__changeKeyboardLayoutToAmerican'
 
 # Gets keycode of pressed key.
+__moniterKeycodesOfPressedKeys() {
+    xev "$@"
+}
 alias keycode='xev'
 
 # Turns key input repeat off.
-alias norepeat='xset -r'
+__turnOffKeyRepeat() {
+    xset -r
+}
+alias norepeat='__turnOffKeyRepeat'
 
 # Turns key input repeat on.
-alias repeat='xset r'
+__turnOnKeyRepeat() {
+    xset r
+}
+alias repeat='__turnOnKeyRepeat'
 
 
 ########
@@ -1134,41 +1182,63 @@ alias repeat='xset r'
 
 # Changes the hue of default blue color in Linux terminal (tty),
 # that is otherwise hard to read.
-alias blue='echo -en "\e]PC7373C9"'
+__changeHueOfColorBlueInLinuxTerminal() {
+    echo -en "\e]PC7373C9"
+}
+alias blue='__changeHueOfColorBlueInLinuxTerminal'
 
 # Prints PATH variable, each entry in its own line.
-alias path='echo -e ${PATH//:/\\n}'
+__printDirectoriesContainedByPathVariable() {
+    echo -e ${PATH//:/\\n}
+}
+alias path='__printDirectoriesContainedByPathVariable'
 
 # Runs console calculator with decimal numbers.
-alias bc1='gcalccmd'
+__runDecimalCalculator() {
+    gcalccmd "$@"
+}
+alias bc1='__runDecimalCalculator'
 
 # Prints hexadecimal representation of file or piped stream.
-hdWithPager() {
+__printHexadecimalRepresentationOfFileOrStream() {
     hd "$@" | __printOrDisplayTextInPager
 }
-alias hd1='hdWithPager'
+alias hd1='__printHexadecimalRepresentationOfFileOrStream'
 
 # Trims SSD disk.
-trimSsd() {
+__trimSsd() {
 	sudo fstrim -v /
 }
-alias ssd='trimSsd'
+alias ssd='__trimSsd'
 
 # Sets bash to vi mode.
-alias vimode='set -o vi'
+__changeBashLineEditingToViMode() {
+    set -o vi
+}
+alias vimode='__changeBashLineEditingToViMode'
 
 # Sets bash to emacs (normal) mode.
-alias emacsmode='set -o emacs'
+__changeBashLineEditingToEmacsMode() {
+    set -o emacs
+}
+alias emacsmode='__changeBashLineEditingToEmacsMode'
 
 # Runs profile script.
-alias profile='source /etc/profile'
+__runProfileScript() {
+    source /etc/profile
+}
+alias profile='__runProfileScript'
 
 # Runs a typing tutor.
-alias tt='gtypist'
+__startTypingTutor() {
+    gtypist "$@"
+}
+alias tt='__startTypingTutor'
 
 # Counts number of lines in files with specified extension 
 # in current and sub-directories.
-linesOfCode() {
+# $1 - file extension
+__countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
     rootDir="$PWD"
     no=0
     for file in *; do
@@ -1186,7 +1256,8 @@ linesOfCode() {
     done
     echo $no
 }
-alias loc='linesOfCode'
+alias linesOfCode='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
+alias loc='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
 
 
 ############
@@ -1194,66 +1265,90 @@ alias loc='linesOfCode'
 ############
 
 # Installs package.
-alias canhaz='sudo apt-get install'
-alias ch='canhaz'
+__installPackage() {
+    sudo apt-get install "$@"
+}
+alias canhaz='__installPackage'
+alias ch='__installPackage'
 
 # Updates package information.
-alias update='sudo apt-get update'
+__updatePackageInfo() {
+    sudo apt-get update
+}
+alias update='__updatePackageInfo'
 
 # Upgrades all packages to newest available version.
-alias upgrade='sudo apt-get upgrade'
+__upgradeAllPackages() {
+    sudo apt-get upgrade
+}
+alias upgrade='__upgradeAllPackages'
 
 # Tries to upgrade all packages. If any dependency conflicts
 # arise, then it handles them intelligently, by upgrading the
 # most important packages at the expense of less important ones.
-alias dist-upgrade='sudo apt-get dist-upgrade'
+__upgradeAllPackagesIntelligently() {
+    sudo apt-get dist-upgrade
+}
+alias dist-upgrade='__upgradeAllPackagesIntelligently'
 
 # Removes package and all the packages this package dependent on
 # and were only used by this package.
-alias remove='sudo apt-get remove && autoremove'
+__removePackage() {
+    sudo apt-get remove "$@" && __removeUnneededPackages
+}
+alias remove='__removePackage'
 
 # Removes package, together with its configuration files. All
 # the packages this package dependent on and were only used by
 # this package are also removed.
-alias purge='sudo apt-get purge && autoremove'
+__removePackageAndAllItsConfigurations() {
+    sudo apt-get purge "$@" && __removeUnneededPackages
+}
+alias purge='__removePackageAndAllItsConfigurations'
 
 # Removes packages that were automatically installed to satisfy
 # dependencies for other packages and are now no longer needed.
-alias autoremove='sudo apt-get autoremove'
+__removeUnneededPackages() {
+    sudo apt-get autoremove
+}
+alias autoremove='__removeUnneededPackages'
 
 # Prints installed and remote version of package.
-alias version='apt-cache policy'
-alias ve='version'
+__printVersionOfPackage() {
+    apt-cache policy "$@"
+}
+alias version='__printVersionOfPackage'
+alias ve='__printVersionOfPackage'
 
 # Prints packages that were installed by the user, in order of
 # installation.
-installedPackagesByUser() {
+__printPackagesThatWereInstalledByUser() {
     cat /var/log/apt/history.log \
         | grep "apt-get install" \
         | sed "s/.* //" \
         | __printOrDisplayTextInPagerStartingAtEnd
 }
-alias packages='installedPackagesByUser'
-alias installed='installedPackagesByUser' 
+alias packages='__printPackagesThatWereInstalledByUser'
+alias installed='__printPackagesThatWereInstalledByUser' 
 
 # Prints all installed packages.
-installedPackages() {
+__printInstalledPackages() {
     dpkg --get-selections \
         | grep -v deinstall \
         | __printOrDisplayTextInPager
 }
-alias packages1='installedPackages'
-alias installed1='installedPackages'
+alias allPackages='__printInstalledPackages'
+alias allInstalled='__printInstalledPackages'
 
 # Shows on which packages specified package depends.
-packageDependsOn() {
+__printPackagesDependencies() { 
     apt-cache show "$@" \
         | grep Depends \
         | sed 's/Depends:/ /' \
         | sed 's/,/\n /g' \
         | __printOrDisplayTextInPager
 }
-alias depends='packageDependsOn'
+alias depends='__printPackagesDependencies'
 
 
 ##########################
@@ -1264,7 +1359,7 @@ alias depends='packageDependsOn'
 # provided pattern in their names or descriptions. Matches get
 # highlighted.
 findInstalledCommandsWithPartOfNameOrDescription() {
-    apropos "$@" | grepWithPager  "$@"
+    apropos "$@" | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
 alias apropos1='findInstalledCommandsWithPartOfNameOrDescription'
 alias ap='findInstalledCommandsWithPartOfNameOrDescription'
@@ -1272,24 +1367,24 @@ alias ap='findInstalledCommandsWithPartOfNameOrDescription'
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
 findAvailablePackagesWithPartOfNameOrDescription() {
-    apt-cache search "$@" | grepWithPager  "$@"
+    apt-cache search "$@" | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
 alias search='findAvailablePackagesWithPartOfNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
 findAvailablePackagesWithPartOfName() {
-    #apt-cache search "$@" | grepWithPager "^[^ ]*$@[^ ]*" 
+    #apt-cache search "$@" | __printOrDisplayWithPagerLinesContainingPattern "^[^ ]*$@[^ ]*" 
     apt-cache search "$1" \
-        | grepWithSensibleOptions "^[^ ]*$1[^ ]*" \
-        | grepWithPager "$1" 
+        | __printLinesContainingPattern "^[^ ]*$1[^ ]*" \
+        | __printOrDisplayWithPagerLinesContainingPattern "$1" 
 }
 
 # Finds which available packages provide specified command.
 findAvailablePakagesWithPartOfCommand() {
     apt-file search "$1" \
         | grep \/bin\/"$1"$ \
-        | grepWithPager "^.*:"
+        | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
 }
 alias apt-file1='findAvailablePakagesWithPartOfCommand'
 
@@ -1336,7 +1431,7 @@ findInstalledPackageWithFullCommandName() {
     fi  
     resolved=$(readlink -f "$file")
     dpkg -S "$resolved" \
-        | grepWithSensibleOptions "^.*:"
+        | __printLinesContainingPattern "^.*:"
 }
 
 # If command is available then it prints it's description, package and
