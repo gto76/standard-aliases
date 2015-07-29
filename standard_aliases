@@ -694,6 +694,7 @@ alias h='__searchCommandHistoryForPattern'
 __editFileWithVim() {
     vim -p "$@"
 }
+alias vim1='__editFileWithVim'
 alias v='__editFileWithVim'
 
 # Runs Vim in read only mode, and with option that opens one tab
@@ -713,24 +714,24 @@ alias vv='__viewFileInVim'
 #   * treat punctuation as part of words, 
 #   * smooth scrolling, 
 #   * tab size set to 4 spaces.
-nanoWithSensibleOptions() {
+__editFileWithNano() {
     nano --undo --autoindent --const --historylog \
-        --multibuffer --wordbounds --smooth --tabsize=4
+        --multibuffer --wordbounds --smooth --tabsize=4 "$@"
 }
-alias nano1='nanoWithSensibleOptions'
-alias n='nanoWithSensibleOptions'
+alias nano1='__editFileWithNano'
+alias n='__editFileWithNano'
 
 # Runs Gedit in background.
-runGedit() {
+__editFileWithGedit() {
     __runCommandInBackground gedit "$@"
 }
-alias g='runGedit'
+alias g='__editFileWithGedit'
 
 # Runs Sublime Text in background.
-runSublimeText() {
+__editFileWithSublimeText() {
     __runCommandInBackground sublime_text "$@"
 }
-alias sub='runSublimeText'
+alias sub='__editFileWithSublimeText'
 
 
 ########
@@ -769,76 +770,89 @@ complete -F _command __runCommandAsSuperUser
 alias s='__runCommandAsSuperUser'
 
 # Executes last command as sudo.
-executeLastCommandAsSudo() {
+__executeLastCommandAsSuperUser() {
     sudo $(history -p \!\!)
 }
-alias fuck='executeLastCommandAsSudo'
-alias fu='executeLastCommandAsSudo'
-alias f='executeLastCommandAsSudo'
+alias fuck='__executeLastCommandAsSuperUser'
+alias fu='__executeLastCommandAsSuperUser'
+alias f='__executeLastCommandAsSuperUser'
 
-# TODO from here
-
-# Runs cp as su in interactive mode.
-sudoCpSave() {
-    sudo cp -iv "$@"
+# Runs cp as superuser in interactive mode (asks before it overwrites
+# anything).
+__copyFilesSafelyAsSuperUser() {
+    sudo cp --interactive --verbose "$@"
 }
-alias scp='sudoCpSave'
+alias scp='__copyFilesSafelyAsSuperUser'
 
-# Runs mv as su in interactive mode.
-sudoMvSave() {
-    sudo mv -iv "$@"
+# Runs mv as superuser in interactive mode (asks before it overwrites
+# anything).
+__moveFilesSafelyAsSuperUser() {
+    sudo mv --interactive --verbose "$@"
 }
-alias smv='sudoMvSave'
+alias smv='__moveFilesSafelyAsSuperUser'
 
-# Runs rm as su in interactive mode (use -f to override
-# interactive mode).
-sudo__deleteFilesSafely() {
-    sudo rm -i "$@"
+# Runs rm as superuser in interactive mode (asks you for every file, if you
+# really want to delete it). Run with -f option to override
+# interactive mode.
+__deleteFilesSafelyAsSuperUser() {
+    sudo rm --interactive "$@"
 }
-alias srm='sudo__deleteFilesSafely'
+alias srm='__deleteFilesSafelyAsSuperUser'
 
-# Copies whole directory as su in interactive mode.
-sudo__copyDirectoriesSafely() {
-    sudo cp -arv "$@"
+# Copies whole directory as superuser in interactive mode (asks before it
+# overwrites anything).
+__copyDirectoriesSafelyAsSuperUser() {
+    sudo cp --interactive --verbose --archive --recursive "$@"
 }
-alias scpdir='sudo__copyDirectoriesSafely'
+complete -F _filedir_xspec __copyDirectoriesSafely 
+alias scpdir='__copyDirectoriesSafelyAsSuperUser'
 
-#Moves whole directory as su in interactive mode.
-sudo__moveDirectoriesSafely() {
-    sudo mv -iv "$@"
+# Moves whole directory as superuser in interactive mode (asks before it
+# overwrites anything).
+__moveDirectoriesSafelyAsSuperUser() {
+    sudo mv --interactive --verbose "$@"
 }
-alias smvdir='sudo__moveDirectoriesSafely'
+complete -F _filedir_xspec __moveDirectoriesSafely 
+alias smvdir='__moveDirectoriesSafelyAsSuperUser'
 
-# Removes whole directory as su in interactive mode (use -f to
-# override interactive mode).
-sudo__removeDirectoriesSafely() {
-    sudo rm -ir "$@"
+# Removes whole directory as superuser in interactive mode (checks for every
+# file if you really want to delete it). Run with -f option to
+# override interactive mode.
+__removeDirectoriesSafelyAsSuperUser() {
+    sudo rm --interactive --recursive "$@"
 }
-alias srmdir='sudo__removeDirectoriesSafely'
+alias srmdir='__removeDirectoriesSafelyAsSuperUser'
 
+# TODO add less options
 # Runs less as su.
-sudoLess() {
+__displayTextInPagerAsSuperUser() {
     sudo less "$@"
 }
-alias sm='sudoLess'
+alias sm='__displayTextInPagerAsSuperUser'
 
-# Runs Nano as su.
-sudoNano() {
-    sudo nano -icHFwST 4 "$@"
+# Runs Vim in read only mode, as superuser
+__viewFileInVimAsSuperUser() {
+    sudo view "$@"
 }
-alias sn='sudoNano'
+alias svv='__viewFileInVimAsSuperUser'
 
 # Runs Vim as su.
-sudoVim() {
+__editFileWithVimAsSuperUser() {
     sudo vim "$@"
 }
-alias sv='sudoVim'
+alias sv='__editFileWithVimAsSuperUser'
 
+# Runs Nano as su.
+__editFileWithNanoAsSuperUser() {
+    sudo nano -icHFwST 4 "$@"
+}
+alias sn='__editFileWithNanoAsSuperUser'
+ 
 # Runs Gedit as su.
-sudoGedit() {
+__editFileWithGeditAsSuperUser() {
     sudo gedit "$@"
 }
-alias sg='sudoGedit'
+alias sg='__editFileWithGeditAsSuperUser'
 
 
 #############
