@@ -153,33 +153,6 @@ __listDirectoryContentsUsingLongListingFormat() {
 
 # $1 - function that lists dir contents
 # ... - rest of parameters
-__displayOutputOfListingFunctionInPager() {
-    listingFunction="$1"
-    shift
-    "$listingFunction" --color=always "$@" \
-        | __displayTextInPager --RAW-CONTROL-CHARS +G 
-}
-
-# Calls __listDirectoryContentsUsingShortListingFormat and sends output to pager.
-__displayDirectoryContentsInPagerUsingShortListingFormat() { 
-    __displayOutputOfListingFunctionInPager \
-        __listDirectoryContentsUsingShortListingFormat "$@"
-}
-
-# Calls __listDirectoryContentsUsingMediumListingFormat and sends output to pager.
-__displayDirectoryContentsInPagerUsingMediumListingFormat() {
-    __displayOutputOfListingFunctionInPager \
-        __listDirectoryContentsUsingMediumListingFormat "$@"
-}
-
-# Calls __listDirectoryContentsUsingLongListingFormat and sends output to pager.
-__displayDirectoryContentsInPagerUsingLongListingFormat() { 
-    __displayOutputOfListingFunctionInPager \
-        __listDirectoryContentsUsingLongListingFormat "$@"
-}
-
-# $1 - function that lists dir contents
-# ... - rest of parameters
 __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     listingFunction="$1"
     shift
@@ -187,7 +160,6 @@ __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     if [[ $? -ne 0 ]]; then
         return
     fi
-
     noOfLines=$(
         echo "$functionOutput" \
             | fold -w"$COLUMNS" \
@@ -199,78 +171,60 @@ __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     fi
 }
 
-# Calls __listDirectoryContentsUsingShortListingFormat if it's output fits on screen, otherwise
-# calls __displayDirectoryContentsInPagerUsingShortListingFormat.
 __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat() {
     __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
         __listDirectoryContentsUsingShortListingFormat "$@"
 }
 alias l='__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat'
 
-# Calls __listDirectoryContentsUsingMediumListingFormat if it's output fits on screen, otherwise calls
-# __displayDirectoryContentsInPagerUsingMediumListingFormat.
 __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat() {
     __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
         __listDirectoryContentsUsingMediumListingFormat "$@"
 }
 alias ll='__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat'
 
-# Calls __listDirectoryContentsUsingLongListingFormat if it's output fits on screen, otherwise calls
-# __displayDirectoryContentsInPagerUsingLongListingFormat.
 __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat() {
     __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
         __listDirectoryContentsUsingLongListingFormat "$@"
 }
 alias lll='__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat'
 
-# Calls ls (with a lot of options) that shows hidden files.
 __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         --almost-all "$@"
 }
 alias la='__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat'
 
-# Calls ls (with a lot of options) that shows hidden files,
-# using shortened long listing format.
 __listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         --almost-all "$@"
 }
 alias lla='__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat'
 
-# Calls ls (with a lot of options) that shows hidden files,
-# using  long listing format.
 __listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         --almost-all "$@"
 }
 alias llla='__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat'
 
-# Calls ls (with a lot of options) that sorts files by date.
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         -t "$@"
 }
 alias lt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat'
 
-# Calls ls (with a lot of options) that sorts files by date,
-# using shortened long listing format.
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         -t "$@"
 }
 alias llt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat'
 
-# Calls ls (with a lot of options) that sorts files by date,
-# using long listing format.
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         -t "$@"
 }
 alias lllt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat'
 
-# Calls ls (with a lot of options) that lists directories
-# matching pattern.
 __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         --directory "$@"
@@ -278,8 +232,6 @@ __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat() {
 complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat 
 alias dl='__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat'
 
-# Calls ls (with a lot of options) that lists directories
-# matching pattern, using shortened long format.
 __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         --directory "$@"
@@ -287,8 +239,6 @@ __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat() {
 complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat 
 alias dll='__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat'
 
-# Calls ls (with a lot of options) that lists directories
-# matching pattern, using long format.
 __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         --directory "$@"
@@ -296,33 +246,30 @@ __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat() {
 complete -F _filedir_xspec __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat 
 alias dlll='__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat'
 
-# Calls ls (with a lot of options) that lists one name per line.
 __listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         -1 "$@"
 }
 alias l1='__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat'
 
-# Calls ls (with a lot of options) that lists one name per line
-# and also shows hidden files.
 __listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat() {
     __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat \
         -1 "$@"
 }
 alias la1='__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat'
 
-# Gets name of first file in the directory.
+# Prints name of first file in the directory.
 __getFirstFileInDirectory() {
-    ls | head -1
+    ls "$@" | head -1
 }
 alias first='__getFirstFileInDirectory'
 
-# Gets name of a random file in the directory.
-__getFirstFileInDirectory() {
+# Prints name of a random file in the directory.
+__getRandomFileInDirectory() {
     ls "$@" | sort -R | head -1
 }
-alias randomFile='__getFirstFileInDirectory'
-alias rf='__getFirstFileInDirectory'
+alias randomFile='__getRandomFileInDirectory'
+alias rf='__getRandomFileInDirectory'
 
 
 ########
@@ -983,7 +930,6 @@ __printOrDisplayWithPagerLinesContainingPattern() {
 }
 alias gr='__printOrDisplayWithPagerLinesContainingPattern'
 
-# TODO doesent work, probably because gr uses different regex, so argument needs to be stripped of *.
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 __locateFilesContainingPatternInTheirNamesGlobaly() {
@@ -1118,7 +1064,6 @@ alias battery='__printBatteryStatus'
 alias batt='__printBatteryStatus'
 
 # Prints kernel version and Linux distribution.
-# todo: sed
 __printOperatingSystemInformation() {
     uname --all
 }
