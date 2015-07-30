@@ -185,11 +185,11 @@ lsLongLess() {
 # $1 - function that lists dir contents
 # $2 - function that displays dir contents in pager
 # ... - rest of parameters
-__listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions() {
+__listOrDisplayDirectoryContentsInPagerUsingProvidedFunction() {
     listDirContents="$1"
     shift
-    displayDirContentsInPager="$1"
-    shift
+    #displayDirContentsInPager="$1"
+    #shift
     noOfLines=$(
         "$listDirContents" "$@" 2> /dev/null \
             | fold -w"$COLUMNS" \
@@ -197,7 +197,8 @@ __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions() {
     if [[ "$LINES" -gt "$noOfLines" ]]; then
         "$listDirContents" "$@" 
     else
-        "$displayDirContentsInPager" "$@" 
+        __displayDirectoryContentsInPagerUsingProvidedFunction \
+            "$listDirContents" "$@" 
     fi
 }
 
@@ -206,8 +207,8 @@ __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions() {
 # calls lsShortLess.
 #__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat
 lsShort() {
-    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions \
-        lsShortCat lsShortLess "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunction \
+        lsShortCat "$@"
 }
 alias l='lsShort'
 
@@ -215,8 +216,8 @@ alias l='lsShort'
 # lsMedLess.
 #__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat
 lsMed() {
-    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions \
-        lsMedCat lsMedLess "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunction \
+        lsMedCat "$@"
 }
 alias ll='lsMed'
 
@@ -224,8 +225,8 @@ alias ll='lsMed'
 # lsLongLess.
 #__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat
 lsLong() {
-    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions \
-        lsLongCat lsLongLess "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunction \
+        lsLongCat "$@"
 }
 alias lll='lsLong'
 
