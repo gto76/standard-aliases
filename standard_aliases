@@ -167,25 +167,19 @@ __displayDirectoryContentsInPagerUsingProvidedFunction() {
 # Calls lsShortCat and sends output to pager.
 #__displayDirectoryContentsInPagerUsingShortListingFormat
 lsShortLess() { 
-    #__displayDirectoryContentsInPagerUsingProvidedFunction lsShortCat "$@"
-    lsShortCat --color=always "$@" \
-        | __displayTextInPager --RAW-CONTROL-CHARS +G
+    __displayDirectoryContentsInPagerUsingProvidedFunction lsShortCat "$@"
 }
 
 # Calls lsMedCat and sends output to pager.
 #__displayDirectoryContentsInPagerUsingMediumListingFormat
 lsMedLess() {
-    #__displayDirectoryContentsInPagerUsingProvidedFunction lsMedCat "$@"
-    lsMedCat --color=always "$@" \
-        | __displayTextInPager --RAW-CONTROL-CHARS +G 
+    __displayDirectoryContentsInPagerUsingProvidedFunction lsMedCat "$@"
 }
 
 # Calls lsLongCat and sends output to pager.
 #__displayDirectoryContentsInPagerUsingLongListingFormat
 lsLongLess() { 
-    #__displayDirectoryContentsInPagerUsingProvidedFunction lsLongCat "$@"
-    lsLongCat --color=always "$@" \
-        | __displayTextInPager --RAW-CONTROL-CHARS +G 
+    __displayDirectoryContentsInPagerUsingProvidedFunction lsLongCat "$@"
 }
 
 # $1 - function that lists dir contents
