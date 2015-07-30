@@ -183,15 +183,18 @@ __displayDirectoryContentsInPagerUsingLongListingFormat() {
 __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     listingFunction="$1"
     shift
+    functionOutput=$("$listingFunction" --color=always "$@")
+    if [[ $? -ne 0 ]]; then
+        return
+    fi
     noOfLines=$(
-        "$listingFunction" "$@" 2> /dev/null \
+        echo "$functionOutput" \
             | fold -w"$COLUMNS" \
             |  wc -l)
     if [[ "$LINES" -gt "$noOfLines" ]]; then
-        "$listingFunction" "$@" 
+        echo "$functionOutput"
     else
-        __displayOutputOfListingFunctionInPager \
-            "$listingFunction" "$@" 
+        echo "$functionOutput" | __printOrDisplayTextInPagerStartingAtEnd
     fi
 }
 
@@ -221,48 +224,55 @@ alias lll='__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that shows hidden files.
 __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat --almost-all "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
+        --almost-all "$@"
 }
 alias la='__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using shortened long listing format.
 __listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat --almost-all "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
+        --almost-all "$@"
 }
 alias lla='__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using  long listing format.
 __listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat --almost-all "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
+        --almost-all "$@"
 }
 alias llla='__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that sorts files by date.
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat -t "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
+        -t "$@"
 }
 alias lt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using shortened long listing format.
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat -t "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
+        -t "$@"
 }
 alias llt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using long listing format.
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat -t "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
+        -t "$@"
 }
 alias lllt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern.
 __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat --directory "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
+        --directory "$@"
 }
 complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat 
 alias dl='__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat'
@@ -270,7 +280,8 @@ alias dl='__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat'
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using shortened long format.
 __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat --directory "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
+        --directory "$@"
 }
 complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat 
 alias dll='__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat'
@@ -278,21 +289,24 @@ alias dll='__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat'
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using long format.
 __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat --directory "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
+        --directory "$@"
 }
 complete -F _filedir_xspec __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat 
 alias dlll='__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that lists one name per line.
 __listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat() {
-    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat -1 "$@"
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
+        -1 "$@"
 }
 alias l1='__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that lists one name per line
 # and also shows hidden files.
 __listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat() {
-    __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat -1 "$@"
+    __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat \
+        -1 "$@"
 }
 alias la1='__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat'
 
