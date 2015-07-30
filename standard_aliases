@@ -46,7 +46,7 @@ __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
         input=$(cat)
         noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
         if [[ "$LINES" -gt "$noOfLines" ]]; then
-            echo "$input" | cat 
+            echo "$input" #| cat  # Ex: slows down execution, needs some more texting to conffirm that it can be abondoned (probally it was here because of color codes)
         else
             if [[ "$1" == 'true' ]]; then
                 echo "$input" | __displayTextInPager +G 2>/dev/null
@@ -187,15 +187,7 @@ __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     if [[ $? -ne 0 ]]; then
         return
     fi
-    noOfLines=$(
-        echo "$functionOutput" \
-            | fold -w"$COLUMNS" \
-            |  wc -l)
-    if [[ "$LINES" -gt "$noOfLines" ]]; then
-        echo "$functionOutput"
-    else
-        echo "$functionOutput" | __printOrDisplayTextInPagerStartingAtEnd
-    fi
+    echo "$functionOutput" | __printOrDisplayTextInPagerStartingAtEnd
 }
 
 # Calls __listDirectoryContentsUsingShortListingFormat if it's output fits on screen, otherwise
