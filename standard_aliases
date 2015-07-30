@@ -116,12 +116,14 @@ alias mm='__printAndDisplayTextInPagerIfNecessary'
 #   * list by columns, 
 #   * use color when stdout is connected to terminal, 
 #   * group directories before files.
+#__listDirectoryContents
 lsWithSensibleOptions() {
     ls --classify -X -C --color=auto --group-directories-first "$@"
 }
 
 # Calls lsWithSensibleOptions with: 
 #   * set width to screen width or 69, whichever is smaller.
+#__listDirectoryContentsUsingShortListingFormat
 lsShortCat() {
     width=$(
         widthLimit=69
@@ -140,85 +142,102 @@ lsShortCat() {
 #   * print sizes in human readable format, 
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
 #   <hour>:<minute>'.
+#__listDirectoryContentsUsingMediumListingFormat
 lsMedCat() {
    lsWithSensibleOptions -l --no-group -g --human-readable \
         --time-style="+%b %d %Y %H:%M" "$@"
 }
 
 # Calls lsWithSensibleOptions with: 
-#   * use long listing format. 
+#   * use long listing format.
+#__listDirectoryContentsUsingLongListingFormat
 lsLongCat() {
    lsWithSensibleOptions -l "$@"
 }
 
+# $1 - function that lists dir contents
+# ... - rest of parameters
+__displayDirectoryContentsInPagerUsingProvidedFunction() {
+    listDirContents="$1"
+    shift
+    "$listDirContents" --color=always "$@" \
+        | __displayTextInPager --RAW-CONTROL-CHARS +G 
+}
+
 # Calls lsShortCat and sends output to pager.
+#__displayDirectoryContentsInPagerUsingShortListingFormat
 lsShortLess() { 
+    #__displayDirectoryContentsInPagerUsingProvidedFunction lsShortCat "$@"
     lsShortCat --color=always "$@" \
         | __displayTextInPager --RAW-CONTROL-CHARS +G
 }
 
 # Calls lsMedCat and sends output to pager.
-lsMedLess() { 
+#__displayDirectoryContentsInPagerUsingMediumListingFormat
+lsMedLess() {
+    #__displayDirectoryContentsInPagerUsingProvidedFunction lsMedCat "$@"
     lsMedCat --color=always "$@" \
         | __displayTextInPager --RAW-CONTROL-CHARS +G 
 }
 
 # Calls lsLongCat and sends output to pager.
+#__displayDirectoryContentsInPagerUsingLongListingFormat
 lsLongLess() { 
+    #__displayDirectoryContentsInPagerUsingProvidedFunction lsLongCat "$@"
     lsLongCat --color=always "$@" \
         | __displayTextInPager --RAW-CONTROL-CHARS +G 
+}
+
+# $1 - function that lists dir contents
+# $2 - function that displays dir contents in pager
+# ... - rest of parameters
+__listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions() {
+    listDirContents="$1"
+    shift
+    displayDirContentsInPager="$1"
+    shift
+    noOfLines=$(
+        "$listDirContents" "$@" 2> /dev/null \
+            | fold -w"$COLUMNS" \
+            |  wc -l)
+    if [[ "$LINES" -gt "$noOfLines" ]]; then
+        "$listDirContents" "$@" 
+    else
+        "$displayDirContentsInPager" "$@" 
+    fi
 }
 
 # TODO combine
 # Calls lsShortCat if it's output fits on screen, otherwise
 # calls lsShortLess.
+#__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat
 lsShort() {
-    noOfLines=$(
-        lsShortCat "$@" 2> /dev/null \
-            | fold -w"$COLUMNS" \
-            |  wc -l)
-    if [[ "$LINES" -gt "$noOfLines" ]]; then
-        lsShortCat "$@" 
-    else
-        lsShortLess "$@" 
-    fi
+    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions \
+        lsShortCat lsShortLess "$@"
 }
+alias l='lsShort'
 
 # Calls lsMedCat if it's output fits on screen, otherwise calls
 # lsMedLess.
+#__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat
 lsMed() {
-    noOfLines=$(
-        lsMedCat "$@" 2> /dev/null \
-            | fold -w"$COLUMNS" \
-            |  wc -l)
-    if [[ "$LINES" -gt "$noOfLines" ]]; then
-        lsMedCat "$@"
-    else
-        lsMedLess "$@"    
-    fi
+    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions \
+        lsMedCat lsMedLess "$@"
 }
+alias ll='lsMed'
 
 # Calls lsLongCat if it's output fits on screen, otherwise calls
 # lsLongLess.
+#__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat
 lsLong() {
-    noOfLines=$(
-        lsLongCat "$@" 2> /dev/null \
-            | fold -w"$COLUMNS" \
-            |  wc -l)
-    if [[ "$LINES" -gt "$noOfLines" ]]; then
-        lsLongCat "$@"
-    else
-        lsLongLess "$@"    
-    fi
+    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunctions \
+        lsLongCat lsLongLess "$@"
 }
-
-alias l='lsShort'
-
-alias ll='lsMed'
-
 alias lll='lsLong'
 
+
 # Calls ls (with a lot of options) that shows hidden files.
+#__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat
 lsShortShowHiddenFiles() {
     lsShort --almost-all "$@"
 }
@@ -226,6 +245,7 @@ alias la='lsShortShowHiddenFiles'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using shortened long listing format.
+#__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat
 lsMedShowHiddenFiles() {
     lsMed --almost-all "$@"
 }
@@ -233,12 +253,14 @@ alias lla='lsMed --almost-all'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using  long listing format.
+#__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat
 lsLongShowHiddenFiles() {
     lsLong --almost-all "$@"
 }
 alias llla='lsLongShowHiddenFiles'
 
 # Calls ls (with a lot of options) that sorts files by date.
+#__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat
 lsShortOrderByDate() {
     lsShort -t "$@"
 }
@@ -246,6 +268,7 @@ alias lt='lsShortOrderByDate'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using shortened long listing format.
+#__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat
 lsMedOrderByDate() {
     lsMed -t "$@"
 }
@@ -253,6 +276,7 @@ alias llt='lsMedOrderByDate'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using long listing format.
+#__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat
 lsLongOrderByDate() {
     lsLong -t "$@"
 }
@@ -260,6 +284,7 @@ alias lllt='lsLongOrderByDate'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern.
+#__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat
 lsShortListMatchingDirectories() {
     lsShort --directory "$@"
 }
@@ -268,6 +293,7 @@ alias dl='lsShortListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using shortened long format.
+#__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat
 lsMedListMatchingDirectories() {
     lsMed --directory "$@"
 }
@@ -276,6 +302,7 @@ alias dll='lsMedListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using long format.
+#__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat
 lsLongListMatchingDirectories() {
     lsLong --directory
 }
@@ -283,6 +310,7 @@ complete -F _filedir_xspec lsLongListMatchingDirectories
 alias dlll='lsLongListMatchingDirectories'
 
 # Calls ls (with a lot of options) that lists one name per line.
+#__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat
 lsShortOnePerLine() {
     lsShort -1 "$@"
 }
@@ -290,18 +318,21 @@ alias l1='lsShortOnePerLine'
 
 # Calls ls (with a lot of options) that lists one name per line
 # and also shows hidden files.
+#__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat
 lsShortShowHiddenFilesOnePerLine() {
     la -1 "$@"
 }
 alias la1='lsShortShowHiddenFilesOnePerLine'
 
 # Gets name of first file in the directory.
+#__getFirstFileInDirectory
 __getFirstFileInDir() {
     ls | head -1
 }
 alias first='__getFirstFileInDir'
 
 # Gets name of a random file in the directory.
+#__getRandomFileInDirectory
 __getRandomFileFromDir() {
     ls "$@" | sort -R | head -1
 }
@@ -314,11 +345,11 @@ alias rf='__getRandomFileFromDir'
 ########
 
 # Displays tree structure of current or specified folder.
-__printDirStructure() {
+__printDirectoryStructure() {
     tree -C -I .git --dirsfirst "$@" | __printOrDisplayTextInPager
 }
-alias tree1='__printDirStructure'
-alias t='__printDirStructure'
+alias tree1='__printDirectoryStructure'
+alias t='__printDirectoryStructure'
 
 
 ######
@@ -501,11 +532,11 @@ alias rb='__runCommandInBackground'
 ##########
 
 # Opens this file in Vim.
-__editBashAliases() {
+__editStandardAliases() {
     vim ~/.standard_aliases
 }
-alias aliases='__editBashAliases'
-alias al='__editBashAliases'
+alias aliases='__editStandardAliases'
+alias al='__editStandardAliases'
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
@@ -875,7 +906,7 @@ alias ps1='__printUsersProcesses'
 
 # Prints every process on the system.
 __printAllProcesses() {
-    psWithPager -e "$@"
+    ps -e "$@" | __printOrDisplayTextInPager
 }
 alias processes='__printAllProcesses'
 alias pse='__printAllProcesses'
