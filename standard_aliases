@@ -167,7 +167,7 @@ __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     if [[ "$LINES" -gt "$noOfLines" ]]; then
         echo "$functionOutput"
     else
-        echo "$functionOutput" | __displayTextInPager
+        echo "$functionOutput" | __displayTextInPager +G
     fi
 }
 
@@ -229,21 +229,18 @@ __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         --directory "$@"
 }
-complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat 
 alias dl='__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat'
 
 __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         --directory "$@"
 }
-complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat 
 alias dll='__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat'
 
 __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         --directory "$@"
 }
-complete -F _filedir_xspec __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat 
 alias dlll='__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat'
 
 __listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat() {
@@ -358,7 +355,6 @@ alias rm='__deleteFilesSafely'
 __copyDirectoriesSafely() {
     cp --interactive --verbose --archive --recursive "$@"
 }
-complete -F _filedir_xspec __copyDirectoriesSafely 
 alias cpdir='__copyDirectoriesSafely'
 
 # Moves whole directory in interactive mode (asks before it
@@ -366,7 +362,6 @@ alias cpdir='__copyDirectoriesSafely'
 __moveDirectoriesSafely() {
     mv --interactive --verbose "$@"
 }
-complete -F _filedir_xspec __moveDirectoriesSafely 
 alias mvdir='__moveDirectoriesSafely'
 
 # Removes whole directory in interactive mode (checks for every
@@ -375,8 +370,6 @@ alias mvdir='__moveDirectoriesSafely'
 __removeDirectoriesSafely() {
     rm --interactive --recursive "$@"
 }
-#TODO find correct complete
-complete -F _filedir_xspec __removeDirectoriesSafely 
 alias rmdir='__removeDirectoriesSafely'
 
 # Makes directory (and its parent directories if necessary) and
@@ -386,6 +379,7 @@ __createDirectoryAndDescendInto() {
     cd "$1"
 }
 alias mkdir1='__createDirectoryAndDescendInto'
+alias md='__createDirectoryAndDescendInto'
 alias mk='__createDirectoryAndDescendInto'
 
 # Backups file, by making a copy with '.bak' extension. All
@@ -591,13 +585,16 @@ alias da='__printDateAndTime'
 __runMakeWithPager() {
     make 2>&1 | __displayTextInPager
 }
-#TODO check if exists
-. /usr/share/bash-completion/completions/make
-complete -F _make  __runMakeWithPager
+# Asigns make completion to command if available.
+if [ -f /usr/share/bash-completion/completions/make ]; then
+    . /usr/share/bash-completion/completions/make
+    complete -F _make __runMakeWithPager
+fi
 alias make1='__runMakeWithPager'
 alias ma='__runMakeWithPager'
 
 # Start Nautilus file explorer in background.
+# TODO check if exists
 __startFileExplorerInBackgroundInWorkingDir() {
     __runCommandInBackground nautilus .
 }
@@ -745,7 +742,7 @@ alias f='__executeLastCommandAsSuperUser'
 __copyFilesSafelyAsSuperUser() {
     sudo cp --interactive --verbose "$@"
 }
-alias scp='__copyFilesSafelyAsSuperUser'
+alias sudoCp='__copyFilesSafelyAsSuperUser'
 
 # Runs mv as superuser in interactive mode (asks before it overwrites
 # anything).
@@ -767,7 +764,6 @@ alias srm='__deleteFilesSafelyAsSuperUser'
 __copyDirectoriesSafelyAsSuperUser() {
     sudo cp --interactive --verbose --archive --recursive "$@"
 }
-complete -F _filedir_xspec __copyDirectoriesSafely 
 alias scpdir='__copyDirectoriesSafelyAsSuperUser'
 
 # Moves whole directory as superuser in interactive mode (asks before it
@@ -775,7 +771,6 @@ alias scpdir='__copyDirectoriesSafelyAsSuperUser'
 __moveDirectoriesSafelyAsSuperUser() {
     sudo mv --interactive --verbose "$@"
 }
-complete -F _filedir_xspec __moveDirectoriesSafely 
 alias smvdir='__moveDirectoriesSafelyAsSuperUser'
 
 # Removes whole directory as superuser in interactive mode (checks for every
@@ -793,18 +788,21 @@ __displayTextInPagerAsSuperUser() {
 }
 alias sm='__displayTextInPagerAsSuperUser'
 
+# TODO options
 # Runs Vim in read only mode, as superuser
 __viewFileInVimAsSuperUser() {
     sudo view "$@"
 }
 alias svv='__viewFileInVimAsSuperUser'
 
+# TODO options
 # Runs Vim as su.
 __editFileWithVimAsSuperUser() {
     sudo vim "$@"
 }
 alias sv='__editFileWithVimAsSuperUser'
 
+# TODO options
 # Runs Nano as su.
 __editFileWithNanoAsSuperUser() {
     sudo nano -icHFwST 4 "$@"
@@ -849,6 +847,11 @@ alias psa='__printAllProcesses'
 __findProcessesWithPartOfName() {
     pgrep --list-name "$@" | __printOrDisplayTextInPager
 }
+# Asigns pgrep completion to command if available.
+if [ -f /usr/share/bash-completion/completions/pgrep ]; then
+   . /usr/share/bash-completion/completions/pgrep
+   complete -F _pgrep __findProcessesWithPartOfName
+fi
 alias pgrep1='__findProcessesWithPartOfName'
 
 # Sends KILL signal to process with specified PID, instead of
@@ -856,6 +859,7 @@ alias pgrep1='__findProcessesWithPartOfName'
 __killProcessWithKillSignal() {
     kill -9 "$@"
 }
+complete -F _pids __killProcessWithKillSignal
 alias kill1='__killProcessWithKillSignal'
 
 # TODO options
@@ -864,6 +868,7 @@ alias kill1='__killProcessWithKillSignal'
 __traceSystemCalls() {
     strace -s 2000 -f "$@" 2>&1 | __printAndDisplayTextInPagerIfNecessary 
 }
+complete -F _command __traceSystemCalls
 alias trace='__traceSystemCalls'
 alias strace1='__traceSystemCalls'
 alias st='__traceSystemCalls'
@@ -921,6 +926,7 @@ __printLinesContainingPattern() {
     grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git \
         --ignore-case --perl-regexp "$@"
 }
+complete -F _longopt __printLinesContainingPattern
 alias grep1='__printLinesContainingPattern'
 
 # Runs __printLinesContainingPattern and sends output to pager.
