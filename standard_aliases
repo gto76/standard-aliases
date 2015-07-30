@@ -116,15 +116,13 @@ alias mm='__printAndDisplayTextInPagerIfNecessary'
 #   * list by columns, 
 #   * use color when stdout is connected to terminal, 
 #   * group directories before files.
-#__listDirectoryContents
-lsWithSensibleOptions() {
+__listDirectoryContents() {
     ls --classify -X -C --color=auto --group-directories-first "$@"
 }
 
-# Calls lsWithSensibleOptions with: 
+# Calls __listDirectoryContents with: 
 #   * set width to screen width or 69, whichever is smaller.
-#__listDirectoryContentsUsingShortListingFormat
-lsShortCat() {
+__listDirectoryContentsUsingShortListingFormat() {
     width=$(
         widthLimit=69
         if [[ "$COLUMNS" -lt "$widthLimit" ]]; then 
@@ -132,207 +130,184 @@ lsShortCat() {
         else 
             echo "$widthLimit"
         fi)
-    lsWithSensibleOptions --width="$width" "$@"
+    __listDirectoryContents --width="$width" "$@"
 }
 
-# Calls lsWithSensibleOptions with: 
+# Calls __listDirectoryContents with: 
 #   * use long listing format, 
 #   * do not print groups,
 #   * do not list owner, 
 #   * print sizes in human readable format, 
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
 #   <hour>:<minute>'.
-#__listDirectoryContentsUsingMediumListingFormat
-lsMedCat() {
-   lsWithSensibleOptions -l --no-group -g --human-readable \
+__listDirectoryContentsUsingMediumListingFormat() {
+   __listDirectoryContents -l --no-group -g --human-readable \
         --time-style="+%b %d %Y %H:%M" "$@"
 }
 
-# Calls lsWithSensibleOptions with: 
+# Calls __listDirectoryContents with: 
 #   * use long listing format.
-#__listDirectoryContentsUsingLongListingFormat
-lsLongCat() {
-   lsWithSensibleOptions -l "$@"
+__listDirectoryContentsUsingLongListingFormat() {
+   __listDirectoryContents -l "$@"
 }
 
 # $1 - function that lists dir contents
 # ... - rest of parameters
-__displayDirectoryContentsInPagerUsingProvidedFunction() {
-    listDirContents="$1"
+__displayOutputOfListingFunctionInPager() {
+    listingFunction="$1"
     shift
-    "$listDirContents" --color=always "$@" \
+    "$listingFunction" --color=always "$@" \
         | __displayTextInPager --RAW-CONTROL-CHARS +G 
 }
 
-# Calls lsShortCat and sends output to pager.
-#__displayDirectoryContentsInPagerUsingShortListingFormat
-lsShortLess() { 
-    __displayDirectoryContentsInPagerUsingProvidedFunction lsShortCat "$@"
+# Calls __listDirectoryContentsUsingShortListingFormat and sends output to pager.
+__displayDirectoryContentsInPagerUsingShortListingFormat() { 
+    __displayOutputOfListingFunctionInPager \
+        __listDirectoryContentsUsingShortListingFormat "$@"
 }
 
-# Calls lsMedCat and sends output to pager.
-#__displayDirectoryContentsInPagerUsingMediumListingFormat
-lsMedLess() {
-    __displayDirectoryContentsInPagerUsingProvidedFunction lsMedCat "$@"
+# Calls __listDirectoryContentsUsingMediumListingFormat and sends output to pager.
+__displayDirectoryContentsInPagerUsingMediumListingFormat() {
+    __displayOutputOfListingFunctionInPager \
+        __listDirectoryContentsUsingMediumListingFormat "$@"
 }
 
-# Calls lsLongCat and sends output to pager.
-#__displayDirectoryContentsInPagerUsingLongListingFormat
-lsLongLess() { 
-    __displayDirectoryContentsInPagerUsingProvidedFunction lsLongCat "$@"
+# Calls __listDirectoryContentsUsingLongListingFormat and sends output to pager.
+__displayDirectoryContentsInPagerUsingLongListingFormat() { 
+    __displayOutputOfListingFunctionInPager \
+        __listDirectoryContentsUsingLongListingFormat "$@"
 }
 
 # $1 - function that lists dir contents
-# $2 - function that displays dir contents in pager
 # ... - rest of parameters
-__listOrDisplayDirectoryContentsInPagerUsingProvidedFunction() {
-    listDirContents="$1"
+__displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
+    listingFunction="$1"
     shift
-    #displayDirContentsInPager="$1"
-    #shift
     noOfLines=$(
-        "$listDirContents" "$@" 2> /dev/null \
+        "$listingFunction" "$@" 2> /dev/null \
             | fold -w"$COLUMNS" \
             |  wc -l)
     if [[ "$LINES" -gt "$noOfLines" ]]; then
-        "$listDirContents" "$@" 
+        "$listingFunction" "$@" 
     else
-        __displayDirectoryContentsInPagerUsingProvidedFunction \
-            "$listDirContents" "$@" 
+        __displayOutputOfListingFunctionInPager \
+            "$listingFunction" "$@" 
     fi
 }
 
-# TODO combine
-# Calls lsShortCat if it's output fits on screen, otherwise
-# calls lsShortLess.
-#__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat
-lsShort() {
-    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunction \
-        lsShortCat "$@"
+# Calls __listDirectoryContentsUsingShortListingFormat if it's output fits on screen, otherwise
+# calls __displayDirectoryContentsInPagerUsingShortListingFormat.
+__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat() {
+    __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
+        __listDirectoryContentsUsingShortListingFormat "$@"
 }
-alias l='lsShort'
+alias l='__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat'
 
-# Calls lsMedCat if it's output fits on screen, otherwise calls
-# lsMedLess.
-#__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat
-lsMed() {
-    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunction \
-        lsMedCat "$@"
+# Calls __listDirectoryContentsUsingMediumListingFormat if it's output fits on screen, otherwise calls
+# __displayDirectoryContentsInPagerUsingMediumListingFormat.
+__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat() {
+    __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
+        __listDirectoryContentsUsingMediumListingFormat "$@"
 }
-alias ll='lsMed'
+alias ll='__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat'
 
-# Calls lsLongCat if it's output fits on screen, otherwise calls
-# lsLongLess.
-#__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat
-lsLong() {
-    __listOrDisplayDirectoryContentsInPagerUsingProvidedFunction \
-        lsLongCat "$@"
+# Calls __listDirectoryContentsUsingLongListingFormat if it's output fits on screen, otherwise calls
+# __displayDirectoryContentsInPagerUsingLongListingFormat.
+__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat() {
+    __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
+        __listDirectoryContentsUsingLongListingFormat "$@"
 }
-alias lll='lsLong'
-
+alias lll='__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that shows hidden files.
-#__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat
-lsShortShowHiddenFiles() {
-    lsShort --almost-all "$@"
+__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat --almost-all "$@"
 }
-alias la='lsShortShowHiddenFiles'
+alias la='__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using shortened long listing format.
-#__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat
-lsMedShowHiddenFiles() {
-    lsMed --almost-all "$@"
+__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat --almost-all "$@"
 }
-alias lla='lsMed --almost-all'
+alias lla='__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat'
 
 # Calls ls (with a lot of options) that shows hidden files,
 # using  long listing format.
-#__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat
-lsLongShowHiddenFiles() {
-    lsLong --almost-all "$@"
+__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat --almost-all "$@"
 }
-alias llla='lsLongShowHiddenFiles'
+alias llla='__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that sorts files by date.
-#__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat
-lsShortOrderByDate() {
-    lsShort -t "$@"
+__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat -t "$@"
 }
-alias lt='lsShortOrderByDate'
+alias lt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using shortened long listing format.
-#__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat
-lsMedOrderByDate() {
-    lsMed -t "$@"
+__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat -t "$@"
 }
-alias llt='lsMedOrderByDate'
+alias llt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat'
 
 # Calls ls (with a lot of options) that sorts files by date,
 # using long listing format.
-#__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat
-lsLongOrderByDate() {
-    lsLong -t "$@"
+__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat -t "$@"
 }
-alias lllt='lsLongOrderByDate'
+alias lllt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern.
-#__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat
-lsShortListMatchingDirectories() {
-    lsShort --directory "$@"
+__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat --directory "$@"
 }
-complete -F _filedir lsShortListMatchingDirectories 
-alias dl='lsShortListMatchingDirectories'
+complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat 
+alias dl='__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using shortened long format.
-#__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat
-lsMedListMatchingDirectories() {
-    lsMed --directory "$@"
+__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat --directory "$@"
 }
-complete -F _filedir lsMedListMatchingDirectories 
-alias dll='lsMedListMatchingDirectories'
+complete -F _filedir __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat 
+alias dll='__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat'
 
 # Calls ls (with a lot of options) that lists directories
 # matching pattern, using long format.
-#__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat
-lsLongListMatchingDirectories() {
-    lsLong --directory
+__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat --directory "$@"
 }
-complete -F _filedir_xspec lsLongListMatchingDirectories 
-alias dlll='lsLongListMatchingDirectories'
+complete -F _filedir_xspec __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat 
+alias dlll='__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat'
 
 # Calls ls (with a lot of options) that lists one name per line.
-#__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat
-lsShortOnePerLine() {
-    lsShort -1 "$@"
+__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat() {
+    __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat -1 "$@"
 }
-alias l1='lsShortOnePerLine'
+alias l1='__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat'
 
 # Calls ls (with a lot of options) that lists one name per line
 # and also shows hidden files.
-#__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat
-lsShortShowHiddenFilesOnePerLine() {
-    la -1 "$@"
+__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat() {
+    __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat -1 "$@"
 }
-alias la1='lsShortShowHiddenFilesOnePerLine'
+alias la1='__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat'
 
 # Gets name of first file in the directory.
-#__getFirstFileInDirectory
-__getFirstFileInDir() {
+__getFirstFileInDirectory() {
     ls | head -1
 }
-alias first='__getFirstFileInDir'
+alias first='__getFirstFileInDirectory'
 
 # Gets name of a random file in the directory.
-#__getRandomFileInDirectory
-__getRandomFileFromDir() {
+__getFirstFileInDirectory() {
     ls "$@" | sort -R | head -1
 }
-alias randomFile='__getRandomFileFromDir'
-alias rf='__getRandomFileFromDir'
+alias randomFile='__getFirstFileInDirectory'
+alias rf='__getFirstFileInDirectory'
 
 
 ########
