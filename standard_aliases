@@ -1489,7 +1489,7 @@ alias package='__printInfoAboutInstalledCommand'
 # whatis, then apt-cache show, then type and finally apt-file.
 # When one of them succeeds in finding the description the
 # function returns.
-comprehensiveInquiry() {
+__findPackageOrCommandWithPatternInItsName() {
     # Checks if it is an installed command.
     __printInfoAboutInstalledCommand "$@"
     if [ "$?" == "0" ]; then 
@@ -1514,8 +1514,8 @@ comprehensiveInquiry() {
     # name.
     __findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
 }
-alias whatis1='comprehensiveInquiry'
-alias wi='comprehensiveInquiry'
+alias whatis1='__findPackageOrCommandWithPatternInItsName'
+alias wi='__findPackageOrCommandWithPatternInItsName'
 
 
 #######
@@ -1524,81 +1524,117 @@ alias wi='comprehensiveInquiry'
 
 # Commits changed and deleted files. Commit message must be
 # entered as parameter.
-alias commit='git commit -am'
+__commitChangedAndDeletedFilesWithMessage() {
+    git commit -am "$@"
+}
+alias commit='__commitChangedAndDeletedFilesWithMessage'
 
 # Commits changed and deleted files. Opens text editor, so
 # proper commit message can be entered.
-alias commitm='git commit -a'
+__commitChangedAndDeletedFiles() {
+    git commit -a "$@"
+}
+alias commitm='__commitChangedAndDeletedFiles'
 
 # Creates an empty Git repository or reinitializes an existing
 # one (nondestructive).
-alias init='git init'
+__initializeRepository() {
+    git init "$@"
+}
+alias init='__initializeRepository'
 
 # Pushes changes to remote repository.
-alias push='git push'
+__pushChangesToRemoteRepository() {
+    git push "$@"
+}
+alias push='__pushChangesToRemoteRepository'
 
 # Pulls changes from remote repository.
-alias pull='git pull'
+__pullChangesFromRemoteRepository() {
+    git pull "$@"
+}
+alias pull='__pullChangesFromRemoteRepository'
 
 # Joins specified branch with current one.
-alias merge='git merge'
+__mergeSpecifiedBranchWithCurrentOne() {
+    git merge "$@"
+}
+alias merge='__mergeSpecifiedBranchWithCurrentOne'
 
 # Switches to another branch, or checks-out a file from
 # repository.
-alias checkout='git checkout'
-alias gc='checkout'
+__checkoutBranchOrFile() {
+    git checkout "$@"
+}
+alias checkout='__checkoutBranchOrFile'
+alias gc='__checkoutBranchOrFile'
 
 # Prints all branches, or creates new one, if name is specified. 
-alias branch='git branch'
-alias gb='branch'
+__printBranchesOrCreateNewOne() {
+    git branch "$@"
+}
+alias branch='__printBranchesOrCreateNewOne'
+alias gb='__printBranchesOrCreateNewOne'
 
 # Prints short status of repository.
-shortGitStatus() {
-    git -c color.status=always status -sb | __printOrDisplayTextInPager
+__printRepositoryStatus() {
+    git -c color.status=always status -sb "$@" | __printOrDisplayTextInPager
 }
-alias gs='shortGitStatus'
+alias gs='__printRepositoryStatus'
 
 # Prints nicely decorated graph of commits, with commit
 # messages, full hashes and full dates. 
-fullGitLogWithGraph() {
-    git log --decorate --graph --all
+__displayLogOfCommits() {
+    git log --decorate --graph --all "$@"
 }
-alias gl='fullGitLogWithGraph'
+alias gl='__displayLogOfCommits'
 
 # Prints nicely decorated graph of commits, with only first
 # lines of commit messages, shortened hashes and full dates.
-minimalGitLogWithGraph() {
+__displayMinimalLogOfCommits() {
     git log --graph --abbrev-commit --decorate \
         --format=format:'%C(bold blue)%h%C(reset) \
         - %C(bold cyan)%aD%C(reset) \
         %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
         %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 }
-alias gl1='minimalGitLogWithGraph'
+alias gl1='__displayMinimalLogOfCommits'
 
 # Updates information about state of the remote repository and
 # prints status.
-gitRemoteUpdateAndPrintStatus() {
-    git remote update
-    shortGitStatus
+__updateInfoAboutRemoteRepositoryAndPrintStatus() {
+    git remote update "$@"
+    __printRepositoryStatus
 }
-alias gu='gitRemoteUpdateAndPrintStatus'
+alias gu='__updateInfoAboutRemoteRepositoryAndPrintStatus'
 
 # Shows changes between commits. If no parameter is given, then
 # shows changes between last commit and current state.
-alias gd='git diff'
+__displayChangesBetweenCommits() {
+    git diff "$@"
+}
+alias gd='__displayChangesBetweenCommits'
 
 # Adds file to repository.
-alias ga='git add'
+__addFileToRepository() {
+    git add "$@"
+}
+alias ga='__addFileToRepository'
 
 # Moves file or directory. Git will in most cases recognize that
 # files were moved even if regular 'mv' command was used, but
 # this way it is for shure.
-alias gm='git mv'
+__moveRepositoriesFiles() {
+    git mv "$@"
+}
+alias gm='__moveRepositoriesFiles'
 
 # Prints files that are in repository.
-alias lsgit='git ls-files'
-alias gls='lsgit'
+__printFilesThatAreInRepository() {
+    git ls-files "$@"
+}
+alias lsgit='__printFilesThatAreInRepository'
+alias gls='__printFilesThatAreInRepository'
 
 
 ##########
@@ -1607,22 +1643,22 @@ alias gls='lsgit'
 
 # Clones project from Github. User and project names must be
 # specified as <user>/<project>.
-cloneGithubProject() {
+__cloneGithubProject() {
     git clone git@github.com:/"$1".git
 }
-alias clone='cloneGithubProject'
+alias clone='__cloneGithubProject'
 
 # Sets remote repository to specified Github project. Repository
 # must be entered as <user>/<project>.
-setGithubOrigin() {
+__setGithubProjectAsRemoteRepository() {
     git remote add origin git@github.com:/"$1".git
     git pull origin master
     git push origin master
 }
-alias origin='setGithubOrigin'
+alias origin='__setGithubProjectAsRemoteRepository'
 
 # Clones all users Github projects in working directory.
-cloneAllUsersGithubProjects() {
+__cloneAllUsersGithubProjects() {
     if [[ -z "$1" ]]; then
         exit
     fi
@@ -1635,7 +1671,7 @@ cloneAllUsersGithubProjects() {
         git clone git@github.com:"$line"
     done <<< "$repos"
 }
-alias cloneAll='cloneAllUsersGithubProjects'
+alias cloneAll='__cloneAllUsersGithubProjects'
 
 
 ###########
@@ -1643,48 +1679,48 @@ alias cloneAll='cloneAllUsersGithubProjects'
 ###########
 
 # Prints internal ip.
-internalIp() {
+__printInternalIp() {
     /sbin/ifconfig \
         | grep "inet addr:192.168" \
         | grep -o addr:[0-9.]* \
         | grep -o [0-9.]\* \
         | cat 
 }
-alias ip1='internalIp'
+alias ip1='__printInternalIp'
 
 # Prints external ip. 
-externalIp() {
+__printExternalIp() {
     lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*
 }
-alias ip2='externalIp'
+alias ip2='__printExternalIp'
 
 # Prints gateways ip.
-gatewaysIp() {
+__printGatewaysIp() {
     route -n \
         | grep "192.168." \
         | head -n1 \
         | grep -o "192.168.[0-9.]*"
 }
-alias gateway='gatewaysIp'
+alias gateway='__printGatewaysIp'
 
 # Prints mac addresses of local devices.
-macAdressesOfLocalDevices() {
+__printMacAdressesOfLocalDevices() {
     ifconfig | grep HWaddr | cat
 }
-alias mac='macAdressesOfLocalDevices'
+alias mac='__printMacAdressesOfLocalDevices'
 
 # Pings gateway, ip address of noip.com and www.google.com.
-pingGatewayIpAndGoogle() {
+__pingGatewayIpAndGoogle() {
     ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
     ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
     ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
-alias pingAll='pingGatewayIpAndGoogle'
-alias pa='pingGatewayIpAndGoogle'
+alias pingAll='__pingGatewayIpAndGoogle'
+alias pa='__pingGatewayIpAndGoogle'
 
 # Scans addresses of local network. If a number is specified it
 # scans local addresses up to this number (0-255).
-scanLocalNetwork() {
+__scanLocalNetwork() {
     if [[ $# -eq 0 ]]; then
         third=$(ip1 \
             | sed -e :a -e 's/[0-9]*.\([0-9]\).[0-9]*.[0.9]*/\1/;ta')
@@ -1701,11 +1737,11 @@ scanLocalNetwork() {
     fi
     nmap -sP 192.168."$third".0-"$forth"
 }
-alias nmap1='scanLocalNetwork'
+alias nmap1='__scanLocalNetwork'
 
 # Prints 'OK' if specified address or ip can be reached with
 # ping, or 'Fail' if not.
-isReachable() {
+__isAddressReachable() {
     pingResult=$(
         ping -c 1 -q "$1" \
             | grep --color=never -A 1 statistics \
@@ -1717,8 +1753,8 @@ isReachable() {
     fi
 }
 
-# Prints status of the ssh port of the specified client.
-port22status() {
+# Prints status of the ssh port of the specified host.
+__printStatusOfSshPortAtAddress() {
     nmap $(echo "$1" | tr -d ' ') -p22 \
         | grep '22/tcp' \
         | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
@@ -1729,11 +1765,11 @@ port22status() {
 # their ssh port status.  After that checks checks if connection
 # to the internet is available by pinging Google and ip address
 # of noip.com.
-networkStatus() {
+__printNetworkStatus() {
     localIp=$(ip1)
     gateway=$(gateway)
-    echo "You:      $localIp   ssh: $(port22status $(ip2))"
-    echo "Gateway:  $gateway    ssh: $(port22status "$gateway")"
+    echo "You:      $localIp   ssh: $(__printStatusOfSshPortAtAddress $(ip2))"
+    echo "Gateway:  $gateway    ssh: $(__printStatusOfSshPortAtAddress "$gateway")"
     all=$(nmap1 20)
     allFiltered=$(
         echo "$all" | 
@@ -1747,16 +1783,16 @@ networkStatus() {
 
     while IFS= read -r line; do 
         echo -n "$line    ssh: "
-        port22status "$line"    
+        __printStatusOfSshPortAtAddress "$line"    
     done <<< "$allFiltered"
 
     testIp="8.23.224.107"
-    echo "Internet: $testIp   Ping: $(isReachable "$testIp")"
+    echo "Internet: $testIp   Ping: $(__isAddressReachable "$testIp")"
     testDomain="www.google.com"
-    echo "          $testDomain Ping: $(isReachable "$testDomain")"
+    echo "          $testDomain Ping: $(__isAddressReachable "$testDomain")"
 }
-alias network='networkStatus'
-alias ne='networkStatus'
+alias network='__printNetworkStatus'
+alias ne='__printNetworkStatus'
 
 
 ############
@@ -1764,44 +1800,44 @@ alias ne='networkStatus'
 ############
 
 # Disables wireless device.
-blockWirelessDevice() {
+__blockWirelessDevice() {
     sudo rfkill block $(
         sudo rfkill list \
             | grep Wireless \
             | grep ^[0-9] -o)
 }
-alias woff='blockWirelessDevice'
+alias woff='__blockWirelessDevice'
 
 # Enables wireless device.
-unblockWirelessDevice() {
+__unblockWirelessDevice() {
     sudo rfkill unblock $(
         sudo rfkill list \
             | grep Wireless \
             | grep ^[0-9] -o)
 }
-alias won='unblockWirelessDevice'
+alias won='__unblockWirelessDevice'
 
 # Resets wireless device.
-resetWirelessDevice() {
+__resetWirelessDevice() {
     woff
     won
 }
-alias wr='resetWirelessDevice'
+alias wr='__resetWirelessDevice'
 
 # Activates wireless interface (driver).
-activateWirelessInterface() {
+__activateWirelessInterface() {
     sudo ifconfig wlan0 up
 }
-alias up='activateWirelessInterface'
+alias up='__activateWirelessInterface'
 
 # Shuts down wireless interface (driver).
-deactivateWirelessInterface() {
+__deactivateWirelessInterface() {
     sudo ifconfig wlan0 down
 }
-alias down='deactivateWirelessInterface'
+alias down='__deactivateWirelessInterface'
 
 # Displays wireless networks in range.
-wirelessNetworksInRange() {
+__printWirelessNetworksInRange() {
     sudo iwlist wlan0 scan \
         | grep Quality -A2 \
         | tr -d "\n" \
@@ -1812,7 +1848,7 @@ wirelessNetworksInRange() {
         | sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
         | sed 's/ ESSID:/ /g'
 }
-alias wlan='wirelessNetworksInRange'
+alias wlan='__printWirelessNetworksInRange'
 
 
 ############
@@ -1820,31 +1856,31 @@ alias wlan='wirelessNetworksInRange'
 ############
 
 # Runs default browser in background.
-defaultBrowserInBackground() {
+__startDefaultBrowserInBackground() {
     __runCommandInBackground sensible-browser "$@"
 }
-alias internet='defaultBrowserInBackground'
-alias i='defaultBrowserInBackground'
+alias internet='__startDefaultBrowserInBackground'
+alias i='__startDefaultBrowserInBackground'
 
 # Runs Firefox in background.
-firefoxInBackground() {
+__startFirefoxInBackground() {
     __runCommandInBackground firefox "$@"
 }
-alias fire='firefoxInBackground'
+alias fire='__startFirefoxInBackground'
 
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
-chromeInBackground() {
+__startChromeInBackground() {
     __runCommandInBackground google-chrome --touch-devices=123
 }
-alias chrome='chromeInBackground'
+alias chrome='__startChromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
-lynxWithSensibleOptions() {
+__startLynx() {
     lynx -accept_all_cookies -vikeys www.google.com "$@"
 }
-alias lynx1='lynxWithSensibleOptions'
+alias lynx1='__startLynx'
 
 
 #########
@@ -1852,36 +1888,39 @@ alias lynx1='lynxWithSensibleOptions'
 #########
 
 # Control volume of all audio channels.
-alias mixer='alsamixer'
+__startConsoleAudioMixer() {
+    alsamixer "$@"
+}
+alias mixer='__startConsoleAudioMixer'
 
 # Set master volume in rage of 0 to 100.
-setVolume() {
+__setVolumeTo() {
     amixer set Master playback "$1"
 }
 
 # Increases volume by 6dB.
-volumeUp6Db() {
-    setVolume "6%+" | tail -n 1
+__increaseVolumeBy6Db() {
+    __setVolumeTo "6%+" | tail -n 1
 }
-alias a='volumeUp6Db'
+alias a='__increaseVolumeBy6Db'
 
 # Decreases volume by 6dB.
-volumeDown6Db() {
-    setVolume "6%-" | tail -n 1
+__decreaseVolumeBy6Db() {
+    __setVolumeTo "6%-" | tail -n 1
 }
-alias z='volumeDown6Db'
+alias z='__decreaseVolumeBy6Db'
 
 # Increases volume by 2dB.
-volumeUp2Db() {
-    setVolume "2%+" | tail -n 1
+__increaseVolumeBy2Db() {
+    __setVolumeTo "2%+" | tail -n 1
 }
-alias aa='volumeUp2Db'
+alias aa='__increaseVolumeBy2Db'
 
 # Decreases volume by 2dB.
-volumeDown2Db() {
-    setVolume "2%-" | tail -n 1
+__decreaseVolumeBy2Db() {
+    __setVolumeTo "2%-" | tail -n 1
 }
-alias zz='volumeDown2Db'
+alias zz='__decreaseVolumeBy2Db'
 
 
 ###############
