@@ -1260,9 +1260,9 @@ alias linesOfCode='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
 alias loc='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
 
 
-############
-# PACKAGES #
-############
+######################
+# PACKAGE MANAGEMENT #
+######################
 
 # Installs package.
 __installPackage() {
@@ -1313,12 +1313,40 @@ __removeUnneededPackages() {
 }
 alias autoremove='__removeUnneededPackages'
 
-# Prints installed and remote version of package.
-__printVersionOfPackage() {
-    apt-cache policy "$@"
+
+#######################
+# PACKAGE INFORMATION #
+#######################
+
+# Prints package description.
+__printPackageDescription() {
+    apt-cache show "$@" | grep "^ " | __printOrDisplayTextInPager
 }
-alias version='__printVersionOfPackage'
-alias ve='__printVersionOfPackage'
+alias describe='__printPackageDescription'
+alias pd='__printPackageDescription'
+
+# Returns 0 if package is instaled, or non-zero if not.
+__isPackageInstalled() {
+    dpkg -s "$@" &> /dev/null
+    return "$?"
+}
+
+# Prints installed and remote version of package.
+__printPackagesInstalledAndAvailableVersion() {
+    versionInfo=$(apt-cache policy "$@")
+    echo "$versionInfo" | grep Installed | sed 's/^ *//'
+    echo "$versionInfo" | grep Candidate | sed 's/^ *//'
+}
+
+# Shows on which packages specified package depends.
+__printPackageDependencies() { 
+    apt-cache show "$@" \
+        | grep Depends \
+        | sed 's/Depends:/ /' \
+        | sed 's/,/\n /g' \
+        | __printOrDisplayTextInPager
+}
+alias depends='__printPackageDependencies'
 
 # Prints packages that were installed by the user, in order of
 # installation.
@@ -1340,16 +1368,6 @@ __printInstalledPackages() {
 alias allPackages='__printInstalledPackages'
 alias allInstalled='__printInstalledPackages'
 
-# Shows on which packages specified package depends.
-__printPackagesDependencies() { 
-    apt-cache show "$@" \
-        | grep Depends \
-        | sed 's/Depends:/ /' \
-        | sed 's/,/\n /g' \
-        | __printOrDisplayTextInPager
-}
-alias depends='__printPackagesDependencies'
-
 
 ##########################
 # PACKAGE/COMMAND SEARCH #
@@ -1358,58 +1376,84 @@ alias depends='__printPackagesDependencies'
 # Runs apropos, a command that finds installed commands, with
 # provided pattern in their names or descriptions. Matches get
 # highlighted.
-findInstalledCommandsWithPartOfNameOrDescription() {
-    apropos "$@" | __printOrDisplayWithPagerLinesContainingPattern  "$@"
+__findInstalledCommandsWithPartOfNameOrDescription() {
+    apropos "$@" \
+        | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
-alias apropos1='findInstalledCommandsWithPartOfNameOrDescription'
-alias ap='findInstalledCommandsWithPartOfNameOrDescription'
+alias findCommand='__findInstalledCommandsWithPartOfNameOrDescription'
+alias apropos1='__findInstalledCommandsWithPartOfNameOrDescription'
+alias ap='__findInstalledCommandsWithPartOfNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
-findAvailablePackagesWithPartOfNameOrDescription() {
-    apt-cache search "$@" | __printOrDisplayWithPagerLinesContainingPattern  "$@"
+__findAvailablePackagesWithPartOfNameOrDescription() {
+    apt-cache search "$@" \
+        | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
-alias search='findAvailablePackagesWithPartOfNameOrDescription'
+alias findPackage='__findAvailablePackagesWithPartOfNameOrDescription'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
-findAvailablePackagesWithPartOfName() {
-    #apt-cache search "$@" | __printOrDisplayWithPagerLinesContainingPattern "^[^ ]*$@[^ ]*" 
+__findAvailablePackagesWithPartOfName() {
     apt-cache search "$1" \
         | __printLinesContainingPattern "^[^ ]*$1[^ ]*" \
         | __printOrDisplayWithPagerLinesContainingPattern "$1" 
 }
 
 # Finds which available packages provide specified command.
-findAvailablePakagesWithPartOfCommand() {
+__findAvailablePakagesThatProvideCommand() {
     apt-file search "$1" \
         | grep \/bin\/"$1"$ \
         | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
 }
-alias apt-file1='findAvailablePakagesWithPartOfCommand'
+alias apt-file1='__findAvailablePakagesThatProvideCommand'
 
 # Finds which available packages contain specified file or have
 # the pattern in their names.
-findAvailablePackagesWithPartOfNameOrPartOfCommand() {
-    (echo   "PACKAGES CONTAINING COMMAND NAMED \"$1\""
-    echo -n "===================================="
+__findAvailablePackagesWithPartOfNameOrFullCommand() {
+    (echo   "PACKAGES PROVIDING COMMAND NAMED \"$1\""
+    echo -n "==================================="
     echo "$1" | sed 's/./=/g'
-    findAvailablePakagesWithPartOfCommand "$@"
+    __findAvailablePakagesThatProvideCommand "$@"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    findAvailablePackagesWithPartOfName "$@") | __printAndDisplayTextInPagerIfNecessary 
+    __findAvailablePackagesWithPartOfName "$@") \
+        | __printAndDisplayTextInPagerIfNecessary 
 }
 
-# Prints package description.
-packageDescriptionWithFullName() {
-    apt-cache show "$@" | grep "^ " | __printOrDisplayTextInPager
+# Find which installed package provides specified command.
+__printInstalledPackageThatProvidesCommandAndItsLocation() {
+    file=$(sudo which "$1")
+    if [ "$file" == "" ]; then 
+        return
+    fi  
+    resolved=$(readlink -f "$file")
+    dpkg -S "$resolved" \
+        | __printLinesContainingPattern "^.*:"
 }
-alias describe='packageDescriptionWithFullName'
-alias pd='packageDescriptionWithFullName'
+
+# Prints installed and remote version of package or command (that is part of package).
+__printVersionOfPackageOrCommand() {
+    __isPackageInstalled "$@"
+    if [[ $? -eq 0 ]]; then
+        __printPackagesInstalledAndAvailableVersion "$@"
+    else
+        packageInfo=$(__printInstalledPackageThatProvidesCommandAndItsLocation "$@")
+        packageName=$(echo "$packageInfo" | sed 's/:.*$//')
+        echo "Package:   $packageName"
+        __printPackagesInstalledAndAvailableVersion "$packageName"
+    fi
+}
+alias version='__printVersionOfPackageOrCommand'
+alias ve='__printVersionOfPackageOrCommand'
+
+__printAliasDefinition() {
+    type "$@" 
+}
 
 # Converts man section number into a description.
-manSection() {
+__getManSectionNameFromNumber() {
     case "$1" in
         1)      echo "user command"                     ;;
         2)      echo "system call"                      ;;
@@ -1423,41 +1467,23 @@ manSection() {
     esac
 }
 
-# Find which installed package provides specified command.
-findInstalledPackageWithFullCommandName() {
-    file=$(sudo which "$1")
-    if [ "$file" == "" ]; then 
-        return
-    fi  
-    resolved=$(readlink -f "$file")
-    dpkg -S "$resolved" \
-        | __printLinesContainingPattern "^.*:"
-}
-
 # If command is available then it prints it's description, package and
 # location.
-infoAboutInstalledCommandWithFullName() {
+__printInfoAboutInstalledCommand() {
     call1=$(sudo whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
-            commandType=$(manSection $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
+            commandType=$(__getManSectionNameFromNumber $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
             echo "$line" "($commandType)"
         done <<< "$call1"
         echo -n "Package:   "
-        packageInfo=$(findInstalledPackageWithFullCommandName "$@")
+        packageInfo=$(__printInstalledPackageThatProvidesCommandAndItsLocation "$@")
         echo "$packageInfo" | sed 's/: /\nLocation:  /'
-        versionInfo=$(version $(echo "$packageInfo" | sed 's/:.*$//'))
-        echo "$versionInfo" | grep Installed | sed 's/^ *//'
-        echo "$versionInfo" | grep Candidate | sed 's/^ *//'
         return 0
     fi
     return 1
 }
-alias package='infoAboutInstalledCommandWithFullName'
-
-aliasDefinitionWithFullName() {
-    type "$@" 
-}
+alias package='__printInfoAboutInstalledCommand'
 
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
@@ -1465,20 +1491,20 @@ aliasDefinitionWithFullName() {
 # function returns.
 comprehensiveInquiry() {
     # Checks if it is an installed command.
-    infoAboutInstalledCommandWithFullName "$@"
+    __printInfoAboutInstalledCommand "$@"
     if [ "$?" == "0" ]; then 
         return
     fi
 
     # Checks if it is a package.
-    call2=$(packageDescriptionWithFullName "$@" 2> /dev/null) 
+    call2=$(__printPackageDescription "$@" 2> /dev/null) 
     if [ "$call2" != "" ]; then
         echo "$call2" | __printOrDisplayTextInPager
         return
     fi
 
     # Checks if it is an alias.
-    call3=$(aliasDefinitionWithFullName "$@" 2> /dev/null)
+    call3=$(__printAliasDefinition "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
         echo "$call3"
         return
@@ -1486,7 +1512,7 @@ comprehensiveInquiry() {
 
     # Search all available commands and packages with part of the
     # name.
-    findAvailablePackagesWithPartOfNameOrPartOfCommand "$@" 
+    __findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
 }
 alias whatis1='comprehensiveInquiry'
 alias wi='comprehensiveInquiry'
