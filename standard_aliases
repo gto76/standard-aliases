@@ -583,7 +583,7 @@ alias da='__printDateAndTime'
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
 __runMakeWithPager() {
-    make 2>&1 | __displayTextInPager
+    make "$@" 2>&1 | __displayTextInPager
 }
 # Asigns make completion to command if available.
 if [ -f /usr/share/bash-completion/completions/make ]; then
@@ -1420,7 +1420,7 @@ __printVersionOfPackageOrCommand() {
 alias version='__printVersionOfPackageOrCommand'
 alias ve='__printVersionOfPackageOrCommand'
 
-__checkIfItIsBashBuiltinOrAnAlias() {
+__printDescriptionOfBashBuiltinOrAnAlias() {
     answer=$(type "$@")
     echo "$answer"
     if [[ $(echo "$answer" | grep "is a shell") != "" ]]; then
@@ -1445,7 +1445,7 @@ __getManSectionNameFromNumber() {
 
 # If command is available then it prints it's description, package and
 # location.
-__printInfoAboutInstalledCommandSystemCallCFunctionEtc() {
+__printDescriptionPackageAndLocationOfInstalledCommand() {
     call1=$(sudo whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
@@ -1459,7 +1459,7 @@ __printInfoAboutInstalledCommandSystemCallCFunctionEtc() {
     fi
     return 1
 }
-alias package='__printInfoAboutInstalledCommandSystemCallCFunctionEtc'
+alias package='__printDescriptionPackageAndLocationOfInstalledCommand'
 
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
@@ -1467,7 +1467,7 @@ alias package='__printInfoAboutInstalledCommandSystemCallCFunctionEtc'
 # function returns.
 __findPackageOrCommandWithPatternInItsName() {
     # Checks if it is an installed command.
-    __printInfoAboutInstalledCommandSystemCallCFunctionEtc "$@"
+    __printDescriptionPackageAndLocationOfInstalledCommand "$@"
     if [ "$?" == "0" ]; then 
         return
     fi
@@ -1480,7 +1480,7 @@ __findPackageOrCommandWithPatternInItsName() {
     fi
 
     # Checks if it is an alias of bash builtin.
-    call3=$(__checkIfItIsBashBuiltinOrAnAlias "$@" 2> /dev/null)
+    call3=$(__printDescriptionOfBashBuiltinOrAnAlias "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
         echo "$call3" | __printOrDisplayTextInPager
         return
@@ -1853,10 +1853,10 @@ alias chrome='__startChromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
-__startLynx() {
+__startTerminalInternetBrowser() {
     lynx -accept_all_cookies -vikeys www.google.com "$@"
 }
-alias lynx1='__startLynx'
+alias lynx1='__startTerminalInternetBrowser'
 
 
 #########
