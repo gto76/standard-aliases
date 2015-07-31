@@ -927,7 +927,12 @@ __printLinesContainingPattern() {
         --ignore-case --perl-regexp "$@"
 }
 complete -F _longopt __printLinesContainingPattern
-alias grep1='__printLinesContainingPattern'
+#alias grep1='__printLinesContainingPattern'
+# TODO untill here.
+# grep1() {
+#     __printLinesContainingPattern "$@"
+# }
+#complete -F _longopt grep1 # This works but it needs to be automatic
 
 # Runs __printLinesContainingPattern and sends output to pager.
 __printOrDisplayWithPagerLinesContainingPattern() {
@@ -1415,8 +1420,12 @@ __printVersionOfPackageOrCommand() {
 alias version='__printVersionOfPackageOrCommand'
 alias ve='__printVersionOfPackageOrCommand'
 
-__printAliasDefinition() {
-    type "$@" 
+__checkIfItIsBashBuiltinOrAnAlias() {
+    answer=$(type "$@")
+    echo "$answer"
+    if [[ $(echo "$answer" | grep "is a shell") != "" ]]; then
+        help "$@"
+    fi
 }
 
 # Converts man section number into a description.
@@ -1436,7 +1445,7 @@ __getManSectionNameFromNumber() {
 
 # If command is available then it prints it's description, package and
 # location.
-__printInfoAboutInstalledCommand() {
+__printInfoAboutInstalledCommandSystemCallCFunctionEtc() {
     call1=$(sudo whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
@@ -1450,7 +1459,7 @@ __printInfoAboutInstalledCommand() {
     fi
     return 1
 }
-alias package='__printInfoAboutInstalledCommand'
+alias package='__printInfoAboutInstalledCommandSystemCallCFunctionEtc'
 
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
@@ -1458,7 +1467,7 @@ alias package='__printInfoAboutInstalledCommand'
 # function returns.
 __findPackageOrCommandWithPatternInItsName() {
     # Checks if it is an installed command.
-    __printInfoAboutInstalledCommand "$@"
+    __printInfoAboutInstalledCommandSystemCallCFunctionEtc "$@"
     if [ "$?" == "0" ]; then 
         return
     fi
@@ -1470,10 +1479,10 @@ __findPackageOrCommandWithPatternInItsName() {
         return
     fi
 
-    # Checks if it is an alias.
-    call3=$(__printAliasDefinition "$@" 2> /dev/null)
+    # Checks if it is an alias of bash builtin.
+    call3=$(__checkIfItIsBashBuiltinOrAnAlias "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
-        echo "$call3"
+        echo "$call3" | __printOrDisplayTextInPager
         return
     fi
 
@@ -1894,10 +1903,9 @@ alias zz='__decreaseVolumeBy2Db'
 # COMPLETIONS #
 ###############
 
-# Calling python function
+# Calling python function that returns complete commands for all aliases that execute command that has a completion assigned to them.
 completionDefsForAliases=$(/home/minerva/github/standard-aliases/getComletionFunction.py "$(alias)" "$(complete)")
 eval "$completionDefsForAliases"
-#echo "$completionDefsForAliases"
 
 
 # Automatically add completion for all aliases to commands having completion functions

@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Usage: generate_shortcuts 
+# 
+
+# Uncomment for Strict mode, more info at:
+# http://redsymbol.net/articles/unofficial-bash-strict-mode
+# set -euo pipefail
+# IFS=$'\n\t'
+
+./parse_rc.py > ~/.standardshortcuts
+
+
