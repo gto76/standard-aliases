@@ -20,21 +20,18 @@ firstLetterToUppercase = lambda s: s[:1].upper() + s[1:] if s else ''
 
 def processAliases(sameAliases, lastFunction):
     sameAliases = list(reversed(sameAliases))
-    commaSeparatedAliases = ",".join(sameAliases)
-    return commaSeparatedAliases+":"+lastFunction
-
+    commaSeparatedAliases = ", ".join(sameAliases)
+    return commaSeparatedAliases+" :"+lastFunction
 
 def combineAliases(confSection):
     aliasesOut = []
     lastFunction = ""
     sameAliases = []
     for line1 in confSection:
-        #print("line is "+ line1)
         tokens = line1.split(':')
         alias = tokens[0]
-        #print("alias is "+ alias)
+        alias = alias.strip()
         function = tokens[1]
-        #print("function is "+ function)
         # if new function and last function is not ""
         if function != lastFunction and lastFunction != "":
             processedLine = processAliases(sameAliases, lastFunction)
@@ -49,6 +46,22 @@ def combineAliases(confSection):
     aliasesOut.append(processedLine)
     return aliasesOut 
 
+def lineUpColons(confSection):
+    out = []
+    colonPosition = 0
+    for line in confSection:
+        pos = line.index(':')  
+        if pos > colonPosition:
+            colonPosition = pos
+    for line in confSection:
+        pos = line.index(':')  
+        diff = colonPosition - pos
+        tokens = line.split(':')
+        alias = tokens[0]
+        function = tokens[1]
+        alias = alias + (" " * diff)
+        out.append(alias+":"+function)
+    return out
 
 # Iterate over lines.
 for line in content:
@@ -61,17 +74,18 @@ for line in content:
     # lines to both files.
     if line.startswith("######") and title:
         title = False
-        confFile.append(line)
+        #confFile.append(line)
         standardAliases.append(line)
         continue
     if line.startswith("######"):
         title = True
-        confFile.append("")
         confSection = combineAliases(confSection)
+        #confSection = lineUpColons(confSection)
+        confFile.append("")
         confFile.extend(confSection)
         confFile.append("")
         confSection = []
-        confFile.append(line)
+        #confFile.append(line)
         standardAliases.append(line)
         continue
     # If line starts with alias.  

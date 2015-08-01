@@ -304,16 +304,40 @@ __goUpNumberOfDirectories() {
     done
 }
 
-alias cd..='__goUpNumberOfDirectories 1'
-alias ..='__goUpNumberOfDirectories 1'
-alias ,,='__goUpNumberOfDirectories 1'
-alias ...='__goUpNumberOfDirectories 2'
-alias ,,,='__goUpNumberOfDirectories 2'
-alias ....='__goUpNumberOfDirectories 3'
-alias ,,,,='__goUpNumberOfDirectories 3'
-alias .....='__goUpNumberOfDirectories 4'
-alias ......='__goUpNumberOfDirectories 5'
-alias .......='__goUpNumberOfDirectories 6'
+__goUpOneDirectory() {
+    __goUpNumberOfDirectories 1
+}
+
+__goUpTwoDirectories() {
+    __goUpNumberOfDirectories 2
+}
+
+__goUpThreeDirectories() {
+    __goUpNumberOfDirectories 3
+}
+
+__goUpFourDirectories() {
+    __goUpNumberOfDirectories 4
+}
+
+__goUpFiveDirectories() {
+    __goUpNumberOfDirectories 5
+}
+
+__goUpSixDirectories() {
+    __goUpNumberOfDirectories 6
+}
+
+alias cd..='__goUpOneDirectory'
+alias ..='__goUpOneDirectory'
+alias ,,='__goUpOneDirectory'
+alias ...='__goUpTwoDirectories'
+alias ,,,='__goUpTwoDirectories'
+alias ....='__goUpThreeDirectories'
+alias ,,,,='__goUpThreeDirectories'
+alias .....='__goUpFourDirectories'
+alias ......='__goUpFiveDirectories'
+alias .......='__goUpSixDirectories'
 
 # Mounts ISO file and cd-s into it.
 __mountIsoAndCdInto() {
@@ -528,10 +552,10 @@ alias terminal='__openNewTerminalWithSameWorkingDirectory'
 alias te='__openNewTerminalWithSameWorkingDirectory'
 
 # Runs head (prints first 10 lines of file or piped stream).
-__printFirst10Lines() {
+__printFirstTenLines() {
     head "$@"
 }
-alias he='__printFirst10Lines'
+alias he='__printFirstTenLines'
 
 # Prints first line of file or piped stream.
 __printFirstLine() {
@@ -541,10 +565,10 @@ alias firstLine='__printFirstLine'
 alias he1='__printFirstLine'
 
 # Runs tail (prints last 10 lines of file or piped stream).
-__printLast10Lines() {
+__printLastTenLines() {
     tail "$@"
 }
-alias ta='__printLast10Lines'
+alias ta='__printLastTenLines'
 
 # Prints last line of file or piped stream.
 __printLastLine() {
@@ -700,27 +724,110 @@ alias sub='__editFileWithSublimeText'
 
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
-# As long as this line of text stays here and is not modified,
-# that long all the aliases and functions until next comment
-# will not get documented in README.md.
 # TODO check completions
-alias fdisk='sudo fdisk'
-alias updatedb='sudo updatedb'
-alias ifconfig='sudo ifconfig'
-alias tcpdump='sudo tcpdump'
-alias route='sudo route'
-alias pm-hibernate='sudo pm-hibernate'
-alias pm-suspend='sudo pm-suspend'
-alias shutdown='sudo shutdown'
-alias fstrim='sudo fstrim'
-alias apt-get='sudo aptget'
-alias iw='sudo iw'
-alias nmap='sudo nmap'
-alias parted='sudo parted'
-alias ntfsundelete='sudo ntfsundelete'
-alias lshw='sudo lshw'
-alias chown='sudo chown'
-alias mount='sudo mount'
+
+runFdiskAsSuperUser() {
+    sudo fdisk "$@"
+}
+alias fdisk='runFdiskAsSuperUser'
+
+runUpdatedbAsSuperUser() {
+    sudo updatedb "$@"
+}
+alias updatedb='runUpdatedbAsSuperUser'
+
+runIfconfigAsSuperUser() {
+    sudo ifconfig "$@"
+}
+alias ifconfig='runIfconfigAsSuperUser'
+
+runTcpdumpAsSuperUser() {
+    sudo tcpdump "$@"
+}
+alias tcpdump='runTcpdumpAsSuperUser'
+
+runRouteAsSuperUser() {
+    sudo route "$@"
+}
+alias route='runRouteAsSuperUser'
+
+runPm-hibernateAsSuperUser() {
+    sudo pm-hibernate "$@"
+}
+alias pm-hibernate='runPm-hibernateAsSuperUser'
+
+runPm-suspendAsSuperUser() {
+    sudo pm-suspend "$@"
+}
+alias pm-suspend='runPm-suspendAsSuperUser'
+
+runShutdownAsSuperUser() {
+    sudo shutdown "$@"
+}
+alias shutdown='runShutdownAsSuperUser'
+
+runFstrimAsSuperUser() {
+    sudo fstrim "$@"
+}
+alias fstrim='runFstrimAsSuperUser'
+
+runApt-getAsSuperUser() {
+    sudo aptget "$@"
+}
+alias aptget='runApt-getAsSuperUser'
+
+runIwAsSuperUser() {
+    sudo iw "$@"
+}
+alias iw='runIwAsSuperUser'
+
+runNmapAsSuperUser() {
+    sudo nmap "$@"
+}
+alias nmap='runNmapAsSuperUser'
+
+runPartedAsSuperUser() {
+    sudo parted "$@"
+}
+alias parted='runPartedAsSuperUser'
+
+runNtfsundeleteAsSuperUser() {
+    sudo ntfsundelete "$@"
+}
+alias ntfsundelete='runNtfsundeleteAsSuperUser'
+
+runLshwAsSuperUser() {
+    sudo lshw "$@"
+}
+alias lshw='runLshwAsSuperUser'
+
+runChownAsSuperUser() {
+    sudo chown "$@"
+}
+alias chown='runChownAsSuperUser'
+
+runMountAsSuperUser() {
+    sudo mount "$@"
+}
+alias mount='runMountAsSuperUser'
+
+# alias fdisk='sudo fdisk'
+# alias updatedb='sudo updatedb'
+# alias ifconfig='sudo ifconfig'
+# alias tcpdump='sudo tcpdump'
+# alias route='sudo route'
+# alias pm-hibernate='sudo pm-hibernate'
+# alias pm-suspend='sudo pm-suspend'
+# alias shutdown='sudo shutdown'
+# alias fstrim='sudo fstrim'
+# alias apt-get='sudo aptget'
+# alias iw='sudo iw'
+# alias nmap='sudo nmap'
+# alias parted='sudo parted'
+# alias ntfsundelete='sudo ntfsundelete'
+# alias lshw='sudo lshw'
+# alias chown='sudo chown'
+# alias mount='sudo mount'
 
 # Runs command as sudo.
 __runCommandAsSuperUser() {
@@ -927,7 +1034,7 @@ __printLinesContainingPattern() {
         --ignore-case --perl-regexp "$@"
 }
 complete -F _longopt __printLinesContainingPattern
-#alias grep1='__printLinesContainingPattern'
+alias grep1='__printLinesContainingPattern'
 # TODO untill here.
 # grep1() {
 #     __printLinesContainingPattern "$@"
@@ -1133,7 +1240,7 @@ alias uskeys='__changeKeyboardLayoutToAmerican'
 __moniterKeycodesOfPressedKeys() {
     xev "$@"
 }
-alias keycode='xev'
+alias keycode='__moniterKeycodesOfPressedKeys'
 
 # Turns key input repeat off.
 __turnOffKeyRepeat() {
