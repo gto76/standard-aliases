@@ -487,6 +487,7 @@ alias rb='__runCommandInBackground'
 ##########
 
 # Opens this file in Vim.
+# TODO change to default editor
 __editStandardAliases() {
     vim ~/.standard_aliases
 }
@@ -509,6 +510,12 @@ __printLocationOfCommandOrAliasDefinition() {
 complete -F _command __printLocationOfCommandOrAliasDefinition
 alias type1='__printLocationOfCommandOrAliasDefinition'
 alias ty='__printLocationOfCommandOrAliasDefinition'
+
+__printDefinitionOfFirstFunctionAFunctionCalls() {
+        type $(type "$@" | sed 's/^.*`//' | sed 's/'\''$//') | __printOrDisplayTextInPager
+}
+complete -F _command __printDefinitionOfFirstFunctionAFunctionCalls
+alias tyty='__printDefinitionOfFirstFunctionAFunctionCalls'
 
 # Runs cat.
 __printContentsOfFile() {
@@ -1022,11 +1029,6 @@ __printLinesContainingPattern() {
 }
 complete -F _longopt __printLinesContainingPattern
 alias grep1='__printLinesContainingPattern'
-# TODO untill here.
-# grep1() {
-#     __printLinesContainingPattern "$@"
-# }
-#complete -F _longopt grep1 # This works but it needs to be automatic
 
 # Runs __printLinesContainingPattern and sends output to pager.
 __printOrDisplayWithPagerLinesContainingPattern() {
@@ -1331,10 +1333,10 @@ alias canhaz='__installPackage'
 alias ch='__installPackage'
 
 # Updates package information.
-__updatePackageInfo() {
+__updateInformationAboutAvailablePackages() {
     sudo apt-get update
 }
-alias update='__updatePackageInfo'
+alias update='__updateInformationAboutAvailablePackages'
 
 # Upgrades all packages to newest available version.
 __upgradeAllPackages() {
@@ -1360,10 +1362,10 @@ alias remove='__removePackageAndAllUnneededPackages'
 # Removes package, together with its configuration files. All
 # the packages this package dependent on and were only used by
 # this package are also removed.
-__removePackageAndAllItsConfigurationsAndAllUnneededPackages() {
+__removePackageAndAllUnneededPackagesTogetherWithConfigurationFiles() {
     sudo apt-get purge "$@" && __removeUnneededPackages
 }
-alias purge='__removePackageAndAllItsConfigurationsAndAllUnneededPackages'
+alias purge='__removePackageAndAllUnneededPackagesTogetherWithConfigurationFiles'
 
 # Removes packages that were automatically installed to satisfy
 # dependencies for other packages and are now no longer needed.
@@ -1767,19 +1769,19 @@ __printGatewaysIp() {
 alias gateway='__printGatewaysIp'
 
 # Prints mac addresses of local devices.
-__printMacAddressesOfLocalDevices() {
+__printMacAddressesOfNetworkDevices() {
     ifconfig | grep HWaddr | cat
 }
-alias mac='__printMacAddressesOfLocalDevices'
+alias mac='__printMacAddressesOfNetworkDevices'
 
 # Pings gateway, ip address of noip.com and www.google.com.
-__pingGatewayIpAndGoogle() {
+__pingGatewayAndGoogle() {
     ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
     ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
     ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
-alias pingAll='__pingGatewayIpAndGoogle'
-alias pa='__pingGatewayIpAndGoogle'
+alias pingAll='__pingGatewayAndGoogle'
+alias pa='__pingGatewayAndGoogle'
 
 # Scans addresses of local network. If a number is specified it
 # scans local addresses up to this number (0-255).
@@ -1828,10 +1830,10 @@ __printStatusOfSshPortAtAddress() {
 # their ssh port status.  After that checks checks if connection
 # to the internet is available by pinging Google and ip address
 # of noip.com.
-__printNetworkStatus() {
+__printSshPortStatusOfLocalDevicesAndPingGoogle() {
     localIp=$(ip1)
     gateway=$(gateway)
-    echo "You:      $localIp   ssh: $(__printStatusOfSshPortAtAddress $(ip2))"
+    echo "You:      $localIp    ssh: $(__printStatusOfSshPortAtAddress $(ip2))"
     echo "Gateway:  $gateway    ssh: $(__printStatusOfSshPortAtAddress "$gateway")"
     all=$(nmap1 20)
     allFiltered=$(
@@ -1854,8 +1856,8 @@ __printNetworkStatus() {
     testDomain="www.google.com"
     echo "          $testDomain Ping: $(__isAddressReachable "$testDomain")"
 }
-alias network='__printNetworkStatus'
-alias ne='__printNetworkStatus'
+alias network='__printSshPortStatusOfLocalDevicesAndPingGoogle'
+alias ne='__printSshPortStatusOfLocalDevicesAndPingGoogle'
 
 
 ############
@@ -1941,10 +1943,10 @@ alias chrome='__startChromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
-__startTerminalWwwBrowser() {
+__startTerminalWebBrowser() {
     lynx -accept_all_cookies -vikeys www.google.com "$@"
 }
-alias lynx1='__startTerminalWwwBrowser'
+alias lynx1='__startTerminalWebBrowser'
 
 
 #########
@@ -1952,10 +1954,10 @@ alias lynx1='__startTerminalWwwBrowser'
 #########
 
 # Control volume of all audio channels.
-__startConsoleAudioMixer() {
+__startTerminalVolumeControl() {
     alsamixer "$@"
 }
-alias mixer='__startConsoleAudioMixer'
+alias mixer='__startTerminalVolumeControl'
 
 # Set master volume in rage of 0 to 100.
 __setVolumeTo() {
@@ -1963,28 +1965,28 @@ __setVolumeTo() {
 }
 
 # Increases volume by 6dB.
-__increaseVolumeBySixDb() {
+__increaseVolumeBySixDecibels() {
     __setVolumeTo "6%+" | tail -n 1
 }
-alias a='__increaseVolumeBySixDb'
+alias a='__increaseVolumeBySixDecibels'
 
 # Decreases volume by 6dB.
-__decreaseVolumeBySixDb() {
+__decreaseVolumeBySixDecibels() {
     __setVolumeTo "6%-" | tail -n 1
 }
-alias z='__decreaseVolumeBySixDb'
+alias z='__decreaseVolumeBySixDecibels'
 
 # Increases volume by 2dB.
-__increaseVolumeByTwoDb() {
+__increaseVolumeByTwoDecibels() {
     __setVolumeTo "2%+" | tail -n 1
 }
-alias aa='__increaseVolumeByTwoDb'
+alias aa='__increaseVolumeByTwoDecibels'
 
 # Decreases volume by 2dB.
-__decreaseVolumeByTwoDb() {
+__decreaseVolumeByTwoDecibels() {
     __setVolumeTo "2%-" | tail -n 1
 }
-alias zz='__decreaseVolumeByTwoDb'
+alias zz='__decreaseVolumeByTwoDecibels'
 
 
 ###############
