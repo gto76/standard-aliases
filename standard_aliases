@@ -504,18 +504,28 @@ alias ba='__startNewBashShell'
 # Prints location of specified command, or it's definition, if
 # it is an alias. Run this command if you are not sure what an
 # alias does!
-__printLocationOfCommandOrAliasDefinition() {
+#display information about command type.
+#print command interpretation
+#show how command is interpreted
+# show how bash will interpret command
+# show what type command is
+# print commands type
+# show what will command execute
+# show to what is command linked
+# print command type or definition
+# print command type or function
+__printCommandTypeOrDefinition() {
     type "$@" | __printOrDisplayTextInPager
 }
-complete -F _command __printLocationOfCommandOrAliasDefinition
-alias type1='__printLocationOfCommandOrAliasDefinition'
-alias ty='__printLocationOfCommandOrAliasDefinition'
+complete -F _command __printCommandTypeOrDefinition
+alias type1='__printCommandTypeOrDefinition'
+alias ty='__printCommandTypeOrDefinition'
 
-__printDefinitionOfFirstFunctionAFunctionCalls() {
+__printFunctionThatAFunctionCalls() {
         type $(type "$@" | sed 's/^.*`//' | sed 's/'\''$//') | __printOrDisplayTextInPager
 }
-complete -F _command __printDefinitionOfFirstFunctionAFunctionCalls
-alias tyty='__printDefinitionOfFirstFunctionAFunctionCalls'
+complete -F _command __printFunctionThatAFunctionCalls
+alias tyty='__printFunctionThatAFunctionCalls'
 
 # Runs cat.
 __printContentsOfFile() {
@@ -993,9 +1003,9 @@ __lineUpColumns() {
 alias table='__lineUpColumns'
 
 # TODO parameters
-# Treats input lines as rows of a table. With second argument
-# you specify the columns you want to retain, and with first,
-# the delimiter character. For more columns use comma or dash
+# Treats input lines as rows of a table. With first argument
+# you specify the delimiter character, and with secont, the
+# columns you want to retain. For more columns use comma or dash
 # (for ranges).
 __keepColumns() {
     cut --delimiter="$1" --fields="$2" 
@@ -1138,7 +1148,7 @@ __printDiskSpaceOccupiedByFileOrFolder() {
 alias du1='__printDiskSpaceOccupiedByFileOrFolder'
 
 # Prints all and free memory in megabytes.
-__printMemoryStatusInSimplifiedForm() {
+__printAllAndOcupiedMemorySpaceInMegabytes() {
     echo "all:  "$(free -m \
         | grep Mem \
         | sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
@@ -1146,8 +1156,8 @@ __printMemoryStatusInSimplifiedForm() {
         | grep Mem \
         | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
-alias free1='__printMemoryStatusInSimplifiedForm'
-alias fr='__printMemoryStatusInSimplifiedForm'
+alias free1='__printAllAndOcupiedMemorySpaceInMegabytes'
+alias fr='__printAllAndOcupiedMemorySpaceInMegabytes'
 
 # Displays CPU's temperature.
 __printTemperatureOfCpu() {
@@ -1374,6 +1384,36 @@ __removeUnneededPackages() {
 }
 alias autoremove='__removeUnneededPackages'
 
+# Prints packages that were installed by the user, in order of
+# installation.
+__printPackagesThatWereInstalledByUser() {
+    cat /var/log/apt/history.log \
+        | grep "apt-get install" \
+        | sed "s/.* //" \
+        | __printOrDisplayTextInPagerStartingAtEnd
+}
+alias packages='__printPackagesThatWereInstalledByUser'
+alias installed='__printPackagesThatWereInstalledByUser' 
+
+# Prints all installed packages.
+__printAllInstalledPackages() {
+    dpkg --get-selections \
+        | grep -v deinstall \
+        | __printOrDisplayTextInPager
+}
+alias allPackages='__printAllInstalledPackages'
+alias allInstalled='__printAllInstalledPackages'
+
+# Shows on which packages specified package depends.
+__printPackageDependencies() { 
+    apt-cache show "$@" \
+        | grep Depends \
+        | sed 's/Depends:/ /' \
+        | sed 's/,/\n /g' \
+        | __printOrDisplayTextInPager
+}
+alias depends='__printPackageDependencies'
+
 
 #######################
 # PACKAGE INFORMATION #
@@ -1399,89 +1439,24 @@ __printPackagesInstalledAndAvailableVersion() {
     echo "$versionInfo" | grep Candidate | sed 's/^ *//'
 }
 
-# Shows on which packages specified package depends.
-__printPackageDependencies() { 
-    apt-cache show "$@" \
-        | grep Depends \
-        | sed 's/Depends:/ /' \
-        | sed 's/,/\n /g' \
-        | __printOrDisplayTextInPager
+# Prints installed and remote version of package or command (that is part of package).
+__printVersionOfPackageOrVersionOfInstalledCommandsPackage() {
+    # Check if passed name is a package, and print its version if it is.
+    packageVersion=$(__printPackagesInstalledAndAvailableVersion "$@")
+    if [[ "$packageVersion" != "" ]]; then 
+        echo "$packageVersion"
+    else
+        # Check if passed name is an installed command, and print its package version if it is.
+        packageInfo=$(__printInstalledPackageThatProvidesCommandAndItsLocation "$@")
+        packageName=$(echo "$packageInfo" | sed 's/:.*$//')
+        if [[ "$packageName" != "" ]]; then 
+            echo "Package:   $packageName"
+            __printPackagesInstalledAndAvailableVersion "$packageName"
+        fi
+    fi
 }
-alias depends='__printPackageDependencies'
-
-# Prints packages that were installed by the user, in order of
-# installation.
-__printPackagesThatWereInstalledByUser() {
-    cat /var/log/apt/history.log \
-        | grep "apt-get install" \
-        | sed "s/.* //" \
-        | __printOrDisplayTextInPagerStartingAtEnd
-}
-alias packages='__printPackagesThatWereInstalledByUser'
-alias installed='__printPackagesThatWereInstalledByUser' 
-
-# Prints all installed packages.
-__printAllInstalledPackages() {
-    dpkg --get-selections \
-        | grep -v deinstall \
-        | __printOrDisplayTextInPager
-}
-alias allPackages='__printAllInstalledPackages'
-alias allInstalled='__printAllInstalledPackages'
-
-
-##########################
-# PACKAGE/COMMAND SEARCH #
-##########################
-
-# Runs apropos, a command that finds installed commands, with
-# provided pattern in their names or descriptions. Matches get
-# highlighted.
-__findInstalledCommandsWithPartOfNameOrDescription() {
-    apropos "$@" \
-        | __printOrDisplayWithPagerLinesContainingPattern  "$@"
-}
-alias findCommand='__findInstalledCommandsWithPartOfNameOrDescription'
-alias apropos1='__findInstalledCommandsWithPartOfNameOrDescription'
-alias ap='__findInstalledCommandsWithPartOfNameOrDescription'
-
-# Searches packages, that can be installed with apt-get. Search
-# is performed on their names and short descriptions.
-__findAvailablePackagesWithPartOfNameOrDescription() {
-    apt-cache search "$@" \
-        | __printOrDisplayWithPagerLinesContainingPattern  "$@"
-}
-alias findPackage='__findAvailablePackagesWithPartOfNameOrDescription'
-
-# Searches packages, that can be installed with apt-get. Search
-# is performed only on their names.
-__findAvailablePackagesWithPartOfName() {
-    apt-cache search "$1" \
-        | __printLinesContainingPattern "^[^ ]*$1[^ ]*" \
-        | __printOrDisplayWithPagerLinesContainingPattern "$1" 
-}
-
-# Finds which available packages provide specified command.
-__findAvailablePackagesThatProvideCommand() {
-    apt-file search "$1" \
-        | grep \/bin\/"$1"$ \
-        | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
-}
-alias apt-file1='__findAvailablePackagesThatProvideCommand'
-
-# Finds which available packages contain specified file or have
-# the pattern in their names.
-__findAvailablePackagesWithPartOfNameOrFullCommand() {
-    (echo   "PACKAGES PROVIDING COMMAND NAMED \"$1\""
-    echo -n "==================================="
-    echo "$1" | sed 's/./=/g'
-    __findAvailablePackagesThatProvideCommand "$@"
-    echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
-    echo -n   "====================================="
-    echo "$1" | sed 's/./=/g'
-    __findAvailablePackagesWithPartOfName "$@") \
-        | __printAndDisplayTextInPagerIfNecessary 
-}
+alias version='__printVersionOfPackageOrVersionOfInstalledCommandsPackage'
+alias ve='__printVersionOfPackageOrVersionOfInstalledCommandsPackage'
 
 # Find which installed package provides specified command.
 __printInstalledPackageThatProvidesCommandAndItsLocation() {
@@ -1492,29 +1467,6 @@ __printInstalledPackageThatProvidesCommandAndItsLocation() {
     resolved=$(readlink -f "$file")
     dpkg -S "$resolved" \
         | __printLinesContainingPattern "^.*:"
-}
-
-# Prints installed and remote version of package or command (that is part of package).
-__printVersionOfPackageOrCommand() {
-    __isPackageInstalled "$@"
-    if [[ $? -eq 0 ]]; then
-        __printPackagesInstalledAndAvailableVersion "$@"
-    else
-        packageInfo=$(__printInstalledPackageThatProvidesCommandAndItsLocation "$@")
-        packageName=$(echo "$packageInfo" | sed 's/:.*$//')
-        echo "Package:   $packageName"
-        __printPackagesInstalledAndAvailableVersion "$packageName"
-    fi
-}
-alias version='__printVersionOfPackageOrCommand'
-alias ve='__printVersionOfPackageOrCommand'
-
-__printDescriptionOfBashBuiltinOrAnAlias() {
-    answer=$(type "$@")
-    echo "$answer"
-    if [[ $(echo "$answer" | grep "is a shell") != "" ]]; then
-        help "$@"
-    fi
 }
 
 # Converts man section number into a description.
@@ -1534,7 +1486,7 @@ __getManSectionNameFromNumber() {
 
 # If command is available then it prints it's description, package and
 # location.
-__printDescriptionPackageAndLocationOfInstalledCommand() {
+__printPackageOfInstalledCommandTogetherWithDescriptionAndLocation() {
     call1=$(sudo whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
@@ -1548,15 +1500,77 @@ __printDescriptionPackageAndLocationOfInstalledCommand() {
     fi
     return 1
 }
-alias package='__printDescriptionPackageAndLocationOfInstalledCommand'
+alias package='__printPackageOfInstalledCommandTogetherWithDescriptionAndLocation'
+
+
+##################
+# PACKAGE SEARCH #
+##################
+
+# Searches packages, that can be installed with apt-get. Search
+# is performed on their names and short descriptions.
+__findAvailablePackagesWithPartOfNameOrDescription() {
+    apt-cache search "$@" \
+        | __printOrDisplayWithPagerLinesContainingPattern  "$@"
+}
+alias findPackage='__findAvailablePackagesWithPartOfNameOrDescription'
+
+# Runs apropos, a command that finds installed commands, with
+# provided pattern in their names or descriptions. Matches get
+# highlighted.
+__findInstalledCommandsWithPartOfNameOrDescription() {
+    apropos "$@" \
+        | __printOrDisplayWithPagerLinesContainingPattern  "$@"
+}
+alias findCommand='__findInstalledCommandsWithPartOfNameOrDescription'
+alias apropos1='__findInstalledCommandsWithPartOfNameOrDescription'
+alias ap='__findInstalledCommandsWithPartOfNameOrDescription'
+
+# Finds which available packages provide specified command.
+__findAvailablePackagesThatProvideCommand() {
+    apt-file search "$1" \
+        | grep \/bin\/"$1"$ \
+        | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
+}
+alias apt-file1='__findAvailablePackagesThatProvideCommand'
+
+# Searches packages, that can be installed with apt-get. Search
+# is performed only on their names.
+__findAvailablePackagesWithPartOfName() {
+    apt-cache search "$1" \
+        | __printLinesContainingPattern "^[^ ]*$1[^ ]*" \
+        | __printOrDisplayWithPagerLinesContainingPattern "$1" 
+}
+
+# Finds which available packages contain specified file or have
+# the pattern in their names.
+__findAvailablePackagesWithPartOfNameOrFullCommand() {
+    (echo   "PACKAGES PROVIDING COMMAND NAMED \"$1\""
+    echo -n "==================================="
+    echo "$1" | sed 's/./=/g'
+    __findAvailablePackagesThatProvideCommand "$@"
+    echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
+    echo -n   "====================================="
+    echo "$1" | sed 's/./=/g'
+    __findAvailablePackagesWithPartOfName "$@") \
+        | __printAndDisplayTextInPagerIfNecessary 
+}
+__printDescriptionOfBashBuiltinOrAnAlias() {
+    answer=$(type "$@")
+    echo "$answer"
+    if [[ $(echo "$answer" | grep "is a shell") != "" ]]; then
+        help "$@"
+    fi
+}
 
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
 # When one of them succeeds in finding the description the
 # function returns.
-__findPackageOrCommandWithPatternInItsName() {
+# describe package or command or find available packages with part of name or available packages that provide command
+__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand() {
     # Checks if it is an installed command.
-    __printDescriptionPackageAndLocationOfInstalledCommand "$@"
+    __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation "$@"
     if [ "$?" == "0" ]; then 
         return
     fi
@@ -1579,8 +1593,8 @@ __findPackageOrCommandWithPatternInItsName() {
     # name.
     __findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
 }
-alias whatis1='__findPackageOrCommandWithPatternInItsName'
-alias wi='__findPackageOrCommandWithPatternInItsName'
+alias whatis1='__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand'
+alias wi='__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand'
 
 
 #######
@@ -1596,10 +1610,10 @@ alias commit='__commitChangedAndDeletedFilesWithMessage'
 
 # Commits changed and deleted files. Opens text editor, so
 # proper commit message can be entered.
-__commitChangedAndDeletedFiles() {
+__commitChangedAndDeletedFilesAndEditMessageInEditor() {
     git commit -a "$@"
 }
-alias commitm='__commitChangedAndDeletedFiles'
+alias commitm='__commitChangedAndDeletedFilesAndEditMessageInEditor'
 
 # Creates an empty Git repository or reinitializes an existing
 # one (nondestructive).
@@ -1635,11 +1649,11 @@ alias checkout='__checkoutBranchOrFile'
 alias gc='__checkoutBranchOrFile'
 
 # Prints all branches, or creates new one, if name is specified. 
-__printBranchesOrCreateNewOne() {
+__listBranchesOrCreateNewOne() {
     git branch "$@"
 }
-alias branch='__printBranchesOrCreateNewOne'
-alias gb='__printBranchesOrCreateNewOne'
+alias branch='__listBranchesOrCreateNewOne'
+alias gb='__listBranchesOrCreateNewOne'
 
 # Prints short status of repository.
 __printRepositoryStatus() {
@@ -1667,11 +1681,11 @@ alias gl1='__displayMinimalLogOfCommits'
 
 # Updates information about state of the remote repository and
 # prints status.
-__updateInfoAboutRemoteRepositoryAndPrintStatus() {
+__updateInformationAboutRemoteRepositoryAndPrintStatus() {
     git remote update "$@"
     __printRepositoryStatus
 }
-alias gu='__updateInfoAboutRemoteRepositoryAndPrintStatus'
+alias gu='__updateInformationAboutRemoteRepositoryAndPrintStatus'
 
 # Shows changes between commits. If no parameter is given, then
 # shows changes between last commit and current state.
@@ -1681,10 +1695,10 @@ __displayChangesBetweenCommits() {
 alias gd='__displayChangesBetweenCommits'
 
 # Adds file to repository.
-__addFileToRepository() {
+__addFilesToRepository() {
     git add "$@"
 }
-alias ga='__addFileToRepository'
+alias ga='__addFilesToRepository'
 
 # Moves file or directory. Git will in most cases recognize that
 # files were moved even if regular 'mv' command was used, but
@@ -1695,11 +1709,11 @@ __moveRepositoriesFiles() {
 alias gm='__moveRepositoriesFiles'
 
 # Prints files that are in repository.
-__printFilesThatAreInRepository() {
+__listFilesThatAreInRepository() {
     git ls-files "$@"
 }
-alias lsgit='__printFilesThatAreInRepository'
-alias gls='__printFilesThatAreInRepository'
+alias lsgit='__listFilesThatAreInRepository'
+alias gls='__listFilesThatAreInRepository'
 
 
 ##########
