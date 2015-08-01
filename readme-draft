@@ -4,7 +4,7 @@ Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones i find most useful:
 
 ** t - tree (slikca)
-l/ll/lll
+l/ll/lll (2x GIF)
 cpdir/mvdir/rmdir
 ** rb - runs command in background
 ** o  - open file with default app
@@ -14,14 +14,14 @@ gr - grep with pager
 ** extract - extracts archive of any type
 ch - can haz
 version
-** wi - what is (slikce)
+** wi - what is (GIF)
 gs - git status
 gl - git log
 gd - git diff
 ip1 - internal ip
 ip2 - external ip
 pa - ping all
-** ne - network status (slikca)
+** ne - network status (GIF)
 wr - wireless reset
 i - internet: default browser in background
 al - opens this file in vim
