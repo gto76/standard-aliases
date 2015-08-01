@@ -268,6 +268,14 @@ __getRandomFileInDirectory() {
 alias randomFile='__getRandomFileInDirectory'
 alias rf='__getRandomFileInDirectory'
 
+# Prints all directories in current and sub-directories.
+# TODO problem with fine: no such file or directory in github.
+__printAllSubdirectories() {
+    find . -name .git -prune -o -type d | __printOrDisplayTextInPager
+}
+alias directories='__printAllSubdirectories'
+alias findd='__printAllSubdirectories'
+
 
 ########
 # TREE #
@@ -388,10 +396,10 @@ alias mvdir='__moveDirectoriesSafely'
 # Removes whole directory in interactive mode (checks for every
 # file if you really want to delete it). Run with -f option to
 # override interactive mode.
-__removeDirectoriesSafely() {
+__deleteDirectoriesSafely() {
     rm --interactive --recursive "$@"
 }
-alias rmdir='__removeDirectoriesSafely'
+alias rmdir='__deleteDirectoriesSafely'
 
 # Makes directory (and its parent directories if necessary) and
 # descends into.
@@ -616,17 +624,17 @@ alias ma='__runMakeWithPager'
 
 # Start Nautilus file explorer in background.
 # TODO check if exists
-__startFileExplorerInBackgroundInWorkingDir() {
+__startFileExplorerInBackgroundInWorkingDirectory() {
     __runCommandInBackground nautilus .
 }
-alias explorer='__startFileExplorerInBackgroundInWorkingDir'
-alias na='__startFileExplorerInBackgroundInWorkingDir'
+alias explorer='__startFileExplorerInBackgroundInWorkingDirectory'
+alias na='__startFileExplorerInBackgroundInWorkingDirectory'
 
 # Runs diff with colors and sends output to pager if necessary.
-__compareFilesLineByLineInColors() {
+__compareFilesLineByLineInColor() {
     colordiff "$@" | __printOrDisplayTextInPager
 }
-alias diff1='__compareFilesLineByLineInColors'
+alias diff1='__compareFilesLineByLineInColor'
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
@@ -719,6 +727,99 @@ alias sub='__editFileWithSublimeText'
 # SUDO #
 ########
 
+# Runs command as sudo.
+__runCommandAsSuperUser() {
+    sudo "$@"
+}
+complete -F _command __runCommandAsSuperUser
+alias s='__runCommandAsSuperUser'
+
+# Executes last command as sudo.
+__executeLastCommandAsSuperUser() {
+    sudo $(history -p \!\!)
+}
+alias fuck='__executeLastCommandAsSuperUser'
+alias fu='__executeLastCommandAsSuperUser'
+alias f='__executeLastCommandAsSuperUser'
+
+# Runs cp as superuser in interactive mode (asks before it overwrites
+# anything).
+__copyFilesSafelyAsSuperUser() {
+    sudo cp --interactive --verbose "$@"
+}
+alias sudoCp='__copyFilesSafelyAsSuperUser'
+
+# Runs mv as superuser in interactive mode (asks before it overwrites
+# anything).
+__moveFilesSafelyAsSuperUser() {
+    sudo mv --interactive --verbose "$@"
+}
+alias smv='__moveFilesSafelyAsSuperUser'
+
+# Runs rm as superuser in interactive mode (asks you for every file, if you
+# really want to delete it). Run with -f option to override
+# interactive mode.
+__deleteFilesSafelyAsSuperUser() {
+    sudo rm --interactive "$@"
+}
+alias srm='__deleteFilesSafelyAsSuperUser'
+
+# Copies whole directory as superuser in interactive mode (asks before it
+# overwrites anything).
+__copyDirectoriesSafelyAsSuperUser() {
+    sudo cp --interactive --verbose --archive --recursive "$@"
+}
+alias scpdir='__copyDirectoriesSafelyAsSuperUser'
+
+# Moves whole directory as superuser in interactive mode (asks before it
+# overwrites anything).
+__moveDirectoriesSafelyAsSuperUser() {
+    sudo mv --interactive --verbose "$@"
+}
+alias smvdir='__moveDirectoriesSafelyAsSuperUser'
+
+# Removes whole directory as superuser in interactive mode (checks for every
+# file if you really want to delete it). Run with -f option to
+# override interactive mode.
+__deleteDirectoriesSafelyAsSuperUser() {
+    sudo rm --interactive --recursive "$@"
+}
+alias srmdir='__deleteDirectoriesSafelyAsSuperUser'
+
+# TODO add less options
+# Runs less as su.
+__displayTextInPagerAsSuperUser() {
+    sudo less "$@"
+}
+alias sm='__displayTextInPagerAsSuperUser'
+
+# TODO options
+# Runs Vim in read only mode, as superuser
+__viewFileInVimAsSuperUser() {
+    sudo view "$@"
+}
+alias svv='__viewFileInVimAsSuperUser'
+
+# TODO options
+# Runs Vim as su.
+__editFileWithVimAsSuperUser() {
+    sudo vim "$@"
+}
+alias sv='__editFileWithVimAsSuperUser'
+
+# TODO options
+# Runs Nano as su.
+__editFileWithNanoAsSuperUser() {
+    sudo nano -icHFwST 4 "$@"
+}
+alias sn='__editFileWithNanoAsSuperUser'
+ 
+# Runs Gedit as su.
+__editFileWithGeditAsSuperUser() {
+    sudo gedit "$@"
+}
+alias sg='__editFileWithGeditAsSuperUser'
+
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
 # TODO check completions
@@ -808,128 +909,17 @@ runMountAsSuperUser() {
 }
 alias mount='runMountAsSuperUser'
 
-# alias fdisk='sudo fdisk'
-# alias updatedb='sudo updatedb'
-# alias ifconfig='sudo ifconfig'
-# alias tcpdump='sudo tcpdump'
-# alias route='sudo route'
-# alias pm-hibernate='sudo pm-hibernate'
-# alias pm-suspend='sudo pm-suspend'
-# alias shutdown='sudo shutdown'
-# alias fstrim='sudo fstrim'
-# alias apt-get='sudo aptget'
-# alias iw='sudo iw'
-# alias nmap='sudo nmap'
-# alias parted='sudo parted'
-# alias ntfsundelete='sudo ntfsundelete'
-# alias lshw='sudo lshw'
-# alias chown='sudo chown'
-# alias mount='sudo mount'
-
-# Runs command as sudo.
-__runCommandAsSuperUser() {
-    sudo "$@"
-}
-complete -F _command __runCommandAsSuperUser
-alias s='__runCommandAsSuperUser'
-
-# Executes last command as sudo.
-__executeLastCommandAsSuperUser() {
-    sudo $(history -p \!\!)
-}
-alias fuck='__executeLastCommandAsSuperUser'
-alias fu='__executeLastCommandAsSuperUser'
-alias f='__executeLastCommandAsSuperUser'
-
-# Runs cp as superuser in interactive mode (asks before it overwrites
-# anything).
-__copyFilesSafelyAsSuperUser() {
-    sudo cp --interactive --verbose "$@"
-}
-alias sudoCp='__copyFilesSafelyAsSuperUser'
-
-# Runs mv as superuser in interactive mode (asks before it overwrites
-# anything).
-__moveFilesSafelyAsSuperUser() {
-    sudo mv --interactive --verbose "$@"
-}
-alias smv='__moveFilesSafelyAsSuperUser'
-
-# Runs rm as superuser in interactive mode (asks you for every file, if you
-# really want to delete it). Run with -f option to override
-# interactive mode.
-__deleteFilesSafelyAsSuperUser() {
-    sudo rm --interactive "$@"
-}
-alias srm='__deleteFilesSafelyAsSuperUser'
-
-# Copies whole directory as superuser in interactive mode (asks before it
-# overwrites anything).
-__copyDirectoriesSafelyAsSuperUser() {
-    sudo cp --interactive --verbose --archive --recursive "$@"
-}
-alias scpdir='__copyDirectoriesSafelyAsSuperUser'
-
-# Moves whole directory as superuser in interactive mode (asks before it
-# overwrites anything).
-__moveDirectoriesSafelyAsSuperUser() {
-    sudo mv --interactive --verbose "$@"
-}
-alias smvdir='__moveDirectoriesSafelyAsSuperUser'
-
-# Removes whole directory as superuser in interactive mode (checks for every
-# file if you really want to delete it). Run with -f option to
-# override interactive mode.
-__removeDirectoriesSafelyAsSuperUser() {
-    sudo rm --interactive --recursive "$@"
-}
-alias srmdir='__removeDirectoriesSafelyAsSuperUser'
-
-# TODO add less options
-# Runs less as su.
-__displayTextInPagerAsSuperUser() {
-    sudo less "$@"
-}
-alias sm='__displayTextInPagerAsSuperUser'
-
-# TODO options
-# Runs Vim in read only mode, as superuser
-__viewFileInVimAsSuperUser() {
-    sudo view "$@"
-}
-alias svv='__viewFileInVimAsSuperUser'
-
-# TODO options
-# Runs Vim as su.
-__editFileWithVimAsSuperUser() {
-    sudo vim "$@"
-}
-alias sv='__editFileWithVimAsSuperUser'
-
-# TODO options
-# Runs Nano as su.
-__editFileWithNanoAsSuperUser() {
-    sudo nano -icHFwST 4 "$@"
-}
-alias sn='__editFileWithNanoAsSuperUser'
- 
-# Runs Gedit as su.
-__editFileWithGeditAsSuperUser() {
-    sudo gedit "$@"
-}
-alias sg='__editFileWithGeditAsSuperUser'
-
 
 #############
 # PROCESESS #
 #############
 
 # Shows detailed overview of processes (task manager).
-__runTaskManager() {
+__runTerminalTaskManager() {
     htop "$@"
 }
-alias taskManager='__runTaskManager'
-alias ht='__runTaskManager'
+alias taskManager='__runTerminalTaskManager'
+alias ht='__runTerminalTaskManager'
 
 # Prints user's processes and sends output to pager if
 # necessary.
@@ -1047,27 +1037,20 @@ alias gr='__printOrDisplayWithPagerLinesContainingPattern'
 
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
-__locateFilesContainingPatternInTheirNamesGlobaly() {
+__locateFilesOnFilesystemContainingPatternInTheirNames() {
     locate "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
 }
-alias locate1='__locateFilesContainingPatternInTheirNamesGlobaly'
-alias lo='__locateFilesContainingPatternInTheirNamesGlobaly'
+alias locate1='__locateFilesOnFilesystemContainingPatternInTheirNames'
+alias lo='__locateFilesOnFilesystemContainingPatternInTheirNames'
 
 # Searches for files containing pattern in their names in
 # current and sub-directories.  Use filesystem regexes for
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
-__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirs() {
+__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
     find . -name "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
 }
-alias find1='__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirs'
-
-# Prints all directories in current and sub-directories.
-__printAllSubdirectories() {
-	find . -name .git -prune -o -type d | __printOrDisplayTextInPager
-}
-alias directories='__printAllSubdirectories'
-alias findd='__printAllSubdirectories'
+alias find1='__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories'
 
 
 ############
@@ -1129,10 +1112,10 @@ __runTerminalMultiplexerAndAttachToSession() {
 alias tma='__runTerminalMultiplexerAndAttachToSession'
 
 # Lists all running Tmux sessions.
-__printTerminalMultiplexersSessions() {
+__listTerminalMultiplexersSessions() {
     tmux ls
 }
-alias tml='__printTerminalMultiplexersSessions'
+alias tml='__listTerminalMultiplexersSessions'
 
 
 ######################
@@ -1140,17 +1123,17 @@ alias tml='__printTerminalMultiplexersSessions'
 ######################
 
 # Reports disk space of main partitions in human readable form.
-__printDiskSpaceUsageInSimplifiedForm() {
+__printAvailableDiskSpaceInSimplifiedForm() {
     df -h | grep "sd\|Size" | cat
 }
-alias df1='__printDiskSpaceUsageInSimplifiedForm'
+alias df1='__printAvailableDiskSpaceInSimplifiedForm'
 
 # Displays disk space used by a folder or a file in human
 # readable form.
-__printDiskUsageOfFileOrFolder() {
+__printDiskSpaceOccupiedByFileOrFolder() {
     du --summarize --human-readable "$@"
 }
-alias du1='__printDiskUsageOfFileOrFolder'
+alias du1='__printDiskSpaceOccupiedByFileOrFolder'
 
 # Prints all and free memory in megabytes.
 __printMemoryStatusInSimplifiedForm() {
@@ -1234,10 +1217,10 @@ __changeKeyboardLayoutToAmerican() {
 alias uskeys='__changeKeyboardLayoutToAmerican'
 
 # Gets keycode of pressed key.
-__moniterKeycodesOfPressedKeys() {
+__monitorKeycodesOfPressedKeys() {
     xev "$@"
 }
-alias keycode='__moniterKeycodesOfPressedKeys'
+alias keycode='__monitorKeycodesOfPressedKeys'
 
 # Turns key input repeat off.
 __turnOffKeyRepeat() {
@@ -1264,16 +1247,16 @@ __changeHueOfColorBlueInLinuxTerminal() {
 alias blue='__changeHueOfColorBlueInLinuxTerminal'
 
 # Prints PATH variable, each entry in its own line.
-__printDirectoriesContainedInPathVariable() {
+__listDirectoriesContainedInPathVariable() {
     echo -e ${PATH//:/\\n}
 }
-alias path='__printDirectoriesContainedInPathVariable'
+alias path='__listDirectoriesContainedInPathVariable'
 
 # Runs console calculator with decimal numbers.
-__runDecimalCalculator() {
+__runTerminalCalculatorThatSupportsDecimalNumbers() {
     gcalccmd "$@"
 }
-alias bc1='__runDecimalCalculator'
+alias bc1='__runTerminalCalculatorThatSupportsDecimalNumbers'
 
 # Prints hexadecimal representation of file or piped stream.
 __printHexadecimalRepresentationOfFileOrStream() {
@@ -1281,11 +1264,11 @@ __printHexadecimalRepresentationOfFileOrStream() {
 }
 alias hd1='__printHexadecimalRepresentationOfFileOrStream'
 
-# Trims SSD disk.
-__trimSsd() {
-	sudo fstrim -v /
+# Runs profile script.
+__runProfileScript() {
+    source /etc/profile
 }
-alias ssd='__trimSsd'
+alias profile='__runProfileScript'
 
 # Sets bash to vi mode.
 __changeBashLineEditingToViMode() {
@@ -1298,18 +1281,6 @@ __changeBashLineEditingToEmacsMode() {
     set -o emacs
 }
 alias emacsmode='__changeBashLineEditingToEmacsMode'
-
-# Runs profile script.
-__runProfileScript() {
-    source /etc/profile
-}
-alias profile='__runProfileScript'
-
-# Runs a typing tutor.
-__startTypingTutor() {
-    gtypist "$@"
-}
-alias tt='__startTypingTutor'
 
 # Counts number of lines in files with specified extension 
 # in current and sub-directories.
@@ -1334,6 +1305,18 @@ __countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
 }
 alias linesOfCode='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
 alias loc='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
+
+# Trims SSD disk.
+__trimSsd() {
+    sudo fstrim -v /
+}
+alias ssd='__trimSsd'
+
+# Runs a typing tutor.
+__startTypingTutor() {
+    gtypist "$@"
+}
+alias tt='__startTypingTutor'
 
 
 ######################
@@ -1477,12 +1460,12 @@ __findAvailablePackagesWithPartOfName() {
 }
 
 # Finds which available packages provide specified command.
-__findAvailablePakagesThatProvideCommand() {
+__findAvailablePackagesThatProvideCommand() {
     apt-file search "$1" \
         | grep \/bin\/"$1"$ \
         | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
 }
-alias apt-file1='__findAvailablePakagesThatProvideCommand'
+alias apt-file1='__findAvailablePackagesThatProvideCommand'
 
 # Finds which available packages contain specified file or have
 # the pattern in their names.
@@ -1490,7 +1473,7 @@ __findAvailablePackagesWithPartOfNameOrFullCommand() {
     (echo   "PACKAGES PROVIDING COMMAND NAMED \"$1\""
     echo -n "==================================="
     echo "$1" | sed 's/./=/g'
-    __findAvailablePakagesThatProvideCommand "$@"
+    __findAvailablePackagesThatProvideCommand "$@"
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
@@ -1784,10 +1767,10 @@ __printGatewaysIp() {
 alias gateway='__printGatewaysIp'
 
 # Prints mac addresses of local devices.
-__printMacAdressesOfLocalDevices() {
+__printMacAddressesOfLocalDevices() {
     ifconfig | grep HWaddr | cat
 }
-alias mac='__printMacAdressesOfLocalDevices'
+alias mac='__printMacAddressesOfLocalDevices'
 
 # Pings gateway, ip address of noip.com and www.google.com.
 __pingGatewayIpAndGoogle() {
@@ -1940,6 +1923,7 @@ __startDefaultBrowserInBackground() {
     __runCommandInBackground sensible-browser "$@"
 }
 alias internet='__startDefaultBrowserInBackground'
+alias www='__startDefaultBrowserInBackground'
 alias i='__startDefaultBrowserInBackground'
 
 # Runs Firefox in background.
@@ -1957,10 +1941,10 @@ alias chrome='__startChromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
-__startTerminalInternetBrowser() {
+__startTerminalWwwBrowser() {
     lynx -accept_all_cookies -vikeys www.google.com "$@"
 }
-alias lynx1='__startTerminalInternetBrowser'
+alias lynx1='__startTerminalWwwBrowser'
 
 
 #########
@@ -1979,28 +1963,28 @@ __setVolumeTo() {
 }
 
 # Increases volume by 6dB.
-__increaseVolumeBy6Db() {
+__increaseVolumeBySixDb() {
     __setVolumeTo "6%+" | tail -n 1
 }
-alias a='__increaseVolumeBy6Db'
+alias a='__increaseVolumeBySixDb'
 
 # Decreases volume by 6dB.
-__decreaseVolumeBy6Db() {
+__decreaseVolumeBySixDb() {
     __setVolumeTo "6%-" | tail -n 1
 }
-alias z='__decreaseVolumeBy6Db'
+alias z='__decreaseVolumeBySixDb'
 
 # Increases volume by 2dB.
-__increaseVolumeBy2Db() {
+__increaseVolumeByTwoDb() {
     __setVolumeTo "2%+" | tail -n 1
 }
-alias aa='__increaseVolumeBy2Db'
+alias aa='__increaseVolumeByTwoDb'
 
 # Decreases volume by 2dB.
-__decreaseVolumeBy2Db() {
+__decreaseVolumeByTwoDb() {
     __setVolumeTo "2%-" | tail -n 1
 }
-alias zz='__decreaseVolumeBy2Db'
+alias zz='__decreaseVolumeByTwoDb'
 
 
 ###############
