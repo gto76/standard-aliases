@@ -330,11 +330,8 @@ __goUpSixDirectories() {
 
 alias cd..='__goUpOneDirectory'
 alias ..='__goUpOneDirectory'
-alias ,,='__goUpOneDirectory'
 alias ...='__goUpTwoDirectories'
-alias ,,,='__goUpTwoDirectories'
 alias ....='__goUpThreeDirectories'
-alias ,,,,='__goUpThreeDirectories'
 alias .....='__goUpFourDirectories'
 alias ......='__goUpFiveDirectories'
 alias .......='__goUpSixDirectories'
@@ -1267,10 +1264,10 @@ __changeHueOfColorBlueInLinuxTerminal() {
 alias blue='__changeHueOfColorBlueInLinuxTerminal'
 
 # Prints PATH variable, each entry in its own line.
-__printDirectoriesContainedByPathVariable() {
+__printDirectoriesContainedInPathVariable() {
     echo -e ${PATH//:/\\n}
 }
-alias path='__printDirectoriesContainedByPathVariable'
+alias path='__printDirectoriesContainedInPathVariable'
 
 # Runs console calculator with decimal numbers.
 __runDecimalCalculator() {
@@ -1372,18 +1369,18 @@ alias dist-upgrade='__upgradeAllPackagesIntelligently'
 
 # Removes package and all the packages this package dependent on
 # and were only used by this package.
-__removePackage() {
+__removePackageAndAllUnneededPackages() {
     sudo apt-get remove "$@" && __removeUnneededPackages
 }
-alias remove='__removePackage'
+alias remove='__removePackageAndAllUnneededPackages'
 
 # Removes package, together with its configuration files. All
 # the packages this package dependent on and were only used by
 # this package are also removed.
-__removePackageAndAllItsConfigurations() {
+__removePackageAndAllItsConfigurationsAndAllUnneededPackages() {
     sudo apt-get purge "$@" && __removeUnneededPackages
 }
-alias purge='__removePackageAndAllItsConfigurations'
+alias purge='__removePackageAndAllItsConfigurationsAndAllUnneededPackages'
 
 # Removes packages that were automatically installed to satisfy
 # dependencies for other packages and are now no longer needed.
@@ -1439,13 +1436,13 @@ alias packages='__printPackagesThatWereInstalledByUser'
 alias installed='__printPackagesThatWereInstalledByUser' 
 
 # Prints all installed packages.
-__printInstalledPackages() {
+__printAllInstalledPackages() {
     dpkg --get-selections \
         | grep -v deinstall \
         | __printOrDisplayTextInPager
 }
-alias allPackages='__printInstalledPackages'
-alias allInstalled='__printInstalledPackages'
+alias allPackages='__printAllInstalledPackages'
+alias allInstalled='__printAllInstalledPackages'
 
 
 ##########################
