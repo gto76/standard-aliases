@@ -21,8 +21,6 @@
 __displayTextInPager() {
     less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4 "$@"
 }
-alias less1='__displayTextInPager'
-alias le='__displayTextInPager'
 
 # Runs cat or less, depending on number of lines in file or
 # input. First argument must be either 'true' or some other
@@ -62,7 +60,6 @@ __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
 __printOrDisplayTextInPager() {
     __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'false' "$@"
 }
-alias m='__printOrDisplayTextInPager'
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
@@ -103,7 +100,6 @@ __printAndDisplayTextInPagerIfNecessary() {
         done 
     fi   
 }
-alias mm='__printAndDisplayTextInPagerIfNecessary'
 
 
 ######
@@ -175,106 +171,87 @@ __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat() {
     __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
         __listDirectoryContentsUsingShortListingFormat "$@"
 }
-alias l='__listOrDisplayDirectoryContentsInPagerUsingShortListingFormat'
 
 __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat() {
     __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
         __listDirectoryContentsUsingMediumListingFormat "$@"
 }
-alias ll='__listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat'
 
 __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat() {
     __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
         __listDirectoryContentsUsingLongListingFormat "$@"
 }
-alias lll='__listOrDisplayDirectoryContentsInPagerUsingLongListingFormat'
 
 __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         --almost-all "$@"
 }
-alias la='__listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat'
 
 __listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         --almost-all "$@"
 }
-alias lla='__listOrDisplayAllDirectoryContentsInPagerUsingMediumListingFormat'
 
 __listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         --almost-all "$@"
 }
-alias llla='__listOrDisplayAllDirectoryContentsInPagerUsingLongListingFormat'
 
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         -t "$@"
 }
-alias lt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingShortListingFormat'
 
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         -t "$@"
 }
-alias llt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingMediumListingFormat'
 
 __listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         -t "$@"
 }
-alias lllt='__listOrDisplayDirectoryContentsInPagerOrderedByDateUsingLongListingFormat'
 
 __listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         --directory "$@"
 }
-alias dl='__listOrDisplayMatchingDirectoriesInPagerUsingShortListingFormat'
 
 __listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat \
         --directory "$@"
 }
-alias dll='__listOrDisplayMatchingDirectoriesInPagerUsingMediumListingFormat'
 
 __listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat \
         --directory "$@"
 }
-alias dlll='__listOrDisplayMatchingDirectoriesInPagerUsingLongListingFormat'
 
 __listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat() {
     __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat \
         -1 "$@"
 }
-alias l1='__listOrDisplayInPagerOneDirectoryItemPerLineUsingShortListingFormat'
 
 __listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat() {
     __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat \
         -1 "$@"
 }
-alias la1='__listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListingFormat'
 
 # Prints name of first file in the directory.
 __getFirstFileInDirectory() {
     ls "$@" | head -1
 }
-alias first='__getFirstFileInDirectory'
 
 # Prints name of a random file in the directory.
 __getRandomFileInDirectory() {
     ls "$@" | sort -R | head -1
 }
-alias randomFile='__getRandomFileInDirectory'
-alias rf='__getRandomFileInDirectory'
 
 # Prints all directories in current and sub-directories.
 # TODO problem with fine: no such file or directory in github.
 __printAllSubdirectories() {
     find . -name .git -prune -o -type d | __printOrDisplayTextInPager
 }
-alias directories='__printAllSubdirectories'
-alias findd='__printAllSubdirectories'
 
 
 ########
@@ -285,8 +262,6 @@ alias findd='__printAllSubdirectories'
 __printDirectoryStructure() {
     tree -C -I .git --dirsfirst "$@" | __printOrDisplayTextInPager
 }
-alias tree1='__printDirectoryStructure'
-alias t='__printDirectoryStructure'
 
 
 ######
@@ -336,13 +311,6 @@ __goUpSixDirectories() {
     __goUpNumberOfDirectories 6
 }
 
-alias cd..='__goUpOneDirectory'
-alias ..='__goUpOneDirectory'
-alias ...='__goUpTwoDirectories'
-alias ....='__goUpThreeDirectories'
-alias .....='__goUpFourDirectories'
-alias ......='__goUpFiveDirectories'
-alias .......='__goUpSixDirectories'
 
 # Mounts ISO file and cd-s into it.
 __mountIsoAndCdInto() {
@@ -350,7 +318,6 @@ __mountIsoAndCdInto() {
     sudo mount -o loop "$1" /media/"$1"
     cd /media/"$1"
 }
-alias cdiso='__mountIsoAndCdInto'
 
 
 #########
@@ -362,14 +329,12 @@ alias cdiso='__mountIsoAndCdInto'
 __copyFilesSafely() {
     cp --interactive --verbose "$@"
 }
-alias cp='__copyFilesSafely'
 
 # Runs mv in interactive mode (asks before it overwrites
 # anything).
 __moveFilesSafely() {
     mv --interactive --verbose  "$@"
 }
-alias mv='__moveFilesSafely'
 
 # Runs rm in interactive mode (asks you for every file, if you
 # really want to delete it). Run with -f option to override
@@ -377,21 +342,18 @@ alias mv='__moveFilesSafely'
 __deleteFilesSafely() {
     rm --interactive "$@"
 }
-alias rm='__deleteFilesSafely'
 
 # Copies whole directory in interactive mode (asks before it
 # overwrites anything).
 __copyDirectoriesSafely() {
     cp --interactive --verbose --archive --recursive "$@"
 }
-alias cpdir='__copyDirectoriesSafely'
 
 # Moves whole directory in interactive mode (asks before it
 # overwrites anything).
 __moveDirectoriesSafely() {
     mv --interactive --verbose "$@"
 }
-alias mvdir='__moveDirectoriesSafely'
 
 # Removes whole directory in interactive mode (checks for every
 # file if you really want to delete it). Run with -f option to
@@ -399,7 +361,6 @@ alias mvdir='__moveDirectoriesSafely'
 __deleteDirectoriesSafely() {
     rm --interactive --recursive "$@"
 }
-alias rmdir='__deleteDirectoriesSafely'
 
 # Makes directory (and its parent directories if necessary) and
 # descends into.
@@ -407,17 +368,12 @@ __createDirectoryAndDescendInto() {
     mkdir --parents "$1"
     cd "$1"
 }
-alias mkdir1='__createDirectoryAndDescendInto'
-alias md='__createDirectoryAndDescendInto'
-alias mk='__createDirectoryAndDescendInto'
 
 # Backups file, by making a copy with '.bak' extension. All
 # file's attributes are preserved.
 __backupFile() {
     sudo cp --preserve "$1"{,.bak}
 }
-alias backup='__backupFile'
-alias bk='__backupFile'
 
 # Switches the contents of two specified files.
 __switchContentsOfFiles() {
@@ -426,7 +382,6 @@ __switchContentsOfFiles() {
     sudo cp -f --no-preserve=mode,ownership "$2" "$1"
     sudo cp -f --no-preserve=mode,ownership "$tempFile" "$2"
 }
-alias switch='__switchContentsOfFiles'
 
 
 #######
@@ -442,7 +397,6 @@ __printWorkingDirectoryOrPathToFile() {
         echo "$PWD"/"$@"
     fi      
 }
-alias p='__printWorkingDirectoryOrPathToFile'
 
 
 ########
@@ -453,19 +407,16 @@ alias p='__printWorkingDirectoryOrPathToFile'
 __printText() {
     echo "$@"
 }
-alias e='__printText'
 
 # Runs echo that interprets backslashed characters (\n,...).
 __printTextInterpretingBackslashedCharacters() {
     echo -e "$@"
 }
-alias ee='__printTextInterpretingBackslashedCharacters'
 
 # Runs echo that doesn't print new line at the end.
 __printTextWithoutTrailingNewline() {
     echo -n "$@"
 }
-alias en='__printTextWithoutTrailingNewline'
 
 
 #####################
@@ -478,8 +429,6 @@ __runCommandInBackground() {
     nohup "$@" &>/dev/null &
 }
 complete -F _command __runCommandInBackground
-alias runInBackground='__runCommandInBackground'
-alias rb='__runCommandInBackground'
 
 
 ##########
@@ -491,15 +440,12 @@ alias rb='__runCommandInBackground'
 __editStandardAliases() {
     vim ~/.standard_aliases
 }
-alias aliases='__editStandardAliases'
-alias al='__editStandardAliases'
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
 __startNewBashShell() {
     bash "$@"
 }
-alias ba='__startNewBashShell'
 
 # Prints location of specified command, or it's definition, if
 # it is an alias. Run this command if you are not sure what an
@@ -518,113 +464,88 @@ __printCommandTypeOrDefinition() {
     type "$@" | __printOrDisplayTextInPager
 }
 complete -F _command __printCommandTypeOrDefinition
-alias type1='__printCommandTypeOrDefinition'
-alias ty='__printCommandTypeOrDefinition'
 
 __printFunctionThatAFunctionCalls() {
-        type $(type "$@" | sed 's/^.*`//' | sed 's/'\''$//') | __printOrDisplayTextInPager
+    type $(type "$@" | grep -A1 '{' | grep -o '__[^ ]*') | __printOrDisplayTextInPager
 }
 complete -F _command __printFunctionThatAFunctionCalls
-alias tyty='__printFunctionThatAFunctionCalls'
 
 # Runs cat.
 __printContentsOfFile() {
     cat "$@"
 }
-alias c='__printContentsOfFile'
 
 # Prints the exit code of the last command.
 __printExitCodeOfLastCommand() {
     echo $?
 }
-alias exitCode='__printExitCodeOfLastCommand'
-alias ?='__printExitCodeOfLastCommand'
 
 # Clears the screen.
 __clearTheScreen() {
     clear
 }
-alias cl='__clearTheScreen'
 
 # Resets the screen.
 __resetTheScreen() {
     reset "$@"
 }
-alias re='__resetTheScreen'
 
 # Exits shell.
 __exitBashShell() {
     exit
 }
-alias q='__exitBashShell'
 
 # Opens file with default application for it's file type, and
 # runs in background.
 __openFileWithDefaultApp() {
     __runCommandInBackground xdg-open "$@"
 }
-alias openFile='__openFileWithDefaultApp'
-alias o='__openFileWithDefaultApp'
 
 # Starts a new terminal, with same working directory. 
 __openNewTerminalWithSameWorkingDirectory() {
     gnome-terminal "$@"
 }
-alias terminal='__openNewTerminalWithSameWorkingDirectory'
-alias te='__openNewTerminalWithSameWorkingDirectory'
 
 # Runs head (prints first 10 lines of file or piped stream).
 __printFirstTenLines() {
     head "$@"
 }
-alias he='__printFirstTenLines'
 
 # Prints first line of file or piped stream.
 __printFirstLine() {
     head -n1 "$@"
 }
-alias firstLine='__printFirstLine'
-alias he1='__printFirstLine'
 
 # Runs tail (prints last 10 lines of file or piped stream).
 __printLastTenLines() {
     tail "$@"
 }
-alias ta='__printLastTenLines'
 
 # Prints last line of file or piped stream.
 __printLastLine() {
     tail -n1 "$@"
 }
-alias lastLine='__printLastLine'
-alias ta1='__printLastLine'
 
 # Counts lines in file or piped stream.
 __countLines() {
     wc -l "$@"
 }
-alias countLines='__countLines'
-alias wcl='__countLines'
 
 # Counts words in file or piped stream.
 __countWords() {
     wc -w "$@"
 }
-alias countWords='__countWords'
-alias wcw='__countWords'
 
 # Updates file's timestamp, or creates empty file, if it doesn't
 # exits.
 __updateFilesTimestampOrCreateNewOne() {
     touch "$@"
 }
-alias to='__updateFilesTimestampOrCreateNewOne'
 
 # Prints current date and time.
 __printDateAndTime() {
     date "$@"
 }
-alias da='__printDateAndTime'
 
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
@@ -636,22 +557,17 @@ if [ -f /usr/share/bash-completion/completions/make ]; then
     . /usr/share/bash-completion/completions/make
     complete -F _make __runMakeWithPager
 fi
-alias make1='__runMakeWithPager'
-alias ma='__runMakeWithPager'
 
 # Start Nautilus file explorer in background.
 # TODO check if exists
 __startFileExplorerInBackgroundInWorkingDirectory() {
     __runCommandInBackground nautilus .
 }
-alias explorer='__startFileExplorerInBackgroundInWorkingDirectory'
-alias na='__startFileExplorerInBackgroundInWorkingDirectory'
 
 # Runs diff with colors and sends output to pager if necessary.
 __compareFilesLineByLineInColor() {
     colordiff "$@" | __printOrDisplayTextInPager
 }
-alias diff1='__compareFilesLineByLineInColor'
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
@@ -671,8 +587,6 @@ __makeFileExecutableOrCreateNewBashScript() {
     fi
     chmod u+x "$1"        
 }
-alias makeExecutable='__makeFileExecutableOrCreateNewBashScript'
-alias me='__makeFileExecutableOrCreateNewBashScript'  
 
 
 ###########
@@ -688,8 +602,6 @@ __searchCommandHistoryForPattern() {
         history | grep "$@" | __printOrDisplayTextInPagerStartingAtEnd
     fi
 }
-alias history1='__searchCommandHistoryForPattern'
-alias h='__searchCommandHistoryForPattern'
 
 
 ################
@@ -700,15 +612,12 @@ alias h='__searchCommandHistoryForPattern'
 __editFileWithVim() {
     vim -p "$@"
 }
-alias vim1='__editFileWithVim'
-alias v='__editFileWithVim'
 
 # Runs Vim in read only mode, and with option that opens one tab
 # per file.
 __viewFileInVim() {
     view -p "$@"
 }
-alias vv='__viewFileInVim'
 
 # Runs Nano with a few sensible options.
 #   * enable experimental undo (will most probably crash
@@ -724,20 +633,16 @@ __editFileWithNano() {
     nano --undo --autoindent --const --historylog \
         --multibuffer --wordbounds --smooth --tabsize=4 "$@"
 }
-alias nano1='__editFileWithNano'
-alias n='__editFileWithNano'
 
 # Runs Gedit in background.
 __editFileWithGedit() {
     __runCommandInBackground gedit "$@"
 }
-alias g='__editFileWithGedit'
 
 # Runs Sublime Text in background.
 __editFileWithSublimeText() {
     __runCommandInBackground sublime_text "$@"
 }
-alias sub='__editFileWithSublimeText'
 
 
 ########
@@ -749,29 +654,23 @@ __runCommandAsSuperUser() {
     sudo "$@"
 }
 complete -F _command __runCommandAsSuperUser
-alias s='__runCommandAsSuperUser'
 
 # Executes last command as sudo.
 __executeLastCommandAsSuperUser() {
     sudo $(history -p \!\!)
 }
-alias fuck='__executeLastCommandAsSuperUser'
-alias fu='__executeLastCommandAsSuperUser'
-alias f='__executeLastCommandAsSuperUser'
 
 # Runs cp as superuser in interactive mode (asks before it overwrites
 # anything).
 __copyFilesSafelyAsSuperUser() {
     sudo cp --interactive --verbose "$@"
 }
-alias sudoCp='__copyFilesSafelyAsSuperUser'
 
 # Runs mv as superuser in interactive mode (asks before it overwrites
 # anything).
 __moveFilesSafelyAsSuperUser() {
     sudo mv --interactive --verbose "$@"
 }
-alias smv='__moveFilesSafelyAsSuperUser'
 
 # Runs rm as superuser in interactive mode (asks you for every file, if you
 # really want to delete it). Run with -f option to override
@@ -779,21 +678,18 @@ alias smv='__moveFilesSafelyAsSuperUser'
 __deleteFilesSafelyAsSuperUser() {
     sudo rm --interactive "$@"
 }
-alias srm='__deleteFilesSafelyAsSuperUser'
 
 # Copies whole directory as superuser in interactive mode (asks before it
 # overwrites anything).
 __copyDirectoriesSafelyAsSuperUser() {
     sudo cp --interactive --verbose --archive --recursive "$@"
 }
-alias scpdir='__copyDirectoriesSafelyAsSuperUser'
 
 # Moves whole directory as superuser in interactive mode (asks before it
 # overwrites anything).
 __moveDirectoriesSafelyAsSuperUser() {
     sudo mv --interactive --verbose "$@"
 }
-alias smvdir='__moveDirectoriesSafelyAsSuperUser'
 
 # Removes whole directory as superuser in interactive mode (checks for every
 # file if you really want to delete it). Run with -f option to
@@ -801,130 +697,107 @@ alias smvdir='__moveDirectoriesSafelyAsSuperUser'
 __deleteDirectoriesSafelyAsSuperUser() {
     sudo rm --interactive --recursive "$@"
 }
-alias srmdir='__deleteDirectoriesSafelyAsSuperUser'
 
 # TODO add less options
 # Runs less as su.
 __displayTextInPagerAsSuperUser() {
     sudo less "$@"
 }
-alias sm='__displayTextInPagerAsSuperUser'
 
 # TODO options
 # Runs Vim in read only mode, as superuser
 __viewFileInVimAsSuperUser() {
     sudo view "$@"
 }
-alias svv='__viewFileInVimAsSuperUser'
 
 # TODO options
 # Runs Vim as su.
 __editFileWithVimAsSuperUser() {
     sudo vim "$@"
 }
-alias sv='__editFileWithVimAsSuperUser'
 
 # TODO options
 # Runs Nano as su.
 __editFileWithNanoAsSuperUser() {
     sudo nano -icHFwST 4 "$@"
 }
-alias sn='__editFileWithNanoAsSuperUser'
  
 # Runs Gedit as su.
 __editFileWithGeditAsSuperUser() {
     sudo gedit "$@"
 }
-alias sg='__editFileWithGeditAsSuperUser'
 
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
 # TODO check completions
 
-runFdiskAsSuperUser() {
+__runFdiskAsSuperUser() {
     sudo fdisk "$@"
 }
-alias fdisk='runFdiskAsSuperUser'
 
-runUpdatedbAsSuperUser() {
+__runUpdatedbAsSuperUser() {
     sudo updatedb "$@"
 }
-alias updatedb='runUpdatedbAsSuperUser'
 
-runIfconfigAsSuperUser() {
+__runIfconfigAsSuperUser() {
     sudo ifconfig "$@"
 }
-alias ifconfig='runIfconfigAsSuperUser'
 
-runTcpdumpAsSuperUser() {
+__runTcpdumpAsSuperUser() {
     sudo tcpdump "$@"
 }
-alias tcpdump='runTcpdumpAsSuperUser'
 
-runRouteAsSuperUser() {
+__runRouteAsSuperUser() {
     sudo route "$@"
 }
-alias route='runRouteAsSuperUser'
 
-runPm-hibernateAsSuperUser() {
+__runPm-hibernateAsSuperUser() {
     sudo pm-hibernate "$@"
 }
-alias pm-hibernate='runPm-hibernateAsSuperUser'
 
-runPm-suspendAsSuperUser() {
+__runPm-suspendAsSuperUser() {
     sudo pm-suspend "$@"
 }
-alias pm-suspend='runPm-suspendAsSuperUser'
 
-runShutdownAsSuperUser() {
+__runShutdownAsSuperUser() {
     sudo shutdown "$@"
 }
-alias shutdown='runShutdownAsSuperUser'
 
-runFstrimAsSuperUser() {
+__runFstrimAsSuperUser() {
     sudo fstrim "$@"
 }
-alias fstrim='runFstrimAsSuperUser'
 
-runApt-getAsSuperUser() {
+__runApt-getAsSuperUser() {
     sudo aptget "$@"
 }
-alias aptget='runApt-getAsSuperUser'
 
-runIwAsSuperUser() {
+__runIwAsSuperUser() {
     sudo iw "$@"
 }
-alias iw='runIwAsSuperUser'
 
-runNmapAsSuperUser() {
+__runNmapAsSuperUser() {
     sudo nmap "$@"
 }
-alias nmap='runNmapAsSuperUser'
 
-runPartedAsSuperUser() {
+__runPartedAsSuperUser() {
     sudo parted "$@"
 }
-alias parted='runPartedAsSuperUser'
 
-runNtfsundeleteAsSuperUser() {
+__runNtfsundeleteAsSuperUser() {
     sudo ntfsundelete "$@"
 }
-alias ntfsundelete='runNtfsundeleteAsSuperUser'
 
-runLshwAsSuperUser() {
+__runLshwAsSuperUser() {
     sudo lshw "$@"
 }
-alias lshw='runLshwAsSuperUser'
 
-runChownAsSuperUser() {
+__runChownAsSuperUser() {
     sudo chown "$@"
 }
-alias chown='runChownAsSuperUser'
 
-runMountAsSuperUser() {
+__runMountAsSuperUser() {
     sudo mount "$@"
 }
-alias mount='runMountAsSuperUser'
 
 
 #############
@@ -935,23 +808,17 @@ alias mount='runMountAsSuperUser'
 __runTerminalTaskManager() {
     htop "$@"
 }
-alias taskManager='__runTerminalTaskManager'
-alias ht='__runTerminalTaskManager'
 
 # Prints user's processes and sends output to pager if
 # necessary.
 __printUsersProcesses() {
     ps "$@" | __printOrDisplayTextInPager
 }
-alias ps1='__printUsersProcesses'
 
 # Prints every process on the system.
 __printAllProcesses() {
     ps -e "$@" | __printOrDisplayTextInPager
 }
-alias processes='__printAllProcesses'
-alias pse='__printAllProcesses'
-alias psa='__printAllProcesses'
 
 # Prints processes with specified pattern in their names,
 # together with their PIDs.
@@ -963,7 +830,6 @@ if [ -f /usr/share/bash-completion/completions/pgrep ]; then
    . /usr/share/bash-completion/completions/pgrep
    complete -F _pgrep __findProcessesWithPartOfName
 fi
-alias pgrep1='__findProcessesWithPartOfName'
 
 # Sends KILL signal to process with specified PID, instead of
 # kill's default signal TERM.
@@ -971,7 +837,6 @@ __killProcessWithKillSignal() {
     kill -9 "$@"
 }
 complete -F _pids __killProcessWithKillSignal
-alias kill1='__killProcessWithKillSignal'
 
 # TODO options
 # Traces system calls and signals. Prints strings of maximum
@@ -980,9 +845,6 @@ __traceSystemCalls() {
     strace -s 2000 -f "$@" 2>&1 | __printAndDisplayTextInPagerIfNecessary 
 }
 complete -F _command __traceSystemCalls
-alias trace='__traceSystemCalls'
-alias strace1='__traceSystemCalls'
-alias st='__traceSystemCalls'
 
 
 ########
@@ -993,14 +855,12 @@ alias st='__traceSystemCalls'
 __deleteCharacters() {
     tr --delete "$@"
 }
-alias trd='__deleteCharacters'
 
 # Creates table out of input lines (lines up the columns). You
 # need to specify the delimiter character.
 __lineUpColumns() {
     column -t -s "$@"
 }
-alias table='__lineUpColumns'
 
 # TODO parameters
 # Treats input lines as rows of a table. With first argument
@@ -1010,8 +870,6 @@ alias table='__lineUpColumns'
 __keepColumns() {
     cut --delimiter="$1" --fields="$2" 
 }
-alias keepColumns='__keepColumns'
-alias cut1='__keepColumns'
 
 # TODO parameters
 # Treats input lines as rows of a table and sorts them by column
@@ -1021,7 +879,6 @@ alias cut1='__keepColumns'
 __sortLinesByColumn() { 
     sort --field-separator="$1" --key="$2"
 }
-alias sort1='__sortLinesByColumn'
 
 
 ##########
@@ -1038,22 +895,18 @@ __printLinesContainingPattern() {
         --ignore-case --perl-regexp "$@"
 }
 complete -F _longopt __printLinesContainingPattern
-alias grep1='__printLinesContainingPattern'
 
 # Runs __printLinesContainingPattern and sends output to pager.
 __printOrDisplayWithPagerLinesContainingPattern() {
     __printLinesContainingPattern --color=always "$@" \
         | __printOrDisplayTextInPager
 }
-alias gr='__printOrDisplayWithPagerLinesContainingPattern'
 
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 __locateFilesOnFilesystemContainingPatternInTheirNames() {
     locate "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
 }
-alias locate1='__locateFilesOnFilesystemContainingPatternInTheirNames'
-alias lo='__locateFilesOnFilesystemContainingPatternInTheirNames'
 
 # Searches for files containing pattern in their names in
 # current and sub-directories.  Use filesystem regexes for
@@ -1062,7 +915,6 @@ alias lo='__locateFilesOnFilesystemContainingPatternInTheirNames'
 __locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
     find . -name "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
 }
-alias find1='__locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories'
 
 
 ############
@@ -1104,7 +956,6 @@ __extractArchiveOfAnyType() {
         fi
     fi
 }
-alias extract='__extractArchiveOfAnyType'
 
 
 ########
@@ -1115,19 +966,16 @@ alias extract='__extractArchiveOfAnyType'
 __runTerminalMultiplexer() {
     tmux "$@"
 }
-alias tm='__runTerminalMultiplexer'
 
 # Runs Tmux, and attaches to last session.
 __runTerminalMultiplexerAndAttachToSession() {
     tmux attach "$@"
 }
-alias tma='__runTerminalMultiplexerAndAttachToSession'
 
 # Lists all running Tmux sessions.
 __listTerminalMultiplexersSessions() {
     tmux ls
 }
-alias tml='__listTerminalMultiplexersSessions'
 
 
 ######################
@@ -1138,14 +986,12 @@ alias tml='__listTerminalMultiplexersSessions'
 __printAvailableDiskSpaceInSimplifiedForm() {
     df -h | grep "sd\|Size" | cat
 }
-alias df1='__printAvailableDiskSpaceInSimplifiedForm'
 
 # Displays disk space used by a folder or a file in human
 # readable form.
 __printDiskSpaceOccupiedByFileOrFolder() {
     du --summarize --human-readable "$@"
 }
-alias du1='__printDiskSpaceOccupiedByFileOrFolder'
 
 # Prints all and free memory in megabytes.
 __printAllAndOcupiedMemorySpaceInMegabytes() {
@@ -1156,36 +1002,26 @@ __printAllAndOcupiedMemorySpaceInMegabytes() {
         | grep Mem \
         | sed 's/^[^ ]*[ ]*[^ ]*[ ]*[^ ]*[ ]*\([^ ]*\)[ ]*[^ ]*[ ]*[^ ]*[ ]*[^ ]*/\1/')" MB"
 }
-alias free1='__printAllAndOcupiedMemorySpaceInMegabytes'
-alias fr='__printAllAndOcupiedMemorySpaceInMegabytes'
 
 # Displays CPU's temperature.
 __printTemperatureOfCpu() {
     acpi -t
 }
-alias temperature='__printTemperatureOfCpu'
-alias temp='__printTemperatureOfCpu'
 
 # Prints battery status.
 __printBatteryStatus() {
     acpi
 }
-alias battery='__printBatteryStatus'
-alias batt='__printBatteryStatus'
 
 # Prints kernel version and Linux distribution.
 __printOperatingSystemInformation() {
     uname --all
 }
-alias kernelVersion='__printOperatingSystemInformation'
-alias uname1='__printOperatingSystemInformation'
 
 # Prints verbose information about all PCI devices. 
 __printInfoAboutPciDevices() {
     lspci -v "$@" | __printOrDisplayTextInPager
 }
-alias lspci1='__printInfoAboutPciDevices'
-alias pci='__printInfoAboutPciDevices'
 
 
 #########
@@ -1197,25 +1033,21 @@ alias pci='__printInfoAboutPciDevices'
 __restartComputer() {
     sudo shutdown -r now
 }
-alias restart='__restartComputer'
 
 # Shuts down computer.
 __shutDownComputer() {
     sudo shutdown now
 }
-alias poweroff='__shutDownComputer'
 
 # Hibernates.
 __hibernateComputer() {
     sudo pm-hibernate
 }
-alias hib='__hibernateComputer'
 
 # Suspends.
 __suspendComputer() {
     sudo pm-suspend
 }
-alias sus='__suspendComputer'
 
 
 ############
@@ -1226,25 +1058,21 @@ alias sus='__suspendComputer'
 __changeKeyboardLayoutToAmerican() {
     setxkbmap -layout us "$@"
 }
-alias uskeys='__changeKeyboardLayoutToAmerican'
 
 # Gets keycode of pressed key.
 __monitorKeycodesOfPressedKeys() {
     xev "$@"
 }
-alias keycode='__monitorKeycodesOfPressedKeys'
 
 # Turns key input repeat off.
 __turnOffKeyRepeat() {
     xset -r
 }
-alias norepeat='__turnOffKeyRepeat'
 
 # Turns key input repeat on.
 __turnOnKeyRepeat() {
     xset r
 }
-alias repeat='__turnOnKeyRepeat'
 
 
 ########
@@ -1256,43 +1084,36 @@ alias repeat='__turnOnKeyRepeat'
 __changeHueOfColorBlueInLinuxTerminal() {
     echo -en "\e]PC7373C9"
 }
-alias blue='__changeHueOfColorBlueInLinuxTerminal'
 
 # Prints PATH variable, each entry in its own line.
 __listDirectoriesContainedInPathVariable() {
     echo -e ${PATH//:/\\n}
 }
-alias path='__listDirectoriesContainedInPathVariable'
 
 # Runs console calculator with decimal numbers.
 __runTerminalCalculatorThatSupportsDecimalNumbers() {
     gcalccmd "$@"
 }
-alias bc1='__runTerminalCalculatorThatSupportsDecimalNumbers'
 
 # Prints hexadecimal representation of file or piped stream.
 __printHexadecimalRepresentationOfFileOrStream() {
     hd "$@" | __printOrDisplayTextInPager
 }
-alias hd1='__printHexadecimalRepresentationOfFileOrStream'
 
 # Runs profile script.
 __runProfileScript() {
     source /etc/profile
 }
-alias profile='__runProfileScript'
 
 # Sets bash to vi mode.
 __changeBashLineEditingToViMode() {
     set -o vi
 }
-alias vimode='__changeBashLineEditingToViMode'
 
 # Sets bash to emacs (normal) mode.
 __changeBashLineEditingToEmacsMode() {
     set -o emacs
 }
-alias emacsmode='__changeBashLineEditingToEmacsMode'
 
 # Counts number of lines in files with specified extension 
 # in current and sub-directories.
@@ -1315,20 +1136,16 @@ __countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
     done
     echo $no
 }
-alias linesOfCode='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
-alias loc='__countLinesInFilesWithExtensionInWorkingAndSubdirectories'
 
 # Trims SSD disk.
 __trimSsd() {
     sudo fstrim -v /
 }
-alias ssd='__trimSsd'
 
 # Runs a typing tutor.
 __startTypingTutor() {
     gtypist "$@"
 }
-alias tt='__startTypingTutor'
 
 
 ######################
@@ -1339,20 +1156,16 @@ alias tt='__startTypingTutor'
 __installPackage() {
     sudo apt-get install "$@"
 }
-alias canhaz='__installPackage'
-alias ch='__installPackage'
 
 # Updates package information.
 __updateInformationAboutAvailablePackages() {
     sudo apt-get update
 }
-alias update='__updateInformationAboutAvailablePackages'
 
 # Upgrades all packages to newest available version.
 __upgradeAllPackages() {
     sudo apt-get upgrade
 }
-alias upgrade='__upgradeAllPackages'
 
 # Tries to upgrade all packages. If any dependency conflicts
 # arise, then it handles them intelligently, by upgrading the
@@ -1360,14 +1173,12 @@ alias upgrade='__upgradeAllPackages'
 __upgradeAllPackagesIntelligently() {
     sudo apt-get dist-upgrade
 }
-alias dist-upgrade='__upgradeAllPackagesIntelligently'
 
 # Removes package and all the packages this package dependent on
 # and were only used by this package.
 __removePackageAndAllUnneededPackages() {
     sudo apt-get remove "$@" && __removeUnneededPackages
 }
-alias remove='__removePackageAndAllUnneededPackages'
 
 # Removes package, together with its configuration files. All
 # the packages this package dependent on and were only used by
@@ -1375,14 +1186,12 @@ alias remove='__removePackageAndAllUnneededPackages'
 __removePackageAndAllUnneededPackagesTogetherWithConfigurationFiles() {
     sudo apt-get purge "$@" && __removeUnneededPackages
 }
-alias purge='__removePackageAndAllUnneededPackagesTogetherWithConfigurationFiles'
 
 # Removes packages that were automatically installed to satisfy
 # dependencies for other packages and are now no longer needed.
 __removeUnneededPackages() {
     sudo apt-get autoremove
 }
-alias autoremove='__removeUnneededPackages'
 
 # Prints packages that were installed by the user, in order of
 # installation.
@@ -1392,8 +1201,6 @@ __printPackagesThatWereInstalledByUser() {
         | sed "s/.* //" \
         | __printOrDisplayTextInPagerStartingAtEnd
 }
-alias packages='__printPackagesThatWereInstalledByUser'
-alias installed='__printPackagesThatWereInstalledByUser' 
 
 # Prints all installed packages.
 __printAllInstalledPackages() {
@@ -1401,8 +1208,6 @@ __printAllInstalledPackages() {
         | grep -v deinstall \
         | __printOrDisplayTextInPager
 }
-alias allPackages='__printAllInstalledPackages'
-alias allInstalled='__printAllInstalledPackages'
 
 # Shows on which packages specified package depends.
 __printPackageDependencies() { 
@@ -1412,7 +1217,6 @@ __printPackageDependencies() {
         | sed 's/,/\n /g' \
         | __printOrDisplayTextInPager
 }
-alias depends='__printPackageDependencies'
 
 
 #######################
@@ -1423,8 +1227,6 @@ alias depends='__printPackageDependencies'
 __printPackageDescription() {
     apt-cache show "$@" | grep "^ " | __printOrDisplayTextInPager
 }
-alias describe='__printPackageDescription'
-alias pd='__printPackageDescription'
 
 # Returns 0 if package is instaled, or non-zero if not.
 __isPackageInstalled() {
@@ -1455,8 +1257,6 @@ __printVersionOfPackageOrVersionOfInstalledCommandsPackage() {
         fi
     fi
 }
-alias version='__printVersionOfPackageOrVersionOfInstalledCommandsPackage'
-alias ve='__printVersionOfPackageOrVersionOfInstalledCommandsPackage'
 
 # Find which installed package provides specified command.
 __printInstalledPackageThatProvidesCommandAndItsLocation() {
@@ -1500,7 +1300,6 @@ __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation() {
     fi
     return 1
 }
-alias package='__printPackageOfInstalledCommandTogetherWithDescriptionAndLocation'
 
 
 ##################
@@ -1513,7 +1312,6 @@ __findAvailablePackagesWithPartOfNameOrDescription() {
     apt-cache search "$@" \
         | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
-alias findPackage='__findAvailablePackagesWithPartOfNameOrDescription'
 
 # Runs apropos, a command that finds installed commands, with
 # provided pattern in their names or descriptions. Matches get
@@ -1522,9 +1320,6 @@ __findInstalledCommandsWithPartOfNameOrDescription() {
     apropos "$@" \
         | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
-alias findCommand='__findInstalledCommandsWithPartOfNameOrDescription'
-alias apropos1='__findInstalledCommandsWithPartOfNameOrDescription'
-alias ap='__findInstalledCommandsWithPartOfNameOrDescription'
 
 # Finds which available packages provide specified command.
 __findAvailablePackagesThatProvideCommand() {
@@ -1532,7 +1327,6 @@ __findAvailablePackagesThatProvideCommand() {
         | grep \/bin\/"$1"$ \
         | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
 }
-alias apt-file1='__findAvailablePackagesThatProvideCommand'
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
@@ -1593,8 +1387,6 @@ __describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackag
     # name.
     __findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
 }
-alias whatis1='__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand'
-alias wi='__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand'
 
 
 #######
@@ -1606,67 +1398,55 @@ alias wi='__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvail
 __commitChangedAndDeletedFilesWithMessage() {
     git commit -am "$@"
 }
-alias commit='__commitChangedAndDeletedFilesWithMessage'
 
 # Commits changed and deleted files. Opens text editor, so
 # proper commit message can be entered.
 __commitChangedAndDeletedFilesAndEditMessageInEditor() {
     git commit -a "$@"
 }
-alias commitm='__commitChangedAndDeletedFilesAndEditMessageInEditor'
 
 # Creates an empty Git repository or reinitializes an existing
 # one (nondestructive).
 __initializeRepository() {
     git init "$@"
 }
-alias init='__initializeRepository'
 
 # Pushes changes to remote repository.
 __pushChangesToRemoteRepository() {
     git push "$@"
 }
-alias push='__pushChangesToRemoteRepository'
 
 # Pulls changes from remote repository.
 __pullChangesFromRemoteRepository() {
     git pull "$@"
 }
-alias pull='__pullChangesFromRemoteRepository'
 
 # Joins specified branch with current one.
 __mergeSpecifiedBranchWithCurrentOne() {
     git merge "$@"
 }
-alias merge='__mergeSpecifiedBranchWithCurrentOne'
 
 # Switches to another branch, or checks-out a file from
 # repository.
 __checkoutBranchOrFile() {
     git checkout "$@"
 }
-alias checkout='__checkoutBranchOrFile'
-alias gc='__checkoutBranchOrFile'
 
 # Prints all branches, or creates new one, if name is specified. 
 __listBranchesOrCreateNewOne() {
     git branch "$@"
 }
-alias branch='__listBranchesOrCreateNewOne'
-alias gb='__listBranchesOrCreateNewOne'
 
 # Prints short status of repository.
 __printRepositoryStatus() {
     git -c color.status=always status -sb "$@" | __printOrDisplayTextInPager
 }
-alias gs='__printRepositoryStatus'
 
 # Prints nicely decorated graph of commits, with commit
 # messages, full hashes and full dates. 
 __displayLogOfCommits() {
     git log --decorate --graph --all "$@"
 }
-alias gl='__displayLogOfCommits'
 
 # Prints nicely decorated graph of commits, with only first
 # lines of commit messages, shortened hashes and full dates.
@@ -1677,7 +1457,6 @@ __displayMinimalLogOfCommits() {
         %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
         %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 }
-alias gl1='__displayMinimalLogOfCommits'
 
 # Updates information about state of the remote repository and
 # prints status.
@@ -1685,20 +1464,17 @@ __updateInformationAboutRemoteRepositoryAndPrintStatus() {
     git remote update "$@"
     __printRepositoryStatus
 }
-alias gu='__updateInformationAboutRemoteRepositoryAndPrintStatus'
 
 # Shows changes between commits. If no parameter is given, then
 # shows changes between last commit and current state.
 __displayChangesBetweenCommits() {
     git diff "$@"
 }
-alias gd='__displayChangesBetweenCommits'
 
 # Adds file to repository.
 __addFilesToRepository() {
     git add "$@"
 }
-alias ga='__addFilesToRepository'
 
 # Moves file or directory. Git will in most cases recognize that
 # files were moved even if regular 'mv' command was used, but
@@ -1706,14 +1482,11 @@ alias ga='__addFilesToRepository'
 __moveRepositoriesFiles() {
     git mv "$@"
 }
-alias gm='__moveRepositoriesFiles'
 
 # Prints files that are in repository.
 __listFilesThatAreInRepository() {
     git ls-files "$@"
 }
-alias lsgit='__listFilesThatAreInRepository'
-alias gls='__listFilesThatAreInRepository'
 
 
 ##########
@@ -1725,7 +1498,6 @@ alias gls='__listFilesThatAreInRepository'
 __cloneGithubProject() {
     git clone git@github.com:/"$1".git
 }
-alias clone='__cloneGithubProject'
 
 # Sets remote repository to specified Github project. Repository
 # must be entered as <user>/<project>.
@@ -1734,7 +1506,6 @@ __setGithubProjectAsRemoteRepository() {
     git pull origin master
     git push origin master
 }
-alias origin='__setGithubProjectAsRemoteRepository'
 
 # Clones all users Github projects in working directory.
 __cloneAllUsersGithubProjects() {
@@ -1750,7 +1521,6 @@ __cloneAllUsersGithubProjects() {
         git clone git@github.com:"$line"
     done <<< "$repos"
 }
-alias cloneAll='__cloneAllUsersGithubProjects'
 
 
 ###########
@@ -1765,13 +1535,11 @@ __printInternalIp() {
         | grep -o [0-9.]\* \
         | cat 
 }
-alias ip1='__printInternalIp'
 
 # Prints external ip. 
 __printExternalIp() {
     lynx --dump http://ipecho.net/plain | grep -o [0-9.]\*
 }
-alias ip2='__printExternalIp'
 
 # Prints gateways ip.
 __printGatewaysIp() {
@@ -1780,13 +1548,11 @@ __printGatewaysIp() {
         | head -n1 \
         | grep -o "192.168.[0-9.]*"
 }
-alias gateway='__printGatewaysIp'
 
 # Prints mac addresses of local devices.
 __printMacAddressesOfNetworkDevices() {
     ifconfig | grep HWaddr | cat
 }
-alias mac='__printMacAddressesOfNetworkDevices'
 
 # Pings gateway, ip address of noip.com and www.google.com.
 __pingGatewayAndGoogle() {
@@ -1794,8 +1560,6 @@ __pingGatewayAndGoogle() {
     ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
     ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
-alias pingAll='__pingGatewayAndGoogle'
-alias pa='__pingGatewayAndGoogle'
 
 # Scans addresses of local network. If a number is specified it
 # scans local addresses up to this number (0-255).
@@ -1816,7 +1580,6 @@ __scanLocalNetwork() {
     fi
     nmap -sP 192.168."$third".0-"$forth"
 }
-alias nmap1='__scanLocalNetwork'
 
 # Prints 'OK' if specified address or ip can be reached with
 # ping, or 'Fail' if not.
@@ -1870,8 +1633,6 @@ __printSshPortStatusOfLocalDevicesAndPingGoogle() {
     testDomain="www.google.com"
     echo "          $testDomain Ping: $(__isAddressReachable "$testDomain")"
 }
-alias network='__printSshPortStatusOfLocalDevicesAndPingGoogle'
-alias ne='__printSshPortStatusOfLocalDevicesAndPingGoogle'
 
 
 ############
@@ -1885,7 +1646,6 @@ __blockWirelessDevice() {
             | grep Wireless \
             | grep ^[0-9] -o)
 }
-alias woff='__blockWirelessDevice'
 
 # Enables wireless device.
 __unblockWirelessDevice() {
@@ -1894,26 +1654,22 @@ __unblockWirelessDevice() {
             | grep Wireless \
             | grep ^[0-9] -o)
 }
-alias won='__unblockWirelessDevice'
 
 # Resets wireless device.
 __resetWirelessDevice() {
     woff
     won
 }
-alias wr='__resetWirelessDevice'
 
 # Activates wireless interface (driver).
 __activateWirelessInterface() {
     sudo ifconfig wlan0 up
 }
-alias up='__activateWirelessInterface'
 
 # Shuts down wireless interface (driver).
 __deactivateWirelessInterface() {
     sudo ifconfig wlan0 down
 }
-alias down='__deactivateWirelessInterface'
 
 # Displays wireless networks in range.
 __printWirelessNetworksInRange() {
@@ -1927,7 +1683,6 @@ __printWirelessNetworksInRange() {
         | sed 's/\/70 Signal level=-[0-9]* dBm Encryption key:/ /g' \
         | sed 's/ ESSID:/ /g'
 }
-alias wlan='__printWirelessNetworksInRange'
 
 
 ############
@@ -1938,29 +1693,23 @@ alias wlan='__printWirelessNetworksInRange'
 __startDefaultBrowserInBackground() {
     __runCommandInBackground sensible-browser "$@"
 }
-alias internet='__startDefaultBrowserInBackground'
-alias www='__startDefaultBrowserInBackground'
-alias i='__startDefaultBrowserInBackground'
 
 # Runs Firefox in background.
 __startFirefoxInBackground() {
     __runCommandInBackground firefox "$@"
 }
-alias fire='__startFirefoxInBackground'
 
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
 __startChromeInBackground() {
     __runCommandInBackground google-chrome --touch-devices=123
 }
-alias chrome='__startChromeInBackground'
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
 __startTerminalWebBrowser() {
     lynx -accept_all_cookies -vikeys www.google.com "$@"
 }
-alias lynx1='__startTerminalWebBrowser'
 
 
 #########
@@ -1971,7 +1720,6 @@ alias lynx1='__startTerminalWebBrowser'
 __startTerminalVolumeControl() {
     alsamixer "$@"
 }
-alias mixer='__startTerminalVolumeControl'
 
 # Set master volume in rage of 0 to 100.
 __setVolumeTo() {
@@ -1982,25 +1730,21 @@ __setVolumeTo() {
 __increaseVolumeBySixDecibels() {
     __setVolumeTo "6%+" | tail -n 1
 }
-alias a='__increaseVolumeBySixDecibels'
 
 # Decreases volume by 6dB.
 __decreaseVolumeBySixDecibels() {
     __setVolumeTo "6%-" | tail -n 1
 }
-alias z='__decreaseVolumeBySixDecibels'
 
 # Increases volume by 2dB.
 __increaseVolumeByTwoDecibels() {
     __setVolumeTo "2%+" | tail -n 1
 }
-alias aa='__increaseVolumeByTwoDecibels'
 
 # Decreases volume by 2dB.
 __decreaseVolumeByTwoDecibels() {
     __setVolumeTo "2%-" | tail -n 1
 }
-alias zz='__decreaseVolumeByTwoDecibels'
 
 
 ###############

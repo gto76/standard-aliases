@@ -1,0 +1,295 @@
+
+
+# LESS #
+
+le, less1 : Display text in pager.
+m : Print or display text in pager.
+mm : Print and display text in pager if necessary.
+
+# LS #
+
+l : List or display directory contents in pager using short listing format.
+ll : List or display directory contents in pager using medium listing format.
+lll : List or display directory contents in pager using long listing format.
+la : List or display all directory contents in pager using short listing format.
+lla : List or display all directory contents in pager using medium listing format.
+llla : List or display all directory contents in pager using long listing format.
+lt : List or display directory contents in pager ordered by date using short listing format.
+llt : List or display directory contents in pager ordered by date using medium listing format.
+lllt : List or display directory contents in pager ordered by date using long listing format.
+dl : List or display matching directories in pager using short listing format.
+dll : List or display matching directories in pager using medium listing format.
+dlll : List or display matching directories in pager using long listing format.
+l1 : List or display in pager one directory item per line using short listing format.
+la1 : List or display in pager one directory item per line including hidden files using short listing format.
+first : Get first file in directory.
+rf, randomFile : Get random file in directory.
+findd, directories : Print all subdirectories.
+
+# TREE #
+
+t, tree1 : Print directory structure.
+
+# CD #
+
+.., cd.. : Go up one directory.
+... : Go up two directories.
+.... : Go up three directories.
+..... : Go up four directories.
+...... : Go up five directories.
+....... : Go up six directories.
+cdiso : Mount iso and cd into.
+
+# FILES #
+
+cp : Copy files safely.
+mv : Move files safely.
+rm : Delete files safely.
+cpdir : Copy directories safely.
+mvdir : Move directories safely.
+rmdir : Delete directories safely.
+mk, md, mkdir1 : Create directory and descend into.
+bk, backup : Backup file.
+switch : Switch contents of files.
+
+# PWD #
+
+p : Print working directory or path to file.
+
+# ECHO #
+
+e : Print text.
+ee : Print text interpreting backslashed characters.
+en : Print text without trailing newline.
+
+# RUN IN BACKGROUND #
+
+rb, runInBackground : Run command in background.
+
+# BASICS #
+
+al, aliases : Edit standard aliases.
+ba : Start new bash shell.
+ty, type1 : Print command type or definition.
+tyty : Print function that a function calls.
+c : Print contents of file.
+exitCode : Print exit code of last command.
+cl : Clear the screen.
+re : Reset the screen.
+q : Exit bash shell.
+o, openFile : Open file with default app.
+te, terminal : Open new terminal with same working directory.
+he : Print first ten lines.
+he1, firstLine : Print first line.
+ta : Print last ten lines.
+ta1, lastLine : Print last line.
+wcl, countLines : Count lines.
+wcw, countWords : Count words.
+to : Update files timestamp or create new one.
+da : Print date and time.
+ma, make1 : Run make with pager.
+na, explorer : Start file explorer in background in working directory.
+diff1 : Compare files line by line in color.
+me, makeExecutable : Make file executable or create new bash script.
+
+# HISTORY #
+
+h, history1 : Search command history for pattern.
+
+# TEXT EDITORS #
+
+v, vim1 : Edit file with vim.
+vv : View file in vim.
+n, nano1 : Edit file with nano.
+g : Edit file with gedit.
+sub : Edit file with sublime text.
+
+# SUDO #
+
+s : Run command as super user.
+f, fu, fuck : Execute last command as super user.
+sudoCp : Copy files safely as super user.
+smv : Move files safely as super user.
+srm : Delete files safely as super user.
+scpdir : Copy directories safely as super user.
+smvdir : Move directories safely as super user.
+srmdir : Delete directories safely as super user.
+sm : Display text in pager as super user.
+svv : View file in vim as super user.
+sv : Edit file with vim as super user.
+sn : Edit file with nano as super user.
+sg : Edit file with gedit as super user.
+fdisk : Run fdisk as super user.
+updatedb : Run updatedb as super user.
+ifconfig : Run ifconfig as super user.
+tcpdump : Run tcpdump as super user.
+route : Run route as super user.
+pm-hibernate : Run pm-hibernate as super user.
+pm-suspend : Run pm-suspend as super user.
+shutdown : Run shutdown as super user.
+fstrim : Run fstrim as super user.
+aptget : Run apt-get as super user.
+iw : Run iw as super user.
+nmap : Run nmap as super user.
+parted : Run parted as super user.
+ntfsundelete : Run ntfsundelete as super user.
+lshw : Run lshw as super user.
+chown : Run chown as super user.
+mount : Run mount as super user.
+
+# PROCESESS #
+
+ht, taskManager : Run terminal task manager.
+ps1 : Print users processes.
+psa, pse, processes : Print all processes.
+pgrep1 : Find processes with part of name.
+kill1 : Kill process with kill signal.
+st, strace1, trace : Trace system calls.
+
+# TEXT #
+
+trd : Delete characters.
+table : Line up columns.
+cut1, keepColumns : Keep columns.
+sort1 : Sort lines by column.
+
+# SEARCH #
+
+grep1 : Print lines containing pattern.
+gr : Print or display with pager lines containing pattern.
+lo, locate1 : Locate files on filesystem containing pattern in their names.
+find1 : Locate files containing pattern in their names in working and sub directories.
+
+# ARCHIVES #
+
+extract : Extract archive of any type.
+
+# TMUX #
+
+tm : Run terminal multiplexer.
+tma : Run terminal multiplexer and attach to session.
+tml : List terminal multiplexers sessions.
+
+# SYSTEM INFORMATION #
+
+df1 : Print available disk space in simplified form.
+du1 : Print disk space occupied by file or folder.
+fr, free1 : Print all and ocupied memory space in megabytes.
+temp, temperature : Print temperature of cpu.
+batt, battery : Print battery status.
+uname1, kernelVersion : Print operating system information.
+pci, lspci1 : Print info about pci devices.
+
+# POWER #
+
+restart : Restart computer.
+poweroff : Shut down computer.
+hib : Hibernate computer.
+sus : Suspend computer.
+
+# KEYBOARD #
+
+uskeys : Change keyboard layout to american.
+keycode : Monitor keycodes of pressed keys.
+norepeat : Turn off key repeat.
+repeat : Turn on key repeat.
+
+# MISC #
+
+blue : Change hue of color blue in linux terminal.
+path : List directories contained in path variable.
+bc1 : Run terminal calculator that supports decimal numbers.
+hd1 : Print hexadecimal representation of file or stream.
+profile : Run profile script.
+vimode : Change bash line editing to vi mode.
+emacsmode : Change bash line editing to emacs mode.
+loc, linesOfCode : Count lines in files with extension in working and subdirectories.
+ssd : Trim ssd.
+tt : Start typing tutor.
+
+# PACKAGE MANAGEMENT #
+
+ch, canhaz : Install package.
+update : Update information about available packages.
+upgrade : Upgrade all packages.
+dist-upgrade : Upgrade all packages intelligently.
+remove : Remove package and all unneeded packages.
+purge : Remove package and all unneeded packages together with configuration files.
+autoremove : Remove unneeded packages.
+installed, packages : Print packages that were installed by user.
+allInstalled, allPackages : Print all installed packages.
+depends : Print package dependencies.
+
+# PACKAGE INFORMATION #
+
+pd, describe : Print package description.
+ve, version : Print version of package or version of installed commands package.
+package : Print package of installed command together with description and location.
+
+# PACKAGE SEARCH #
+
+findPackage : Find available packages with part of name or description.
+ap, apropos1, findCommand : Find installed commands with part of name or description.
+apt-file1 : Find available packages that provide command.
+wi, whatis1 : Describe package or command or find available packages with part of name or available packages that provide command.
+
+# GIT #
+
+commit : Commit changed and deleted files with message.
+commitm : Commit changed and deleted files and edit message in editor.
+init : Initialize repository.
+push : Push changes to remote repository.
+pull : Pull changes from remote repository.
+merge : Merge specified branch with current one.
+gc, checkout : Checkout branch or file.
+gb, branch : List branches or create new one.
+gs : Print repository status.
+gl : Display log of commits.
+gl1 : Display minimal log of commits.
+gu : Update information about remote repository and print status.
+gd : Display changes between commits.
+ga : Add files to repository.
+gm : Move repositories files.
+gls, lsgit : List files that are in repository.
+
+# GITHUB #
+
+clone : Clone github project.
+origin : Set github project as remote repository.
+cloneAll : Clone all users github projects.
+
+# NETWORK #
+
+ip1 : Print internal ip.
+ip2 : Print external ip.
+gateway : Print gateways ip.
+mac : Print mac addresses of network devices.
+pa, pingAll : Ping gateway and google.
+nmap1 : Scan local network.
+ne, network : Print ssh port status of local devices and ping google.
+
+# WIRELESS #
+
+woff : Block wireless device.
+won : Unblock wireless device.
+wr : Reset wireless device.
+up : Activate wireless interface.
+down : Deactivate wireless interface.
+wlan : Print wireless networks in range.
+
+# INTERNET #
+
+i, www, internet : Start default browser in background.
+fire : Start firefox in background.
+chrome : Start chrome in background.
+lynx1 : Start terminal web browser.
+
+# AUDIO #
+
+mixer : Start terminal volume control.
+a : Increase volume by six decibels.
+z : Decrease volume by six decibels.
+aa : Increase volume by two decibels.
+zz : Decrease volume by two decibels.
+
+# COMPLETIONS #
