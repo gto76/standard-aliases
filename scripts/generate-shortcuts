@@ -9,6 +9,6 @@
 # IFS=$'\n\t'
 
 existingCommands=$(echo $(compgen -c) $(compgen -A function) | tr ' ' '\n' | sort | uniq -u | tr '\n' ' ')
-./scripts/parse-rc.py "./standard_rc" "./standard_aliases" "$existingCommands" > ./standard_shortcuts
+./scripts/parse-rc.py "$HOME/.standard_rc" "./standard_aliases" "$existingCommands" > ~/.standard_aliases/standard_shortcuts
 
 

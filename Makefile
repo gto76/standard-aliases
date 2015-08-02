@@ -1,2 +1,2 @@
-standard_shortcuts: standard_rc
+standard_shortcuts: ~/.standard_rc
 	scripts/generate-shortcuts
