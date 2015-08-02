@@ -2,13 +2,13 @@
 import sys 
 import re
 
-RC_FILENAME = "/home/minerva/.standardrc"
-STANDARD_ALIASES_FILENAME = "/home/minerva/.standard_aliases"
+#RC_FILENAME = "/home/minerva/.standardrc"
+#STANDARD_ALIASES_FILENAME = "/home/minerva/.standard_aliases"
 
 firstLetterToUppercase = lambda s: s[:1].upper() + s[1:] if s else ''
 firstLetterToLowercase = lambda s: s[:1].lower() + s[1:] if s else ''
 
-def getCompletions():
+def getCompletions(STANDARD_ALIASES_FILENAME):
     completions = []
     with open(STANDARD_ALIASES_FILENAME) as f:
         content = f.readlines()
@@ -29,8 +29,10 @@ def glueCommand(command):
     return out
 
 def main():
-    existingCommands = sys.argv[1].split(' ')
-    completions = getCompletions()
+    RC_FILENAME = sys.argv[1]
+    STANDARD_ALIASES_FILENAME = sys.argv[2]
+    existingCommands = sys.argv[3].split(' ')
+    completions = getCompletions(STANDARD_ALIASES_FILENAME)
     modifiedCompletions = ""
     with open(RC_FILENAME) as f:
         content = f.readlines()

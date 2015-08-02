@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Usage: install 
+# Makes links in home directory to standard_aliases and standard_rc...
+
+# Uncomment for Strict mode, more info at:
+# http://redsymbol.net/articles/unofficial-bash-strict-mode
+# set -euo pipefail
+# IFS=$'\n\t'
+

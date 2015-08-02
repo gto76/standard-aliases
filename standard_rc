@@ -2,7 +2,7 @@
 
 # LESS #
 
-le, less1 : Display text in pager.
+le, less1, burek : Display text in pager.
 m : Print or display text in pager.
 mm : Print and display text in pager if necessary.
 
