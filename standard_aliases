@@ -44,7 +44,10 @@ __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
         input=$(cat)
         noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
         if [[ "$LINES" -gt "$noOfLines" ]]; then
-            echo "$input" #| cat # Maybe cat is necessary in some cases because of colors, i forgot if there is a reason for cat to be here. 
+            echo "$input" #| cat 
+            # Maybe cat is necessary in some cases because of
+            # colors, i forgot if there is a reason for cat to
+            # be here. 
         else
             if [[ "$1" == 'true' ]]; then
                 echo "$input" | __displayTextInPager +G 2>/dev/null
@@ -450,23 +453,14 @@ __startNewBashShell() {
 # Prints location of specified command, or it's definition, if
 # it is an alias. Run this command if you are not sure what an
 # alias does!
-#display information about command type.
-#print command interpretation
-#show how command is interpreted
-# show how bash will interpret command
-# show what type command is
-# print commands type
-# show what will command execute
-# show to what is command linked
-# print command type or definition
-# print command type or function
 __printCommandTypeOrDefinition() {
     type "$@" | __printOrDisplayTextInPager
 }
 complete -F _command __printCommandTypeOrDefinition
 
 __printFunctionThatAFunctionCalls() {
-    type $(type "$@" | grep -A1 '{' | grep -o '__[^ ]*') | __printOrDisplayTextInPager
+    type $(type "$@" | grep -A1 '{' | grep -o '__[^ ]*') \
+        | __printOrDisplayTextInPager
 }
 complete -F _command __printFunctionThatAFunctionCalls
 
@@ -597,9 +591,12 @@ __makeFileExecutableOrCreateNewBashScript() {
 # prints it whole.
 __searchCommandHistoryForPattern() {
     if [ "$#" -eq 0 ]; then
-        history | __printOrDisplayTextInPagerStartingAtEnd
+        history \
+            | __printOrDisplayTextInPagerStartingAtEnd
     else
-        history | grep "$@" | __printOrDisplayTextInPagerStartingAtEnd
+        history \
+            | grep "$@" \
+            | __printOrDisplayTextInPagerStartingAtEnd
     fi
 }
 
@@ -660,40 +657,40 @@ __executeLastCommandAsSuperUser() {
     sudo $(history -p \!\!)
 }
 
-# Runs cp as superuser in interactive mode (asks before it overwrites
-# anything).
+# Runs cp as superuser in interactive mode (asks before it
+# overwrites anything).
 __copyFilesSafelyAsSuperUser() {
     sudo cp --interactive --verbose "$@"
 }
 
-# Runs mv as superuser in interactive mode (asks before it overwrites
-# anything).
+# Runs mv as superuser in interactive mode (asks before it
+# overwrites anything).
 __moveFilesSafelyAsSuperUser() {
     sudo mv --interactive --verbose "$@"
 }
 
-# Runs rm as superuser in interactive mode (asks you for every file, if you
-# really want to delete it). Run with -f option to override
-# interactive mode.
+# Runs rm as superuser in interactive mode (asks you for every
+# file, if you really want to delete it). Run with -f option to
+# override interactive mode.
 __deleteFilesSafelyAsSuperUser() {
     sudo rm --interactive "$@"
 }
 
-# Copies whole directory as superuser in interactive mode (asks before it
-# overwrites anything).
+# Copies whole directory as superuser in interactive mode (asks
+# before it overwrites anything).
 __copyDirectoriesSafelyAsSuperUser() {
     sudo cp --interactive --verbose --archive --recursive "$@"
 }
 
-# Moves whole directory as superuser in interactive mode (asks before it
-# overwrites anything).
+# Moves whole directory as superuser in interactive mode (asks
+# before it overwrites anything).
 __moveDirectoriesSafelyAsSuperUser() {
     sudo mv --interactive --verbose "$@"
 }
 
-# Removes whole directory as superuser in interactive mode (checks for every
-# file if you really want to delete it). Run with -f option to
-# override interactive mode.
+# Removes whole directory as superuser in interactive mode
+# (checks for every file if you really want to delete it). Run
+# with -f option to override interactive mode.
 __deleteDirectoriesSafelyAsSuperUser() {
     sudo rm --interactive --recursive "$@"
 }
@@ -842,7 +839,8 @@ complete -F _pids __killProcessWithKillSignal
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 __traceSystemCalls() {
-    strace -s 2000 -f "$@" 2>&1 | __printAndDisplayTextInPagerIfNecessary 
+    strace -s 2000 -f "$@" 2>&1 \
+        | __printAndDisplayTextInPagerIfNecessary 
 }
 complete -F _command __traceSystemCalls
 
@@ -863,10 +861,10 @@ __lineUpColumns() {
 }
 
 # TODO parameters
-# Treats input lines as rows of a table. With first argument
-# you specify the delimiter character, and with secont, the
-# columns you want to retain. For more columns use comma or dash
-# (for ranges).
+# Treats input lines as rows of a table. With first argument you
+# specify the delimiter character, and with secont, the columns
+# you want to retain. For more columns use comma or dash (for
+# ranges).
 __keepColumns() {
     cut --delimiter="$1" --fields="$2" 
 }
@@ -905,7 +903,9 @@ __printOrDisplayWithPagerLinesContainingPattern() {
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 __locateFilesOnFilesystemContainingPatternInTheirNames() {
-    locate "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
+    locate "$1" \
+        | __printOrDisplayWithPagerLinesContainingPattern \
+            $(echo "$1" | tr -d "\*")
 }
 
 # Searches for files containing pattern in their names in
@@ -913,7 +913,9 @@ __locateFilesOnFilesystemContainingPatternInTheirNames() {
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
 __locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
-    find . -name "$1" | __printOrDisplayWithPagerLinesContainingPattern $(echo "$1" | tr -d "\*")
+    find . -name "$1" \
+        | __printOrDisplayWithPagerLinesContainingPattern \
+            $(echo "$1" | tr -d "\*")
 }
 
 
@@ -949,7 +951,8 @@ __extractArchiveOfAnyType() {
                 *.7z)        7z x ./"$1"        ;;
                 *.xz)        unxz ./"$1"        ;;
                 *.exe)       cabextract ./"$1"  ;;
-                *)           echo "extract: '$1' - unknown archive method" ;;
+                *)           echo -n "extract: '$1'"
+                             echo "- unknown archive method" ;;
             esac
         else
             echo "'$1' - file does not exist"
@@ -1241,15 +1244,19 @@ __printPackagesInstalledAndAvailableVersion() {
     echo "$versionInfo" | grep Candidate | sed 's/^ *//'
 }
 
-# Prints installed and remote version of package or command (that is part of package).
+# Prints installed and remote version of package or command
+# (that is part of package).
 __printVersionOfPackageOrVersionOfInstalledCommandsPackage() {
-    # Check if passed name is a package, and print its version if it is.
+    # Check if passed name is a package, and print its version
+    # if it is.
     packageVersion=$(__printPackagesInstalledAndAvailableVersion "$@")
     if [[ "$packageVersion" != "" ]]; then 
         echo "$packageVersion"
     else
-        # Check if passed name is an installed command, and print its package version if it is.
-        packageInfo=$(__printInstalledPackageThatProvidesCommandAndItsLocation "$@")
+        # Check if passed name is an installed command, and
+        # print its package version if it is.
+        packageInfo=$(
+            __printInstalledPackageThatProvidesCommandAndItsLocation "$@")
         packageName=$(echo "$packageInfo" | sed 's/:.*$//')
         if [[ "$packageName" != "" ]]; then 
             echo "Package:   $packageName"
@@ -1284,17 +1291,20 @@ __getManSectionNameFromNumber() {
     esac
 }
 
-# If command is available then it prints it's description, package and
-# location.
+# If command is available then it prints it's description,
+# package and location.
 __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation() {
     call1=$(sudo whatis "$@" 2> /dev/null)
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
-            commandType=$(__getManSectionNameFromNumber $(echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
+            commandType=$(
+                __getManSectionNameFromNumber $(
+                    echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
             echo "$line" "($commandType)"
         done <<< "$call1"
         echo -n "Package:   "
-        packageInfo=$(__printInstalledPackageThatProvidesCommandAndItsLocation "$@")
+        packageInfo=$(
+            __printInstalledPackageThatProvidesCommandAndItsLocation "$@")
         echo "$packageInfo" | sed 's/: /\nLocation:  /'
         return 0
     fi
@@ -1360,8 +1370,9 @@ __printDescriptionOfBashBuiltinOrAnAlias() {
 # Universal command description search function. First tries
 # whatis, then apt-cache show, then type and finally apt-file.
 # When one of them succeeds in finding the description the
-# function returns.
-# describe package or command or find available packages with part of name or available packages that provide command
+# function returns.  describe package or command or find
+# available packages with part of name or available packages
+# that provide command
 __describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand() {
     # Checks if it is an installed command.
     __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation "$@"
@@ -1383,8 +1394,8 @@ __describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackag
         return
     fi
 
-    # Search all available commands and packages with part of the
-    # name.
+    # Search all available commands and packages with part of
+    # the name.
     __findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
 }
 
@@ -1439,7 +1450,8 @@ __listBranchesOrCreateNewOne() {
 
 # Prints short status of repository.
 __printRepositoryStatus() {
-    git -c color.status=always status -sb "$@" | __printOrDisplayTextInPager
+    git -c color.status=always status -sb "$@" \
+        | __printOrDisplayTextInPager
 }
 
 # Prints nicely decorated graph of commits, with commit
@@ -1610,8 +1622,10 @@ __printStatusOfSshPortAtAddress() {
 __printSshPortStatusOfLocalDevicesAndPingGoogle() {
     localIp=$(ip1)
     gateway=$(gateway)
-    echo "You:      $localIp    ssh: $(__printStatusOfSshPortAtAddress $(ip2))"
-    echo "Gateway:  $gateway    ssh: $(__printStatusOfSshPortAtAddress "$gateway")"
+    echo -n "You:      $localIp    ssh: "
+    __printStatusOfSshPortAtAddress $(ip2)
+    echo -n "Gateway:  $gateway    ssh: "
+    __printStatusOfSshPortAtAddress "$gateway"
     all=$(nmap1 20)
     allFiltered=$(
         echo "$all" | 
@@ -1621,17 +1635,21 @@ __printSshPortStatusOfLocalDevicesAndPingGoogle() {
         sed 's/^/          /g' ) 
     len=${#allFiltered} 
     allFiltered=${allFiltered:6:len-6} 
-    echo -n "Other:"
-
-    while IFS= read -r line; do 
-        echo -n "$line    ssh: "
-        __printStatusOfSshPortAtAddress "$line"    
-    done <<< "$allFiltered"
-
+    if [[ "$allFiltered" != "" ]]; then
+        echo -n "Other:"
+        while IFS= read -r line; do 
+            echo -n "$line    ssh: "
+            __printStatusOfSshPortAtAddress "$line"    
+        done <<< "$allFiltered"
+    fi
     testIp="8.23.224.107"
-    echo "Internet: $testIp   Ping: $(__isAddressReachable "$testIp")"
+    echo -n "Internet: $testIp   Ping: "
+    __isAddressReachable "$testIp"
+    echo
     testDomain="www.google.com"
-    echo "          $testDomain Ping: $(__isAddressReachable "$testDomain")"
+    echo -n "          $testDomain Ping: "
+    __isAddressReachable "$testDomain"
+    echo
 }
 
 
