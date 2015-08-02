@@ -56,6 +56,8 @@ main() {
         echo '    . ~/.standard_aliases/standard_shortcuts' >> ~/.bashrc
         echo 'fi' >> ~/.bashrc
     fi
+
+    echo "Run 'bash' for changes to take effect."
 }
 
 main "$@"

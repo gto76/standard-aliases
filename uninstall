@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Usage: uninstall 
+#
+
+main() {
+    rm -f ~/.standard_aliases/standard_aliases
+    rm -f ~/.standard_aliases/standard_shortcuts
+    rmdir ~/.standard_aliases 2>/dev/null
+}
+
+main "$@"
