@@ -1,0 +1,72 @@
+TEMP
+
+global completion functions (start with underscore):
+
+apt_file
+cd
+cd_devices
+command
+expand
+filedir
+
+/usr/share/bash-completion/completions:
+apropos
+chown
+g++
+gdb...
+
+
+/// it cez completne
+/// vse dat v funkcije
+/// oddvojit aliase
+
+pd - packageDescription 5 min
+
+====================
+
+3. What command can you use to safely shut down the Linux system immediately?
+a. shutdown -c
+b. shutdown -r
+c. down
+d. halt
+
+add partitions alias
+
+remove version from wi...
+remove version table from version
+
+=========
+
+offenders (do not support completion of long options)
+
+ls
+less
+
+
+# PACKAGE MANAGEMENT #
+
+ch, canhaz : Install package.
+update : Update information about available packages.
+upgrade : Upgrade all packages.
+dist-upgrade : Upgrade all packages intelligently.
+remove : Remove package and all unneeded packages.
+purge : Remove package and all unneeded packages together with configuration files.
+autoremove : Remove unneeded packages.
+installed, packages : Print packages that were installed by user.
+allInstalled, allPackages : Print all installed packages.
+depends : Print package dependencies.
+
+# PACKAGE INFORMATION #
+
+pd, describe : Print package description.
+ve, version : Print version of package or version of installed commands package.
+package : print installed commands package together with description and location.
+
+# PACKAGE SEARCH #
+
+findPackage : Find available packages with part of name or description.
+ap, apropos1, findCommand : Find installed commands with part of name or description.
+apt-file1 : Find available packages that provide command.
+wi, whatis1 : Find package or command with part of name.
+
+
