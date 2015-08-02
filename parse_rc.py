@@ -29,6 +29,7 @@ def glueCommand(command):
     return out
 
 def main():
+    existingCommands = sys.argv[1].split(' ')
     completions = getCompletions()
     modifiedCompletions = ""
     with open(RC_FILENAME) as f:
@@ -46,13 +47,17 @@ def main():
         for shortcut in shortcutTokens:
             shortcut = shortcut.strip()
             command = "__"+glueCommand(tokens[1])
-            print(shortcut+"() {")
-            print("    "+command+" \"$@\"")
-            print("}")
-            completion = [i for i in completions if i.endswith(command)]
-            if len(completion) != 0:
-                print(re.sub(command, shortcut, completion[0]))
-            print
+            if shortcut in existingCommands or shortcut == '?':
+                print("alias "+shortcut+"='"+command+"'")
+                print
+            else:
+                print(shortcut+"() {")
+                print("    "+command+" \"$@\"")
+                print("}")
+                completion = [i for i in completions if i.endswith(command)]
+                if len(completion) != 0:
+                    print(re.sub(command, shortcut, completion[0]))
+                print
 
 if __name__ == '__main__':
     main()

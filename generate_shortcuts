@@ -8,6 +8,7 @@
 # set -euo pipefail
 # IFS=$'\n\t'
 
-./parse_rc.py > ~/.standardshortcuts
+existingCommands=$(echo $(compgen -c) $(compgen -A function) | tr ' ' '\n' | sort | uniq -u | tr '\n' ' ')
+./parse_rc.py "$existingCommands" > ~/.standardshortcuts
 
 
