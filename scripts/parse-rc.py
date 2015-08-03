@@ -28,6 +28,32 @@ def glueCommand(command):
     out = re.sub('\.', '', out)
     return out
 
+def processOptions(tokens):
+    command = tokens[0].strip()
+    options = tokens[1].strip()
+    if len(options) == 0:
+        return
+    variableName = "_"+command.upper()+"_OPTIONS"
+    print("export "+variableName+"=("+options+")")
+
+def processShortcut(existingCommands, completions, tokens):
+    shortcuts = tokens[0]
+    shortcutTokens = shortcuts.split(',')
+    for shortcut in shortcutTokens:
+        shortcut = shortcut.strip()
+        command = "__"+glueCommand(tokens[1])
+        if shortcut in existingCommands or shortcut == '?':
+            print("alias "+shortcut+"='"+command+"'")
+            print
+        else:
+            print(shortcut+"() {")
+            print("    "+command+" \"$@\"")
+            print("}")
+            completion = [i for i in completions if i.endswith(command)]
+            if len(completion) != 0:
+                print(re.sub(command, shortcut, completion[0]))
+            print
+
 def main():
     RC_FILENAME = sys.argv[1]
     STANDARD_ALIASES_FILENAME = sys.argv[2]
@@ -41,25 +67,13 @@ def main():
             continue
         if line.strip().startswith('#'):
             continue
+        tokens = line.strip().split(';')
+        if len(tokens) == 2:
+            processOptions(tokens)
+            continue
         tokens = line.strip().split(':')
-        if len(tokens) != 2:
-            continue 
-        shortcuts = tokens[0]
-        shortcutTokens = shortcuts.split(',')
-        for shortcut in shortcutTokens:
-            shortcut = shortcut.strip()
-            command = "__"+glueCommand(tokens[1])
-            if shortcut in existingCommands or shortcut == '?':
-                print("alias "+shortcut+"='"+command+"'")
-                print
-            else:
-                print(shortcut+"() {")
-                print("    "+command+" \"$@\"")
-                print("}")
-                completion = [i for i in completions if i.endswith(command)]
-                if len(completion) != 0:
-                    print(re.sub(command, shortcut, completion[0]))
-                print
+        if len(tokens) == 2:
+            processShortcut(existingCommands, completions, tokens)
 
 if __name__ == '__main__':
     main()

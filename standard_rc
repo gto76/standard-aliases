@@ -301,7 +301,7 @@ zz : Decrease volume by two decibels.
 
 less ; --RAW-CONTROL-CHARS --ignore-case --QUIET --tilde --tabs=4 -P%db/%D\ %f$
 ls ; --classify -X -C --color=auto --group-directories-first
-ls medium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M
+ls_medium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M
 tree ; -C -I .git --dirsfirst
 touch ;
 date ;

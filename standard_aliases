@@ -22,7 +22,6 @@
 __displayTextInPager() {
     less "${_LESS_OPTIONS[@]}" "$@"
 }
-export _LESS_OPTIONS=(--RAW-CONTROL-CHARS --ignore-case --QUIET --tilde --tabs=4 -P%db/%D\ %f$)
 
 # Runs cat or less, depending on number of lines in file or
 # input. First argument must be either 'true' or some other
@@ -120,7 +119,6 @@ __printAndDisplayTextInPagerIfNecessary() {
 __listDirectoryContents() {
     ls "${_LS_OPTIONS[@]}" "$@"
 }
-export _LS_OPTIONS=(--classify -X -C --color=auto --group-directories-first)
 
 # Calls __listDirectoryContents with: 
 #   * set width to screen width or 69, whichever is smaller.
@@ -143,9 +141,8 @@ __listDirectoryContentsUsingShortListingFormat() {
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
 #   <hour>:<minute>'.
 __listDirectoryContentsUsingMediumListingFormat() {
-   __listDirectoryContents "${_LS_MEDIUM_ADDITIONAL_OPTIONS[@]}" "$@"
+   __listDirectoryContents "${_LS_MEDIUM_OPTIONS[@]}" "$@"
 }
-export _LS_MEDIUM_ADDITIONAL_OPTIONS=(-l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M)
 
 # Calls __listDirectoryContents with: 
 #   * use long listing format.
@@ -268,7 +265,6 @@ __printAllSubdirectories() {
 __printDirectoryStructure() {
     tree "${_TREE_OPTIONS[@]}"  "$@" | __printOrDisplayTextInPager
 }
-export _TREE_OPTIONS=(-C -I .git --dirsfirst)
 
 
 ######
@@ -613,7 +609,6 @@ __searchCommandHistoryForPattern() {
 __editFileWithVim() {
     vim "${_VIM_OPTIONS[@]}" "$@"
 }
-export _VIM_OPTIONS=(-p)
 
 # Runs Vim in read only mode, and with option that opens one tab
 # per file.
@@ -634,7 +629,6 @@ __viewFileInVim() {
 __editFileWithNano() {
     nano "${_NANO_OPTIONS[@]}"  "$@"
 }
-export _NANO_OPTIONS=(--undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4)
 
 # Runs Gedit in background.
 __editFileWithGedit() {
@@ -831,7 +825,6 @@ if [ -f /usr/share/bash-completion/completions/pgrep ]; then
    . /usr/share/bash-completion/completions/pgrep
    complete -F _pgrep __findProcessesWithPartOfName
 fi
-export _PGREP_OPTIONS=(--list-name)
 
 # Sends KILL signal to process with specified PID, instead of
 # kill's default signal TERM.
@@ -848,7 +841,6 @@ __traceSystemCalls() {
         | __printAndDisplayTextInPagerIfNecessary 
 }
 complete -F _command __traceSystemCalls
-export _STRACE_OPTIONS=(-s\ 2000 -f)
 
 
 ########
@@ -898,7 +890,6 @@ __printLinesContainingPattern() {
     grep --color=auto "${_GREP_OPTIONS[@]}"  "$@"
 }
 complete -F _longopt __printLinesContainingPattern
-export _GREP_OPTIONS=(--exclude-dir=\.svn --exclude-dir=\.git --ignore-case --perl-regexp)
 
 # Runs __printLinesContainingPattern and sends output to pager.
 __printOrDisplayWithPagerLinesContainingPattern() {
@@ -1034,7 +1025,6 @@ __printOperatingSystemInformation() {
 __printInfoAboutPciDevices() {
     lspci "${_LSPCI_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
-export _LSPCI_OPTIONS=(-v)
 
 
 #########
@@ -1733,14 +1723,12 @@ __startFirefoxInBackground() {
 __startChromeInBackground() {
     __runCommandInBackground google-chrome "${_CHROME_OPTIONS[@]}" "$@"
 }
-export _CHROME_OPTIONS=(--touch-devices=123)
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
 __startTerminalWebBrowser() {
     lynx "${_LYNX_OPTIONS[@]}" "$@"
 }
-export _LYNX_OPTIONS=(-accept_all_cookies -vikeys www.google.com)
 
 #########
 # AUDIO #
