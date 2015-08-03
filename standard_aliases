@@ -12,6 +12,7 @@
 # LESS #
 ########
 
+
 # Runs less with a few sensible options.
 #   * ignore case when searching, 
 #   * do not ring a bell,
@@ -19,8 +20,9 @@
 #   * format prompt as "<page-number>/<all-pages> <filename>",
 #   * set tabs to 4 spaces.
 __displayTextInPager() {
-    less --ignore-case --QUIET --tilde -P"%db/%D %f" --tabs=4 "$@"
+    less "${_LESS_OPTIONS[@]}" "$@"
 }
+export _LESS_OPTIONS=(--RAW-CONTROL-CHARS --ignore-case --QUIET --tilde --tabs=4 -P%db/%D\ %f$)
 
 # Runs cat or less, depending on number of lines in file or
 # input. First argument must be either 'true' or some other
@@ -116,8 +118,9 @@ __printAndDisplayTextInPagerIfNecessary() {
 #   * use color when stdout is connected to terminal, 
 #   * group directories before files.
 __listDirectoryContents() {
-    ls --classify -X -C --color=auto --group-directories-first "$@"
+    ls "${_LS_OPTIONS[@]}" "$@"
 }
+export _LS_OPTIONS=(--classify -X -C --color=auto --group-directories-first)
 
 # Calls __listDirectoryContents with: 
 #   * set width to screen width or 69, whichever is smaller.
@@ -140,9 +143,9 @@ __listDirectoryContentsUsingShortListingFormat() {
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
 #   <hour>:<minute>'.
 __listDirectoryContentsUsingMediumListingFormat() {
-   __listDirectoryContents -l --no-group -g --human-readable \
-        --time-style="+%b %d %Y %H:%M" "$@"
+   __listDirectoryContents "${_LS_MEDIUM_ADDITIONAL_OPTIONS[@]}" "$@"
 }
+export _LS_MEDIUM_ADDITIONAL_OPTIONS=(-l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M)
 
 # Calls __listDirectoryContents with: 
 #   * use long listing format.
@@ -263,8 +266,9 @@ __printAllSubdirectories() {
 
 # Displays tree structure of current or specified folder.
 __printDirectoryStructure() {
-    tree -C -I .git --dirsfirst "$@" | __printOrDisplayTextInPager
+    tree "${_TREE_OPTIONS[@]}"  "$@" | __printOrDisplayTextInPager
 }
+export _TREE_OPTIONS=(-C -I .git --dirsfirst)
 
 
 ######
@@ -533,18 +537,18 @@ __countWords() {
 # Updates file's timestamp, or creates empty file, if it doesn't
 # exits.
 __updateFilesTimestampOrCreateNewOne() {
-    touch "$@"
+    touch "${_TOUCH_OPTIONS[@]}" "$@"
 }
 
 # Prints current date and time.
 __printDateAndTime() {
-    date "$@"
+    date "${_DATE_OPTIONS[@]}" "$@"
 }
 
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
 __runMakeWithPager() {
-    make "$@" 2>&1 | __displayTextInPager
+    make "${_MAKE_OPTIONS[@]}" "$@" 2>&1 | __displayTextInPager
 }
 # Asigns make completion to command if available.
 if [ -f /usr/share/bash-completion/completions/make ]; then
@@ -560,7 +564,7 @@ __startFileExplorerInBackgroundInWorkingDirectory() {
 
 # Runs diff with colors and sends output to pager if necessary.
 __compareFilesLineByLineInColor() {
-    colordiff "$@" | __printOrDisplayTextInPager
+    colordiff "${_DIFF_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
 
 # Creates executable bash script, or just changes modifiers to
@@ -607,13 +611,14 @@ __searchCommandHistoryForPattern() {
 
 # Calls Vim with option that opens one tab per file.
 __editFileWithVim() {
-    vim -p "$@"
+    vim "${_VIM_OPTIONS[@]}" "$@"
 }
+export _VIM_OPTIONS=(-p)
 
 # Runs Vim in read only mode, and with option that opens one tab
 # per file.
 __viewFileInVim() {
-    view -p "$@"
+    view "${_VIM_OPTIONS[@]}" "$@"
 }
 
 # Runs Nano with a few sensible options.
@@ -627,13 +632,13 @@ __viewFileInVim() {
 #   * smooth scrolling, 
 #   * tab size set to 4 spaces.
 __editFileWithNano() {
-    nano --undo --autoindent --const --historylog \
-        --multibuffer --wordbounds --smooth --tabsize=4 "$@"
+    nano "${_NANO_OPTIONS[@]}"  "$@"
 }
+export _NANO_OPTIONS=(--undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4)
 
 # Runs Gedit in background.
 __editFileWithGedit() {
-    __runCommandInBackground gedit "$@"
+    __runCommandInBackground gedit "${_GEDIT_OPTIONS[@]}" "$@"
 }
 
 # Runs Sublime Text in background.
@@ -695,33 +700,32 @@ __deleteDirectoriesSafelyAsSuperUser() {
     sudo rm --interactive --recursive "$@"
 }
 
-# TODO add less options
 # Runs less as su.
 __displayTextInPagerAsSuperUser() {
-    sudo less "$@"
+    sudo less "${_LESS_OPTIONS[@]}" "$@"
 }
 
 # TODO options
 # Runs Vim in read only mode, as superuser
 __viewFileInVimAsSuperUser() {
-    sudo view "$@"
+    sudo view "${_VIM_OPTIONS[@]}" "$@"
 }
 
 # TODO options
 # Runs Vim as su.
 __editFileWithVimAsSuperUser() {
-    sudo vim "$@"
+    sudo vim "${_VIM_OPTIONS[@]}" "$@"
 }
 
 # TODO options
 # Runs Nano as su.
 __editFileWithNanoAsSuperUser() {
-    sudo nano -icHFwST 4 "$@"
+    sudo nano "${_NANO_OPTIONS[@]}" "$@"
 }
  
 # Runs Gedit as su.
 __editFileWithGeditAsSuperUser() {
-    sudo gedit "$@"
+    sudo gedit "${_GEDIT_OPTIONS[@]}" "$@"
 }
 
 # Alias that puts 'sudo' in front of a command that needs super
@@ -803,30 +807,31 @@ __runMountAsSuperUser() {
 
 # Shows detailed overview of processes (task manager).
 __runTerminalTaskManager() {
-    htop "$@"
+    htop "${_HTOP_OPTIONS[@]}" "$@"
 }
 
 # Prints user's processes and sends output to pager if
 # necessary.
 __printUsersProcesses() {
-    ps "$@" | __printOrDisplayTextInPager
+    ps "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
 
 # Prints every process on the system.
 __printAllProcesses() {
-    ps -e "$@" | __printOrDisplayTextInPager
+    ps -e "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
 
 # Prints processes with specified pattern in their names,
 # together with their PIDs.
 __findProcessesWithPartOfName() {
-    pgrep --list-name "$@" | __printOrDisplayTextInPager
+    pgrep "${_PGREP_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
 # Asigns pgrep completion to command if available.
 if [ -f /usr/share/bash-completion/completions/pgrep ]; then
    . /usr/share/bash-completion/completions/pgrep
    complete -F _pgrep __findProcessesWithPartOfName
 fi
+export _PGREP_OPTIONS=(--list-name)
 
 # Sends KILL signal to process with specified PID, instead of
 # kill's default signal TERM.
@@ -839,10 +844,11 @@ complete -F _pids __killProcessWithKillSignal
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 __traceSystemCalls() {
-    strace -s 2000 -f "$@" 2>&1 \
+    strace "${_STRACE_OPTIONS[@]}" "$@" 2>&1 \
         | __printAndDisplayTextInPagerIfNecessary 
 }
 complete -F _command __traceSystemCalls
+export _STRACE_OPTIONS=(-s\ 2000 -f)
 
 
 ########
@@ -889,10 +895,10 @@ __sortLinesByColumn() {
 # additional operators, for instance, '+' for matching one or
 # more times) and ignoring case.
 __printLinesContainingPattern() {
-    grep --color=auto --exclude-dir=\.svn --exclude-dir=\.git \
-        --ignore-case --perl-regexp "$@"
+    grep --color=auto "${_GREP_OPTIONS[@]}"  "$@"
 }
 complete -F _longopt __printLinesContainingPattern
+export _GREP_OPTIONS=(--exclude-dir=\.svn --exclude-dir=\.git --ignore-case --perl-regexp)
 
 # Runs __printLinesContainingPattern and sends output to pager.
 __printOrDisplayWithPagerLinesContainingPattern() {
@@ -903,20 +909,22 @@ __printOrDisplayWithPagerLinesContainingPattern() {
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 __locateFilesOnFilesystemContainingPatternInTheirNames() {
-    locate "$1" \
+    locate "${_LOCATE_OPTIONS[@]}" "$1" \
         | __printOrDisplayWithPagerLinesContainingPattern \
             $(echo "$1" | tr -d "\*")
 }
+# TODO locate options
 
 # Searches for files containing pattern in their names in
 # current and sub-directories.  Use filesystem regexes for
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
 __locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
-    find . -name "$1" \
+    find "${_FIND_OPTIONS[@]}" . -name "$1" \
         | __printOrDisplayWithPagerLinesContainingPattern \
             $(echo "$1" | tr -d "\*")
 }
+# TODO find options
 
 
 ############
@@ -967,8 +975,9 @@ __extractArchiveOfAnyType() {
 
 # Runs Tmux.
 __runTerminalMultiplexer() {
-    tmux "$@"
+    tmux "${_TMUX_OPTIONS[@]}" "$@"
 }
+# TODO tmux options
 
 # Runs Tmux, and attaches to last session.
 __runTerminalMultiplexerAndAttachToSession() {
@@ -1023,8 +1032,9 @@ __printOperatingSystemInformation() {
 
 # Prints verbose information about all PCI devices. 
 __printInfoAboutPciDevices() {
-    lspci -v "$@" | __printOrDisplayTextInPager
+    lspci "${_LSPCI_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
+export _LSPCI_OPTIONS=(-v)
 
 
 #########
@@ -1100,8 +1110,9 @@ __runTerminalCalculatorThatSupportsDecimalNumbers() {
 
 # Prints hexadecimal representation of file or piped stream.
 __printHexadecimalRepresentationOfFileOrStream() {
-    hd "$@" | __printOrDisplayTextInPager
+    hd "${_HD_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
+# TODO hd options
 
 # Runs profile script.
 __runProfileScript() {
@@ -1449,7 +1460,7 @@ __listBranchesOrCreateNewOne() {
 }
 
 # Prints short status of repository.
-__printRepositoryStatus() {
+__printShortRepositoryStatus() {
     git -c color.status=always status -sb "$@" \
         | __printOrDisplayTextInPager
 }
@@ -1720,15 +1731,16 @@ __startFirefoxInBackground() {
 # Runs Chrome in background with setting that resolves some bug
 # in some cases (it is probably already fixed).
 __startChromeInBackground() {
-    __runCommandInBackground google-chrome --touch-devices=123
+    __runCommandInBackground google-chrome "${_CHROME_OPTIONS[@]}" "$@"
 }
+export _CHROME_OPTIONS=(--touch-devices=123)
 
 # Runs Lynx that accepts all cookies, starts in Google and is
 # using Vim mode for navigation.
 __startTerminalWebBrowser() {
-    lynx -accept_all_cookies -vikeys www.google.com "$@"
+    lynx "${_LYNX_OPTIONS[@]}" "$@"
 }
-
+export _LYNX_OPTIONS=(-accept_all_cookies -vikeys www.google.com)
 
 #########
 # AUDIO #

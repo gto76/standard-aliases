@@ -114,7 +114,7 @@ srm : Delete files safely as super user.
 scpdir : Copy directories safely as super user.
 smvdir : Move directories safely as super user.
 srmdir : Delete directories safely as super user.
-sm : Display text in pager as super user.
+sm, sle : Display text in pager as super user.
 svv : View file in vim as super user.
 sv : Edit file with vim as super user.
 sn : Edit file with nano as super user.
@@ -243,7 +243,7 @@ pull : Pull changes from remote repository.
 merge : Merge specified branch with current one.
 gc, checkout : Checkout branch or file.
 gb, branch : List branches or create new one.
-gs : Print repository status.
+gs : Print short repository status.
 gl : Display log of commits.
 gl1 : Display minimal log of commits.
 gu : Update information about remote repository and print status.
