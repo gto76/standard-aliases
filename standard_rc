@@ -292,4 +292,49 @@ z : Decrease volume by six decibels.
 aa : Increase volume by two decibels.
 zz : Decrease volume by two decibels.
 
-# COMPLETIONS #
+
+#######
+####### Command options (will be used when a function uses a command)
+#######
+
+# This options will only be used when one of a function from this shortcuts uses them, and not every time you call the command directly.
+
+less ; --RAW-CONTROL-CHARS --ignore-case --QUIET --tilde --tabs=4 -P%db/%D\ %f$
+ls ; --classify -X -C --color=auto --group-directories-first
+ls medium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M
+tree ; -C -I .git --dirsfirst
+touch ;
+date ;
+make ;
+diff ;
+vim ; -p
+nano ; --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4
+gedit ;
+htop ;
+ps ;
+pgrep ;
+pgrep ; --list-name
+strace ; -s\ 2000 -f
+grep ; --exclude-dir=\.svn --exclude-dir=\.git --ignore-case --perl-regexp
+locate ;
+find ;
+tmux ;
+lspci ; -v
+hd ;
+chrome ; --touch-devices=123
+lynx ; -accept_all_cookies -vikeys www.google.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
