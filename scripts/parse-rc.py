@@ -55,7 +55,7 @@ def getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions):
         lastLine = intactLine
     return completions
 
-def glueCommand(command):
+def descriptionToCamelCase(command):
     words = []
     for word in command.split():
         words.append(firstLetterToUppercase(word))
@@ -78,7 +78,7 @@ def processShortcut(existingCommands, completions, tokens):
     shortcutTokens = shortcuts.split(',')
     for shortcut in shortcutTokens:
         shortcut = shortcut.strip()
-        command = "__"+glueCommand(tokens[1])
+        command = "__"+descriptionToCamelCase(tokens[1])
         if shortcut in existingCommands or shortcut == '?':
             print("alias "+shortcut+"='"+command+"'")
             print
