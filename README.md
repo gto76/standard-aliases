@@ -124,7 +124,7 @@ Commands
 **......** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L309-L311) | Go up five directories.
 **.......** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L313-L315) | Go up six directories.
 **cdiso** | `sudo mkdir`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L318-L322) | Mount iso and cd into.
- | **Files** |
+ | **FILES** |
 **cp** | `cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L331-L333) | Copy files safely.
 **mv** | `mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L337-L339) | Move files safely.
 **rm** | `rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L344-L346) | Delete files safely.
@@ -134,31 +134,15 @@ Commands
 **mk, md, mkdir1** | `mkdir --pa`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L369-L372) | Create directory and descend into.
 **bk, backup** | `sudo cp --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L376-L377) | Backup file.
 **switch** | `tempFile=$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L381-L386) | Switch contents of files.
-
-###  Pwd 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **PWD** |  
 **p** | `if [[ $# -`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L395-L401) | Print working directory or path to file.
-
-###  Echo 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **ECHO** |  
 **e** | `echo "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L409-L411) | Print text.
 **ee** | `echo -e "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L414-L416) | Print text interpreting backslashed characters.
 **en** | `echo -n "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L419-L421) | Print text without trailing newline.
-
-###  Run In Background 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | RUN IN BACKGROUND |  
 **rb, runInBackground** | `nohup "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L430-L432) | Run command in background.
-
-###  Basics 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **BASICS** |  
 **al, aliases** | `vim ~/.sta`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L442-L444) | Edit standard aliases.
 **ba** | `bash "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L448-L450) | Start new bash shell.
 **ty, type1** | `type "$@" `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L455-L457) | Print command type or definition.
