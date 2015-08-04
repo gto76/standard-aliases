@@ -90,18 +90,13 @@ If you can't type well and/or have problem with memorizing stuff you're basicall
 Commands
 --------
 
-###  Less 
-
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
+ | **LESS**  | 
 **le, less1, burek** | `less "${_L`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L22-L23) | Display text in pager.
 **m** | `__printOrD`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L64-L66) | Print or display text in pager.
 **mm** | `if [[ "$#"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L77-L95) | Print and display text in pager if necessary.
-
-###  Ls 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **LS** | 
 **l** | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L173-L176) | List or display directory contents in pager using short listing format.
 **ll** | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L178-L181) | List or display directory contents in pager using medium listing format.
 **lll** | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L183-L186) | List or display directory contents in pager using long listing format.
@@ -119,17 +114,9 @@ Commands
 **first** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L244-L246) | Get first file in directory.
 **rf, randomFile** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L249-L251) | Get random file in directory.
 **findd, directories** | `find . -na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L255-L257) | Print all subdirectories.
-
-###  Tree 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **TREE** |
 **t, tree1** | `tree "${_T`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L265-L266) | Print directory structure.
-
-###  Cd 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **CD** | 
 **.., cd..** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L293-L295) | Go up one directory.
 **...** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L297-L299) | Go up two directories.
 **....** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L301-L303) | Go up three directories.
@@ -137,11 +124,7 @@ Commands
 **......** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L309-L311) | Go up five directories.
 **.......** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L313-L315) | Go up six directories.
 **cdiso** | `sudo mkdir`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L318-L322) | Mount iso and cd into.
-
-###  Files 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **Files** |
 **cp** | `cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L331-L333) | Copy files safely.
 **mv** | `mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L337-L339) | Move files safely.
 **rm** | `rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L344-L346) | Delete files safely.
