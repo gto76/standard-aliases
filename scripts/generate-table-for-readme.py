@@ -47,8 +47,8 @@ def getLink(lineStart, lineEnd):
 
 # **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 
 def processRow(tokens):
-    name = tokens[0]
-    explanation = tokens[1]
+    name = tokens[0].strip()
+    explanation = tokens[1].strip()
     functionName = descriptionToCamelCase(explanation)
     lineStart, lineEnd = getFunctionLineNumber(functionName)
     functionBody = getFunctionBody(lineStart)
