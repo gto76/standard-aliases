@@ -140,7 +140,7 @@ Commands
 **e** | `echo "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L409-L411) | Print text.
 **ee** | `echo -e "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L414-L416) | Print text interpreting backslashed characters.
 **en** | `echo -n "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L419-L421) | Print text without trailing newline.
- | RUN IN BACKGROUND |  
+ | **RUN IN BACKGROUND** |  
 **rb, runInBackground** | `nohup "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L430-L432) | Run command in background.
  | **BASICS** |  
 **al, aliases** | `vim ~/.sta`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L442-L444) | Edit standard aliases.
