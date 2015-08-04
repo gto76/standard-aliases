@@ -90,6 +90,6 @@ If you can't type well and/or have problem with memorizing stuff you're basicall
 ### Commands
  _Name_        | _Runs_  | _Description_  
 :------------- |:--------:| ---------------------------------------------------
-**ll**       | `__listOrDisplayDi` [**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format.  
-**h, history1**      | `if [ "$#" -eq 0` [**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L591-L598)   | Search command history for pattern. 
+**ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format.  
+**h, history1**      | `if [ "$#" ` [**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L591-L598)   | Search command history for pattern. 
 
