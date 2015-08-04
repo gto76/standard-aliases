@@ -1,66 +1,70 @@
 #!/usr/bin/python
+from __future__ import print_function
 import sys 
 import re
-
-#RC_FILENAME = "/home/minerva/.standardrc"
-#STANDARD_ALIASES_FILENAME = "/home/minerva/.standard_aliases"
 
 firstLetterToUppercase = lambda s: s[:1].upper() + s[1:] if s else ''
 firstLetterToLowercase = lambda s: s[:1].lower() + s[1:] if s else ''
 
-def getCompletions(STANDARD_ALIASES_FILENAME):
-    completions = []
+def warning(*objs):
+    print("WARNING: ", *objs, file=sys.stderr)
+
+def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):
+    # line tokenize form: '^' or '|' or '$('
+    line = re.sub('"\$@".*$',"",line.strip())
+    line = re.sub('^.*\|',"",line.strip())
+    line = re.sub('^.*\$\(',"",line.strip())
+    optionsAreOnOwnLine = line.startswith('-')
+    if optionsAreOnOwnLine:
+        line = lastLine.strip()[:-1]
+    tokens = line.split()
+    if not tokens:
+        return
+    if tokens[0] == "sudo" or tokens[0] == "__runInBackground":
+        if len(tokens) < 2:
+            return
+        command = tokens[1]
+    else:
+        command = tokens[0]
+    if command == "apt-get" or command == "git":
+        return
+    if command in completions and currentFunction:
+        completions[currentFunction] = completions[command]
+    elif command in existingCompletions and currentFunction:
+        completions[currentFunction] = " ".join(existingCompletions[command]).strip()
+
+def getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions):
     with open(STANDARD_ALIASES_FILENAME) as f:
         content = f.readlines()
-    for line in content:
-        line = line.strip()
-        if line.startswith("complete "):
-            completions.append(line)
-    return completions
-
-
-def getCompletions2(STANDARD_ALIASES_FILENAME):
-    with open(STANDARD_ALIASES_FILENAME) as f:
-        content = f.readlines()
-    # map command > completion
     completions = {}
     currentFunction = ""
-    # read line by line
-    for line in content:
-        # if "complete" > map
+    lastLine = ""
+    for intactLine in content:
+        line = intactLine
         if line.startswith("complete "):
             tokens = line.strip().split()
             function = tokens[-1]
             completion = " ".join(tokens[:-1])
             completions[function] = completion
-            continue
-        # if function name > function
-        if line.startswith("__"):
+        elif line.startswith("__"):
             currentFunction = line.split()[0].strip('()')
-            continue
-        # if } erase function
-        if line.startswith("}"):
+        elif line.startswith("}"):
             currentFunction = ""
-            continue
-        # if "$@"
-        if '"$@"' in line:
-            # line tokenize form ^ or |
-            line = re.sub('"$@".*$',"",line.strip())
-            line = re.sub('^.*|',"",line.strip())
-            tokens = line.split()
-            if token[0] == "sudo" or token[0] == "__runInBackground":
-                command = token[1]
-            else:
-                command = token[0]
-            if command == "apt-get" or command == "git":
-                continue
-            if command in completions and currentFunction:
-                completions[currentFunction] = completions[command]
-            # if command in map
-                # complete command
-            # if command apt-get or git continue
-            # map command = completion command
-    # return completions
+        elif '"$@"' in line:
+            setCompletion(line, lastLine, currentFunction, completions, existingCompletions)
+        lastLine = intactLine
+    return completions
+
+# def getCompletions2(STANDARD_ALIASES_FILENAME, existingCompletions):
+#     getCompletions2(STANDARD_ALIASES_FILENAME, existingCompletions)
+#     completions = []
+#     with open(STANDARD_ALIASES_FILENAME) as f:
+#         content = f.readlines()
+#     for line in content:
+#         line = line.strip()
+#         if line.startswith("complete "):
+#             completions.append(line)
+#     return completions
 
 def glueCommand(command):
     words = []
@@ -93,16 +97,24 @@ def processShortcut(existingCommands, completions, tokens):
             print(shortcut+"() {")
             print("    "+command+" \"$@\"")
             print("}")
-            completion = [i for i in completions if i.endswith(command)]
-            if len(completion) != 0:
-                print(re.sub(command, shortcut, completion[0]))
-            print
+            if command in completions:
+                print(completions[command]+" "+shortcut)
+            print("# lb")
+
+def generateMapOfCompletions(completions):
+    completionsMap = {}
+    for completion in completions:
+        tokens = completion.strip().split()
+        completionsMap[tokens[-1]] = tokens[:-1]
+    return completionsMap
 
 def main():
     RC_FILENAME = sys.argv[1]
     STANDARD_ALIASES_FILENAME = sys.argv[2]
     existingCommands = sys.argv[3].split(' ')
-    completions = getCompletions(STANDARD_ALIASES_FILENAME)
+    existingCompletions = generateMapOfCompletions(sys.argv[4].split('\n'))
+    completions = getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions)
+    warning(completions)
     modifiedCompletions = ""
     with open(RC_FILENAME) as f:
         content = f.readlines()
