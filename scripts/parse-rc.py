@@ -20,7 +20,7 @@ def setCompletion(line, lastLine, currentFunction, completions, existingCompleti
     tokens = line.split()
     if not tokens:
         return
-    if tokens[0] == "sudo" or tokens[0] == "__runInBackground":
+    if tokens[0] == "sudo" or tokens[0] == "__runCommandInBackground":
         if len(tokens) < 2:
             return
         command = tokens[1]
@@ -55,17 +55,6 @@ def getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions):
         lastLine = intactLine
     return completions
 
-# def getCompletions2(STANDARD_ALIASES_FILENAME, existingCompletions):
-#     getCompletions2(STANDARD_ALIASES_FILENAME, existingCompletions)
-#     completions = []
-#     with open(STANDARD_ALIASES_FILENAME) as f:
-#         content = f.readlines()
-#     for line in content:
-#         line = line.strip()
-#         if line.startswith("complete "):
-#             completions.append(line)
-#     return completions
-
 def glueCommand(command):
     words = []
     for word in command.split():
@@ -99,7 +88,7 @@ def processShortcut(existingCommands, completions, tokens):
             print("}")
             if command in completions:
                 print(completions[command]+" "+shortcut)
-            print("# lb")
+            print("")
 
 def generateMapOfCompletions(completions):
     completionsMap = {}
@@ -114,7 +103,6 @@ def main():
     existingCommands = sys.argv[3].split(' ')
     existingCompletions = generateMapOfCompletions(sys.argv[4].split('\n'))
     completions = getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions)
-    warning(completions)
     modifiedCompletions = ""
     with open(RC_FILENAME) as f:
         content = f.readlines()
