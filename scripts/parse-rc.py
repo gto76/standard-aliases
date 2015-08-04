@@ -19,7 +19,7 @@ def getCompletions(STANDARD_ALIASES_FILENAME):
     return completions
 
 
-def getCompletions(STANDARD_ALIASES_FILENAME):
+def getCompletions2(STANDARD_ALIASES_FILENAME):
     with open(STANDARD_ALIASES_FILENAME) as f:
         content = f.readlines()
     # map command > completion
@@ -50,11 +50,11 @@ def getCompletions(STANDARD_ALIASES_FILENAME):
             tokens = line.split()
             if token[0] == "sudo" or token[0] == "__runInBackground":
                 command = token[1]
-            else 
+            else:
                 command = token[0]
-            if command == "apt-get" or command = "git":
+            if command == "apt-get" or command == "git":
                 continue
-            if command in completions and currentFunction
+            if command in completions and currentFunction:
                 completions[currentFunction] = completions[command]
             # if command in map
                 # complete command

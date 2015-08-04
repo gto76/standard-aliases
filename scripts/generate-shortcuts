@@ -3,12 +3,15 @@
 # Usage: generate_shortcuts 
 # 
 
-# Uncomment for Strict mode, more info at:
-# http://redsymbol.net/articles/unofficial-bash-strict-mode
-# set -euo pipefail
-# IFS=$'\n\t'
+scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 existingCommands=$(echo $(compgen -c) $(compgen -A function) | tr ' ' '\n' | sort | uniq -u | tr '\n' ' ')
-./scripts/parse-rc.py "$HOME/.standard_rc" "./standard_aliases" "$existingCommands" > ~/.standard_aliases/standard_shortcuts
+shortcuts=$("$scriptsDir"/parse-rc.py "$HOME/.standard_rc" "$HOME/.standard_aliases/standard_aliases" "$existingCommands")
+if [[ $? != 0 ]]; then
+    touch "$HOME"/.standard_rc
+    echo "Standard aliases: There is a problem in parse_rc.py script, so aliases were not loaded." >&2
+    exit 1
+fi
+echo "$shortcuts" > ~/.standard_aliases/standard_shortcuts
 
 

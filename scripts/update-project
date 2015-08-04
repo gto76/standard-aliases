@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# Usage: update-projects
+# Generates stadard_shortcuts anew, if any file in project got changed.
+
+scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Tells wether the generated file standard_shortcuts is up to
+# date.
+areStandardShortcutsUpToDate() {
+    if [[ ~/.standard_rc \
+            -nt ~/.standard_aliases/standard_shortcuts ]] \
+        || [[ ~/.standard_aliases/standard_aliases \
+            -nt ~/.standard_aliases/standard_shortcuts ]] \
+        || [[ "$scriptsDir"/generate-shortcuts \
+            -nt ~/.standard_aliases/standard_shortcuts ]] \
+        || [[ "$scriptsDir"/update-project \
+            -nt ~/.standard_aliases/standard_shortcuts ]] \
+        || [[ "$scriptsDir"/parse-rc.py \
+            -nt ~/.standard_aliases/standard_shortcuts ]]; then
+        return 1 
+    else
+        return 0 
+    fi
+}
+
+main() {
+    areStandardShortcutsUpToDate
+    if [[ $? -ne 0 ]]; then
+        "$scriptsDir"/generate-shortcuts
+    fi
+}
+
+main "$@"

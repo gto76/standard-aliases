@@ -314,7 +314,6 @@ __goUpSixDirectories() {
     __goUpNumberOfDirectories 6
 }
 
-
 # Mounts ISO file and cd-s into it.
 __mountIsoAndCdInto() {
     sudo mkdir /media/"$1"

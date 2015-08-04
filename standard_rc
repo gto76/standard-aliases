@@ -73,7 +73,7 @@ ba : Start new bash shell.
 ty, type1 : Print command type or definition.
 tyty : Print function that a function calls.
 c : Print contents of file.
-exitCode : Print exit code of last command.
+?, exitCode : Print exit code of last command.
 cl : Clear the screen.
 re : Reset the screen.
 q : Exit bash shell.
