@@ -18,6 +18,50 @@ def getCompletions(STANDARD_ALIASES_FILENAME):
             completions.append(line)
     return completions
 
+
+def getCompletions(STANDARD_ALIASES_FILENAME):
+    with open(STANDARD_ALIASES_FILENAME) as f:
+        content = f.readlines()
+    # map command > completion
+    completions = {}
+    currentFunction = ""
+    # read line by line
+    for line in content:
+        # if "complete" > map
+        if line.startswith("complete "):
+            tokens = line.strip().split()
+            function = tokens[-1]
+            completion = " ".join(tokens[:-1])
+            completions[function] = completion
+            continue
+        # if function name > function
+        if line.startswith("__"):
+            currentFunction = line.split()[0].strip('()')
+            continue
+        # if } erase function
+        if line.startswith("}"):
+            currentFunction = ""
+            continue
+        # if "$@"
+        if '"$@"' in line:
+            # line tokenize form ^ or |
+            line = re.sub('"$@".*$',"",line.strip())
+            line = re.sub('^.*|',"",line.strip())
+            tokens = line.split()
+            if token[0] == "sudo" or token[0] == "__runInBackground":
+                command = token[1]
+            else 
+                command = token[0]
+            if command == "apt-get" or command = "git":
+                continue
+            if command in completions and currentFunction
+                completions[currentFunction] = completions[command]
+            # if command in map
+                # complete command
+            # if command apt-get or git continue
+            # map command = completion command
+    # return completions
+
 def glueCommand(command):
     words = []
     for word in command.split():

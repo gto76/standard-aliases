@@ -553,7 +553,6 @@ if [ -f /usr/share/bash-completion/completions/make ]; then
 fi
 
 # Start Nautilus file explorer in background.
-# TODO check if exists
 __startFileExplorerInBackgroundInWorkingDirectory() {
     __runCommandInBackground nautilus .
 }
@@ -699,19 +698,16 @@ __displayTextInPagerAsSuperUser() {
     sudo less "${_LESS_OPTIONS[@]}" "$@"
 }
 
-# TODO options
 # Runs Vim in read only mode, as superuser
 __viewFileInVimAsSuperUser() {
     sudo view "${_VIM_OPTIONS[@]}" "$@"
 }
 
-# TODO options
 # Runs Vim as su.
 __editFileWithVimAsSuperUser() {
     sudo vim "${_VIM_OPTIONS[@]}" "$@"
 }
 
-# TODO options
 # Runs Nano as su.
 __editFileWithNanoAsSuperUser() {
     sudo nano "${_NANO_OPTIONS[@]}" "$@"
@@ -833,7 +829,6 @@ __killProcessWithKillSignal() {
 }
 complete -F _pids __killProcessWithKillSignal
 
-# TODO options
 # Traces system calls and signals. Prints strings of maximum
 # 2000 characters, and also traces child processes.
 __traceSystemCalls() {
@@ -858,7 +853,6 @@ __lineUpColumns() {
     column -t -s "$@"
 }
 
-# TODO parameters
 # Treats input lines as rows of a table. With first argument you
 # specify the delimiter character, and with secont, the columns
 # you want to retain. For more columns use comma or dash (for
@@ -867,7 +861,6 @@ __keepColumns() {
     cut --delimiter="$1" --fields="$2" 
 }
 
-# TODO parameters
 # Treats input lines as rows of a table and sorts them by column
 # you specify with second parameter. First argument specifies
 # the delimiter character. Using comma, more columns can be
@@ -881,7 +874,6 @@ __sortLinesByColumn() {
 # SEARCH #
 ##########
 
-# TODO options
 # Runs grep with highlighting matches, not grepping through .svn
 # and .git folders, using Perl regex format (it has some
 # additional operators, for instance, '+' for matching one or
@@ -904,7 +896,6 @@ __locateFilesOnFilesystemContainingPatternInTheirNames() {
         | __printOrDisplayWithPagerLinesContainingPattern \
             $(echo "$1" | tr -d "\*")
 }
-# TODO locate options
 
 # Searches for files containing pattern in their names in
 # current and sub-directories.  Use filesystem regexes for
@@ -915,7 +906,6 @@ __locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
         | __printOrDisplayWithPagerLinesContainingPattern \
             $(echo "$1" | tr -d "\*")
 }
-# TODO find options
 
 
 ############
@@ -968,7 +958,6 @@ __extractArchiveOfAnyType() {
 __runTerminalMultiplexer() {
     tmux "${_TMUX_OPTIONS[@]}" "$@"
 }
-# TODO tmux options
 
 # Runs Tmux, and attaches to last session.
 __runTerminalMultiplexerAndAttachToSession() {
@@ -1102,7 +1091,6 @@ __runTerminalCalculatorThatSupportsDecimalNumbers() {
 __printHexadecimalRepresentationOfFileOrStream() {
     hd "${_HD_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
 }
-# TODO hd options
 
 # Runs profile script.
 __runProfileScript() {
