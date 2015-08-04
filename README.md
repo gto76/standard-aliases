@@ -450,4 +450,3 @@ Commands
 **z** | `__setVolum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1740-L1742) | Decrease volume by six decibels.
 **aa** | `__setVolum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1745-L1747) | Increase volume by two decibels.
 **zz** | `__setVolum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1750-L1752) | Decrease volume by two decibels.
-**ls_medium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H** | `#!/bin/bas`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L0-L1) | %M
