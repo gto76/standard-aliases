@@ -46,16 +46,11 @@ main() {
         touch ~/.bashrc
     fi
      
-    # Add statement to .bashrc that will load run make every
-    # time bash starts, and loads standard aliases and
+    # Add statement to .bashrc that will update project every
+    # time bash starts, and load standard aliases and
     # shortcuts.
     if [[ -z $(grep ". ~/.standard_aliases" ~/.bashrc) ]]; then
-        echo 'if [ -f ~/.standard_aliases/standard_aliases ]; then' >> ~/.bashrc
-        echo '    location=$(dirname $(readlink ~/.standard_aliases/standard_aliases))' >> ~/.bashrc
-        echo '    (cd "$location" && make --silent)' >> ~/.bashrc
-        echo '    . ~/.standard_aliases/standard_aliases' >> ~/.bashrc
-        echo '    . ~/.standard_aliases/standard_shortcuts' >> ~/.bashrc
-        echo 'fi' >> ~/.bashrc
+        cat ./scripts/append-to-bashrc >> ~/.bashrc
     fi
 
     echo "Run 'bash' for changes to take effect."
