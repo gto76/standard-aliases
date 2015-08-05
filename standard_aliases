@@ -565,17 +565,30 @@ __compareFilesLineByLineInColor() {
 # executable, if file already exists.
 __makeFileExecutableOrCreateNewBashScript() {
     if [[ ! -f "$1" ]]; then
-        echo '#!/bin/bash' >> "$1"
-        echo '#' >> "$1"
-        echo "# Usage: $1 " >> "$1"
-        echo '# ' >> "$1"
-        echo >> "$1"
-        echo '# Uncomment for Strict mode, more info at:' >> "$1"
-        echo -n '# http://redsymbol.net/articles/' >> "$1"
-        echo 'unofficial-bash-strict-mode' >> "$1"
-        echo '# set -euo pipefail' >> "$1"
-        echo "# IFS=$'\n\t'" >> "$1"
-        echo >> "$1"
+        filename=$(basename "$1")
+        extension="${filename##*.}"
+        if [[ "$extension" == "py" ]]; then
+            echo "#!/usr/bin/python" >> "$1"
+            echo "import sys" >> "$1"
+            echo "import re" >> "$1"
+            echo "" >> "$1"
+            echo "def main():" >> "$1"
+            echo "" >> "$1"
+            echo "if __name__ == __main__:" >> "$1"
+            echo "    main()" >> "$1"
+        else
+            echo '#!/bin/bash' >> "$1"
+            echo '#' >> "$1"
+            echo "# Usage: $1 " >> "$1"
+            echo '# ' >> "$1"
+            echo >> "$1"
+            echo '# Uncomment for Strict mode, more info at:' >> "$1"
+            echo -n '# http://redsymbol.net/articles/' >> "$1"
+            echo 'unofficial-bash-strict-mode' >> "$1"
+            echo '# set -euo pipefail' >> "$1"
+            echo "# IFS=$'\n\t'" >> "$1"
+            echo >> "$1"
+        fi
     fi
     chmod u+x "$1"        
 }
