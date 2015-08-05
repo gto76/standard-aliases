@@ -67,6 +67,8 @@ def main():
             print("")
             print(" _Name_        | _Runs_   | _Description_  ")
             print(":------------- |:--------:| ----------------")
+        if ";" in line:
+            continue
         tokens = line.split(':')
         if len(tokens) == 2:
             processRow(tokens)

@@ -27,7 +27,7 @@ __displayTextInPager() {
 # input. First argument must be either 'true' or some other
 # value, true meaning that lessgets run with G option. G option
 # starts less at the end of the input (scrolled to the bottom).
-__printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
+___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
     if [[ "$#" -gt 1 ]]; then
         noOfLines=$(cat "$2" 2>/dev/null \
             | fold -w"$COLUMNS" \
@@ -62,13 +62,13 @@ __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
 # Runs cat or less, depending on number of lines in file or
 # input.
 __printOrDisplayTextInPager() {
-    __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'false' "$@"
+    ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'false' "$@"
 }
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
-__printOrDisplayTextInPagerStartingAtEnd() {
-    __printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'true' "$@"
+___printOrDisplayTextInPagerStartingAtEnd() {
+    ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'true' "$@"
 }
 
 # If file specified then runs cat or less, depending on no of
@@ -116,13 +116,13 @@ __printAndDisplayTextInPagerIfNecessary() {
 #   * list by columns, 
 #   * use color when stdout is connected to terminal, 
 #   * group directories before files.
-__listDirectoryContents() {
+___listDirectoryContents() {
     ls "${_LS_OPTIONS[@]}" "$@"
 }
 
-# Calls __listDirectoryContents with: 
+# Calls ___listDirectoryContents with: 
 #   * set width to screen width or 69, whichever is smaller.
-__listDirectoryContentsUsingShortListingFormat() {
+___listDirectoryContentsUsingShortListingFormat() {
     width=$(
         widthLimit=69
         if [[ "$COLUMNS" -lt "$widthLimit" ]]; then 
@@ -130,29 +130,29 @@ __listDirectoryContentsUsingShortListingFormat() {
         else 
             echo "$widthLimit"
         fi)
-    __listDirectoryContents --width="$width" "$@"
+    ___listDirectoryContents --width="$width" "$@"
 }
 
-# Calls __listDirectoryContents with: 
+# Calls ___listDirectoryContents with: 
 #   * use long listing format, 
 #   * do not print groups,
 #   * do not list owner, 
 #   * print sizes in human readable format, 
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
 #   <hour>:<minute>'.
-__listDirectoryContentsUsingMediumListingFormat() {
-   __listDirectoryContents "${_LS_MEDIUM_OPTIONS[@]}" "$@"
+___listDirectoryContentsUsingMediumListingFormat() {
+   ___listDirectoryContents "${_LS_MEDIUM_OPTIONS[@]}" "$@"
 }
 
-# Calls __listDirectoryContents with: 
+# Calls ___listDirectoryContents with: 
 #   * use long listing format.
-__listDirectoryContentsUsingLongListingFormat() {
-   __listDirectoryContents -l "$@"
+___listDirectoryContentsUsingLongListingFormat() {
+   ___listDirectoryContents -l "$@"
 }
 
 # $1 - function that lists dir contents
 # ... - rest of parameters
-__displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
+___displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     listingFunction="$1"
     shift
     functionOutput=$("$listingFunction" --color=always "$@")
@@ -171,18 +171,18 @@ __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
 }
 
 __listOrDisplayDirectoryContentsInPagerUsingShortListingFormat() {
-    __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
-        __listDirectoryContentsUsingShortListingFormat "$@"
+    ___displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
+        ___listDirectoryContentsUsingShortListingFormat "$@"
 }
 
 __listOrDisplayDirectoryContentsInPagerUsingMediumListingFormat() {
-    __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
-        __listDirectoryContentsUsingMediumListingFormat "$@"
+    ___displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
+        ___listDirectoryContentsUsingMediumListingFormat "$@"
 }
 
 __listOrDisplayDirectoryContentsInPagerUsingLongListingFormat() {
-    __displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
-        __listDirectoryContentsUsingLongListingFormat "$@"
+    ___displayOutputOfListingFunctionInPagerIfItDoesentFitScreen \
+        ___listDirectoryContentsUsingLongListingFormat "$@"
 }
 
 __listOrDisplayAllDirectoryContentsInPagerUsingShortListingFormat() {
@@ -273,7 +273,7 @@ __printDirectoryStructure() {
 
 # Goes up in the directory hierarchy the specified number of
 # levels.
-__goUpNumberOfDirectories() {
+___goUpNumberOfDirectories() {
     if [[ "$#" -lt 1 ]]; then
         # Needs parameter.
         return 1
@@ -291,27 +291,27 @@ __goUpNumberOfDirectories() {
 }
 
 __goUpOneDirectory() {
-    __goUpNumberOfDirectories 1
+    ___goUpNumberOfDirectories 1
 }
 
 __goUpTwoDirectories() {
-    __goUpNumberOfDirectories 2
+    ___goUpNumberOfDirectories 2
 }
 
 __goUpThreeDirectories() {
-    __goUpNumberOfDirectories 3
+    ___goUpNumberOfDirectories 3
 }
 
 __goUpFourDirectories() {
-    __goUpNumberOfDirectories 4
+    ___goUpNumberOfDirectories 4
 }
 
 __goUpFiveDirectories() {
-    __goUpNumberOfDirectories 5
+    ___goUpNumberOfDirectories 5
 }
 
 __goUpSixDirectories() {
-    __goUpNumberOfDirectories 6
+    ___goUpNumberOfDirectories 6
 }
 
 # Mounts ISO file and cd-s into it.
@@ -590,11 +590,11 @@ __makeFileExecutableOrCreateNewBashScript() {
 __searchCommandHistoryForPattern() {
     if [ "$#" -eq 0 ]; then
         history \
-            | __printOrDisplayTextInPagerStartingAtEnd
+            | ___printOrDisplayTextInPagerStartingAtEnd
     else
         history \
             | grep "$@" \
-            | __printOrDisplayTextInPagerStartingAtEnd
+            | ___printOrDisplayTextInPagerStartingAtEnd
     fi
 }
 
@@ -1190,7 +1190,7 @@ __printPackagesThatWereInstalledByUser() {
     cat /var/log/apt/history.log \
         | grep "apt-get install" \
         | sed "s/.* //" \
-        | __printOrDisplayTextInPagerStartingAtEnd
+        | ___printOrDisplayTextInPagerStartingAtEnd
 }
 
 # Prints all installed packages.
@@ -1220,13 +1220,13 @@ __printPackageDescription() {
 }
 
 # Returns 0 if package is instaled, or non-zero if not.
-__isPackageInstalled() {
+___isPackageInstalled() {
     dpkg -s "$@" &> /dev/null
     return "$?"
 }
 
 # Prints installed and remote version of package.
-__printPackagesInstalledAndAvailableVersion() {
+___printPackagesInstalledAndAvailableVersion() {
     versionInfo=$(apt-cache policy "$@")
     echo "$versionInfo" | grep Installed | sed 's/^ *//'
     echo "$versionInfo" | grep Candidate | sed 's/^ *//'
@@ -1237,24 +1237,24 @@ __printPackagesInstalledAndAvailableVersion() {
 __printVersionOfPackageOrVersionOfInstalledCommandsPackage() {
     # Check if passed name is a package, and print its version
     # if it is.
-    packageVersion=$(__printPackagesInstalledAndAvailableVersion "$@")
+    packageVersion=$(___printPackagesInstalledAndAvailableVersion "$@")
     if [[ "$packageVersion" != "" ]]; then 
         echo "$packageVersion"
     else
         # Check if passed name is an installed command, and
         # print its package version if it is.
         packageInfo=$(
-            __printInstalledPackageThatProvidesCommandAndItsLocation "$@")
+            ___printInstalledPackageThatProvidesCommandAndItsLocation "$@")
         packageName=$(echo "$packageInfo" | sed 's/:.*$//')
         if [[ "$packageName" != "" ]]; then 
             echo "Package:   $packageName"
-            __printPackagesInstalledAndAvailableVersion "$packageName"
+            ___printPackagesInstalledAndAvailableVersion "$packageName"
         fi
     fi
 }
 
 # Find which installed package provides specified command.
-__printInstalledPackageThatProvidesCommandAndItsLocation() {
+___printInstalledPackageThatProvidesCommandAndItsLocation() {
     file=$(sudo which "$1")
     if [ "$file" == "" ]; then 
         return
@@ -1265,7 +1265,7 @@ __printInstalledPackageThatProvidesCommandAndItsLocation() {
 }
 
 # Converts man section number into a description.
-__getManSectionNameFromNumber() {
+___getManSectionNameFromNumber() {
     case "$1" in
         1)      echo "user command"                     ;;
         2)      echo "system call"                      ;;
@@ -1286,13 +1286,13 @@ __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation() {
     if [ "$?" == "0" ]; then 
         while IFS= read -r line; do
             commandType=$(
-                __getManSectionNameFromNumber $(
+                ___getManSectionNameFromNumber $(
                     echo "$line" | sed 's/.*(\([1-9]\)).*/\1/'))
             echo "$line" "($commandType)"
         done <<< "$call1"
         echo -n "Package:   "
         packageInfo=$(
-            __printInstalledPackageThatProvidesCommandAndItsLocation "$@")
+            ___printInstalledPackageThatProvidesCommandAndItsLocation "$@")
         echo "$packageInfo" | sed 's/: /\nLocation:  /'
         return 0
     fi
@@ -1306,7 +1306,7 @@ __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation() {
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
-__findAvailablePackagesWithPartOfNameOrDescription() {
+___findAvailablePackagesWithPartOfNameOrDescription() {
     apt-cache search "$@" \
         | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
@@ -1328,7 +1328,7 @@ __findAvailablePackagesThatProvideCommand() {
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed only on their names.
-__findAvailablePackagesWithPartOfName() {
+___findAvailablePackagesWithPartOfName() {
     apt-cache search "$1" \
         | __printLinesContainingPattern "^[^ ]*$1[^ ]*" \
         | __printOrDisplayWithPagerLinesContainingPattern "$1" 
@@ -1336,7 +1336,7 @@ __findAvailablePackagesWithPartOfName() {
 
 # Finds which available packages contain specified file or have
 # the pattern in their names.
-__findAvailablePackagesWithPartOfNameOrFullCommand() {
+___findAvailablePackagesWithPartOfNameOrFullCommand() {
     (echo   "PACKAGES PROVIDING COMMAND NAMED \"$1\""
     echo -n "==================================="
     echo "$1" | sed 's/./=/g'
@@ -1344,10 +1344,11 @@ __findAvailablePackagesWithPartOfNameOrFullCommand() {
     echo -e "\nPACKAGES CONTAINING \"$@\" IN THEIR NAMES"   
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
-    __findAvailablePackagesWithPartOfName "$@") \
+    ___findAvailablePackagesWithPartOfName "$@") \
         | __printAndDisplayTextInPagerIfNecessary 
 }
-__printDescriptionOfBashBuiltinOrAnAlias() {
+
+___printDescriptionOfBashBuiltinOrAnAlias() {
     answer=$(type "$@")
     echo "$answer"
     if [[ $(echo "$answer" | grep "is a shell") != "" ]]; then
@@ -1376,7 +1377,7 @@ __describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackag
     fi
 
     # Checks if it is an alias of bash builtin.
-    call3=$(__printDescriptionOfBashBuiltinOrAnAlias "$@" 2> /dev/null)
+    call3=$(___printDescriptionOfBashBuiltinOrAnAlias "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
         echo "$call3" | __printOrDisplayTextInPager
         return
@@ -1384,7 +1385,7 @@ __describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackag
 
     # Search all available commands and packages with part of
     # the name.
-    __findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
+    ___findAvailablePackagesWithPartOfNameOrFullCommand "$@" 
 }
 
 
@@ -1583,7 +1584,7 @@ __scanLocalNetwork() {
 
 # Prints 'OK' if specified address or ip can be reached with
 # ping, or 'Fail' if not.
-__isAddressReachable() {
+___isAddressReachable() {
     pingResult=$(
         ping -c 1 -q "$1" \
             | grep --color=never -A 1 statistics \
@@ -1596,7 +1597,7 @@ __isAddressReachable() {
 }
 
 # Prints status of the ssh port of the specified host.
-__printStatusOfSshPortAtAddress() {
+___printStatusOfSshPortAtAddress() {
     nmap $(echo "$1" | tr -d ' ') -p22 \
         | grep '22/tcp' \
         | sed 's/^[^ ]* \([^ ]*\) .*$/\1/'
@@ -1611,9 +1612,9 @@ __printSshPortStatusOfLocalDevicesAndPingGoogle() {
     localIp=$(ip1)
     gateway=$(gateway)
     echo -n "You:      $localIp    ssh: "
-    __printStatusOfSshPortAtAddress $(ip2)
+    ___printStatusOfSshPortAtAddress $(ip2)
     echo -n "Gateway:  $gateway    ssh: "
-    __printStatusOfSshPortAtAddress "$gateway"
+    ___printStatusOfSshPortAtAddress "$gateway"
     all=$(nmap1 20)
     allFiltered=$(
         echo "$all" | 
@@ -1627,16 +1628,16 @@ __printSshPortStatusOfLocalDevicesAndPingGoogle() {
         echo -n "Other:"
         while IFS= read -r line; do 
             echo -n "$line    ssh: "
-            __printStatusOfSshPortAtAddress "$line"    
+            ___printStatusOfSshPortAtAddress "$line"    
         done <<< "$allFiltered"
     fi
     testIp="8.23.224.107"
     echo -n "Internet: $testIp   Ping: "
-    __isAddressReachable "$testIp"
+    ___isAddressReachable "$testIp"
     echo
     testDomain="www.google.com"
     echo -n "          $testDomain Ping: "
-    __isAddressReachable "$testDomain"
+    ___isAddressReachable "$testDomain"
     echo
 }
 
@@ -1727,36 +1728,27 @@ __startTerminalVolumeControl() {
 }
 
 # Set master volume in rage of 0 to 100.
-__setVolumeTo() {
+___setVolumeTo() {
     amixer set Master playback "$1"
 }
 
 # Increases volume by 6dB.
 __increaseVolumeBySixDecibels() {
-    __setVolumeTo "6%+" | tail -n 1
+    ___setVolumeTo "6%+" | tail -n 1
 }
 
 # Decreases volume by 6dB.
 __decreaseVolumeBySixDecibels() {
-    __setVolumeTo "6%-" | tail -n 1
+    ___setVolumeTo "6%-" | tail -n 1
 }
 
 # Increases volume by 2dB.
 __increaseVolumeByTwoDecibels() {
-    __setVolumeTo "2%+" | tail -n 1
+    ___setVolumeTo "2%+" | tail -n 1
 }
 
 # Decreases volume by 2dB.
 __decreaseVolumeByTwoDecibels() {
-    __setVolumeTo "2%-" | tail -n 1
+    ___setVolumeTo "2%-" | tail -n 1
 }
-
-
-###############
-# COMPLETIONS #
-###############
-
-# Calling python function that returns complete commands for all aliases that execute command that has a completion assigned to them.
-#completionDefsForAliases=$(/home/minerva/github/standard-aliases/getComletionFunction.py "$(alias)" "$(complete)")
-#eval "$completionDefsForAliases"
 
