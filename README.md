@@ -90,31 +90,16 @@ If you can't type well and/or have problem with memorizing stuff you're basicall
 Commands
 --------
 
-### Example
-
- _Name_        | _Runs_  | _Description_  
-:------------- |:--------:| ---------------------------------------------------
-**ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format.  
-**h, history1**      | `if [ "$#" ` [**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L591-L598)   | Search command history for pattern. 
-
-
-
-###  Less 
-
- _Name_        | _Runs_   | _Description_  
+.      | **LESS**   |. 
 :------------- |:--------:| ----------------
-**le, less1, burek** | `less "${_L`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L22-L23) | Display text in pager.
+le, less1, burek | `less "${_L`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L22-L23) | Display text in pager.
 **m** | `__printOrD`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L64-L66) | Print or display text in pager.
-**mm** | `if [[ "$#"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L77-L95) | Print and display text in pager if necessary.
-
-###  Ls 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+mm | `if [[ "$#"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L77-L95) | Print and display text in pager if necessary.
+ | **LS** | 
 **l** | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L173-L176) | List or display directory contents in pager using short listing format.
-**ll** | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L178-L181) | List or display directory contents in pager using medium listing format.
-**lll** | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L183-L186) | List or display directory contents in pager using long listing format.
-**la** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L188-L191) | List or display all directory contents in pager using short listing format.
+ll | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L178-L181) | List or display directory contents in pager using medium listing format.
+lll | `__displayO`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L183-L186) | List or display directory contents in pager using long listing format.
+la | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L188-L191) | List or display all directory contents in pager using short listing format.
 **lla** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L193-L196) | List or display all directory contents in pager using medium listing format.
 **llla** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L198-L201) | List or display all directory contents in pager using long listing format.
 **lt** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L203-L206) | List or display directory contents in pager ordered by date using short listing format.
@@ -128,17 +113,9 @@ Commands
 **first** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L244-L246) | Get first file in directory.
 **rf, randomFile** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L249-L251) | Get random file in directory.
 **findd, directories** | `find . -na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L255-L257) | Print all subdirectories.
-
-###  Tree 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **TREE** |
 **t, tree1** | `tree "${_T`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L265-L266) | Print directory structure.
-
-###  Cd 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **CD** | 
 **.., cd..** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L293-L295) | Go up one directory.
 **...** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L297-L299) | Go up two directories.
 **....** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L301-L303) | Go up three directories.
@@ -146,11 +123,7 @@ Commands
 **......** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L309-L311) | Go up five directories.
 **.......** | `__goUpNumb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L313-L315) | Go up six directories.
 **cdiso** | `sudo mkdir`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L318-L322) | Mount iso and cd into.
-
-###  Files 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **FILES** |
 **cp** | `cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L331-L333) | Copy files safely.
 **mv** | `mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L337-L339) | Move files safely.
 **rm** | `rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L344-L346) | Delete files safely.
@@ -160,31 +133,15 @@ Commands
 **mk, md, mkdir1** | `mkdir --pa`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L369-L372) | Create directory and descend into.
 **bk, backup** | `sudo cp --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L376-L377) | Backup file.
 **switch** | `tempFile=$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L381-L386) | Switch contents of files.
-
-###  Pwd 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **PWD** |  
 **p** | `if [[ $# -`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L395-L401) | Print working directory or path to file.
-
-###  Echo 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **ECHO** |  
 **e** | `echo "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L409-L411) | Print text.
 **ee** | `echo -e "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L414-L416) | Print text interpreting backslashed characters.
 **en** | `echo -n "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L419-L421) | Print text without trailing newline.
-
-###  Run In Background 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **RUN IN BACKGROUND** |  
 **rb, runInBackground** | `nohup "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L430-L432) | Run command in background.
-
-###  Basics 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+ | **BASICS** |  
 **al, aliases** | `vim ~/.sta`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L442-L444) | Edit standard aliases.
 **ba** | `bash "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L448-L450) | Start new bash shell.
 **ty, type1** | `type "$@" `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L455-L457) | Print command type or definition.
@@ -450,4 +407,3 @@ Commands
 **z** | `__setVolum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1740-L1742) | Decrease volume by six decibels.
 **aa** | `__setVolum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1745-L1747) | Increase volume by two decibels.
 **zz** | `__setVolum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1750-L1752) | Decrease volume by two decibels.
-**ls_medium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H** | `#!/bin/bas`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L0-L1) | %M
