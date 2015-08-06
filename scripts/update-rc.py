@@ -137,23 +137,23 @@ def getNewShortcutDefinitions(functions, functionsWithShortcuts,
         else:
             rc += formatLine(shortcut, function)
         # check if after this functions we have both old and new block and if they are both of size 1
-        functionWasRenamed = function in functionsWithDeletedBlock \
+        functionsWereRenamed = function in functionsWithDeletedBlock \
             and function in functionsWithNewBlock \
-            and len(functionsWithDeletedBlock[function]) == 1 \
-            and len(functionsWithNewBlock[function]) == 1
-        if functionWasRenamed:
-            shortcut = functionsWithShortcuts.get(functionsWithDeletedBlock[function][0], "")
-            function = functionsWithNewBlock[function][0]
-            rc += shortcut+" : "+function+"\n"
+            and len(functionsWithDeletedBlock[function]) == len(functionsWithNewBlock[function])
+        if functionsWereRenamed:
+            for i in range(len(functionsWithDeletedBlock[function])):
+                shortcut = functionsWithShortcuts.get(functionsWithDeletedBlock[function][i], "")
+                blockFunction = functionsWithNewBlock[function][i]
+                rc += shortcut+" : "+blockFunction+"\n"
         else:
             if function in functionsWithDeletedBlock:
                 block = functionsWithDeletedBlock[function]
-                for function in block:
-                    rc += signifyDeletedFunction(functionsWithShortcuts.get(function, ""), function)
+                for blockFunction in block:
+                    rc += signifyDeletedFunction(functionsWithShortcuts.get(blockFunction, ""), blockFunction)
             if function in functionsWithNewBlock:
                 block = functionsWithNewBlock[function]
-                for function in block:
-                    rc += formatLine(functionsWithShortcuts.get(function, ""), function)
+                for blockFunction in block:
+                    rc += formatLine(functionsWithShortcuts.get(blockFunction, ""), blockFunction)
     return rc
 
 def getOptions():

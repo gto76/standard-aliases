@@ -1751,7 +1751,7 @@ ___setVolumeTo() {
 }
 
 # Increases volume by 6dB.
-__increaseVolumeBySixDecibels() {
+__increaseVolumeBySixDecibelsTest() {
     ___setVolumeTo "6%+" | tail -n 1
 }
 
