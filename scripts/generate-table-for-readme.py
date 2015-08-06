@@ -93,7 +93,7 @@ def main():
             print("### "+line.strip('#').title())
             print("")
             print(" _Name_        | _Runs_   | _Description_  ")
-            print(":------------- |:---------| ----------------")
+            print(":------------- |----------| ----------------")
         if ";" in line:
             continue
         tokens = line.split(':')
