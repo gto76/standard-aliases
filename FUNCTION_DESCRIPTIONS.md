@@ -1,7 +1,7 @@
 Commands
 ========
 
-##  Less 
+###  Less 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -9,7 +9,7 @@ Commands
 **m** | `___printOr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L64-L66) | Print or display text in pager.
 **mm** | `if [[ "$#"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L77-L95) | Print and display text in pager if necessary.
 
-##  Ls 
+###  Ls 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -31,13 +31,13 @@ Commands
 **rf, randomFile** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L249-L251) | Get random file in directory.
 **findd, directories** | `find . -na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L255-L257) | Print all subdirectories.
 
-##  Tree 
+###  Tree 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **t, tree1** | `tree "${_T`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L265-L266) | Print directory structure.
 
-##  Cd 
+###  Cd 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -49,7 +49,7 @@ Commands
 **.......** | `___goUpNum`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L313-L315) | Go up six directories.
 **cdiso** | `sudo mkdir`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L318-L322) | Mount iso and cd into.
 
-##  Files 
+###  Files 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -63,13 +63,13 @@ Commands
 **bk, backup** | `sudo cp --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L376-L377) | Backup file.
 **switch** | `tempFile=$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L381-L386) | Switch contents of files.
 
-##  Pwd 
+###  Pwd 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **p** | `if [[ $# -`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L395-L401) | Print working directory or path to file.
 
-##  Echo 
+###  Echo 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -77,13 +77,13 @@ Commands
 **ee** | `echo -e "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L414-L416) | Print text interpreting backslashed characters.
 **en** | `echo -n "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L419-L421) | Print text without trailing newline.
 
-##  Run In Background 
+###  Run In Background 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **rb, runInBackground** | `nohup "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L430-L432) | Run command in background.
 
-##  Basics 
+###  Basics 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -105,13 +105,13 @@ Commands
 **diff1** | `colordiff `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L530-L531) | Compare files line by line in color.
 **me, makeExecutable** | `if [[ ! -f`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L539) | Make file executable or create new bash script.
 
-##  History 
+###  History 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **h, history1** | `if [ "$#" `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L574-L583) | Search command history for pattern.
 
-##  Text Editors 
+###  Text Editors 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -121,7 +121,7 @@ Commands
 **g** | `__runComma`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L616-L617) | Edit file with gedit.
 **sub** | `__runComma`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L621-L623) | Edit file with sublime text.
 
-##  Sudo 
+###  Sudo 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -156,7 +156,7 @@ Commands
 **chown** | `sudo chown`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L768-L770) | Run chown as super user.
 **mount** | `sudo mount`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L772-L774) | Run mount as super user.
 
-##  Procesess 
+###  Procesess 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -167,7 +167,7 @@ Commands
 **kill1** | `kill -9 "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L810-L812) | Kill process with kill signal.
 **st, strace1, trace** | `strace "${`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L817-L818) | Trace system calls.
 
-##  Text 
+###  Text 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -179,7 +179,7 @@ Commands
 **wcw, countWords** | `wc -w "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L854-L856) | Count words.
 **trd** | `tr --delet`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L859-L861) | Delete characters.
 
-##  Tables 
+###  Tables 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -187,7 +187,7 @@ Commands
 **cut1, keepColumns** | `cut --deli`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L878-L880) | Keep columns.
 **sort1** | `sort --fie`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L886-L888) | Sort lines by column.
 
-##  Search 
+###  Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -196,13 +196,13 @@ Commands
 **lo, locate1** | `locate "${`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L912-L913) | Locate files on filesystem containing pattern in their names.
 **find1** | `find "${_F`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L922-L923) | Locate files containing pattern in their names in working and sub directories.
 
-##  Archives 
+###  Archives 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **extract** | `if [ -z "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L935-L943) | Extract archive of any type.
 
-##  Tmux 
+###  Tmux 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -210,7 +210,7 @@ Commands
 **tma** | `tmux attac`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L981-L983) | Run terminal multiplexer and attach to session.
 **tml** | `tmux ls`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L986-L988) | List terminal multiplexers sessions.
 
-##  System Information 
+###  System Information 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -222,7 +222,7 @@ Commands
 **uname1, kernelVersion** | `uname --al`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1027-L1029) | Print operating system information.
 **pci, lspci1** | `lspci "${_`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1032-L1033) | Print info about pci devices.
 
-##  Power 
+###  Power 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -231,7 +231,7 @@ Commands
 **hib** | `sudo pm-hi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1053-L1055) | Hibernate computer.
 **sus** | `sudo pm-su`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1058-L1060) | Suspend computer.
 
-##  Keyboard 
+###  Keyboard 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -240,7 +240,7 @@ Commands
 **norepeat** | `xset -r`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1078-L1080) | Turn off key repeat.
 **repeat** | `xset r`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1083-L1085) | Turn on key repeat.
 
-##  Misc 
+###  Misc 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -255,7 +255,7 @@ Commands
 **ssd** | `sudo fstri`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1151-L1153) | Trim ssd.
 **tt** | `gtypist "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1156-L1158) | Start typing tutor.
 
-##  Package Management 
+###  Package Management 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -270,7 +270,7 @@ Commands
 **allInstalled, allPackages** | `dpkg --get`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1216-L1220) | Print all installed packages.
 **depends** | `apt-cache `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1223-L1229) | Print package dependencies.
 
-##  Package Information 
+###  Package Information 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -278,7 +278,7 @@ Commands
 **ve, version** | `# Check if`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1256-L1273) | Print version of package or version of installed commands package.
 **package** | `call1=$(su`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1303-L1319) | Print package of installed command together with description and location.
 
-##  Package Search 
+###  Package Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -287,7 +287,7 @@ Commands
 **apt-file1** | `apt-file s`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1342-L1346) | Find available packages that provide command.
 **wi, whatis1** | `# Checks i`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1384-L1408) | Describe package or command or find available packages with part of name or available packages that provide command.
 
-##  Git 
+###  Git 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -308,7 +308,7 @@ Commands
 **gm** | `git mv "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1502-L1504) | Move repositories files.
 **gls, lsgit** | `git ls-fil`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1507-L1509) | List files that are in repository.
 
-##  Github 
+###  Github 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -316,7 +316,7 @@ Commands
 **origin** | `git remote`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1524-L1528) | Set github project as remote repository.
 **cloneAll** | `if [[ -z "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1531-L1543) | Clone all users github projects.
 
-##  Network 
+###  Network 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -328,7 +328,7 @@ Commands
 **nmap1** | `if [[ $# -`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1586-L1602) | Scan local network.
 **ne, network** | `localIp=$(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1630-L1644) | Print ssh port status of local devices and ping google.
 
-##  Wireless 
+###  Wireless 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -339,7 +339,7 @@ Commands
 **down** | `sudo ifcon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1696-L1698) | Deactivate wireless interface.
 **wlan** | `sudo iwlis`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1701-L1711) | Print wireless networks in range.
 
-##  Internet 
+###  Internet 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -348,7 +348,7 @@ Commands
 **chrome** | `__runComma`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1730-L1731) | Start chrome in background.
 **lynx1** | `lynx "${_L`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1736-L1737) | Start terminal web browser.
 
-##  Audio 
+###  Audio 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
