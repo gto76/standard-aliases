@@ -3,7 +3,7 @@ import sys
 import re
 import util
 
-LENGTH_OF_CODE_SNIPPET = 20
+LENGTH_OF_CODE_SNIPPET = 15
 
 AL_FILENAME = '../standard_aliases'
 PROJECTS_RC_FILENAME = '../standard_rc'
