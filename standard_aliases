@@ -499,36 +499,6 @@ __openNewTerminalWithSameWorkingDirectory() {
     gnome-terminal "$@"
 }
 
-# Runs head (prints first 10 lines of file or piped stream).
-__printFirstTenLines() {
-    head "$@"
-}
-
-# Prints first line of file or piped stream.
-__printFirstLine() {
-    head -n1 "$@"
-}
-
-# Runs tail (prints last 10 lines of file or piped stream).
-__printLastTenLines() {
-    tail "$@"
-}
-
-# Prints last line of file or piped stream.
-__printLastLine() {
-    tail -n1 "$@"
-}
-
-# Counts lines in file or piped stream.
-__countLines() {
-    wc -l "$@"
-}
-
-# Counts words in file or piped stream.
-__countWords() {
-    wc -w "$@"
-}
-
 # Updates file's timestamp, or creates empty file, if it doesn't
 # exits.
 __updateFilesTimestampOrCreateNewOne() {
@@ -855,10 +825,45 @@ complete -F _command __traceSystemCalls
 # TEXT #
 ########
 
+# Runs head (prints first 10 lines of file or piped stream).
+__printFirstTenLines() {
+    head "$@"
+}
+
+# Prints first line of file or piped stream.
+__printFirstLine() {
+    head -n1 "$@"
+}
+
+# Runs tail (prints last 10 lines of file or piped stream).
+__printLastTenLines() {
+    tail "$@"
+}
+
+# Prints last line of file or piped stream.
+__printLastLine() {
+    tail -n1 "$@"
+}
+
+# Counts lines in file or piped stream.
+__countLines() {
+    wc -l "$@"
+}
+
+# Counts words in file or piped stream.
+__countWords() {
+    wc -w "$@"
+}
+
 # Deletes specified characters.
 __deleteCharacters() {
     tr --delete "$@"
 }
+
+
+##########
+# TABLES #
+##########
 
 # Creates table out of input lines (lines up the columns). You
 # need to specify the delimiter character.

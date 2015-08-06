@@ -78,12 +78,6 @@ re : Reset the screen.
 q : Exit bash shell.
 o, openFile : Open file with default app.
 te, terminal : Open new terminal with same working directory.
-he : Print first ten lines.
-he1, firstLine : Print first line.
-ta : Print last ten lines.
-ta1, lastLine : Print last line.
-wcl, countLines : Count lines.
-wcw, countWords : Count words.
 to : Update files timestamp or create new one.
 da : Print date and time.
 ma, make1 : Run make with pager.
@@ -147,7 +141,16 @@ st, strace1, trace : Trace system calls.
 
 # TEXT #
 
+he : Print first ten lines.
+he1, firstLine : Print first line.
+ta : Print last ten lines.
+ta1, lastLine : Print last line.
+wcl, countLines : Count lines.
+wcw, countWords : Count words.
 trd : Delete characters.
+
+# TABLES #
+
 table : Line up columns.
 cut1, keepColumns : Keep columns.
 sort1 : Sort lines by column.
