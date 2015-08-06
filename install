@@ -3,6 +3,9 @@
 # Usage: install 
 #
 
+# Stops execution if any command fails.
+set -eo pipefail
+
 createLinkSafely() {
     directory="$1"
     file="$2"
@@ -50,7 +53,7 @@ main() {
     # time bash starts, and load standard aliases and
     # shortcuts.
     if [[ -z $(grep ". ~/.standard_aliases" ~/.bashrc) ]]; then
-        cat ./scripts/append-to-bashrc >> ~/.bashrc
+        cat ./scripts/resources/append-to-bashrc >> ~/.bashrc
     fi
 
     echo "Run 'bash' for changes to take effect."

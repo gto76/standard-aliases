@@ -3,14 +3,17 @@
 # Usage: update-projects
 # Generates stadard_shortcuts anew, if any file in project got changed.
 
+# Stops execution if any command fails.
+set -euo pipefail
+
 scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 isProjectsStandardRcUpToDate() {
     if [[ "$scriptsDir"/../standard_aliases \
         -nt "$scriptsDir"/../standard_rc ]]; then
-        return 1
+        echo "false"
     else
-        return 0
+        echo "true"
     fi
 }
 
@@ -27,19 +30,17 @@ areStandardShortcutsUpToDate() {
             -nt ~/.standard_aliases/standard_shortcuts ]] \
         || [[ "$scriptsDir"/parse-rc.py \
             -nt ~/.standard_aliases/standard_shortcuts ]]; then
-        return 1 
+        echo "false"
     else
-        return 0 
+        echo "true"
     fi
 }
 
 main() {
-    areStandardShortcutsUpToDate
-    if [[ $? -ne 0 ]]; then
+    if [[ $(areStandardShortcutsUpToDate) == "false" ]]; then
         "$scriptsDir"/generate-shortcuts
     fi
-    isProjectsStandardRcUpToDate
-    if [[ $? -ne 0 ]]; then
+    if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
         newRc=$("$scriptsDir"/update-rc.py)
         echo "$newRc" >  "$scriptsDir"/../standard_rc
     fi

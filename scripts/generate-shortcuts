@@ -4,6 +4,10 @@
 # Runs parse-rc script, that parses ~/.standard_rc and generates
 # new ~/.standard_aliases/standard_shortcuts.
 
+# Stops execution if any command fails.
+set -eo pipefail
+#set -euo pipefail
+
 main() {
     scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
     existingCommands=$(
@@ -19,12 +23,12 @@ main() {
             "$HOME/.standard_aliases/standard_aliases" \
             "$existingCommands" \
             "$existingCompletions")
-    if [[ $? != 0 ]]; then
-        touch "$HOME"/.standard_rc
-        echo -n "Standard aliases: There is a problem in parse-rc.py " >&2
-        echo -n "script, so aliases were not loaded." >&2
-        exit 1
-    fi
+#    if [[ $? != 0 ]]; then
+#        touch "$HOME"/.standard_rc
+#        echo -n "Standard aliases: There is a problem in parse-rc.py " >&2
+#        echo -n "script, so aliases were not loaded." >&2
+#        exit 1
+#    fi
     echo "$shortcuts" > ~/.standard_aliases/standard_shortcuts
 }
 

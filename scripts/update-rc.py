@@ -16,7 +16,7 @@ PROJECTS_RC_FILENAME = '../standard_rc'
 with open(PROJECTS_RC_FILENAME) as f:
     projectsRcContent = f.readlines()
 
-RC_OPTIONS_COMMENT = './rc-options-comment'
+RC_OPTIONS_COMMENT = './resources/rc-options-comment'
 with open(RC_OPTIONS_COMMENT) as f:
     optionsComment = f.readlines()
 

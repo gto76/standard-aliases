@@ -3,5 +3,8 @@
 # Usage: purge 
 # 
 
+# Stops execution if any command fails.
+set -eo pipefail
+
 ./uninstall
 rm -f ~/.standard_rc

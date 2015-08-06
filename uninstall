@@ -3,6 +3,9 @@
 # Usage: uninstall 
 #
 
+# Stops execution if any command fails.
+set -eo pipefail
+
 main() {
     rm -f ~/.standard_aliases/standard_aliases
     rm -f ~/.standard_aliases/standard_shortcuts
