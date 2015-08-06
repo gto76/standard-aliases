@@ -1,13 +1,7 @@
 #!/usr/bin/python
-from __future__ import print_function
 import sys 
 import re
-
-firstLetterToUppercase = lambda s: s[:1].upper() + s[1:] if s else ''
-firstLetterToLowercase = lambda s: s[:1].lower() + s[1:] if s else ''
-
-def warning(*objs):
-    print("WARNING: ", *objs, file=sys.stderr)
+import util
 
 def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):
     # line tokenize form: '^' or '|' or '$('
@@ -55,16 +49,6 @@ def getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions):
         lastLine = intactLine
     return completions
 
-def descriptionToCamelCase(command):
-    words = []
-    for word in command.split():
-        words.append(firstLetterToUppercase(word))
-    words[0] = firstLetterToLowercase(words[0])
-    out = "".join(words)
-    out = re.sub(' ', '', out)
-    out = re.sub('\.', '', out)
-    return out
-
 def processOptions(tokens):
     command = tokens[0].strip()
     options = tokens[1].strip()
@@ -78,7 +62,7 @@ def processShortcut(existingCommands, completions, tokens):
     shortcutTokens = shortcuts.split(',')
     for shortcut in shortcutTokens:
         shortcut = shortcut.strip()
-        command = "__"+descriptionToCamelCase(tokens[1])
+        command = util.descriptionToCamelCase(tokens[1])
         if shortcut in existingCommands or shortcut == '?':
             print("alias "+shortcut+"='"+command+"'")
             print

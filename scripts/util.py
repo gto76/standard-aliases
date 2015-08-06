@@ -19,4 +19,9 @@ def descriptionToCamelCase(command):
     out = re.sub('\.', '', out)
     return "__"+out
 
+def camelCaseToDescription(command):
+    command = command.strip('_')
+    command = re.sub(r'([A-Z])',r' \1',command)
+    command = command.lower()
+    return firstLetterToUppercase(command)+"."
 

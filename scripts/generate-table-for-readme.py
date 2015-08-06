@@ -1,9 +1,7 @@
 #!/usr/bin/python
 import sys 
 import re
-
-firstLetterToUppercase = lambda s: s[:1].upper() + s[1:] if s else ''
-firstLetterToLowercase = lambda s: s[:1].lower() + s[1:] if s else ''
+import util
 
 AL_FILENAME='../standard_aliases'
 with open(AL_FILENAME) as f:
@@ -22,16 +20,6 @@ def getFunctionLineNumber(functionName):
         i += 1
     return (lineStart,1)
 
-def descriptionToCamelCase(command):
-    words = []
-    for word in command.split():
-        words.append(firstLetterToUppercase(word))
-    words[0] = firstLetterToLowercase(words[0])
-    out = "".join(words)
-    out = re.sub(' ', '', out)
-    out = re.sub('\.', '', out)
-    return "__"+out
-
 def getFunctionBody(lineNum):
     i = 1
     for line in aliasesContent:
@@ -44,12 +32,11 @@ def getLink(lineStart, lineEnd):
     link = "https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L"+str(lineStart)+"-L"+str(lineEnd)
     return link
 
-
 # **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 
 def processRow(tokens):
     name = tokens[0].strip()
     explanation = tokens[1].strip()
-    functionName = descriptionToCamelCase(explanation)
+    functionName = util.descriptionToCamelCase(explanation)
     lineStart, lineEnd = getFunctionLineNumber(functionName)
     functionBody = getFunctionBody(lineStart)
     link = getLink(lineStart, lineEnd)

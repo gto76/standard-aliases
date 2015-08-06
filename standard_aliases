@@ -1319,7 +1319,7 @@ __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation() {
 
 # Searches packages, that can be installed with apt-get. Search
 # is performed on their names and short descriptions.
-___findAvailablePackagesWithPartOfNameOrDescription() {
+__findAvailablePackagesWithPartOfNameOrDescription() {
     apt-cache search "$@" \
         | __printOrDisplayWithPagerLinesContainingPattern  "$@"
 }
@@ -1756,7 +1756,7 @@ __decreaseVolumeBySixDecibels() {
 }
 
 # Increases volume by 2dB.
-__increaseVolumeByTwoDecibels() {
+__increaseVolumeByTwoDecibelsTest() {
     ___setVolumeTo "2%+" | tail -n 1
 }
 
