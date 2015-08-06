@@ -71,7 +71,7 @@ al, aliases : Edit standard aliases.
 ba : Start new bash shell.
 ty, type1 : Print command type or definition.
 tyty : Print function that a function calls.
-c : Print contents of file.
+c : Print file contents.
 ?, exitCode : Print exit code of last command.
 cl : Clear the screen.
 re : Reset the screen.
@@ -83,7 +83,7 @@ da : Print date and time.
 ma, make1 : Run make with pager.
 na, explorer : Start file explorer in background in working directory.
 diff1 : Compare files line by line in color.
-me, makeExecutable : Make file executable or create new script.
+me, makeExecutable : Make file executable or create new bash or python script.
 
 # HISTORY #
 
@@ -167,9 +167,7 @@ find1 : Locate files containing pattern in their names in working and sub direct
 # ARCHIVES #
 
 extract : Extract archive of any type.
-
-# TMUX #
-
+ : # TERMINAL MULTIPLEXER #
 tm : Run terminal multiplexer.
 tma : Run terminal multiplexer and attach to last session.
 tml : List terminal multiplexers sessions.

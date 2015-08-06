@@ -91,7 +91,7 @@ Commands
 **ba** | `bash "$@"` | Start new bash shell.
 **ty, type1** | `type "$@" | __p`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L455-L457) | Print command type or definition.
 **tyty** | `type $(type "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L460-L463) | Print function that a function calls.
-**c** | `cat "$@"` | Print contents of file.
+**c** | `cat "$@"` | Print file contents.
 **?, exitCode** | `echo $?` | Print exit code of last command.
 **cl** | `clear` | Clear the screen.
 **re** | `reset "$@"` | Reset the screen.
@@ -103,7 +103,7 @@ Commands
 **ma, make1** | `make  "$@" 2>&1`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L515-L517) | Run make with pager.
 **na, explorer** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L525-L527) | Start file explorer in background in working directory.
 **diff1** | `colordiff  "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L530-L532) | Compare files line by line in color.
-**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L565) | Make file executable or create new script.
+**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L565) | Make file executable or create new bash or python script.
 
 ###  History 
 
@@ -186,11 +186,7 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L959-L992) | Extract archive of any type.
-
-###  Tmux 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+**** | `#!/bin/bash` | # TERMINAL MULTIPLEXER #
 **tm** | `tmux  "$@"` | Run terminal multiplexer.
 **tma** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1005-L1007) | Run terminal multiplexer and attach to last session.
 **tml** | `tmux ls` | List terminal multiplexers sessions.

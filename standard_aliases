@@ -464,7 +464,7 @@ __printFunctionThatAFunctionCalls() {
 complete -F _command __printFunctionThatAFunctionCalls
 
 # Runs cat.
-__printContentsOfFile() {
+__printFileContents() {
     cat "$@"
 }
 
@@ -533,7 +533,7 @@ __compareFilesLineByLineInColor() {
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
-__makeFileExecutableOrCreateNewScript() {
+__makeFileExecutableOrCreateNewBashOrPythonScript() {
     if [[ ! -f "$1" ]]; then
         filename=$(basename "$1")
         extension="${filename##*.}"
@@ -992,9 +992,9 @@ __extractArchiveOfAnyType() {
 }
 
 
-########
-# TMUX #
-########
+########################
+# TERMINAL MULTIPLEXER #
+########################
 
 # Runs Tmux.
 __runTerminalMultiplexer() {
