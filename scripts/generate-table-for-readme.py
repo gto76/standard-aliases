@@ -39,7 +39,6 @@ def getFunctionBody(lineNum, commandsWithOptions):
         if i == lineNum+1:
             for command, options in commandsWithOptions.iteritems():
                 if command in line:
-                    print("#################################")
                     line = line.replace(command, options)
                     break
             return line.strip()[:LENGTH_OF_CODE_SNIPPET]
@@ -95,7 +94,6 @@ def main():
         tokens = line.split(':')
         if len(tokens) == 2:
             processRow(tokens, commandsWithOptions)
-    print(commandsWithOptions)
 
 if __name__ == '__main__':
     main()
