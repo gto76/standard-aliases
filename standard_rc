@@ -1,7 +1,7 @@
 
 # LESS #
 
-le, less1, burek : Display text in pager.
+le, less1 : Display text in pager.
 m : Print or display text in pager.
 mm : Print and display text in pager if necessary.
 
@@ -21,8 +21,10 @@ dll : List or display matching directories in pager using medium listing format.
 dlll : List or display matching directories in pager using long listing format.
 l1 : List or display in pager one directory item per line using short listing format.
 la1 : List or display in pager one directory item per line including hidden files using short listing format.
-first : Get first file in directory.
-rf, randomFile : Get random file in directory.
+# DELETED OR RENAMED!: first : Get first file in directory.
+# DELETED OR RENAMED!: rf, randomFile : Get random file in directory.
+ : List first file in directory.
+ : List random file in directory.
 findd, directories : Print all subdirectories.
 
 # TREE #
@@ -83,7 +85,8 @@ da : Print date and time.
 ma, make1 : Run make with pager.
 na, explorer : Start file explorer in background in working directory.
 diff1 : Compare files line by line in color.
-me, makeExecutable : Make file executable or create new bash script.
+# DELETED OR RENAMED!: me, makeExecutable : Make file executable or create new bash script.
+ : Make file executable or create new script.
 
 # HISTORY #
 
@@ -99,7 +102,8 @@ sub : Edit file with sublime text.
 
 # SUDO #
 
-s : Run command as super user.
+# DELETED OR RENAMED!: s : Run command as super user.
+ : Execute command as super user.
 f, fu, fuck : Execute last command as super user.
 sudoCp : Copy files safely as super user.
 smv : Move files safely as super user.
@@ -148,6 +152,7 @@ ta1, lastLine : Print last line.
 wcl, countLines : Count lines.
 wcw, countWords : Count words.
 trd : Delete characters.
+loc, linesOfCode : Count lines in files with extension in working and subdirectories.
 
 # TABLES #
 
@@ -205,7 +210,6 @@ hd1 : Print hexadecimal representation of file or stream.
 profile : Run profile script.
 vimode : Change bash line editing to vi mode.
 emacsmode : Change bash line editing to emacs mode.
-loc, linesOfCode : Count lines in files with extension in working and subdirectories.
 ssd : Trim ssd.
 tt : Start typing tutor.
 

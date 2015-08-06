@@ -241,12 +241,12 @@ __listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListi
 }
 
 # Prints name of first file in the directory.
-__getFirstFileInDirectory() {
+__listFirstFileInDirectory() {
     ls "$@" | head -1
 }
 
 # Prints name of a random file in the directory.
-__getRandomFileInDirectory() {
+__listRandomFileInDirectory() {
     ls "$@" | sort -R | head -1
 }
 
@@ -533,7 +533,7 @@ __compareFilesLineByLineInColor() {
 
 # Creates executable bash script, or just changes modifiers to
 # executable, if file already exists.
-__makeFileExecutableOrCreateNewBashScript() {
+__makeFileExecutableOrCreateNewScript() {
     if [[ ! -f "$1" ]]; then
         filename=$(basename "$1")
         extension="${filename##*.}"
@@ -628,10 +628,10 @@ __editFileWithSublimeText() {
 ########
 
 # Runs command as sudo.
-__runCommandAsSuperUser() {
+__executeCommandAsSuperUser() {
     sudo "$@"
 }
-complete -F _command __runCommandAsSuperUser
+complete -F _command __executeCommandAsSuperUser
 
 # Executes last command as sudo.
 __executeLastCommandAsSuperUser() {
@@ -858,6 +858,26 @@ __countWords() {
 # Deletes specified characters.
 __deleteCharacters() {
     tr --delete "$@"
+}
+
+# Counts number of lines in files with specified extension 
+# in current and sub-directories.
+# $1 - file extension
+__countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
+    rootDir="$PWD"
+    no=0
+    for file in *; do
+        if [ -d "$file" ]; then
+            cd "$file"
+            recRes=$(__countLinesInFilesWithExtensionInWorkingAndSubdirectories "$1")
+            let no=$no+"$recRes"
+            cd "$rootDir"
+        fi
+        if [[ "$file" == *."$1" ]]; then
+            let no=$no+`cat "$file" | wc -l`    
+        fi
+    done
+    echo $no
 }
 
 
@@ -1123,28 +1143,6 @@ __changeBashLineEditingToViMode() {
 # Sets bash to emacs (normal) mode.
 __changeBashLineEditingToEmacsMode() {
     set -o emacs
-}
-
-# Counts number of lines in files with specified extension 
-# in current and sub-directories.
-# $1 - file extension
-__countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
-    rootDir="$PWD"
-    no=0
-    for file in *; do
-        if [ -d "$file" ]; then
-            #echo "entering $file" >&2
-            cd "$file"
-            recRes=`linesOfCode "$1"`
-            #echo "recRes is $recRes" >&2
-            let no=$no+"$recRes"
-            cd "$rootDir"
-        fi
-        if [[ "$file" == *."$1" ]]; then
-            let no=$no+`cat "$file" | wc -l`    
-        fi
-    done
-    echo $no
 }
 
 # Trims SSD disk.

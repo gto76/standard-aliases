@@ -47,6 +47,10 @@ def getLink(lineStart, lineEnd):
 def processRow(tokens):
     name = tokens[0].strip()
     explanation = tokens[1].strip()
+    # Do not print aliases that just run the command as sudo.
+    if explanation.startswith("Run ") and \
+        explanation.endswith(" as super user."):
+        return
     functionName = util.descriptionToCamelCase(explanation)
     lineStart, lineEnd = getFunctionLineNumber(functionName)
     functionBody = getFunctionBody(lineStart)
