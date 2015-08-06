@@ -62,7 +62,7 @@ def main():
         line = line.strip()
         if line.startswith('# ') and line.endswith(' #'):
             print("")
-            print("## "+line.strip('#').title())
+            print("### "+line.strip('#').title())
             print("")
             print(" _Name_        | _Runs_   | _Description_  ")
             print(":------------- |:--------:| ----------------")
