@@ -3,9 +3,20 @@ import sys
 import re
 import util
 
-AL_FILENAME='../standard_aliases'
-with open(AL_FILENAME) as f:
-    aliasesContent = f.readlines()
+AL_FILENAME = '../standard_aliases'
+PROJECTS_RC_FILENAME = '../standard_rc'
+
+aliasesContent = ""
+projectsRcContent = ""
+
+def openFiles(scriptsDir):
+    global aliasesContent, projectsRcContent
+    if not scriptsDir.endswith('/'):
+        scriptsDir = scriptsDir+'/'
+    with open(scriptsDir + PROJECTS_RC_FILENAME) as f:
+        projectsRcContent = f.readlines()
+    with open(scriptsDir + AL_FILENAME) as f:
+        aliasesContent = f.readlines()
 
 def getFunctionLineNumber(functionName):
     functionDefinition = functionName+"() {"
@@ -43,14 +54,15 @@ def processRow(tokens):
     print("**"+name+"** | `"+functionBody+"`[**`...`**]("+link+") | "+explanation)
 
 def main():
-    RC_FILENAME='../standard_rc'
-    with open(RC_FILENAME) as f:
-        content = f.readlines()
-    for line in content:
+    scriptsDir = sys.argv[1]
+    openFiles(scriptsDir)
+    print("Commands")
+    print("========")
+    for line in projectsRcContent:
         line = line.strip()
         if line.startswith('# ') and line.endswith(' #'):
             print("")
-            print("### "+line.strip('#').title())
+            print("## "+line.strip('#').title())
             print("")
             print(" _Name_        | _Runs_   | _Description_  ")
             print(":------------- |:--------:| ----------------")

@@ -36,6 +36,15 @@ areStandardShortcutsUpToDate() {
     fi
 }
 
+isListOfFunctionsUpToDate() {
+    if [[ "$scriptsDir"/../standard_rc \
+        -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]]; then
+        echo "false"
+    else
+        echo "true"
+    fi
+}
+
 main() {
     if [[ $(areStandardShortcutsUpToDate) == "false" ]]; then
         "$scriptsDir"/generate-shortcuts
@@ -43,6 +52,10 @@ main() {
     if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
         newRc=$("$scriptsDir"/update-rc.py "$scriptsDir")
         echo "$newRc" >  "$scriptsDir"/../standard_rc
+    fi
+    if [[ $(isListOfFunctionsUpToDate) == "false" ]]; then
+        newFunctionDescriptions=$("$scriptsDir"/generate-table-for-readme.py "$scriptsDir")
+        echo "$newFunctionDescriptions" >  "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md
     fi
 }
 
