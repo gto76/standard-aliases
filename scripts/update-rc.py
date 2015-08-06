@@ -17,7 +17,8 @@ projectsRcContent = ""
 optionsComment = ""
 
 def openFiles(scriptsDir):
-    global aliasesContent, usersRcContent, projectsRcContent, optionsComment
+    global aliasesContent, usersRcContent, projectsRcContent, \
+        optionsComment
     if not scriptsDir.endswith('/'):
         scriptsDir = scriptsDir+'/'
     with open(USERS_RC_FILENAME) as f:
@@ -46,7 +47,6 @@ def getFunctions():
 
 def getFunctionsWithShortcuts():
     # map: description -> shortcuts
-    #shortcutsWithDescriptions = {}
     shortcutsWithDescriptions = collections.OrderedDict()
     # go trough rc
     for line in projectsRcContent:
@@ -58,7 +58,6 @@ def getFunctionsWithShortcuts():
         if line.startswith("# ") and line.endswith(" #"):
             shortcutsWithDescriptions[line] = ""
             continue
-        # line starts with comment
         if line.startswith('#'):
             continue
         # line contains options definition
@@ -79,19 +78,54 @@ def getDeletedFunctions(functions, functionsWithShortcuts):
 def getDeletedBlocks(functionsWithShortcuts, deletedFunctions):
     # preceeding function -> block
     deletedBlocks = {}
-    deletedBlock = ""
+    deletedBlock = []
     lastUndeletedFunction = ""
     for function, shortcut in functionsWithShortcuts.iteritems():
         if function in deletedFunctions:
-            deletedBlock += DELETED_OR_RENAMED_SIGNIFIER+shortcut+" : "+function+"\n"
+            deletedBlock.append(function)
         else:
-            if deletedBlock != "":
+            if deletedBlock:
                 deletedBlocks[lastUndeletedFunction] = deletedBlock
-                deletedBlock = ""
+                deletedBlock = []
             lastUndeletedFunction = function
     return deletedBlocks
 
-def getNewShortcutDefinitions(functions, functionsWithShortcuts, functionsWithDeletedBlock):
+def getNewFunctions(functions, functionsWithShortcuts):
+    rcFunctions = list(functionsWithShortcuts.keys())
+    return list(set(functions) - set(rcFunctions) )
+
+def getNewBlocks(functions, newFunctions):
+    # preceeding function -> block
+    newBlocks = {}
+    newBlock = []
+    lastUndeletedFunction = ""
+    for function in functions:
+        if function in newFunctions:
+            newBlock.append(function)
+        else:
+            if newBlock:
+                newBlocks[lastOldFunction] = newBlock
+                newBlock = []
+            lastOldFunction = function
+    return newBlocks
+
+def getUnchangedFunctions(functions, functionsWithShortcuts):
+    rcFunctions = list(functionsWithShortcuts.keys())
+    unchangedFunctions = set(functions) & set(rcFunctions)
+    listOfUnchangedFunctions = []
+    for function in functions:
+        if function in unchangedFunctions:
+            listOfUnchangedFunctions.append(function)
+    return listOfUnchangedFunctions
+
+def formatLine(shortcut, function):
+    return shortcut+" : "+function+"\n"
+
+def signifyDeletedFunction(shortcut, function):
+    return DELETED_OR_RENAMED_SIGNIFIER + formatLine(shortcut, function)
+
+def getNewShortcutDefinitions(functions, functionsWithShortcuts,
+    functionsWithDeletedBlock, functionsWithNewBlock):
     rc = ""
     if "" in functionsWithDeletedBlock:
         rc += functionsWithDeletedBlock[""]+"\n"
@@ -101,9 +135,25 @@ def getNewShortcutDefinitions(functions, functionsWithShortcuts, functionsWithDe
         if function.startswith("# ") and function.endswith(" #"):
             rc += "\n"+function+"\n\n"
         else:
+            rc += formatLine(shortcut, function)
+        # check if after this functions we have both old and new block and if they are both of size 1
+        functionWasRenamed = function in functionsWithDeletedBlock \
+            and function in functionsWithNewBlock \
+            and len(functionsWithDeletedBlock[function]) == 1 \
+            and len(functionsWithNewBlock[function]) == 1
+        if functionWasRenamed:
+            shortcut = functionsWithShortcuts.get(functionsWithDeletedBlock[function][0], "")
+            function = functionsWithNewBlock[function][0]
             rc += shortcut+" : "+function+"\n"
-        if function in functionsWithDeletedBlock:
-            rc += functionsWithDeletedBlock[function]
+        else:
+            if function in functionsWithDeletedBlock:
+                block = functionsWithDeletedBlock[function]
+                for function in block:
+                    rc += signifyDeletedFunction(functionsWithShortcuts.get(function, ""), function)
+            if function in functionsWithNewBlock:
+                block = functionsWithNewBlock[function]
+                for function in block:
+                    rc += formatLine(functionsWithShortcuts.get(function, ""), function)
     return rc
 
 def getOptions():
@@ -122,14 +172,23 @@ def main():
     # Map of description -> shortcuts.
     functionsWithShortcuts = getFunctionsWithShortcuts()
     # List
-    deletedFunctions = getDeletedFunctions(functions, functionsWithShortcuts)
+    deletedFunctions = \
+        getDeletedFunctions(functions, functionsWithShortcuts)
     # Get deleted blocks in form: function -> deleted block,
     # function being the function before the deleted block
-    functionsWithDeletedBlock = getDeletedBlocks(functionsWithShortcuts, deletedFunctions)
-    shortcutDefs = getNewShortcutDefinitions(functions, functionsWithShortcuts, functionsWithDeletedBlock)
+    functionsWithDeletedBlock = \
+        getDeletedBlocks(functionsWithShortcuts, deletedFunctions)
+    newFunctions = \
+        getNewFunctions(functions, functionsWithShortcuts)
+    functionsWithNewBlock = \
+        getNewBlocks(functions, newFunctions)
+    unchangedFunctions = getUnchangedFunctions(functions, functionsWithShortcuts)
+    newShortcutDefs = \
+        getNewShortcutDefinitions(unchangedFunctions, functionsWithShortcuts, \
+            functionsWithDeletedBlock, functionsWithNewBlock)
     # Get options
     options = getOptions()
-    rc = shortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
+    rc = newShortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
     print(rc)
 
 if __name__ == '__main__':

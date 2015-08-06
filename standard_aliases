@@ -1735,6 +1735,7 @@ __startTerminalWebBrowser() {
     lynx "${_LYNX_OPTIONS[@]}" "$@"
 }
 
+
 #########
 # AUDIO #
 #########
@@ -1755,7 +1756,7 @@ __increaseVolumeBySixDecibels() {
 }
 
 # Decreases volume by 6dB.
-__decreaseVolumeBySixDecibels() {
+__decreaseVolumeBySixDecibelsTest() {
     ___setVolumeTo "6%-" | tail -n 1
 }
 

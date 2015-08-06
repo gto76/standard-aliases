@@ -335,8 +335,8 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**mixer** | `alsamixer `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1743-L1745) | Start terminal volume control.
-**a** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1753-L1755) | Increase volume by six decibels.
-**z** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1758-L1760) | Decrease volume by six decibels.
-**aa** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1763-L1765) | Increase volume by two decibels.
-**zz** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1768-L1770) | Decrease volume by two decibels.
+**mixer** | `alsamixer `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1744-L1746) | Start terminal volume control.
+**a** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1754-L1756) | Increase volume by six decibels.
+**z** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1759-L1761) | Decrease volume by six decibels.
+**aa** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1764-L1766) | Increase volume by two decibels.
+**zz** | `___setVolu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1769-L1771) | Decrease volume by two decibels.
