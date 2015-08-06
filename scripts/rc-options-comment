@@ -1,0 +1,5 @@
+#######
+####### Command options (will be used when a function uses a command)
+#######
+
+# This options will only be used when one of a function from this shortcuts uses them, and not every time you call the command directly.

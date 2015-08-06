@@ -1756,7 +1756,7 @@ __decreaseVolumeBySixDecibels() {
 }
 
 # Increases volume by 2dB.
-__increaseVolumeByTwoDecibelsTest() {
+__increaseVolumeByTwoDecibels() {
     ___setVolumeTo "2%+" | tail -n 1
 }
 

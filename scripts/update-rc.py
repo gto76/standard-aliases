@@ -16,6 +16,10 @@ PROJECTS_RC_FILENAME='../standard_rc'
 with open(PROJECTS_RC_FILENAME) as f:
     projectsRcContent = f.readlines()
 
+RC_OPTIONS_COMMENT='./rc-options-comment'
+with open(RC_OPTIONS_COMMENT) as f:
+    optionsComment = f.readlines()
+
 def getFunctions():
     functionDescriptions = []
     # go threougn aliases
@@ -75,7 +79,7 @@ def getDeletedBlocks(functionsWithShortcuts, deletedFunctions):
             lastUndeletedFunction = function
     return deletedBlocks
 
-def getNewRc(functions, functionsWithShortcuts, functionsWithDeletedBlock):
+def getNewShortcutDefinitions(functions, functionsWithShortcuts, functionsWithDeletedBlock):
     rc = ""
     if "" in functionsWithDeletedBlock:
         rc += functionsWithDeletedBlock[""]+"\n"
@@ -90,9 +94,14 @@ def getNewRc(functions, functionsWithShortcuts, functionsWithDeletedBlock):
             rc += functionsWithDeletedBlock[function]
     return rc
 
-# TODO:
-# titles
-# options
+def getOptions():
+    options = ""
+    for line in projectsRcContent:
+        line = line.strip()
+        if ";" in line:
+            options += line+"\n"
+    return options
+
 def main():
     # List of function descriptions.
     functions = getFunctions()
@@ -107,7 +116,12 @@ def main():
     # function being the function before the deleted block
     functionsWithDeletedBlock = getDeletedBlocks(functionsWithShortcuts, deletedFunctions)
 
-    rc = getNewRc(functions, functionsWithShortcuts, functionsWithDeletedBlock)
+    shortcutDefs = getNewShortcutDefinitions(functions, functionsWithShortcuts, functionsWithDeletedBlock)
+
+    # Get options
+    options = getOptions()
+
+    rc = shortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
 
     print(rc)
 
