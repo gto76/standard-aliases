@@ -1,10 +1,6 @@
 Commands
 ========
 
-<a href="http://www.w3schools.com/html/"><span title="I am hovering over the text">This is the text I want to have a mousover</span></a>
-
-<span title="hoverin' words">hover me</span>
-
 ###  Less 
 
  _Name_        | _Runs_   | _Description_  
