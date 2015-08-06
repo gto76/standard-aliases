@@ -609,7 +609,11 @@ __viewFileInVim() {
 #   * smooth scrolling, 
 #   * tab size set to 4 spaces.
 __editFileWithNano() {
-    nano "${_NANO_OPTIONS[@]}"  "$@"
+    nano "${_NANO_OPTIONS[@]}" "$@"
+}
+
+__viewFileInNano() {
+    nano --view "${_NANO_OPTIONS[@]}" "$@"
 }
 
 # Runs Gedit in background.
@@ -998,7 +1002,7 @@ __runTerminalMultiplexer() {
 }
 
 # Runs Tmux, and attaches to last session.
-__runTerminalMultiplexerAndAttachToSession() {
+__runTerminalMultiplexerAndAttachToLastSession() {
     tmux attach "$@"
 }
 
@@ -1024,7 +1028,7 @@ __printDiskSpaceOccupiedByFileOrFolder() {
 }
 
 # Prints all and free memory in megabytes.
-__printAllAndOcupiedMemorySpaceInMegabytes() {
+__printAllAndFreeMemorySpaceInMegabytes() {
     echo "all:  "$(free -m \
         | grep Mem \
         | sed 's/^Mem: *\([0-9]*\).*/\1/')" MB"
@@ -1085,7 +1089,7 @@ __suspendComputer() {
 ############
 
 # Sets keyboard layout to us layout.
-__changeKeyboardLayoutToAmerican() {
+__switchToAmericanKeyboardLayout() {
     setxkbmap -layout us "$@"
 }
 

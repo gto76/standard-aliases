@@ -91,10 +91,11 @@ h, history1 : Search command history for pattern.
 
 # TEXT EDITORS #
 
-v, vim1 : Edit file with vim.
+v : Edit file with vim.
 vv : View file in vim.
 n, nano1 : Edit file with nano.
-g : Edit file with gedit.
+nv : View file in nano.
+g, gedit1 : Edit file with gedit.
 sub : Edit file with sublime text.
 
 # SUDO #
@@ -170,14 +171,14 @@ extract : Extract archive of any type.
 # TMUX #
 
 tm : Run terminal multiplexer.
-tma : Run terminal multiplexer and attach to session.
+tma : Run terminal multiplexer and attach to last session.
 tml : List terminal multiplexers sessions.
 
 # SYSTEM INFORMATION #
 
 df1 : Print available disk space in simplified form.
 du1 : Print disk space occupied by file or folder.
-fr, free1 : Print all and ocupied memory space in megabytes.
+fr, free1 : Print all and free memory space in megabytes.
 temp, temperature : Print temperature of cpu.
 batt, battery : Print battery status.
 uname1, kernelVersion : Print operating system information.
@@ -192,7 +193,7 @@ sus : Suspend computer.
 
 # KEYBOARD #
 
-uskeys : Change keyboard layout to american.
+uskeys : Switch to american keyboard layout.
 keycode : Monitor keycodes of pressed keys.
 norepeat : Turn off key repeat.
 repeat : Turn on key repeat.
