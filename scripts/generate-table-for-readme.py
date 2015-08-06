@@ -1,25 +1,14 @@
 #!/usr/bin/python
 import sys 
 import re
+
 import util
 import const
 
 LENGTH_OF_CODE_SNIPPET = 15
 
-#AL_FILENAME = '../standard_aliases'
-#PROJECTS_RC_FILENAME = '../standard_rc'
-
-aliasesContent = ""
-projectsRcContent = ""
-
-def openFiles(scriptsDir):
-    global aliasesContent, projectsRcContent
-    if not scriptsDir.endswith('/'):
-        scriptsDir = scriptsDir+'/'
-    with open(scriptsDir + const.PROJECTS_RC_FILENAME) as f:
-        projectsRcContent = f.readlines()
-    with open(scriptsDir + const.AL_FILENAME) as f:
-        aliasesContent = f.readlines()
+aliasesContent = util.getFileContentsRelative(const.AL_FILENAME)
+projectsRcContent = util.getFileContentsRelative(const.PROJECTS_RC_FILENAME)
 
 def getFunctionLineNumber(functionName):
     functionDefinition = functionName+"() {"
@@ -81,8 +70,6 @@ def getOptions():
     return commandsWithOptions
 
 def main():
-    scriptsDir = sys.argv[1]
-    openFiles(scriptsDir)
     # map of: "${_COMMAND_OPTIONS[@]}" -> options
     commandsWithOptions = getOptions()
     print("Commands")

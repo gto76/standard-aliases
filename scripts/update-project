@@ -56,7 +56,7 @@ main() {
         echo "$newRc" >  "$scriptsDir"/../standard_rc
     fi
     if [[ $(isListOfFunctionsUpToDate) == "false" ]]; then
-        newFunctionDescriptions=$("$scriptsDir"/generate-table-for-readme.py "$scriptsDir")
+        newFunctionDescriptions=$("$scriptsDir"/generate-table-for-readme.py)
         echo "$newFunctionDescriptions" >  "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md
     fi
 }

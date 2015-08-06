@@ -5,6 +5,9 @@ import re
 import util
 import const
 
+aliasesContent = util.getFileContentsRelative(const.AL_FILENAME)
+usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
+
 def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):
     # line tokenize form: '^' or '|' or '$('
     line = re.sub('"\$@".*$',"",line.strip())
@@ -30,12 +33,10 @@ def setCompletion(line, lastLine, currentFunction, completions, existingCompleti
         completions[currentFunction] = " ".join(existingCompletions[command]).strip()
 
 def getCompletions(existingCompletions):
-    with open(const.AL_FILENAME) as f:
-        content = f.readlines()
     completions = {}
     currentFunction = ""
     lastLine = ""
-    for intactLine in content:
+    for intactLine in aliasesContent:
         line = intactLine
         if line.startswith("complete "):
             tokens = line.strip().split()
@@ -88,9 +89,7 @@ def main():
     existingCompletions = generateMapOfCompletions(sys.argv[2].split('\n'))
     completions = getCompletions(existingCompletions)
     modifiedCompletions = ""
-    with open(const.USERS_RC_FILENAME) as f:
-        content = f.readlines()
-    for line in content:
+    for line in usersRcContent:
         if len(line.strip()) == 0:
             continue
         if line.strip().startswith('#'):
