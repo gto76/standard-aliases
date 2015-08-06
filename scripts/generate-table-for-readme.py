@@ -2,11 +2,12 @@
 import sys 
 import re
 import util
+import const
 
 LENGTH_OF_CODE_SNIPPET = 15
 
-AL_FILENAME = '../standard_aliases'
-PROJECTS_RC_FILENAME = '../standard_rc'
+#AL_FILENAME = '../standard_aliases'
+#PROJECTS_RC_FILENAME = '../standard_rc'
 
 aliasesContent = ""
 projectsRcContent = ""
@@ -15,9 +16,9 @@ def openFiles(scriptsDir):
     global aliasesContent, projectsRcContent
     if not scriptsDir.endswith('/'):
         scriptsDir = scriptsDir+'/'
-    with open(scriptsDir + PROJECTS_RC_FILENAME) as f:
+    with open(scriptsDir + const.PROJECTS_RC_FILENAME) as f:
         projectsRcContent = f.readlines()
-    with open(scriptsDir + AL_FILENAME) as f:
+    with open(scriptsDir + const.AL_FILENAME) as f:
         aliasesContent = f.readlines()
 
 def getFunctionLineNumber(functionName):

@@ -1,12 +1,14 @@
 #!/usr/bin/python
 import sys 
 import re
-import util
 import collections
 
-USERS_RC_FILENAME = '/home/minerva/.standard_rc'
-AL_FILENAME = '../standard_aliases'
-PROJECTS_RC_FILENAME = '../standard_rc'
+import util
+import const
+
+# USERS_RC_FILENAME = '/home/minerva/.standard_rc'
+# AL_FILENAME = '../standard_aliases'
+# PROJECTS_RC_FILENAME = '../standard_rc'
 RC_OPTIONS_COMMENT = 'resources/rc-options-comment'
 
 DELETED_OR_RENAMED_SIGNIFIER = "# DELETED OR RENAMED!: "
@@ -21,11 +23,11 @@ def openFiles(scriptsDir):
         optionsComment
     if not scriptsDir.endswith('/'):
         scriptsDir = scriptsDir+'/'
-    with open(USERS_RC_FILENAME) as f:
+    with open(const.USERS_RC_FILENAME) as f:
         usersRcContent = f.readlines()
-    with open(scriptsDir + PROJECTS_RC_FILENAME) as f:
+    with open(scriptsDir + const.PROJECTS_RC_FILENAME) as f:
         projectsRcContent = f.readlines()
-    with open(scriptsDir + AL_FILENAME) as f:
+    with open(scriptsDir + const.AL_FILENAME) as f:
         aliasesContent = f.readlines()
     with open(scriptsDir + RC_OPTIONS_COMMENT) as f:
         optionsComment = f.readlines()

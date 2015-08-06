@@ -1,7 +1,9 @@
 #!/usr/bin/python
 import sys 
 import re
+
 import util
+import const
 
 def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):
     # line tokenize form: '^' or '|' or '$('
@@ -27,8 +29,8 @@ def setCompletion(line, lastLine, currentFunction, completions, existingCompleti
     elif command in existingCompletions and currentFunction:
         completions[currentFunction] = " ".join(existingCompletions[command]).strip()
 
-def getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions):
-    with open(STANDARD_ALIASES_FILENAME) as f:
+def getCompletions(existingCompletions):
+    with open(const.AL_FILENAME) as f:
         content = f.readlines()
     completions = {}
     currentFunction = ""
@@ -82,13 +84,11 @@ def generateMapOfCompletions(completions):
     return completionsMap
 
 def main():
-    RC_FILENAME = sys.argv[1]
-    STANDARD_ALIASES_FILENAME = sys.argv[2]
-    existingCommands = sys.argv[3].split(' ')
-    existingCompletions = generateMapOfCompletions(sys.argv[4].split('\n'))
-    completions = getCompletions(STANDARD_ALIASES_FILENAME, existingCompletions)
+    existingCommands = sys.argv[1].split(' ')
+    existingCompletions = generateMapOfCompletions(sys.argv[2].split('\n'))
+    completions = getCompletions(existingCompletions)
     modifiedCompletions = ""
-    with open(RC_FILENAME) as f:
+    with open(const.USERS_RC_FILENAME) as f:
         content = f.readlines()
     for line in content:
         if len(line.strip()) == 0:

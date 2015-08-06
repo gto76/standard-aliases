@@ -19,8 +19,6 @@ main() {
     existingCompletions=$(. /usr/share/bash-completion/bash_completion; complete)
     shortcuts=$(
         "$scriptsDir"/parse-rc.py \
-            "$HOME/.standard_rc" \
-            "$HOME/.standard_aliases/standard_aliases" \
             "$existingCommands" \
             "$existingCompletions")
 #    if [[ $? != 0 ]]; then
