@@ -5,9 +5,9 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
-**le, less1** | `less --RAW-CONTROL-C`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L22-L23) | Display text in pager.
+**le, less1** | `less --RAW-CONTROL-C`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L22-L24) | Display text in pager.
 **m** | `___printOrDisplayTex`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L64-L66) | Print or display text in pager.
-**mm** | `if [[ "$#" -gt 0 ]];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L77-L95) | Print and display text in pager if necessary.
+**mm** | `if [[ "$#" -gt 0 ]];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L77-L106) | Print and display text in pager if necessary.
 
 ###  Ls 
 
@@ -35,7 +35,7 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
-**t, tree1** | `tree -C -I .git --di`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L265-L266) | Print directory structure.
+**t, tree1** | `tree -C -I .git --di`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L265-L267) | Print directory structure.
 
 ###  Cd 
 
@@ -60,7 +60,7 @@ Commands
 **mvdir** | `mv --interactive --v`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L356-L358) | Move directories safely.
 **rmdir** | `rm --interactive --r`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L363-L365) | Delete directories safely.
 **mk, md, mkdir1** | `mkdir --parents "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L369-L372) | Create directory and descend into.
-**bk, backup** | `sudo cp --preserve "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L376-L377) | Backup file.
+**bk, backup** | `sudo cp --preserve "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L376-L378) | Backup file.
 **switch** | `tempFile=$(mktemp)` | Switch contents of files.
 
 ###  Pwd 
@@ -100,10 +100,10 @@ Commands
 **te, terminal** | `gnome-terminal "$@"` | Open new terminal with same working directory.
 **to** | `touch  "$@"` | Update files timestamp or create new one.
 **da** | `date  "$@"` | Print date and time.
-**ma, make1** | `make  "$@" 2>&1 | __`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L515-L516) | Run make with pager.
+**ma, make1** | `make  "$@" 2>&1 | __`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L515-L517) | Run make with pager.
 **na, explorer** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L525-L527) | Start file explorer in background in working directory.
-**diff1** | `colordiff  "$@" | __`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L530-L531) | Compare files line by line in color.
-**me, makeExecutable** | `if [[ ! -f "$1" ]]; `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L539) | Make file executable or create new script.
+**diff1** | `colordiff  "$@" | __`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L530-L532) | Compare files line by line in color.
+**me, makeExecutable** | `if [[ ! -f "$1" ]]; `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L565) | Make file executable or create new script.
 
 ###  History 
 
@@ -117,8 +117,8 @@ Commands
 :------------- |:---------| ----------------
 **v, vim1** | `vim -p "$@"` | Edit file with vim.
 **vv** | `view -p "$@"` | View file in vim.
-**n, nano1** | `nano --undo --autoin`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L611-L612) | Edit file with nano.
-**g** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L616-L617) | Edit file with gedit.
+**n, nano1** | `nano --undo --autoin`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L611-L613) | Edit file with nano.
+**g** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L616-L618) | Edit file with gedit.
 **sub** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L621-L623) | Edit file with sublime text.
 
 ###  Sudo 
@@ -133,10 +133,10 @@ Commands
 **scpdir** | `sudo cp --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L662-L664) | Copy directories safely as super user.
 **smvdir** | `sudo mv --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L668-L670) | Move directories safely as super user.
 **srmdir** | `sudo rm --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L675-L677) | Delete directories safely as super user.
-**sm, sle** | `sudo less --RAW-CONT`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L680-L681) | Display text in pager as super user.
+**sm, sle** | `sudo less --RAW-CONT`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L680-L682) | Display text in pager as super user.
 **svv** | `sudo view -p "$@"` | View file in vim as super user.
 **sv** | `sudo vim -p "$@"` | Edit file with vim as super user.
-**sn** | `sudo nano --undo --a`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L695-L696) | Edit file with nano as super user.
+**sn** | `sudo nano --undo --a`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L695-L697) | Edit file with nano as super user.
 **sg** | `sudo gedit  "$@"` | Edit file with gedit as super user.
 
 ###  Procesess 
@@ -144,11 +144,11 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
 **ht, taskManager** | `htop  "$@"` | Run terminal task manager.
-**ps1** | `ps  "$@" | __printOr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L788-L789) | Print users processes.
-**psa, pse, processes** | `ps -e  "$@" | __prin`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L793-L794) | Print all processes.
-**pgrep1** | `pgrep --list-name "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L799-L800) | Find processes with part of name.
+**ps1** | `ps  "$@" | __printOr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L788-L790) | Print users processes.
+**psa, pse, processes** | `ps -e  "$@" | __prin`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L793-L795) | Print all processes.
+**pgrep1** | `pgrep --list-name "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L799-L801) | Find processes with part of name.
 **kill1** | `kill -9 "$@"` | Kill process with kill signal.
-**st, strace1, trace** | `strace -s\ 2000 -f "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L817-L818) | Trace system calls.
+**st, strace1, trace** | `strace -s\ 2000 -f "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L817-L820) | Trace system calls.
 
 ###  Text 
 
@@ -175,16 +175,16 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
-**grep1** | `grep --color=auto --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L919-L920) | Print lines containing pattern.
+**grep1** | `grep --color=auto --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L919-L921) | Print lines containing pattern.
 **gr** | `__printLinesContaini`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L925-L928) | Print or display with pager lines containing pattern.
 **lo, locate1** | `locate  "$1" \` | Locate files on filesystem containing pattern in their names.
-**find1** | `find  . -name "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L942-L943) | Locate files containing pattern in their names in working and sub directories.
+**find1** | `find  . -name "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L942-L946) | Locate files containing pattern in their names in working and sub directories.
 
 ###  Archives 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
-**extract** | `if [ -z "$1" ]; then`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L955-L963) | Extract archive of any type.
+**extract** | `if [ -z "$1" ]; then`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L955-L988) | Extract archive of any type.
 
 ###  Tmux 
 
@@ -204,7 +204,7 @@ Commands
 **temp, temperature** | `acpi -t` | Print temperature of cpu.
 **batt, battery** | `acpi` | Print battery status.
 **uname1, kernelVersion** | `uname --all` | Print operating system information.
-**pci, lspci1** | `lspci -v "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1052-L1053) | Print info about pci devices.
+**pci, lspci1** | `lspci -v "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1052-L1054) | Print info about pci devices.
 
 ###  Power 
 
@@ -229,9 +229,9 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
 **blue** | `echo -en "\e]PC7373C`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1114-L1116) | Change hue of color blue in linux terminal.
-**path** | `echo -e ${PATH//:/\\`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1119-L1120) | List directories contained in path variable.
+**path** | `echo -e ${PATH//:/\\`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1119-L1121) | List directories contained in path variable.
 **bc1** | `gcalccmd "$@"` | Run terminal calculator that supports decimal numbers.
-**hd1** | `hd  "$@" | __printOr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1129-L1130) | Print hexadecimal representation of file or stream.
+**hd1** | `hd  "$@" | __printOr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1129-L1131) | Print hexadecimal representation of file or stream.
 **profile** | `source /etc/profile` | Run profile script.
 **vimode** | `set -o vi` | Change bash line editing to vi mode.
 **emacsmode** | `set -o emacs` | Change bash line editing to emacs mode.
@@ -328,8 +328,8 @@ Commands
 :------------- |:---------| ----------------
 **i, www, internet** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1717-L1719) | Start default browser in background.
 **fire** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1722-L1724) | Start firefox in background.
-**chrome** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1728-L1729) | Start chrome in background.
-**lynx1** | `lynx -accept_all_coo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1734-L1735) | Start terminal web browser.
+**chrome** | `__runCommandInBackgr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1728-L1730) | Start chrome in background.
+**lynx1** | `lynx -accept_all_coo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1734-L1736) | Start terminal web browser.
 
 ###  Audio 
 

@@ -28,7 +28,7 @@ def getFunctionLineNumber(functionName):
         line = line.strip()
         if lineStart == 0 and functionDefinition in line:
             lineStart = i
-        elif lineStart != 0 and "}" in line:
+        elif lineStart != 0 and line == "}":
             return (lineStart, i)
         i += 1
     return (lineStart,1)
@@ -61,7 +61,7 @@ def processRow(tokens, commandsWithOptions):
     lineStart, lineEnd = getFunctionLineNumber(functionName)
     functionBody = getFunctionBody(lineStart, commandsWithOptions)
     link = getLink(lineStart, lineEnd)
-    if len(functionBody) >= LENGTH_OF_CODE_SNIPPET:
+    if len(functionBody) >= LENGTH_OF_CODE_SNIPPET: # or if it has only one line
         runs = "`"+functionBody+"`[**`...`**]("+link+")"
     else:
         runs =  "`"+functionBody+"`"
