@@ -36,7 +36,7 @@ al - opens this file in vim
 ?ty - type
 
 
-[**LIST OF ALL FUNCTIONS**]('FUNCTION_DESCRIPTIONS.md')
+[**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
 
 Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
 
