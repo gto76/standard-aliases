@@ -241,12 +241,12 @@ __listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListi
 }
 
 # Prints name of first file in the directory.
-__listFirstFileInDirectory() {
+__printNameOfFirstFileInDirectory() {
     ls "$@" | head -1
 }
 
 # Prints name of a random file in the directory.
-__listRandomFileInDirectory() {
+__printNameOfRandomFileInDirectory() {
     ls "$@" | sort -R | head -1
 }
 
@@ -1751,12 +1751,12 @@ ___setVolumeTo() {
 }
 
 # Increases volume by 6dB.
-__increaseVolumeBySixDecibelsTest() {
+__increaseVolumeBySixDecibels() {
     ___setVolumeTo "6%+" | tail -n 1
 }
 
 # Decreases volume by 6dB.
-__decreaseVolumeBySixDecibelsTest() {
+__decreaseVolumeBySixDecibels() {
     ___setVolumeTo "6%-" | tail -n 1
 }
 

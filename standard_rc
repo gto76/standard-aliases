@@ -21,8 +21,8 @@ dll : List or display matching directories in pager using medium listing format.
 dlll : List or display matching directories in pager using long listing format.
 l1 : List or display in pager one directory item per line using short listing format.
 la1 : List or display in pager one directory item per line including hidden files using short listing format.
-first : List first file in directory.
-rf, randomFile : List random file in directory.
+first : Print name of first file in directory.
+rf, randomFile : Print name of random file in directory.
 findd, directories : Print all subdirectories.
 
 # TREE #

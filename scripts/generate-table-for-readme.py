@@ -3,6 +3,8 @@ import sys
 import re
 import util
 
+LENGTH_OF_CODE_SNIPPET = 20
+
 AL_FILENAME = '../standard_aliases'
 PROJECTS_RC_FILENAME = '../standard_rc'
 
@@ -35,7 +37,7 @@ def getFunctionBody(lineNum):
     i = 1
     for line in aliasesContent:
         if i == lineNum+1:
-            return line.strip()[:10]
+            return line.strip()[:LENGTH_OF_CODE_SNIPPET]
         i += 1
     return ""
 
