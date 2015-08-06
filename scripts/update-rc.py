@@ -1,36 +1,18 @@
 #!/usr/bin/python
-import sys 
+import sys
+import os
 import re
 import collections
 
 import util
 import const
 
-# USERS_RC_FILENAME = '/home/minerva/.standard_rc'
-# AL_FILENAME = '../standard_aliases'
-# PROJECTS_RC_FILENAME = '../standard_rc'
-RC_OPTIONS_COMMENT = 'resources/rc-options-comment'
-
 DELETED_OR_RENAMED_SIGNIFIER = "# DELETED OR RENAMED!: "
 
-aliasesContent = ""
-usersRcContent = ""
-projectsRcContent = ""
-optionsComment = ""
-
-def openFiles(scriptsDir):
-    global aliasesContent, usersRcContent, projectsRcContent, \
-        optionsComment
-    if not scriptsDir.endswith('/'):
-        scriptsDir = scriptsDir+'/'
-    with open(const.USERS_RC_FILENAME) as f:
-        usersRcContent = f.readlines()
-    with open(scriptsDir + const.PROJECTS_RC_FILENAME) as f:
-        projectsRcContent = f.readlines()
-    with open(scriptsDir + const.AL_FILENAME) as f:
-        aliasesContent = f.readlines()
-    with open(scriptsDir + RC_OPTIONS_COMMENT) as f:
-        optionsComment = f.readlines()
+aliasesContent = util.getFileContentsRelative(const.AL_FILENAME)
+usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
+projectsRcContent = util.getFileContentsRelative(const.PROJECTS_RC_FILENAME)
+optionsComment = util.getFileContentsRelative(const.RC_OPTIONS_COMMENT)
 
 def getFunctions():
     functionDescriptions = []
@@ -167,8 +149,6 @@ def getOptions():
     return options
 
 def main():
-    scriptsDir = sys.argv[1]
-    openFiles(scriptsDir)
     # List of function descriptions.
     functions = getFunctions()
     # Map of description -> shortcuts.

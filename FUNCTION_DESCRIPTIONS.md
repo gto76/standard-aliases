@@ -186,7 +186,11 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L959-L992) | Extract archive of any type.
-**** | `#!/bin/bash` | # TERMINAL MULTIPLEXER #
+
+###  Terminal Multiplexer 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
 **tm** | `tmux  "$@"` | Run terminal multiplexer.
 **tma** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1005-L1007) | Run terminal multiplexer and attach to last session.
 **tml** | `tmux ls` | List terminal multiplexers sessions.

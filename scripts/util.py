@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from __future__ import print_function
 import sys
+import os
 import re
 
 def warning(*objs):
@@ -24,4 +25,20 @@ def camelCaseToDescription(command):
     command = re.sub(r'([A-Z])',r' \1',command)
     command = command.lower()
     return firstLetterToUppercase(command)+"."
+
+def getFileContents(fileName):
+    with open(fileName) as f:
+        return f.readlines()
+
+
+def getFileContents(fileName):
+    with open(fileName) as f:
+        return f.readlines()
+
+def getFileContentsRelative(fileName):
+    path = os.path.dirname(__file__)
+    fileName = os.path.join(path, fileName)
+    with open(fileName) as f:
+        return f.readlines()
+
 

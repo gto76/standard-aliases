@@ -52,7 +52,7 @@ main() {
         "$scriptsDir"/generate-shortcuts
     fi
     if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
-        newRc=$("$scriptsDir"/update-rc.py "$scriptsDir")
+        newRc=$("$scriptsDir"/update-rc.py)
         echo "$newRc" >  "$scriptsDir"/../standard_rc
     fi
     if [[ $(isListOfFunctionsUpToDate) == "false" ]]; then

@@ -167,7 +167,9 @@ find1 : Locate files containing pattern in their names in working and sub direct
 # ARCHIVES #
 
 extract : Extract archive of any type.
- : # TERMINAL MULTIPLEXER #
+
+# TERMINAL MULTIPLEXER #
+
 tm : Run terminal multiplexer.
 tma : Run terminal multiplexer and attach to last session.
 tml : List terminal multiplexers sessions.
