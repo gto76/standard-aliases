@@ -33,10 +33,15 @@ def getFunctionLineNumber(functionName):
         i += 1
     return (lineStart,1)
 
-def getFunctionBody(lineNum):
+def getFunctionBody(lineNum, commandsWithOptions):
     i = 1
     for line in aliasesContent:
         if i == lineNum+1:
+            for command, options in commandsWithOptions.iteritems():
+                if command in line:
+                    print("#################################")
+                    line = line.replace(command, options)
+                    break
             return line.strip()[:LENGTH_OF_CODE_SNIPPET]
         i += 1
     return ""
@@ -46,7 +51,7 @@ def getLink(lineStart, lineEnd):
     return link
 
 # **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 
-def processRow(tokens):
+def processRow(tokens, commandsWithOptions):
     name = tokens[0].strip()
     explanation = tokens[1].strip()
     # Do not print aliases that just run the command as sudo.
@@ -55,13 +60,26 @@ def processRow(tokens):
         return
     functionName = util.descriptionToCamelCase(explanation)
     lineStart, lineEnd = getFunctionLineNumber(functionName)
-    functionBody = getFunctionBody(lineStart)
+    functionBody = getFunctionBody(lineStart, commandsWithOptions)
     link = getLink(lineStart, lineEnd)
     print("**"+name+"** | `"+functionBody+"`[**`...`**]("+link+") | "+explanation)
+
+def getOptions():
+    # map of: "${_COMMAND_OPTIONS[@]}" -> options
+    commandsWithOptions = {}
+    for line in projectsRcContent:
+        if ";" in line:
+            tokens = line.split(";")
+            command = "\"${_"+tokens[0].strip().upper()+"_OPTIONS[@]}\""
+            options = tokens[1].strip()
+            commandsWithOptions[command] = options
+    return commandsWithOptions
 
 def main():
     scriptsDir = sys.argv[1]
     openFiles(scriptsDir)
+    # map of: "${_COMMAND_OPTIONS[@]}" -> options
+    commandsWithOptions = getOptions()
     print("Commands")
     print("========")
     for line in projectsRcContent:
@@ -76,7 +94,8 @@ def main():
             continue
         tokens = line.split(':')
         if len(tokens) == 2:
-            processRow(tokens)
+            processRow(tokens, commandsWithOptions)
+    print(commandsWithOptions)
 
 if __name__ == '__main__':
     main()
