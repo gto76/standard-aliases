@@ -61,7 +61,11 @@ def processRow(tokens, commandsWithOptions):
     lineStart, lineEnd = getFunctionLineNumber(functionName)
     functionBody = getFunctionBody(lineStart, commandsWithOptions)
     link = getLink(lineStart, lineEnd)
-    print("**"+name+"** | `"+functionBody+"`[**`...`**]("+link+") | "+explanation)
+    if len(functionBody) >= LENGTH_OF_CODE_SNIPPET:
+        runs = "`"+functionBody+"`[**`...`**]("+link+")"
+    else:
+        runs =  "`"+functionBody+"`"
+    print("**"+name+"** | "+runs+" | "+explanation)
 
 def getOptions():
     # map of: "${_COMMAND_OPTIONS[@]}" -> options
@@ -88,7 +92,7 @@ def main():
             print("### "+line.strip('#').title())
             print("")
             print(" _Name_        | _Runs_   | _Description_  ")
-            print(":------------- |:--------:| ----------------")
+            print(":------------- |:---------| ----------------")
         if ";" in line:
             continue
         tokens = line.split(':')
