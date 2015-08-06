@@ -1,5 +1,4 @@
 
-
 # LESS #
 
 le, less1, burek : Display text in pager.
@@ -323,18 +322,3 @@ lspci ; -v
 hd ;
 chrome ; --touch-devices=123
 lynx ; -accept_all_cookies -vikeys www.google.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

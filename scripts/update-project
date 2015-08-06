@@ -5,6 +5,15 @@
 
 scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+isProjectsStandardRcUpToDate() {
+    if [[ "$scriptsDir"/../standard_aliases \
+        -nt "$scriptsDir"/../standard_rc ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
 # Tells wether the generated file standard_shortcuts is up to
 # date.
 areStandardShortcutsUpToDate() {
@@ -28,6 +37,11 @@ main() {
     areStandardShortcutsUpToDate
     if [[ $? -ne 0 ]]; then
         "$scriptsDir"/generate-shortcuts
+    fi
+    isProjectsStandardRcUpToDate
+    if [[ $? -ne 0 ]]; then
+        newRc=$("$scriptsDir"/update-rc.py)
+        echo "$newRc" >  "$scriptsDir"/../standard_rc
     fi
 }
 

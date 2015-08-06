@@ -4,21 +4,23 @@ import re
 import util
 import collections
 
-AL_FILENAME='../standard_aliases'
+AL_FILENAME = '../standard_aliases'
 with open(AL_FILENAME) as f:
     aliasesContent = f.readlines()
 
-USERS_RC_FILENAME='/home/minerva/.standard_rc'
+USERS_RC_FILENAME = '/home/minerva/.standard_rc'
 with open(USERS_RC_FILENAME) as f:
     usersRcContent = f.readlines()
 
-PROJECTS_RC_FILENAME='../standard_rc'
+PROJECTS_RC_FILENAME = '../standard_rc'
 with open(PROJECTS_RC_FILENAME) as f:
     projectsRcContent = f.readlines()
 
-RC_OPTIONS_COMMENT='./rc-options-comment'
+RC_OPTIONS_COMMENT = './rc-options-comment'
 with open(RC_OPTIONS_COMMENT) as f:
     optionsComment = f.readlines()
+
+DELETED_OR_RENAMED_SIGNIFIER = "# DELETED OR RENAMED!: "
 
 def getFunctions():
     functionDescriptions = []
@@ -42,6 +44,9 @@ def getFunctionsWithShortcuts():
     # go trough rc
     for line in projectsRcContent:
         line = line.strip()
+        # also make use of deleted and renamed
+        if line.startswith(DELETED_OR_RENAMED_SIGNIFIER):
+            line = line.replace(DELETED_OR_RENAMED_SIGNIFIER, "")
         # title 
         if line.startswith("# ") and line.endswith(" #"):
             shortcutsWithDescriptions[line] = ""
@@ -71,7 +76,7 @@ def getDeletedBlocks(functionsWithShortcuts, deletedFunctions):
     lastUndeletedFunction = ""
     for function, shortcut in functionsWithShortcuts.iteritems():
         if function in deletedFunctions:
-            deletedBlock += "# DELETED OR RENAMED!: "+shortcut+" : "+function+"\n"
+            deletedBlock += DELETED_OR_RENAMED_SIGNIFIER+shortcut+" : "+function+"\n"
         else:
             if deletedBlock != "":
                 deletedBlocks[lastUndeletedFunction] = deletedBlock
@@ -105,27 +110,18 @@ def getOptions():
 def main():
     # List of function descriptions.
     functions = getFunctions()
-
     # Map of description -> shortcuts.
     functionsWithShortcuts = getFunctionsWithShortcuts()
-
     # List
     deletedFunctions = getDeletedFunctions(functions, functionsWithShortcuts)
-
     # Get deleted blocks in form: function -> deleted block,
     # function being the function before the deleted block
     functionsWithDeletedBlock = getDeletedBlocks(functionsWithShortcuts, deletedFunctions)
-
     shortcutDefs = getNewShortcutDefinitions(functions, functionsWithShortcuts, functionsWithDeletedBlock)
-
     # Get options
     options = getOptions()
-
     rc = shortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
-
     print(rc)
-
-
 
 if __name__ == '__main__':
     main()
