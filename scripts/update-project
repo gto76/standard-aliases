@@ -39,7 +39,7 @@ areStandardShortcutsUpToDate() {
 isListOfFunctionsUpToDate() {
     if [[ "$scriptsDir"/../standard_rc \
             -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]] \
-        || [[ "$scriptsDir"/../generate-table-for-readme.py \
+        || [[ "$scriptsDir"/generate-table-for-readme.py \
             -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]]; then
         echo "false"
     else

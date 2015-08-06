@@ -61,7 +61,8 @@ def processRow(tokens, commandsWithOptions):
     lineStart, lineEnd = getFunctionLineNumber(functionName)
     functionBody = getFunctionBody(lineStart, commandsWithOptions)
     link = getLink(lineStart, lineEnd)
-    if len(functionBody) >= LENGTH_OF_CODE_SNIPPET: # or if it has only one line
+    if len(functionBody) >= LENGTH_OF_CODE_SNIPPET \
+        or lineEnd - lineStart > 2:
         runs = "`"+functionBody+"`[**`...`**]("+link+")"
     else:
         runs =  "`"+functionBody+"`"

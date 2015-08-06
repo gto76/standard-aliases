@@ -61,7 +61,7 @@ Commands
 **rmdir** | `rm --interactive --r`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L363-L365) | Delete directories safely.
 **mk, md, mkdir1** | `mkdir --parents "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L369-L372) | Create directory and descend into.
 **bk, backup** | `sudo cp --preserve "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L376-L378) | Backup file.
-**switch** | `tempFile=$(mktemp)` | Switch contents of files.
+**switch** | `tempFile=$(mktemp)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L381-L386) | Switch contents of files.
 
 ###  Pwd 
 
@@ -161,7 +161,7 @@ Commands
 **wcl, countLines** | `wc -l "$@"` | Count lines.
 **wcw, countWords** | `wc -w "$@"` | Count words.
 **trd** | `tr --delete "$@"` | Delete characters.
-**loc, linesOfCode** | `rootDir="$PWD"` | Count lines in files with extension in working and subdirectories.
+**loc, linesOfCode** | `rootDir="$PWD"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L866-L881) | Count lines in files with extension in working and subdirectories.
 
 ###  Tables 
 
@@ -177,7 +177,7 @@ Commands
 :------------- |:---------| ----------------
 **grep1** | `grep --color=auto --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L919-L921) | Print lines containing pattern.
 **gr** | `__printLinesContaini`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L925-L928) | Print or display with pager lines containing pattern.
-**lo, locate1** | `locate  "$1" \` | Locate files on filesystem containing pattern in their names.
+**lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L932-L936) | Locate files on filesystem containing pattern in their names.
 **find1** | `find  . -name "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L942-L946) | Locate files containing pattern in their names in working and sub directories.
 
 ###  Archives 
@@ -266,7 +266,7 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
 **findPackage** | `apt-cache search "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1326-L1329) | Find available packages with part of name or description.
-**ap, apropos1, findCommand** | `apropos "$@" \` | Find installed commands with part of name or description.
+**ap, apropos1, findCommand** | `apropos "$@" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1334-L1337) | Find installed commands with part of name or description.
 **apt-file1** | `apt-file search "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1340-L1344) | Find available packages that provide command.
 **wi, whatis1** | `# Checks if it is an`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1382-L1406) | Describe package or command or find available packages with part of name or available packages that provide command.
 
@@ -303,13 +303,13 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:---------| ----------------
-**ip1** | `/sbin/ifconfig \` | Print internal ip.
+**ip1** | `/sbin/ifconfig \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1549-L1555) | Print internal ip.
 **ip2** | `lynx --dump http://i`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1558-L1560) | Print external ip.
-**gateway** | `route -n \` | Print gateways ip.
+**gateway** | `route -n \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1563-L1568) | Print gateways ip.
 **mac** | `ifconfig | grep HWad`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1571-L1573) | Print mac addresses of network devices.
 **pa, pingAll** | `ping -c 1 -q `gatewa`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1576-L1580) | Ping gateway and google.
 **nmap1** | `if [[ $# -eq 0 ]]; t`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1584-L1600) | Scan local network.
-**ne, network** | `localIp=$(ip1)` | Print ssh port status of local devices and ping google.
+**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1628-L1659) | Print ssh port status of local devices and ping google.
 
 ###  Wireless 
 
@@ -317,7 +317,7 @@ Commands
 :------------- |:---------| ----------------
 **woff** | `sudo rfkill block $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1667-L1672) | Block wireless device.
 **won** | `sudo rfkill unblock `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1675-L1680) | Unblock wireless device.
-**wr** | `woff` | Reset wireless device.
+**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1683-L1686) | Reset wireless device.
 **up** | `sudo ifconfig wlan0 `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1689-L1691) | Activate wireless interface.
 **down** | `sudo ifconfig wlan0 `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1694-L1696) | Deactivate wireless interface.
 **wlan** | `sudo iwlist wlan0 sc`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L1699-L1709) | Print wireless networks in range.
