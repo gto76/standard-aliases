@@ -27,8 +27,8 @@ Commands
 **dlll** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L228-L231) | List or display matching directories in pager using long listing format.
 **l1** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L233-L236) | List or display in pager one directory item per line using short listing format.
 **la1** | `__listOrDi`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L238-L241) | List or display in pager one directory item per line including hidden files using short listing format.
-**** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L244-L246) | List first file in directory.
-**** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L249-L251) | List random file in directory.
+**first** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L244-L246) | List first file in directory.
+**rf, randomFile** | `ls "$@" | `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L249-L251) | List random file in directory.
 **findd, directories** | `find . -na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L255-L257) | Print all subdirectories.
 
 ###  Tree 
@@ -103,7 +103,7 @@ Commands
 **ma, make1** | `make "${_M`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L515-L516) | Run make with pager.
 **na, explorer** | `__runComma`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L525-L527) | Start file explorer in background in working directory.
 **diff1** | `colordiff `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L530-L531) | Compare files line by line in color.
-**** | `if [[ ! -f`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L539) | Make file executable or create new script.
+**me, makeExecutable** | `if [[ ! -f`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L536-L539) | Make file executable or create new script.
 
 ###  History 
 
@@ -125,7 +125,7 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**** | `sudo "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L631-L633) | Execute command as super user.
+**s** | `sudo "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L631-L633) | Execute command as super user.
 **f, fu, fuck** | `sudo $(his`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L637-L639) | Execute last command as super user.
 **sudoCp** | `sudo cp --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L643-L645) | Copy files safely as super user.
 **smv** | `sudo mv --`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L649-L651) | Move files safely as super user.

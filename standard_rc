@@ -21,10 +21,8 @@ dll : List or display matching directories in pager using medium listing format.
 dlll : List or display matching directories in pager using long listing format.
 l1 : List or display in pager one directory item per line using short listing format.
 la1 : List or display in pager one directory item per line including hidden files using short listing format.
-# DELETED OR RENAMED!: first : Get first file in directory.
-# DELETED OR RENAMED!: rf, randomFile : Get random file in directory.
- : List first file in directory.
- : List random file in directory.
+first : List first file in directory.
+rf, randomFile : List random file in directory.
 findd, directories : Print all subdirectories.
 
 # TREE #
@@ -85,8 +83,7 @@ da : Print date and time.
 ma, make1 : Run make with pager.
 na, explorer : Start file explorer in background in working directory.
 diff1 : Compare files line by line in color.
-# DELETED OR RENAMED!: me, makeExecutable : Make file executable or create new bash script.
- : Make file executable or create new script.
+me, makeExecutable : Make file executable or create new script.
 
 # HISTORY #
 
@@ -102,8 +99,7 @@ sub : Edit file with sublime text.
 
 # SUDO #
 
-# DELETED OR RENAMED!: s : Run command as super user.
- : Execute command as super user.
+s : Execute command as super user.
 f, fu, fuck : Execute last command as super user.
 sudoCp : Copy files safely as super user.
 smv : Move files safely as super user.
