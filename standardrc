@@ -161,6 +161,7 @@ sort1 : Sort lines by column.
 
 grep1 : Print lines containing pattern.
 gr : Print or display with pager lines containing pattern.
+ : Print or display with pager lines containing pattern in working and subdirectories.
 lo, locate1 : Locate files on filesystem containing pattern in their names.
 find1 : Locate files containing pattern in their names in working and sub directories.
 

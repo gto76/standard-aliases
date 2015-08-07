@@ -931,6 +931,16 @@ __printOrDisplayWithPagerLinesContainingPattern() {
         | __printOrDisplayTextInPager
 }
 
+# Runs __printLinesContainingPattern with --recursive and 
+# --line-number and sends output to pager.
+__printOrDisplayWithPagerLinesContainingPatternInWorkingAndSubdirectories() {
+    __printLinesContainingPattern \
+        --recursive \
+        --line-number \
+        --color=always "$@" \
+        | __printOrDisplayTextInPager
+}
+
 # Tries to find specified file using index. (Run 'sudo updatedb'
 # to update the index)
 __locateFilesOnFilesystemContainingPatternInTheirNames() {

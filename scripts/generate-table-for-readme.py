@@ -36,7 +36,7 @@ def getFunctionBody(lineNum, commandsWithOptions):
     return ""
 
 def getLink(lineStart, lineEnd):
-    link = "https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L"+str(lineStart)+"-L"+str(lineEnd)
+    link = "https://github.com/gto76/standard-aliases/blob/master/functions#L"+str(lineStart)+"-L"+str(lineEnd)
     return link
 
 # **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 

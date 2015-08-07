@@ -4,27 +4,16 @@
 # Generates stadard_shortcuts anew, if any file in project got changed.
 
 # Stops execution if any command fails.
-set -euo pipefail
+set -eo pipefail
 
 scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-. "$scriptsDir"/const.py
-
-isProjectsStandardRcUpToDate() {
-    if [[ "$scriptsDir"/"$AL_FILENAME" \
-        -nt "$scriptsDir"/"$PROJECTS_RC_FILENAME" ]]; then
-        echo "false"
-    else
-        echo "true"
-    fi
-}
 
 # Tells wether the generated file standard_shortcuts is up to
 # date.
 areStandardShortcutsUpToDate() {
     if [[ ~/.standardrc \
             -nt ~/.standard_aliases/shortcuts ]] \
-        || [[ "$scriptsDir"/"$AL_FILENAME" \
+        || [[ "$scriptsDir"/../functions \
             -nt ~/.standard_aliases/shortcuts ]] \
         || [[ "$scriptsDir"/generate-shortcuts \
             -nt ~/.standard_aliases/shortcuts ]] \
@@ -38,25 +27,34 @@ areStandardShortcutsUpToDate() {
     fi
 }
 
-isListOfFunctionsUpToDate() {
-    if [[ "$scriptsDir"/"$PROJECTS_RC_FILENAME" \
-            -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]] \
-        || [[ "$scriptsDir"/generate-table-for-readme.py \
-            -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]]; then
+isProjectsStandardRcUpToDate() {
+    if [[ "$scriptsDir"/../functions \
+        -nt "$scriptsDir"/../standardrc ]]; then
         echo "false"
     else
         echo "true"
     fi
 }
 
+isListOfFunctionsUpToDate() {
+    if [[ "$scriptsDir"/../standardrc \
+            -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]] \
+        || [[ "$scriptsDir"/generate-table-for-readme.py \
+            -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]]; then
+        echo "false"
+    else
+        echo "true"
+    fi 
+}
+
 main() {
     if [[ $(areStandardShortcutsUpToDate) == "false" ]]; then
         "$scriptsDir"/generate-shortcuts
     fi
-    if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
+    #if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
         newRc=$("$scriptsDir"/update-rc.py)
-        echo "$newRc" >  "$scriptsDir"/../standardrc
-    fi
+        echo "$newRc" > "$scriptsDir"/../standardrc
+    #fi
     if [[ $(isListOfFunctionsUpToDate) == "false" ]]; then
         newFunctionDescriptions=$("$scriptsDir"/generate-table-for-readme.py)
         echo "$newFunctionDescriptions" >  "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md
