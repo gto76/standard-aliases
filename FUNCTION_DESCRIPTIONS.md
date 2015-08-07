@@ -339,6 +339,6 @@ Commands
 :------------- |:--------:| ----------------
 **mixer** | `alsamixer "$@"` | Start terminal volume control.
 **a** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1768-L1770) | Increase volume by six decibels.
-**z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1773-L1775) | Decrease volume by six decibels.
-**aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1778-L1780) | Increase volume by two decibels.
-**zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1783-L1785) | Decrease volume by two decibels.
+**** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1774-L1776) | Increase volume by six decibels new one.
+**zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1780-L1782) | Decrease volume by six decibels.
+**aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1785-L1787) | Increase volume by two decibels.

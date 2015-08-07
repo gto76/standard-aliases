@@ -10,10 +10,10 @@ import const
 DELETED_OR_RENAMED_SIGNIFIER = "# DELETED OR RENAMED FUNCTION!: "
 NEW_SIGNIFIER = "# NEW FUNCTION!: "
 
-aliasesContent = util.getFileContentsRelative(const.AL_FILENAME)
+aliasesContent = util.getFileContents(const.AL_FILENAME)
 usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
-projectsRcContent = util.getFileContentsRelative(const.PROJECTS_RC_FILENAME)
-optionsComment = util.getFileContentsRelative(const.RC_OPTIONS_COMMENT)
+projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
+optionsComment = util.getFileContents(const.RC_OPTIONS_COMMENT)
 
 def getFunctions():
     functionDescriptions = []
@@ -60,39 +60,24 @@ def getDeletedFunctions(functions, functionsWithShortcuts):
     rcFunctions = list(functionsWithShortcuts.keys())
     return list(set(rcFunctions) - set(functions))
 
-def getDeletedBlocks(functionsWithShortcuts, deletedFunctions):
-    # preceeding function -> block
-    deletedBlocks = {}
-    deletedBlock = []
-    lastUndeletedFunction = ""
-    for function, shortcut in functionsWithShortcuts.iteritems():
-        if function in deletedFunctions:
-            deletedBlock.append(function)
-        else:
-            if deletedBlock:
-                deletedBlocks[lastUndeletedFunction] = deletedBlock
-                deletedBlock = []
-            lastUndeletedFunction = function
-    return deletedBlocks
-
 def getNewFunctions(functions, functionsWithShortcuts):
     rcFunctions = list(functionsWithShortcuts.keys())
     return list(set(functions) - set(rcFunctions) )
 
-def getNewBlocks(functions, newFunctions):
+def getBlocks(functions, functionsForTheBlocks):
     # preceeding function -> block
-    newBlocks = {}
-    newBlock = []
-    lastUndeletedFunction = ""
+    blocks = {}
+    block = []
+    lastFunction = ""
     for function in functions:
-        if function in newFunctions:
-            newBlock.append(function)
+        if function in functionsForTheBlocks:
+            block.append(function)
         else:
-            if newBlock:
-                newBlocks[lastOldFunction] = newBlock
-                newBlock = []
-            lastOldFunction = function
-    return newBlocks
+            if block:
+                blocks[lastFunction] = block
+                block = []
+            lastFunction = function
+    return blocks
 
 def getUnchangedFunctions(functions, functionsWithShortcuts):
     rcFunctions = list(functionsWithShortcuts.keys())
@@ -162,67 +147,51 @@ def getOptions(rcContent):
             options += line+"\n"
     return options
 
-def generateProjectsRc():
-    # List of function descriptions.
-    functions = getFunctions()
-    # Map of description -> shortcuts.
-    functionsWithShortcuts = getFunctionsWithShortcuts(projectsRcContent)
-    # List
-    deletedFunctions = \
-        getDeletedFunctions(functions, functionsWithShortcuts)
-    # Get deleted blocks in form: function -> deleted block,
-    # function being the function before the deleted block
-    functionsWithDeletedBlock = \
-        getDeletedBlocks(functionsWithShortcuts, deletedFunctions)
-    newFunctions = \
-        getNewFunctions(functions, functionsWithShortcuts)
-    functionsWithNewBlock = \
-        getNewBlocks(functions, newFunctions)
-    unchangedFunctions = getUnchangedFunctions(functions, functionsWithShortcuts)
-    newShortcutDefs = \
-        getNewShortcutDefinitions(unchangedFunctions, functionsWithShortcuts, \
-            functionsWithDeletedBlock, functionsWithNewBlock, \
-            signifyDeletedFunction, formatLine)
-    # Get options
-    options = getOptions(projectsRcContent)
-    rc = newShortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
-    print(rc)
-
-
-def generateUsersRc():
-    # List of function descriptions.
-    functions = getFunctions()
-    # Map of description -> shortcuts.
-    functionsWithShortcuts = getFunctionsWithShortcuts(usersRcContent) # DIFF
-    # List
-    deletedFunctions = \
-        getDeletedFunctions(functions, functionsWithShortcuts)
-    # Get deleted blocks in form: function -> deleted block,
-    # function being the function before the deleted block
-    functionsWithDeletedBlock = \
-        getDeletedBlocks(functionsWithShortcuts, deletedFunctions)
-    newFunctions = \
-        getNewFunctions(functions, functionsWithShortcuts)
-    functionsWithNewBlock = \
-        getNewBlocks(functions, newFunctions)
-    unchangedFunctions = getUnchangedFunctions(functions, functionsWithShortcuts)
-    # DIFF > TODO : check tha one that are already new
-    # add shortcuts of new functions from projects rc
+def addAdditionalShortcutsForUsersRc(shortcuts, newFunctions):
     projectsfunctionsWithShortcuts = getFunctionsWithShortcuts(projectsRcContent)
     newFunctionsWithShortcuts = dict( \
         (newFunction, projectsfunctionsWithShortcuts.get(newFunction, "")) \
         for newFunction in newFunctions)
-    functionsWithShortcuts.update(newFunctionsWithShortcuts)
+    shortcuts.update(newFunctionsWithShortcuts)
+
+def generateRc(rcContent, addAdditionalShortcuts,  \
+        formatDeletedFunction, formatNewFunction):
+    # List of function descriptions.
+    functions = getFunctions()
+    # Map of description -> shortcuts.
+    functionsWithShortcuts = getFunctionsWithShortcuts(rcContent) # DIFF
+    # List
+    deletedFunctions = \
+        getDeletedFunctions(functions, functionsWithShortcuts)
+    # Get deleted blocks in form: function -> deleted block,
+    # function being the function before the deleted block
+    functionsWithDeletedBlock = \
+        getBlocks(functionsWithShortcuts.keys(), deletedFunctions)
+    newFunctions = \
+        getNewFunctions(functions, functionsWithShortcuts)
+    functionsWithNewBlock = \
+        getBlocks(functions, newFunctions)
+    unchangedFunctions = getUnchangedFunctions(functions, functionsWithShortcuts)
+    # DIFF > 
+    # add shortcuts of new functions from projects rc
+    addAdditionalShortcuts(functionsWithShortcuts, newFunctions)
     # > DIFF
     newShortcutDefs = \
         getNewShortcutDefinitions(unchangedFunctions, functionsWithShortcuts, \
             functionsWithDeletedBlock, functionsWithNewBlock, \
-            signifyDeletedFunction, signifyNewFunction) # DIFF
+            formatDeletedFunction, formatNewFunction) # DIFF
     # Get options
-    options = getOptions(usersRcContent) # DIFF todo
+    options = getOptions(rcContent) # DIFF todo
     rc = newShortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
     print(rc)
 
+def generateProjectsRc():
+    generateRc(projectsRcContent, lambda x, y: None, \
+        signifyDeletedFunction, formatLine)
+
+def generateUsersRc():
+    generateRc(usersRcContent, addAdditionalShortcutsForUsersRc, \
+        signifyDeletedFunction, signifyNewFunction)
 
 def main():
     if len(sys.argv) == 2 and sys.argv[1] == '--user':

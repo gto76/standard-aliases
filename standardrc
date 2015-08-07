@@ -292,10 +292,9 @@ lynx1 : Start terminal web browser.
 
 mixer : Start terminal volume control.
 a : Increase volume by six decibels.
-z : Decrease volume by six decibels.
-# DELETED OR RENAMED FUNCTION!:  : Decrease volume by six decibels new one.
+ : Increase volume by six decibels new one.
+zz : Decrease volume by six decibels.
 aa : Increase volume by two decibels.
-zz : Decrease volume by two decibels.
 
 
 #######
@@ -328,3 +327,4 @@ lspci ; -v
 hd ;
 chrome ; --touch-devices=123
 lynx ; -accept_all_cookies -vikeys www.google.com
+

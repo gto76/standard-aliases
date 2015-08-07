@@ -1,4 +1,10 @@
-AL_FILENAME='../functions'
-USERS_RC_FILENAME='/home/minerva/.standardrc'
-PROJECTS_RC_FILENAME='../standardrc'
-RC_OPTIONS_COMMENT='resources/rc-options-comment'
+import os
+from os.path import expanduser
+
+homeDir = expanduser("~")
+scriptsDir = os.path.dirname(__file__)
+
+USERS_RC_FILENAME=os.path.join(homeDir, '.standardrc')
+AL_FILENAME=os.path.join(scriptsDir, '../functions')
+PROJECTS_RC_FILENAME=os.path.join(scriptsDir, '../standardrc')
+RC_OPTIONS_COMMENT=os.path.join(scriptsDir, 'resources/rc-options-comment')

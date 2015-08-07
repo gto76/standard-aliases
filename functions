@@ -1769,6 +1769,13 @@ __increaseVolumeBySixDecibels() {
     ___setVolumeTo "6%+" | tail -n 1
 }
 
+
+# Increases volume by 6dB.
+__increaseVolumeBySixDecibelsNewOne() {
+    ___setVolumeTo "6%+" | tail -n 1
+}
+
+
 # Decreases volume by 6dB.
 __decreaseVolumeBySixDecibels() {
     ___setVolumeTo "6%-" | tail -n 1
@@ -1776,6 +1783,11 @@ __decreaseVolumeBySixDecibels() {
 
 # Increases volume by 2dB.
 __increaseVolumeByTwoDecibels() {
+    ___setVolumeTo "2%+" | tail -n 1
+}
+
+# Increases volume by 2dB.
+__increaseVolumeByTwoDecibelsTest() {
     ___setVolumeTo "2%+" | tail -n 1
 }
 
