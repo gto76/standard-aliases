@@ -1,7 +1,7 @@
-if [ -f ~/.standard_aliases/standard_aliases ]; then
-    projectLocation=$(dirname $(readlink ~/.standard_aliases/standard_aliases))
+if [ -f ~/.standard_aliases/functions ]; then
+    projectLocation=$(dirname $(readlink ~/.standard_aliases/functions))
     "$projectLocation"/scripts/update-project 
-    . ~/.standard_aliases/standard_aliases
-    . ~/.standard_aliases/standard_shortcuts
+    . ~/.standard_aliases/functions
+    . ~/.standard_aliases/shortcuts
 fi
 

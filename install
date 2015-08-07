@@ -40,22 +40,19 @@ copyFileSafely() {
 
 main() {
     # Create link to functions and copy conf file.
-    createLinkSafely ~/.standard_aliases standard_aliases
-    copyFileSafely ~/.standard_rc standard_rc
-    touch ~/.standard_rc
-
+    createLinkSafely ~/.standard_aliases functions
+    copyFileSafely ~/.standardrc standardrc
+    touch ~/.standardrc
     # Create ~/.bashrc if it doesen't exist.
     if [[ ! -f ~/.bashrc ]]; then
         touch ~/.bashrc
     fi
-     
     # Add statement to .bashrc that will update project every
     # time bash starts, and load standard aliases and
     # shortcuts.
     if [[ -z $(grep ". ~/.standard_aliases" ~/.bashrc) ]]; then
         cat ./scripts/resources/append-to-bashrc >> ~/.bashrc
     fi
-
     echo "Run 'bash' for changes to take effect."
 }
 

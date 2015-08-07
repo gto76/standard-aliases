@@ -1,12 +1,11 @@
 #!/bin/bash
 #
 # Usage: generate_shortcuts 
-# Runs parse-rc script, that parses ~/.standard_rc and generates
-# new ~/.standard_aliases/standard_shortcuts.
+# Runs parse-rc script, that parses ~/.standardrc and generates
+# new ~/.standard_aliases/shortcuts.
 
 # Stops execution if any command fails.
 set -eo pipefail
-#set -euo pipefail
 
 main() {
     scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -27,7 +26,7 @@ main() {
 #        echo -n "script, so aliases were not loaded." >&2
 #        exit 1
 #    fi
-    echo "$shortcuts" > ~/.standard_aliases/standard_shortcuts
+    echo "$shortcuts" > ~/.standard_aliases/shortcuts
 }
 
 main "$@"

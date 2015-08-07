@@ -7,4 +7,4 @@
 set -eo pipefail
 
 ./uninstall
-rm -f ~/.standard_rc
+rm -f ~/.standardrc

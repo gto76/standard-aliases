@@ -1,4 +1,4 @@
-AL_FILENAME='../standard_aliases'
-USERS_RC_FILENAME='/home/minerva/.standard_rc'
-PROJECTS_RC_FILENAME='../standard_rc'
+AL_FILENAME='../functions'
+USERS_RC_FILENAME='/home/minerva/.standardrc'
+PROJECTS_RC_FILENAME='../standardrc'
 RC_OPTIONS_COMMENT='resources/rc-options-comment'

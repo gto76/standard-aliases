@@ -7,8 +7,7 @@
 set -eo pipefail
 
 main() {
-    rm -f ~/.standard_aliases/standard_aliases
-    rm -f ~/.standard_aliases/standard_shortcuts
+    rm -f ~/.standard_aliases/*
     rmdir ~/.standard_aliases 2>/dev/null
 }
 
