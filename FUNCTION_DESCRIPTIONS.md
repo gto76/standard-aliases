@@ -178,7 +178,7 @@ Commands
 :------------- |:--------:| ----------------
 **grep1** | `grep --color=au`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L923-L925) | Print lines containing pattern.
 **gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L929-L932) | Print or display with pager lines containing pattern.
-**** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L936-L942) | Print or display with pager lines containing pattern in working and subdirectories.
+**grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L936-L942) | Print or display with pager lines containing pattern in working and subdirectories.
 **lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L946-L950) | Locate files on filesystem containing pattern in their names.
 **find1** | `find  . -name "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L956-L960) | Locate files containing pattern in their names in working and sub directories.
 

@@ -161,7 +161,7 @@ sort1 : Sort lines by column.
 
 grep1 : Print lines containing pattern.
 gr : Print or display with pager lines containing pattern.
- : Print or display with pager lines containing pattern in working and subdirectories.
+grr : Print or display with pager lines containing pattern in working and subdirectories.
 lo, locate1 : Locate files on filesystem containing pattern in their names.
 find1 : Locate files containing pattern in their names in working and sub directories.
 
@@ -293,6 +293,7 @@ lynx1 : Start terminal web browser.
 mixer : Start terminal volume control.
 a : Increase volume by six decibels.
 z : Decrease volume by six decibels.
+# DELETED OR RENAMED FUNCTION!:  : Decrease volume by six decibels new one.
 aa : Increase volume by two decibels.
 zz : Decrease volume by two decibels.
 

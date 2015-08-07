@@ -90,3 +90,4 @@ Linux for the rest of us.
 Linux is elegant and concise, but it is also hard.
 If you can't type well and/or have problem with memorizing stuff you're basically screwed.
 
+Make install ask you automaticaly if you want make installed, and inform you about already defined aliases (and commnet those out)

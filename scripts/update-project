@@ -36,6 +36,15 @@ isProjectsStandardRcUpToDate() {
     fi
 }
 
+isUsersStandardRcUpToDate() {
+    if [[ "$scriptsDir"/../functions \
+        -nt  ~/.standardrc ]]; then
+        echo "false"
+    else
+        echo "true"
+    fi
+}
+
 isListOfFunctionsUpToDate() {
     if [[ "$scriptsDir"/../standardrc \
             -nt "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md ]] \
@@ -51,10 +60,14 @@ main() {
     if [[ $(areStandardShortcutsUpToDate) == "false" ]]; then
         "$scriptsDir"/generate-shortcuts
     fi
-    #if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
+    if [[ $(isProjectsStandardRcUpToDate) == "false" ]]; then
         newRc=$("$scriptsDir"/update-rc.py)
         echo "$newRc" > "$scriptsDir"/../standardrc
-    #fi
+    fi
+    if [[ $(isUsersStandardRcUpToDate) == "false" ]]; then
+        newRc=$("$scriptsDir"/update-rc.py --user)
+        echo "$newRc" > ~/.standardrc
+    fi
     if [[ $(isListOfFunctionsUpToDate) == "false" ]]; then
         newFunctionDescriptions=$("$scriptsDir"/generate-table-for-readme.py)
         echo "$newFunctionDescriptions" >  "$scriptsDir"/../FUNCTION_DESCRIPTIONS.md
