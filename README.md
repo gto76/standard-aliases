@@ -1,7 +1,7 @@
 Standard Aliases
 ================
 
-Make Linux more user friendly with this collection of (Bash aliases)(http://tldp.org/LDP/abs/html/aliases.html).
+Make Linux more user friendly with this collection of [Bash aliases](http://tldp.org/LDP/abs/html/aliases.html).
 
 Linux is elegant and concise, but it is also hard.
 If you can't type well and/or have problem with memorizing stuff you're basically screwed.
