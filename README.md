@@ -18,6 +18,9 @@ Here is a short list of ones I find most useful:
 Commands
 --------
 
+Below is a short list of most useful commands. If you want to check the full list click here: [**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
+
+
 ####  Basic
 
  _Name_        | _Runs_   | _Description_  
@@ -82,17 +85,14 @@ Commands
 **pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1589-L1593) | Ping gateway and google.
 **i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1730-L1732) | Start default browser in background.
 
-List Of All Functions
----------------------
-[**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
 
 How to install
 --------------
 
 ```bash
-$ git clone https://github.com/gto76/comp-cpp.git
-$ cd comp-cpp
-$ ./run
+$ git clone https://github.com/gto76/standard-aliases.git
+$ cd standard-aliases
+$ ./install
 ```
 
 Short Description
