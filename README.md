@@ -3,6 +3,9 @@ Standard Aliases
 
 Make Linux more user friendly with this collection of (Bash aliases)(http://tldp.org/LDP/abs/html/aliases.html).
 
+Linux is elegant and concise, but it is also hard.
+If you can't type well and/or have problem with memorizing stuff you're basically screwed.
+
 Technically they are not aliases but Bash functions, but standard aliases sounds less generic then standard functions...
 
 This collection provides the commands, that should be in Linux by default,
@@ -11,17 +14,6 @@ or just an abveriatons of commands that are provided, but are so commonly used t
 Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones I find most useful:
 
-
-
-
-
-Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
-
-Also only aliases get documented by generate-readme script.
-
-By convention a function that calls the a command with some set of options that are quiet sensible for that command to be run with is named <command-name>WithSensibleOptions. This function is then usualy aliased with <command-name>1, and often also with a two letter aberration.
-
-[**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
 
 Commands
 --------
@@ -90,11 +82,28 @@ Commands
 **pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1589-L1593) | Ping gateway and google.
 **i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1730-L1732) | Start default browser in background.
 
-This aliases were made for debian based linux (ubuntu, mint,...) with gnome desktop environment, but most aliases will work on all systems with bash shell.
+
+[**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
+
+
+Short Description
+-----------------
+
+All functions have long and descriptive name, that starts with two underscores, so they don't polute the shells namespace. This functions are then "aliased" with shorther name, or names, that are specified in `standardrc` configuration file.
+
+Utility functions, that are not meant to be aliased start with three underscores.
+
+Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
+
+Also only aliases get documented by generate-readme script.
+
+This aliases were made for debian based linux (ubuntu, mint,...) with gnome desktop environment, but most aliases will work on all systems with Bash shell.
 
 Most aliases will send output to pager if it will be too long to fit the screen.
 
 Some aliases require special tools that are not installed by default on most systems. You can install them all at one with command belove, but it is probably more reasonable to just install them when demand arises.
+
+By convention a function that calls the a command with some set of options that are quiet sensible for that command is usualy aliased with <command-name>1, and often also with a two letter aberration. Options for this commands are defined in `standardrc`
 
 Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or just by sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
 ps1
@@ -104,33 +113,11 @@ mkdir1
 
 Only aliases that override the commands are cp, mv and rm. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this promptint, then use -f (force) option. 
 
-If the list belowe seems too long here is a shorthened list of aliases, that I consider almost necesary:)
-m
-l/ll/lll
-cpdir/mvdir/rmdir
-rb
-o
-ty
-te
-(ma)
-mk
-
-
 When adding new alias alwalys check if it is already taken by any command with `wi <alias>`.
-
-Do not change the names of the functions, because other functions and/or aliases may be using it. You can however freely change the names of the aliases.
-
-
-// Intentions
-I know it is a bit abnockuous to think your colection of aliases is so great, that it should become adopted as standard, but what a hack, I worked on and been using them for long time, and I just feel so limited withouth them.
-
 
 completions...
 automatioc completions from the command that gets parameters in function.
 
-Linux for the rest of us.
+// Intentions
+I know it is a bit abnockuous to think your colection of aliases is so great, that it should become adopted as standard, but what a hack, I worked on and been using them for long time, and I just feel so limited withouth them.
 
-Linux is elegant and concise, but it is also hard.
-If you can't type well and/or have problem with memorizing stuff you're basically screwed.
-
-Make install ask you automaticaly if you want make installed, and inform you about already defined aliases (and commnet those out)
