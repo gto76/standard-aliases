@@ -685,14 +685,14 @@ __displayTextInPagerAsSuperUser() {
     sudo less "${_LESS_OPTIONS[@]}" "$@"
 }
 
-# Runs Vim in read only mode, as superuser
-__viewFileInVimAsSuperUser() {
-    sudo view "${_VIM_OPTIONS[@]}" "$@"
-}
-
 # Runs Vim as su.
 __editFileWithVimAsSuperUser() {
     sudo vim "${_VIM_OPTIONS[@]}" "$@"
+}
+
+# Runs Vim in read only mode, as superuser
+__viewFileInVimAsSuperUser() {
+    sudo view "${_VIM_OPTIONS[@]}" "$@"
 }
 
 # Runs Nano as su.

@@ -1,7 +1,7 @@
+# Loads functions and shortcuts of Standard Aliases project.
 if [ -f ~/.standard_aliases/functions ]; then
     projectLocation=$(dirname $(readlink ~/.standard_aliases/functions))
-    "$projectLocation"/scripts/update-project 
+    (cd "$projectLocation"; make --quiet)
     . ~/.standard_aliases/functions
     . ~/.standard_aliases/shortcuts
-fi
-
+fi 

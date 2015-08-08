@@ -73,7 +73,7 @@ ty, type1 : Print command type or definition.
 tyty : Print function that a function calls.
 c : Print file contents.
 ?, exitCode : Print exit code of last command.
-cl : Clear the screen.
+cl, clr : Clear the screen.
 re : Reset the screen.
 q : Exit bash shell.
 o, openFile : Open file with default app.
@@ -133,7 +133,7 @@ mount : Run mount as super user.
 
 # PROCESESS #
 
-ht, taskManager : Run terminal task manager.
+tm, taskManager, ht : Run terminal task manager.
 ps1 : Print users processes.
 psa, pse, processes : Print all processes.
 pgrep1 : Find processes with part of name.
@@ -171,9 +171,9 @@ extract : Extract archive of any type.
 
 # TERMINAL MULTIPLEXER #
 
-tm : Run terminal multiplexer.
-tma : Run terminal multiplexer and attach to last session.
-tml : List terminal multiplexers sessions.
+mu : Run terminal multiplexer.
+mua : Run terminal multiplexer and attach to last session.
+mul : List terminal multiplexers sessions.
 
 # SYSTEM INFORMATION #
 
