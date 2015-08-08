@@ -1,48 +1,27 @@
 Standard Aliases
 ================
 
-Make Linux more user friendly with this collection of bash aliases.
+Make Linux more user friendly with this collection of (Bash aliases)(http://tldp.org/LDP/abs/html/aliases.html).
+
+Technically they are not aliases but Bash functions, but standard aliases sounds less generic then standard functions...
+
+This collection provides the commands, that should be in Linux by default,
+or just an abveriatons of commands that are provided, but are so commonly used that they deserve a shorter name.
 
 Bash aliases are most useful device for customizing your Linux...
-Here is a short list of ones i find most useful:
-
-** t - tree
-l/ll/lll (GIF)
-cpdir/mvdir/rmdir
-** rb - runs command in background
-** o  - open file with default app
-mk - mkdir and descend into
-me - make executable
-gr - grep with pager
-** extract - extracts archive of any type
-ch - can haz
-version
-** wi - what is (GIF)
-gs - git status
-gl - git log
-gd - git diff
-ip1 - internal ip
-ip2 - external ip
-pa - ping all
-** ne - network status
-wr - wireless reset
-i - internet: default browser in background
-al - opens this file in vim
-
-?ma - make with pager
-?m  - cat or less
-?te - open another terminal with same working directory
-?fu - fuck: runs last command as sudo
-?ty - type
+Here is a short list of ones I find most useful:
 
 
-[**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
+
+
 
 Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
 
 Also only aliases get documented by generate-readme script.
 
 By convention a function that calls the a command with some set of options that are quiet sensible for that command to be run with is named <command-name>WithSensibleOptions. This function is then usualy aliased with <command-name>1, and often also with a two letter aberration.
+
+[**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
 
 Commands
 --------

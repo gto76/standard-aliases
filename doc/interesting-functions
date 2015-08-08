@@ -55,7 +55,7 @@ Change hue of color blue in linux terminal.
 Install package.
 
 # PACKAGE INFORMATION #
-Print version of package or version.
+Print version of package or version of installed commands package.
 
 # PACKAGE SEARCH #
 Describe package or command or find available packages with part of name or available packages that provide command.
