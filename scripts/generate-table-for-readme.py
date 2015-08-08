@@ -48,7 +48,7 @@ def getRow(shortcut, explanation, commandsWithOptions):
         return
     functionName = util.descriptionToCamelCase(explanation)
     lineStart, lineEnd = getFunctionLineNumber(functionName)
-    functionBody = getFunctionBody(lineStart, commandsWithOptions)
+    functionBody = getFunctionBody(lineStart, commandsWithOptions).replace('`','')
     link = getLink(lineStart, lineEnd)
     if len(functionBody) >= LENGTH_OF_CODE_SNIPPET \
         or lineEnd - lineStart > 2:

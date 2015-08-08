@@ -3,9 +3,14 @@ Print or display text in pager.
 
 # LS #
 List or display directory contents in pager using short listing format.
+Print name of random file in directory.
 
 # TREE #
 Print directory structure.
+
+# CD #
+Go up one directory.
+Mount iso and cd into.
 
 # FILES #
 Copy directories safely.
@@ -13,6 +18,12 @@ Move directories safely.
 Delete directories safely.
 Create directory and descend into.
 Backup file.
+Print working directory or path to file.
+Print text.
+Run command in background.
+
+# PWD #
+Print working directory or path to file.
 
 # ECHO #
 Print text.
@@ -21,11 +32,17 @@ Print text.
 Run command in background.
 
 # BASICS #
+ Print command type or definition.
 Print file contents.
 Print exit code of last command.
+Clear the screen.
+Reset the screen.
 Exit bash shell.
 Open file with default app.
 Open new terminal with same working directory.
+Update files timestamp or create new one.
+Run make with pager.
+Start file explorer in background in working directory.
 Make file executable or create new bash or python script.
 
 # TEXT EDITORS #
@@ -35,6 +52,13 @@ View file in vim.
 # SUDO #
 Execute last command as super user.
 Edit file with vim as super user.
+
+# PROCESESS #
+Run terminal task manager.
+Kill process with kill signal.
+
+# TEXT #
+Count lines in files with extension in working and subdirectories.
 
 # SEARCH #
 Print or display with pager lines containing pattern.
@@ -48,8 +72,15 @@ Extract archive of any type.
 Print available disk space in simplified form.
 Print disk space occupied by file or folder.
 
+# POWER #
+Restart computer.
+Shut down computer.
+Hibernate computer.
+Suspend computer.
+
 # MISC #
 Change hue of color blue in linux terminal.
+Change bash line editing to vi mode.
 
 # PACKAGE MANAGEMENT #
 Install package.
@@ -61,6 +92,9 @@ Print version of package or version.
 Describe package or command or find available packages with part of name or available packages that provide command.
 
 # GIT #
+Commit changed and deleted files with message.
+Push changes to remote repository.
+Pull changes from remote repository.
 Print short repository status.
 Display log of commits.
 Display changes between commits.

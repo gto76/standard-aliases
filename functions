@@ -12,7 +12,6 @@
 # LESS #
 ########
 
-
 # Runs less with a few sensible options.
 #   * ignore case when searching, 
 #   * do not ring a bell,
@@ -878,7 +877,7 @@ __countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
             cd "$rootDir"
         fi
         if [[ "$file" == *."$1" ]]; then
-            let no=$no+`cat "$file" | wc -l`    
+            let no=$no+$(cat "$file" | wc -l)
         fi
     done
     echo $no
@@ -1544,7 +1543,7 @@ __cloneAllUsersGithubProjects() {
     if [[ -z "$1" ]]; then
         exit
     fi
-    tempFile=`mktemp`
+    tempFile=$(mktemp)
     wget 'https://github.com/gto76?tab=repositories' -O "$tempFile"
     repos=$(grep "$1"/[^//\"]* -o "$tempFile" \
         | sort -u \
@@ -1588,7 +1587,7 @@ __printMacAddressesOfNetworkDevices() {
 
 # Pings gateway, ip address of noip.com and www.google.com.
 __pingGatewayAndGoogle() {
-    ping -c 1 -q `gateway` | grep --color=never -A 1 statistics
+    ping -c 1 -q $(gateway) | grep --color=never -A 1 statistics
     ping -c 1 -q 8.23.224.107 | grep --color=never -A 1 statistics
     ping -c 1 -q www.google.com | grep --color=never -A 1 statistics
 }
