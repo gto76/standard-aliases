@@ -3,13 +3,13 @@ Standard Aliases
 
 Make Linux more user friendly with this collection of [**Bash aliases**](http://tldp.org/LDP/abs/html/aliases.html).
 
+Technically they are not aliases but Bash Functions, but *Standard Aliases* sounds less generic than *Standard Functions*...
+
 Linux is elegant and concise, but it is also hard.
 If you can't type well and/or have problem with memorizing stuff you're basically screwed.
 
-Technically they are not aliases but Bash functions, but standard aliases sounds less generic then standard functions...
-
 This collection provides the commands, that should be in Linux by default,
-or just an abveriatons of commands that are provided, but are so commonly used that they deserve a shorter name.
+or just an aberrations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
 Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones I find most useful:
@@ -39,7 +39,7 @@ Commands
 **cpdir** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L349-L351) | Copy directories safely.
 **mvdir** | `mv --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L355-L357) | Move directories safely.
 **rmdir** | `rm --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L362-L364) | Delete directories safely.
-**mk, md, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L368-L371) | Create directory and descend into.
+**mk, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L368-L371) | Create directory and descend into.
 **bk, backup** | `sudo cp --prese`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L375-L377) | Backup file.
 **o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L492-L494) | Open file with default app.
 **me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L535-L564) | Make file executable or create new bash or python script.
@@ -82,9 +82,18 @@ Commands
 **pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1589-L1593) | Ping gateway and google.
 **i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1730-L1732) | Start default browser in background.
 
-
+List Of All Functions
+---------------------
 [**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md)
 
+How to install
+--------------
+
+```bash
+$ git clone https://github.com/gto76/comp-cpp.git
+$ cd comp-cpp
+$ ./run
+```
 
 Short Description
 -----------------
