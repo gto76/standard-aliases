@@ -47,7 +47,7 @@ By convention a function that calls the a command with some set of options that 
 Commands
 --------
 
-####  Basics 
+####  Basic
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ---------------
