@@ -55,10 +55,10 @@ Commands
 **e** | `echo "$@"` | Print text.
 **c** | `cat "$@"` | Print file contents.
 **m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L63-L65) | Print or display text or file in pager.
-**q** | `exit` | Exit bash shell.
 **v** | `vim -p "$@"` | Edit file with vim.
-**?** | `echo $?` | Print exit code of last command.
+**q** | `exit` | Exit bash shell.
 **te** | `gnome-terminal `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L497-L499) | Open new terminal with same working directory.
+**?** | `echo $?` | Print exit code of last command.
 
 ####  Files 
 
