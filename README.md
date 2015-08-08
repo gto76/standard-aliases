@@ -86,7 +86,7 @@ Commands
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L429-L431) | Run command in background.
 **df1** | `df -h | grep "s`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1029-L1031) | Print available disk space in simplified form.
 
-####  Package Management
+####  Packages
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
