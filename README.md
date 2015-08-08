@@ -55,6 +55,7 @@ Commands
 **e** | `echo "$@"` | Print text.
 **c** | `cat "$@"` | Print file contents.
 **m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L63-L65) | Print or display text or file in pager.
+**v** | `vim -p "$@"` | Edit file with vim.
 **q** | `exit` | Exit bash shell.
 **?** | `echo $?` | Print exit code of last command.
 
@@ -71,14 +72,6 @@ Commands
 **o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L492-L494) | Open file with default app.
 **me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L535-L564) | Make file executable or create new bash or python script.
 **extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L968-L1001) | Extract archive of any type.
-
-####  Text Editors 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
-**v** | `vim -p "$@"` | Edit file with vim.
-**vv** | `view -p "$@"` | View file in vim.
-**sv** | `sudo vim -p "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L688-L690) | Edit file with vim as super user.
 
 ####  Search 
 
