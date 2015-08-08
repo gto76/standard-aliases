@@ -54,9 +54,9 @@ Commands
 **l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L172-L175) | List or display directory contents in pager using short listing format.
 **e** | `echo "$@"` | Print text.
 **c** | `cat "$@"` | Print file contents.
-**m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L63-L65) | Print or display text in pager.
-**?** | `echo $?` | Print exit code of last command.
+**m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L63-L65) | Print or display text or file in pager.
 **q** | `exit` | Exit bash shell.
+**?** | `echo $?` | Print exit code of last command.
 
 ####  Files 
 
