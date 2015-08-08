@@ -58,7 +58,7 @@ Commands
 **q** | `exit` | Exit bash shell.
 **v** | `vim -p "$@"` | Edit file with vim.
 **?** | `echo $?` | Print exit code of last command.
-**te, terminal** | `gnome-terminal `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L497-L499) | Open new terminal with same working directory.
+**te** | `gnome-terminal `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L497-L499) | Open new terminal with same working directory.
 
 ####  Files 
 
