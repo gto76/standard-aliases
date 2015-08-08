@@ -55,8 +55,8 @@ Commands
 **e** | `echo "$@"` | Print text.
 **c** | `cat "$@"` | Print file contents.
 **m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L63-L65) | Print or display text or file in pager.
-**v** | `vim -p "$@"` | Edit file with vim.
 **q** | `exit` | Exit bash shell.
+**v** | `vim -p "$@"` | Edit file with vim.
 **?** | `echo $?` | Print exit code of last command.
 
 ####  Files 
