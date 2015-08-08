@@ -109,8 +109,8 @@ scpdir : Copy directories safely as super user.
 smvdir : Move directories safely as super user.
 srmdir : Delete directories safely as super user.
 sm, sle : Display text in pager as super user.
-svv : View file in vim as super user.
 sv : Edit file with vim as super user.
+svv : View file in vim as super user.
 sn : Edit file with nano as super user.
 sg : Edit file with gedit as super user.
 fdisk : Run fdisk as super user.

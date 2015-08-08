@@ -93,7 +93,7 @@ Commands
 **tyty** | `type $(type "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L460-L463) | Print function that a function calls.
 **c** | `cat "$@"` | Print file contents.
 **?, exitCode** | `echo $?` | Print exit code of last command.
-**cl** | `clear` | Clear the screen.
+**cl, clr** | `clear` | Clear the screen.
 **re** | `reset "$@"` | Reset the screen.
 **q** | `exit` | Exit bash shell.
 **o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L493-L495) | Open file with default app.
@@ -135,16 +135,16 @@ Commands
 **smvdir** | `sudo mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L672-L674) | Move directories safely as super user.
 **srmdir** | `sudo rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L679-L681) | Delete directories safely as super user.
 **sm, sle** | `sudo less --RAW`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L684-L686) | Display text in pager as super user.
-**svv** | `sudo view -p "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L689-L691) | View file in vim as super user.
-**sv** | `sudo vim -p "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L694-L696) | Edit file with vim as super user.
+**sv** | `sudo vim -p "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L689-L691) | Edit file with vim as super user.
+**svv** | `sudo view -p "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L694-L696) | View file in vim as super user.
 **sn** | `sudo nano --und`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L699-L701) | Edit file with nano as super user.
 **sg** | `sudo gedit  "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L704-L706) | Edit file with gedit as super user.
-
+NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 ###  Procesess 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ht, taskManager** | `htop  "$@"` | Run terminal task manager.
+**tm, taskManager, ht** | `htop  "$@"` | Run terminal task manager.
 **ps1** | `ps  "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L792-L794) | Print users processes.
 **psa, pse, processes** | `ps -e  "$@" | _`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L797-L799) | Print all processes.
 **pgrep1** | `pgrep --list-na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L803-L805) | Find processes with part of name.
@@ -192,9 +192,9 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**tm** | `tmux  "$@"` | Run terminal multiplexer.
-**tma** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1015-L1017) | Run terminal multiplexer and attach to last session.
-**tml** | `tmux ls` | List terminal multiplexers sessions.
+**mu** | `tmux  "$@"` | Run terminal multiplexer.
+**mua** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1015-L1017) | Run terminal multiplexer and attach to last session.
+**mul** | `tmux ls` | List terminal multiplexers sessions.
 
 ###  System Information 
 
@@ -342,3 +342,4 @@ Commands
 **** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1774-L1776) | Increase volume by six decibels new one.
 **zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1780-L1782) | Decrease volume by six decibels.
 **aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1785-L1787) | Increase volume by two decibels.
+
