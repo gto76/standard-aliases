@@ -68,7 +68,6 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ---------------
-
 **e** | `echo "$@"` | Print text.
 **c** | `cat "$@"` | Print file contents.
 **m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L63-L65) | Print or display text in pager.
