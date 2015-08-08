@@ -47,17 +47,12 @@ By convention a function that calls the a command with some set of options that 
 Commands
 --------
 
-####  Ls 
+####  Files 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L172-L175) | List or display directory contents in pager using short listing format.
 **t, tree1** | `tree -C -I .git`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L264-L266) | Print directory structure.
-
-####  Files 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
 **cpdir** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L349-L351) | Copy directories safely.
 **mvdir** | `mv --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L355-L357) | Move directories safely.
 **rmdir** | `rm --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L362-L364) | Delete directories safely.
