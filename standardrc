@@ -1,9 +1,8 @@
 
 # LESS #
 
-le, less1 : Display text in pager.
-m : Print or display text in pager.
-mm : Print and display text in pager if necessary.
+le, less1 : Display text or file in pager.
+m : Print or display text or file in pager.
 
 # LS #
 
@@ -21,7 +20,8 @@ dll : List or display matching directories in pager using medium listing format.
 dlll : List or display matching directories in pager using long listing format.
 l1 : List or display in pager one directory item per line using short listing format.
 la1 : List or display in pager one directory item per line including hidden files using short listing format.
-first : Print name of first file in directory.
+first : List first file in directory.
+nf, newest : Print name of newest file in directory.
 rf, randomFile : Print name of random file in directory.
 findd, directories : Print all subdirectories.
 
@@ -72,7 +72,7 @@ ba : Start new bash shell.
 ty, type1 : Print command type or definition.
 tyty : Print function that a function calls.
 c : Print file contents.
-?, exitCode : Print exit code of last command.
+? : Print exit code of last command.
 cl, clr : Clear the screen.
 re : Reset the screen.
 q : Exit bash shell.
@@ -101,14 +101,14 @@ sub : Edit file with sublime text.
 # SUDO #
 
 s : Execute command as super user.
-f, fu, fuck : Execute last command as super user.
+f, fuck : Execute last command as super user.
 sudoCp : Copy files safely as super user.
 smv : Move files safely as super user.
 srm : Delete files safely as super user.
 scpdir : Copy directories safely as super user.
 smvdir : Move directories safely as super user.
 srmdir : Delete directories safely as super user.
-sm, sle : Display text in pager as super user.
+sm, sle : Display text or file in pager as super user.
 sv : Edit file with vim as super user.
 svv : View file in vim as super user.
 sn : Edit file with nano as super user.
@@ -292,9 +292,9 @@ lynx1 : Start terminal web browser.
 
 mixer : Start terminal volume control.
 a : Increase volume by six decibels.
- : Increase volume by six decibels new one.
-zz : Decrease volume by six decibels.
+z : Decrease volume by six decibels.
 aa : Increase volume by two decibels.
+zz : Decrease volume by two decibels.
 
 
 #######

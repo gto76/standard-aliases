@@ -18,71 +18,72 @@
 #   * do not mark empty lines with ~, 
 #   * format prompt as "<page-number>/<all-pages> <filename>",
 #   * set tabs to 4 spaces.
-__displayTextInPager() {
+__displayTextOrFileInPager() {
     less "${_LESS_OPTIONS[@]}" "$@"
+}
+
+___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd() {
+    noOfLines=$(cat "$2" 2>/dev/null \
+        | fold -w"$COLUMNS" \
+        | wc -l)
+    if [[ "$LINES" -gt "$noOfLines" ]]; then
+        cat "$2"
+    else
+        if [[ "$1" == 'true' ]]; then
+            __displayTextOrFileInPager +G "$2" 2>/dev/null
+        else
+            __displayTextOrFileInPager "$2" 2>/dev/null
+        fi
+    fi
+}
+
+___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
+    input=$(cat)
+    noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
+    if [[ "$LINES" -gt "$noOfLines" ]]; then
+        echo "$input" #| cat 
+        # Maybe cat is necessary in some cases because of
+        # colors, I forgot if there is a reason for cat to
+        # be here. 
+    else
+        if [[ "$1" == 'true' ]]; then
+            echo "$input" | __displayTextOrFileInPager +G 2>/dev/null
+        else
+            echo "$input" | __displayTextOrFileInPager 2>/dev/null
+        fi
+    fi
 }
 
 # Runs cat or less, depending on number of lines in file or
 # input. First argument must be either 'true' or some other
 # value, true meaning that lessgets run with G option. G option
 # starts less at the end of the input (scrolled to the bottom).
-___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
+___printOrDisplayTextOrFileInPagerWithOrWithoutStartingAtEnd() {
     if [[ "$#" -gt 1 ]]; then
-        noOfLines=$(cat "$2" 2>/dev/null \
-            | fold -w"$COLUMNS" \
-            | wc -l)
-        if [[ "$LINES" -gt "$noOfLines" ]]; then
-            cat "$2"
-        else
-            if [[ "$1" == 'true' ]]; then
-                __displayTextInPager +G "$2" 2>/dev/null
-            else
-                __displayTextInPager "$2" 2>/dev/null
-            fi
-        fi
+        ___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd "$@"
     else
-        input=$(cat)
-        noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
-        if [[ "$LINES" -gt "$noOfLines" ]]; then
-            echo "$input" #| cat 
-            # Maybe cat is necessary in some cases because of
-            # colors, i forgot if there is a reason for cat to
-            # be here. 
-        else
-            if [[ "$1" == 'true' ]]; then
-                echo "$input" | __displayTextInPager +G 2>/dev/null
-            else
-                echo "$input" | __displayTextInPager 2>/dev/null
-            fi
-        fi
+        cat | ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd "$@"
     fi
 }
 
 # Runs cat or less, depending on number of lines in file or
 # input.
-__printOrDisplayTextInPager() {
-    ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'false' "$@"
+__printOrDisplayTextOrFileInPager() {
+    ___printOrDisplayTextOrFileInPagerWithOrWithoutStartingAtEnd 'false' "$@"
 }
 
 # Open cat or less +G (starts at the end of file), depending on
 # no of lines of file or input.
-___printOrDisplayTextInPagerStartingAtEnd() {
-    ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd 'true' "$@"
+___printOrDisplayTextOrFileInPagerStartingAtEnd() {
+    ___printOrDisplayTextOrFileInPagerWithOrWithoutStartingAtEnd 'true' "$@"
 }
 
 # If file specified then runs cat or less, depending on no of
 # lines of file. If input is piped, then it prints line by
 # line. If all screen is filled, then it runs less.
-__printAndDisplayTextInPagerIfNecessary() {
+___printTextOrFileUntilPageIsFilledThenDisplayInPager() {
     if [[ "$#" -gt 0 ]]; then
-        noOfLines=$(cat "$1" 2>/dev/null \
-            | fold -w"$COLUMNS" \
-            | wc -l)
-        if [[ "$LINES" -gt "$noOfLines" ]]; then
-            cat "$1"
-        else
-            __displayTextInPager "$1" 2>/dev/null 
-        fi
+        ___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd 'false' "$1"
     else
         noOfLines=0
         input=""
@@ -165,7 +166,7 @@ ___displayOutputOfListingFunctionInPagerIfItDoesentFitScreen() {
     if [[ "$LINES" -gt "$noOfLines" ]]; then
         echo "$functionOutput"
     else
-        echo "$functionOutput" | __displayTextInPager +G
+        echo "$functionOutput" | __displayTextOrFileInPager +G
     fi
 }
 
@@ -240,19 +241,25 @@ __listOrDisplayInPagerOneDirectoryItemPerLineIncludingHiddenFilesUsingShortListi
 }
 
 # Prints name of first file in the directory.
-__printNameOfFirstFileInDirectory() {
+__listFirstFileInDirectory() {
     ls "$@" | head -1
+}
+
+# Prints name of a newest file in the directory.
+__printNameOfNewestFileInDirectory() {
+    ls -pt | grep -v / | head -1
 }
 
 # Prints name of a random file in the directory.
 __printNameOfRandomFileInDirectory() {
-    ls "$@" | sort -R | head -1
+    ls -pt | grep -v / | sort -R | head -1
 }
+
 
 # Prints all directories in current and sub-directories.
 # TODO problem with fine: no such file or directory in github.
 __printAllSubdirectories() {
-    find . -name .git -prune -o -type d | __printOrDisplayTextInPager
+    find . -name .git -prune -o -type d | __printOrDisplayTextOrFileInPager
 }
 
 
@@ -262,7 +269,7 @@ __printAllSubdirectories() {
 
 # Displays tree structure of current or specified folder.
 __printDirectoryStructure() {
-    tree "${_TREE_OPTIONS[@]}"  "$@" | __printOrDisplayTextInPager
+    tree "${_TREE_OPTIONS[@]}"  "$@" | __printOrDisplayTextOrFileInPager
 }
 
 
@@ -452,13 +459,13 @@ __startNewBashShell() {
 # it is an alias. Run this command if you are not sure what an
 # alias does!
 __printCommandTypeOrDefinition() {
-    type "$@" | __printOrDisplayTextInPager
+    type "$@" | __printOrDisplayTextOrFileInPager
 }
 complete -F _command __printCommandTypeOrDefinition
 
 __printFunctionThatAFunctionCalls() {
     type $(type "$@" | grep -A1 '{' | grep -o '__[^ ]*') \
-        | __printOrDisplayTextInPager
+        | __printOrDisplayTextOrFileInPager
 }
 complete -F _command __printFunctionThatAFunctionCalls
 
@@ -495,7 +502,7 @@ __openFileWithDefaultApp() {
 
 # Starts a new terminal, with same working directory. 
 __openNewTerminalWithSameWorkingDirectory() {
-    gnome-terminal "$@"
+    x-terminal-emulator "$@"
 }
 
 # Updates file's timestamp, or creates empty file, if it doesn't
@@ -512,7 +519,7 @@ __printDateAndTime() {
 # Runs make and sends both 'out' and 'error' streams to pager if
 # necessary.
 __runMakeWithPager() {
-    make "${_MAKE_OPTIONS[@]}" "$@" 2>&1 | __displayTextInPager
+    make "${_MAKE_OPTIONS[@]}" "$@" 2>&1 | __displayTextOrFileInPager
 }
 # Asigns make completion to command if available.
 if [ -f /usr/share/bash-completion/completions/make ]; then
@@ -527,7 +534,7 @@ __startFileExplorerInBackgroundInWorkingDirectory() {
 
 # Runs diff with colors and sends output to pager if necessary.
 __compareFilesLineByLineInColor() {
-    colordiff "${_DIFF_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
+    colordiff "${_DIFF_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
 # Creates executable bash script, or just changes modifiers to
@@ -552,7 +559,7 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
             echo '# ' >> "$1"
             echo >> "$1"
             echo '# Stops execution if any command fails.' >> "$1"
-            echo 'set -euo pipefail' >> "$1"
+            echo 'set -eo pipefail' >> "$1"
             echo >> "$1"
             echo 'main() {'>> "$1"
             echo '}'>> "$1"
@@ -573,11 +580,11 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
 __searchCommandHistoryForPattern() {
     if [ "$#" -eq 0 ]; then
         history \
-            | ___printOrDisplayTextInPagerStartingAtEnd
+            | ___printOrDisplayTextOrFileInPagerStartingAtEnd
     else
         history \
             | grep "$@" \
-            | ___printOrDisplayTextInPagerStartingAtEnd
+            | ___printOrDisplayTextOrFileInPagerStartingAtEnd
     fi
 }
 
@@ -680,7 +687,7 @@ __deleteDirectoriesSafelyAsSuperUser() {
 }
 
 # Runs less as su.
-__displayTextInPagerAsSuperUser() {
+__displayTextOrFileInPagerAsSuperUser() {
     sudo less "${_LESS_OPTIONS[@]}" "$@"
 }
 
@@ -789,18 +796,18 @@ __runTerminalTaskManager() {
 # Prints user's processes and sends output to pager if
 # necessary.
 __printUsersProcesses() {
-    ps "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
+    ps "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
 # Prints every process on the system.
 __printAllProcesses() {
-    ps -e "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
+    ps -e "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
 # Prints processes with specified pattern in their names,
 # together with their PIDs.
 __findProcessesWithPartOfName() {
-    pgrep "${_PGREP_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
+    pgrep "${_PGREP_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 # Asigns pgrep completion to command if available.
 if [ -f /usr/share/bash-completion/completions/pgrep ]; then
@@ -819,7 +826,7 @@ complete -F _pids __killProcessWithKillSignal
 # 2000 characters, and also traces child processes.
 __traceSystemCalls() {
     strace "${_STRACE_OPTIONS[@]}" "$@" 2>&1 \
-        | __printAndDisplayTextInPagerIfNecessary 
+        | ___printTextOrFileUntilPageIsFilledThenDisplayInPager 
 }
 complete -F _command __traceSystemCalls
 
@@ -927,7 +934,7 @@ complete -F _longopt __printLinesContainingPattern
 # Runs __printLinesContainingPattern and sends output to pager.
 __printOrDisplayWithPagerLinesContainingPattern() {
     __printLinesContainingPattern --color=always "$@" \
-        | __printOrDisplayTextInPager
+        | __printOrDisplayTextOrFileInPager
 }
 
 # Runs __printLinesContainingPattern with --recursive and 
@@ -937,7 +944,7 @@ __printOrDisplayWithPagerLinesContainingPatternInWorkingAndSubdirectories() {
         --recursive \
         --line-number \
         --color=always "$@" \
-        | __printOrDisplayTextInPager
+        | __printOrDisplayTextOrFileInPager
 }
 
 # Tries to find specified file using index. (Run 'sudo updatedb'
@@ -1063,7 +1070,7 @@ __printOperatingSystemInformation() {
 
 # Prints verbose information about all PCI devices. 
 __printInfoAboutPciDevices() {
-    lspci "${_LSPCI_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
+    lspci "${_LSPCI_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
 
@@ -1140,7 +1147,7 @@ __runTerminalCalculatorThatSupportsDecimalNumbers() {
 
 # Prints hexadecimal representation of file or piped stream.
 __printHexadecimalRepresentationOfFileOrStream() {
-    hd "${_HD_OPTIONS[@]}" "$@" | __printOrDisplayTextInPager
+    hd "${_HD_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
 # Runs profile script.
@@ -1220,14 +1227,14 @@ __printPackagesThatWereInstalledByUser() {
     cat /var/log/apt/history.log \
         | grep "apt-get install" \
         | sed "s/.* //" \
-        | ___printOrDisplayTextInPagerStartingAtEnd
+        | ___printOrDisplayTextOrFileInPagerStartingAtEnd
 }
 
 # Prints all installed packages.
 __printAllInstalledPackages() {
     dpkg --get-selections \
         | grep -v deinstall \
-        | __printOrDisplayTextInPager
+        | __printOrDisplayTextOrFileInPager
 }
 
 # Shows on which packages specified package depends.
@@ -1236,7 +1243,7 @@ __printPackageDependencies() {
         | grep Depends \
         | sed 's/Depends:/ /' \
         | sed 's/,/\n /g' \
-        | __printOrDisplayTextInPager
+        | __printOrDisplayTextOrFileInPager
 }
 
 
@@ -1246,7 +1253,7 @@ __printPackageDependencies() {
 
 # Prints package description.
 __printPackageDescription() {
-    apt-cache show "$@" | grep "^ " | __printOrDisplayTextInPager
+    apt-cache show "$@" | grep "^ " | __printOrDisplayTextOrFileInPager
 }
 
 # Returns 0 if package is instaled, or non-zero if not.
@@ -1375,7 +1382,7 @@ ___findAvailablePackagesWithPartOfNameOrFullCommand() {
     echo -n   "====================================="
     echo "$1" | sed 's/./=/g'
     ___findAvailablePackagesWithPartOfName "$@") \
-        | __printAndDisplayTextInPagerIfNecessary 
+        | ___printTextOrFileUntilPageIsFilledThenDisplayInPager 
 }
 
 ___printDescriptionOfBashBuiltinOrAnAlias() {
@@ -1402,14 +1409,14 @@ __describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackag
     # Checks if it is a package.
     call2=$(__printPackageDescription "$@" 2> /dev/null) 
     if [ "$call2" != "" ]; then
-        echo "$call2" | __printOrDisplayTextInPager
+        echo "$call2" | __printOrDisplayTextOrFileInPager
         return
     fi
 
     # Checks if it is an alias of bash builtin.
     call3=$(___printDescriptionOfBashBuiltinOrAnAlias "$@" 2> /dev/null)
     if [ "$call3" != "" ]; then
-        echo "$call3" | __printOrDisplayTextInPager
+        echo "$call3" | __printOrDisplayTextOrFileInPager
         return
     fi
 
@@ -1470,7 +1477,7 @@ __listBranchesOrCreateNewOne() {
 # Prints short status of repository.
 __printShortRepositoryStatus() {
     git -c color.status=always status -sb "$@" \
-        | __printOrDisplayTextInPager
+        | __printOrDisplayTextOrFileInPager
 }
 
 # Prints nicely decorated graph of commits, with commit
@@ -1768,13 +1775,6 @@ __increaseVolumeBySixDecibels() {
     ___setVolumeTo "6%+" | tail -n 1
 }
 
-
-# Increases volume by 6dB.
-__increaseVolumeBySixDecibelsNewOne() {
-    ___setVolumeTo "6%+" | tail -n 1
-}
-
-
 # Decreases volume by 6dB.
 __decreaseVolumeBySixDecibels() {
     ___setVolumeTo "6%-" | tail -n 1
@@ -1782,11 +1782,6 @@ __decreaseVolumeBySixDecibels() {
 
 # Increases volume by 2dB.
 __increaseVolumeByTwoDecibels() {
-    ___setVolumeTo "2%+" | tail -n 1
-}
-
-# Increases volume by 2dB.
-__increaseVolumeByTwoDecibelsTest() {
     ___setVolumeTo "2%+" | tail -n 1
 }
 

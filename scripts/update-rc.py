@@ -77,6 +77,8 @@ def getBlocks(functions, functionsForTheBlocks):
                 blocks[lastFunction] = block
                 block = []
             lastFunction = function
+    if block:
+        blocks[lastFunction] = block
     return blocks
 
 def getUnchangedFunctions(functions, functionsWithShortcuts):
