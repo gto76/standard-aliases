@@ -1420,7 +1420,8 @@ ___findAvailablePackagesWithPartOfNameOrFullCommand() {
 }
 
 ___printDescriptionOfBashBuiltinOrAnAlias() {
-    answer=$(type "$@")
+    #answer=$(type "$@")
+    answer=$(__printCommandTypeOrDefinition "$@")
     echo "$answer"
     if [[ $(echo "$answer" | grep "is a shell") != "" ]]; then
         help "$@"
