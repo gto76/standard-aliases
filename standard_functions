@@ -455,7 +455,7 @@ __editUsersStandardRc() {
 
 __editProjectsStandardRc() {
     projectLocation=$(dirname $(readlink ~/.standard_aliases/functions))
-    "$EDITOR" "$projectLocation"/standardrc
+    "$EDITOR" "$projectLocation"/standard_rc
 }
 
 # Runs bash. Run this command for changes to this file to take
