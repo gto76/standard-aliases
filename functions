@@ -1302,8 +1302,8 @@ ___printPackagesInstalledAndAvailableVersion() {
 }
 
 # Prints installed and remote version of package or command
-# (that is part of package).
-__printInstalledAndAvailableVersionOfPackageOrInstalledCommandsPackage() {
+# (that is part of package). Command version only works for installed commands
+__printInstalledAndAvailableVersionOfPackageOrInstalledCommand() {
     # Check if passed name is a package, and print its version
     # if it is.
     packageVersion=$(___printPackagesInstalledAndAvailableVersion "$@")
@@ -1431,7 +1431,7 @@ ___printDescriptionOfBashBuiltinOrAnAlias() {
 # function returns.  describe package or command or find
 # available packages with part of name or available packages
 # that provide command
-__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrAvailablePackagesThatProvideCommand() {
+__describePackageOrCommandOrFindAvailablePackagesWithPartOfNameOrCommand() {
     # Checks if it is an installed command.
     __printPackageOfInstalledCommandTogetherWithDescriptionAndLocation "$@"
     if [ "$?" == "0" ]; then 

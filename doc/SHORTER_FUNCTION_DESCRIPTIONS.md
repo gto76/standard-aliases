@@ -106,7 +106,6 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1434-L1458) | Describe package or command or find available packages with part of name or available packages that provide command.
 
 ####  Git 
 

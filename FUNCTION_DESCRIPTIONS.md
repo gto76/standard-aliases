@@ -259,7 +259,7 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **pd, describe** | `apt-cache show `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1287-L1289) | Print package description.
-**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1306-L1323) | Print installed and available version of package or installed commands package.
+**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1306-L1323) | Print installed and available version of package or installed command.
 **package** | `call1=$(sudo wh`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1353-L1369) | Print package of installed command together with description and location.
 
 ###  Package Search 
@@ -269,7 +269,7 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 **findPackage** | `apt-cache searc`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1378-L1381) | Find available packages with part of name or description.
 **ap, apropos1, findCommand** | `apropos "$@" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1386-L1389) | Find installed commands with part of name or description.
 **apt-file1** | `apt-file search`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1392-L1396) | Find available packages that provide command.
-**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1434-L1458) | Describe package or command or find available packages with part of name or available packages that provide command.
+**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1434-L1458) | Describe package or command or find available packages with part of name or command.
 
 ###  Git 
 

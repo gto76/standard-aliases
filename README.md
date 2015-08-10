@@ -67,8 +67,8 @@ Below is a short list of most useful commands. If you want to check out the full
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **ch, canhaz** | `sudo apt-get in`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1177-L1179) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1267-L1284) | Print installed and available version of package or installed commands package.
-**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1395-L1419) | Describe package or command or find available packages with part of name or available packages that provide command.
+**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1267-L1284) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1395-L1419) | Describe package or command or find available packages with part of name or command.
 
 
 How to install

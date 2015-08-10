@@ -227,7 +227,7 @@ depends : Print package dependencies.
 # PACKAGE INFORMATION #
 
 pd, describe : Print package description.
-ve, version : Print installed and available version of package or installed commands package.
+ve, version : Print installed and available version of package or installed command.
 package : Print package of installed command together with description and location.
 
 # PACKAGE SEARCH #
@@ -235,7 +235,7 @@ package : Print package of installed command together with description and locat
 findPackage : Find available packages with part of name or description.
 ap, apropos1, findCommand : Find installed commands with part of name or description.
 apt-file1 : Find available packages that provide command.
-wi, whatis1 : Describe package or command or find available packages with part of name or available packages that provide command.
+wi, whatis1 : Describe package or command or find available packages with part of name or command.
 
 # GIT #
 
