@@ -3,5 +3,5 @@ if [ -f ~/.standard_aliases/functions ]; then
     projectLocation=$(dirname $(readlink ~/.standard_aliases/functions))
     (cd "$projectLocation"; make --quiet)
     . ~/.standard_aliases/functions
-    . ~/.standard_aliases/shortcuts
+    . ~/.standard_aliases/aliases
 fi

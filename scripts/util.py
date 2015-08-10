@@ -30,10 +30,10 @@ def getFileContents(fileName):
     with open(fileName) as f:
         return f.readlines()
 
-def getFileContentsRelative(fileName):
-    path = os.path.dirname(__file__)
-    fileName = os.path.join(path, fileName)
-    with open(fileName) as f:
-        return f.readlines()
+# def getFileContentsRelative(fileName):
+#     path = os.path.dirname(__file__)
+#     fileName = os.path.join(path, fileName)
+#     with open(fileName) as f:
+#         return f.readlines()
 
 

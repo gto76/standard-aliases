@@ -18,7 +18,7 @@ Here is a short list of ones I find most useful:
 Commands
 --------
 
-Below is a short list of most useful commands. If you want to check out the full list see [**LIST OF ALL FUNCTIONS**](FUNCTION_DESCRIPTIONS.md).
+Below is a short list of most useful commands. If you want to check out the full list see [**LIST OF ALL FUNCTIONS**](doc/FUNCTION_DESCRIPTIONS.md).
 
 
 ####  Basic

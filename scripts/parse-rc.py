@@ -5,7 +5,7 @@ import re
 import util
 import const
 
-aliasesContent = util.getFileContentsRelative(const.AL_FILENAME)
+aliasesContent = util.getFileContents(const.AL_FILENAME)
 usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
 
 def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):

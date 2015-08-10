@@ -16,7 +16,7 @@ main() {
             | uniq -u \
             | tr '\n' ' ')
     existingCompletions=$(. /usr/share/bash-completion/bash_completion; complete)
-    shortcuts=$(
+    aliases=$(
         "$scriptsDir"/parse-rc.py \
             "$existingCommands" \
             "$existingCompletions")
@@ -26,7 +26,7 @@ main() {
 #        echo -n "script, so aliases were not loaded." >&2
 #        exit 1
 #    fi
-    echo "$shortcuts" > ~/.standard_aliases/shortcuts
+    echo "$aliases" > ~/.standard_aliases/aliases
 }
 
 main "$@"
