@@ -66,6 +66,8 @@ def processShortcut(existingCommands, completions, tokens):
     for shortcut in shortcutTokens:
         shortcut = shortcut.strip()
         command = util.descriptionToCamelCase(tokens[1])
+        if not shortcut:
+            continue
         if shortcut in existingCommands or shortcut == '?':
             print("alias "+shortcut+"='"+command+"'")
             print
