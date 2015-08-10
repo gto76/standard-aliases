@@ -13,7 +13,7 @@ standard_rc: standard_functions scripts/update-rc.py scripts/util.py scripts/con
 	cp "$$temp" ~/.standardrc
 
 ~/.standard_aliases/aliases: standard_functions ~/.standardrc scripts/generate-shortcuts scripts/parse-rc.py scripts/util.py scripts/const.py
-	./scripts/generate-shortcuts
+	./scripts/generate-shortcuts > ~/.standard_aliases/aliases
 
 doc/FUNCTION_DESCRIPTIONS.md: standard_rc standard_functions scripts/generate-table-for-readme.py scripts/util.py scripts/const.py
 	./scripts/generate-table-for-readme.py > doc/FUNCTION_DESCRIPTIONS.md

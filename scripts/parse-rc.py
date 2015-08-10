@@ -58,9 +58,10 @@ def processOptions(tokens):
     if len(options) == 0:
         return
     variableName = "_"+command.upper()+"_OPTIONS"
-    print("export "+variableName+"=("+options+")")
+    return "export "+variableName+"=("+options+")\n"
 
 def processShortcut(existingCommands, completions, tokens):
+    fun = ""
     shortcuts = tokens[0]
     shortcutTokens = shortcuts.split(',')
     for shortcut in shortcutTokens:
@@ -69,15 +70,15 @@ def processShortcut(existingCommands, completions, tokens):
         if not shortcut:
             continue
         if shortcut in existingCommands or shortcut == '?':
-            print("alias "+shortcut+"='"+command+"'")
-            print
+            fun += "alias "+shortcut+"='"+command+"'\n\n"
         else:
-            print(shortcut+"() {")
-            print("    "+command+" \"$@\"")
-            print("}")
+            fun += shortcut+"() {\n"
+            fun += "    "+command+" \"$@\"\n"
+            fun += "}\n"
             if command in completions:
-                print(completions[command]+" "+shortcut)
-            print("")
+                fun += completions[command]+" "+shortcut+"\n"
+            fun += "\n"
+    return fun
 
 def generateMapOfCompletions(completions):
     completionsMap = {}
@@ -87,6 +88,7 @@ def generateMapOfCompletions(completions):
     return completionsMap
 
 def main():
+    al = ""
     existingCommands = sys.argv[1].split(' ')
     existingCompletions = generateMapOfCompletions(sys.argv[2].split('\n'))
     completions = getCompletions(existingCompletions)
@@ -98,11 +100,14 @@ def main():
             continue
         tokens = line.strip().split(';')
         if len(tokens) == 2:
-            processOptions(tokens)
+            options = processOptions(tokens)
+            if options:
+                al += str(processOptions(tokens))
             continue
         tokens = line.strip().split(':')
         if len(tokens) == 2:
-            processShortcut(existingCommands, completions, tokens)
+            al += processShortcut(existingCommands, completions, tokens)
+    print(al)
 
 if __name__ == '__main__':
     main()

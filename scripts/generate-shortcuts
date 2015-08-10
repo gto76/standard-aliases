@@ -20,13 +20,7 @@ main() {
         "$scriptsDir"/parse-rc.py \
             "$existingCommands" \
             "$existingCompletions")
-#    if [[ $? != 0 ]]; then
-#        touch "$HOME"/.standard_rc
-#        echo -n "Standard aliases: There is a problem in parse-rc.py " >&2
-#        echo -n "script, so aliases were not loaded." >&2
-#        exit 1
-#    fi
-    echo "$aliases" > ~/.standard_aliases/aliases
+    echo "$aliases"
 }
 
 main "$@"
