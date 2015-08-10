@@ -67,10 +67,11 @@ rb, runInBackground : Run command in background.
 
 # BASICS #
 
-al, aliases : Edit standard aliases.
+ef, editFunctions : Edit standard aliases.
+er, editUsersRc : Edit users standard rc.
+er1, editProjectsRc : Edit projects standard rc.
 ba : Start new bash shell.
 ty, type1 : Print command type or definition.
-# DELETED OR RENAMED FUNCTION!: tyty : Print function that a function calls.
 c : Print file contents.
 ? : Print exit code of last command.
 cl, clr : Clear the screen.

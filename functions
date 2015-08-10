@@ -446,19 +446,22 @@ complete -F _command __runCommandInBackground
 # Opens this file in Vim.
 # TODO change to default editor
 __editStandardAliases() {
-    vim ~/.standard_aliases
+    "$EDITOR" ~/.standard_aliases/functions
+}
+
+__editUsersStandardRc() {
+    "$EDITOR" ~/.standardrc
+}
+
+__editProjectsStandardRc() {
+    projectLocation=$(dirname $(readlink ~/.standard_aliases/functions))
+    "$EDITOR" "$projectLocation"/standardrc
 }
 
 # Runs bash. Run this command for changes to this file to take
 # effect!
 __startNewBashShell() {
     bash "$@"
-}
-
-___join() {
-    local IFS="$1"
-    shift
-    echo "$*" 
 }
 
 ___printFirstFunctionThatAFunctionCallsAndExpandOptions() {
@@ -1390,8 +1393,7 @@ __findInstalledCommandsWithPartOfNameOrDescription() {
 
 # Finds which available packages provide specified command.
 __findAvailablePackagesThatProvideCommand() {
-    apt-file search "$1" \
-        | grep \/bin\/"$1"$ \
+    apt-file -x search '^.*bin/'$1'$' \
         | __printOrDisplayWithPagerLinesContainingPattern "^.*:"
 }
 

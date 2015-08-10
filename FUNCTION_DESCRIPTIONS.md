@@ -87,28 +87,30 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**al, aliases** | `vim ~/.standard`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L448-L450) | Edit standard aliases.
+**ef, editFunctions** | `"$EDITOR" ~/.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L448-L450) | Edit standard aliases.
+**er, editUsersRc** | `"$EDITOR" ~/.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L452-L454) | Edit users standard rc.
+**er1, editProjectsRc** | `projectLocation`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L456-L459) | Edit projects standard rc.
 **ba** | `bash "$@"` | Start new bash shell.
-**ty, type1** | `# Check if comm`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L488-L501) | Print command type or definition.
+**ty, type1** | `# Check if comm`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L491-L504) | Print command type or definition.
 **c** | `cat "$@"` | Print file contents.
 **?** | `echo $?` | Print exit code of last command.
 **cl, clr** | `clear` | Clear the screen.
 **re** | `reset "$@"` | Reset the screen.
 **q** | `exit` | Exit bash shell.
-**o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L531-L533) | Open file with default app.
-**te, terminal** | `x-terminal-emul`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L536-L538) | Open new terminal with same working directory.
+**o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L534-L536) | Open file with default app.
+**te, terminal** | `x-terminal-emul`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L539-L541) | Open new terminal with same working directory.
 **to** | `touch  "$@"` | Update files timestamp or create new one.
 **da** | `date  "$@"` | Print date and time.
-**ma, make1** | `make  "$@" 2>&1`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L553-L555) | Run make with pager.
-**na, explorer** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L563-L565) | Start file explorer in background in working directory.
-**diff1** | `colordiff  "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L568-L570) | Compare files line by line in color.
-**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L574-L603) | Make file executable or create new bash or python script.
+**ma, make1** | `make  "$@" 2>&1`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L556-L558) | Run make with pager.
+**na, explorer** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L566-L568) | Start file explorer in background in working directory.
+**diff1** | `colordiff  "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L571-L573) | Compare files line by line in color.
+**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L577-L606) | Make file executable or create new bash or python script.
 
 ###  History 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**h, history1** | `if [ "$#" -eq 0`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L612-L621) | Search command history for pattern.
+**h, history1** | `if [ "$#" -eq 0`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L615-L624) | Search command history for pattern.
 
 ###  Text Editors 
 
@@ -116,39 +118,39 @@ Commands
 :------------- |:--------:| ----------------
 **v** | `vim -p "$@"` | Edit file with vim.
 **vv** | `view -p "$@"` | View file in vim.
-**n, nano1** | `nano --undo --a`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L649-L651) | Edit file with nano.
-**nv** | `nano --view --u`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L653-L655) | View file in nano.
-**g, gedit1** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L658-L660) | Edit file with gedit.
-**sub** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L663-L665) | Edit file with sublime text.
+**n, nano1** | `nano --undo --a`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L652-L654) | Edit file with nano.
+**nv** | `nano --view --u`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L656-L658) | View file in nano.
+**g, gedit1** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L661-L663) | Edit file with gedit.
+**sub** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L666-L668) | Edit file with sublime text.
 
 ###  Sudo 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **s** | `sudo "$@"` | Execute command as super user.
-**f, fuck** | `sudo $(history `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L679-L681) | Execute last command as super user.
-**sudoCp** | `sudo cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L685-L687) | Copy files safely as super user.
-**smv** | `sudo mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L691-L693) | Move files safely as super user.
-**srm** | `sudo rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L698-L700) | Delete files safely as super user.
-**scpdir** | `sudo cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L704-L706) | Copy directories safely as super user.
-**smvdir** | `sudo mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L710-L712) | Move directories safely as super user.
-**srmdir** | `sudo rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L717-L719) | Delete directories safely as super user.
-**sm, sle** | `sudo less --RAW`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L722-L724) | Display text or file in pager as super user.
-**sv** | `sudo vim -p "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L727-L729) | Edit file with vim as super user.
-**svv** | `sudo view -p "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L732-L734) | View file in vim as super user.
-**sn** | `sudo nano --und`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L737-L739) | Edit file with nano as super user.
-**sg** | `sudo gedit  "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L742-L744) | Edit file with gedit as super user.
+**f, fuck** | `sudo $(history `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L682-L684) | Execute last command as super user.
+**sudoCp** | `sudo cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L688-L690) | Copy files safely as super user.
+**smv** | `sudo mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L694-L696) | Move files safely as super user.
+**srm** | `sudo rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L701-L703) | Delete files safely as super user.
+**scpdir** | `sudo cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L707-L709) | Copy directories safely as super user.
+**smvdir** | `sudo mv --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L713-L715) | Move directories safely as super user.
+**srmdir** | `sudo rm --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L720-L722) | Delete directories safely as super user.
+**sm, sle** | `sudo less --RAW`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L725-L727) | Display text or file in pager as super user.
+**sv** | `sudo vim -p "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L730-L732) | Edit file with vim as super user.
+**svv** | `sudo view -p "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L735-L737) | View file in vim as super user.
+**sn** | `sudo nano --und`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L740-L742) | Edit file with nano as super user.
+**sg** | `sudo gedit  "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L745-L747) | Edit file with gedit as super user.
 NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 ###  Procesess 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **tm, taskManager, ht** | `htop  "$@"` | Run terminal task manager.
-**ps1** | `ps  "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L830-L832) | Print users processes.
-**psa, pse, processes** | `ps -e  "$@" | _`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L835-L837) | Print all processes.
-**pgrep1** | `pgrep --list-na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L841-L843) | Find processes with part of name.
+**ps1** | `ps  "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L833-L835) | Print users processes.
+**psa, pse, processes** | `ps -e  "$@" | _`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L838-L840) | Print all processes.
+**pgrep1** | `pgrep --list-na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L844-L846) | Find processes with part of name.
 **kill1** | `kill -9 "$@"` | Kill process with kill signal.
-**st, strace1, trace** | `strace -s\ 2000`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L859-L862) | Trace system calls.
+**st, strace1, trace** | `strace -s\ 2000`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L862-L865) | Trace system calls.
 
 ###  Text 
 
@@ -160,52 +162,52 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 **ta1, lastLine** | `tail -n1 "$@"` | Print last line.
 **wcl, countLines** | `wc -l "$@"` | Count lines.
 **wcw, countWords** | `wc -w "$@"` | Count words.
-**trd** | `tr --delete "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L901-L903) | Delete characters.
-**loc, linesOfCode** | `rootDir="$PWD"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L908-L923) | Count lines in files with extension in working and subdirectories.
+**trd** | `tr --delete "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L904-L906) | Delete characters.
+**loc, linesOfCode** | `rootDir="$PWD"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L911-L926) | Count lines in files with extension in working and subdirectories.
 
 ###  Tables 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**table** | `column -t -s "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L932-L934) | Line up columns.
-**cut1, keepColumns** | `cut --delimiter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L940-L942) | Keep columns.
-**sort1** | `sort --field-se`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L948-L950) | Sort lines by column.
+**table** | `column -t -s "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L935-L937) | Line up columns.
+**cut1, keepColumns** | `cut --delimiter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L943-L945) | Keep columns.
+**sort1** | `sort --field-se`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L951-L953) | Sort lines by column.
 
 ###  Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**grep1** | `grep --color=au`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L961-L963) | Print lines containing pattern.
-**gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L967-L970) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L974-L980) | Print or display with pager numbered lines from working and subdirectories that contain pattern.
-**lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L984-L988) | Locate files on filesystem containing pattern in their names.
-**find1** | `find  . -name "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L994-L998) | Locate files containing pattern in their names in working and sub directories.
+**grep1** | `grep --color=au`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L964-L966) | Print lines containing pattern.
+**gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L970-L973) | Print or display with pager lines containing pattern.
+**grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L977-L983) | Print or display with pager numbered lines from working and subdirectories that contain pattern.
+**lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L987-L991) | Locate files on filesystem containing pattern in their names.
+**find1** | `find  . -name "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L997-L1001) | Locate files containing pattern in their names in working and sub directories.
 
 ###  Archives 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1007-L1040) | Extract archive of any type.
+**extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1010-L1043) | Extract archive of any type.
 
 ###  Terminal Multiplexer 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **mu** | `tmux  "$@"` | Run terminal multiplexer.
-**mua** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1053-L1055) | Run terminal multiplexer and attach to last session.
+**mua** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1056-L1058) | Run terminal multiplexer and attach to last session.
 **mul** | `tmux ls` | List terminal multiplexers sessions.
 
 ###  System Information 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**df1** | `df -h | grep "s`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1068-L1070) | Print available disk space in simplified form.
-**du1** | `du --summarize `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1074-L1076) | Print disk space occupied by file or folder.
-**fr, free1** | `echo "all:  "$(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1079-L1086) | Print all and free memory space in megabytes.
+**df1** | `df -h | grep "s`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1071-L1073) | Print available disk space in simplified form.
+**du1** | `du --summarize `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1077-L1079) | Print disk space occupied by file or folder.
+**fr, free1** | `echo "all:  "$(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1082-L1089) | Print all and free memory space in megabytes.
 **temp, temperature** | `acpi -t` | Print temperature of cpu.
 **batt, battery** | `acpi` | Print battery status.
 **uname1, kernelVersion** | `uname --all` | Print operating system information.
-**pci, lspci1** | `lspci -v "$@" |`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1104-L1106) | Print info about pci devices.
+**pci, lspci1** | `lspci -v "$@" |`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1107-L1109) | Print info about pci devices.
 
 ###  Power 
 
@@ -213,14 +215,14 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 :------------- |:--------:| ----------------
 **reboot** | `sudo reboot` | Restart computer.
 **poweroff** | `sudo poweroff` | Shut down computer.
-**hib** | `sudo pm-hiberna`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1125-L1127) | Hibernate computer.
-**sus** | `sudo pm-suspend`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1130-L1132) | Suspend computer.
+**hib** | `sudo pm-hiberna`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1128-L1130) | Hibernate computer.
+**sus** | `sudo pm-suspend`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1133-L1135) | Suspend computer.
 
 ###  Keyboard 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**uskeys** | `setxkbmap -layo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1140-L1142) | Switch to american keyboard layout.
+**uskeys** | `setxkbmap -layo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1143-L1145) | Switch to american keyboard layout.
 **keycode** | `xev "$@"` | Monitor keycodes of pressed keys.
 **norepeat** | `xset -r` | Turn off key repeat.
 **repeat** | `xset r` | Turn on key repeat.
@@ -229,116 +231,116 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**blue** | `echo -en "\e]PC`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1166-L1168) | Change hue of color blue in linux terminal.
-**path** | `echo -e ${PATH/`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1171-L1173) | List directories contained in path variable.
+**blue** | `echo -en "\e]PC`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1169-L1171) | Change hue of color blue in linux terminal.
+**path** | `echo -e ${PATH/`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1174-L1176) | List directories contained in path variable.
 **bc1** | `gcalccmd "$@"` | Run terminal calculator that supports decimal numbers.
-**hd1** | `hd  "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1181-L1183) | Print hexadecimal representation of file or stream.
-**profile** | `source /etc/pro`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1186-L1188) | Run profile script.
+**hd1** | `hd  "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1184-L1186) | Print hexadecimal representation of file or stream.
+**profile** | `source /etc/pro`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1189-L1191) | Run profile script.
 **vimode** | `set -o vi` | Change bash line editing to vi mode.
 **emacsmode** | `set -o emacs` | Change bash line editing to emacs mode.
-**ssd** | `sudo fstrim -v `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1201-L1203) | Trim ssd.
+**ssd** | `sudo fstrim -v `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1204-L1206) | Trim ssd.
 **tt** | `gtypist "$@"` | Start typing tutor.
 
 ###  Package Management 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `sudo apt-get in`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1216-L1218) | Install package.
-**update** | `sudo apt-get up`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1221-L1223) | Update information about available packages.
-**upgrade** | `sudo apt-get up`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1226-L1228) | Upgrade all packages.
-**dist-upgrade** | `sudo apt-get di`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1233-L1235) | Upgrade all packages intelligently.
-**remove** | `sudo apt-get re`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1239-L1241) | Remove package and all unneeded packages.
-**purge** | `sudo apt-get pu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1246-L1248) | Remove package and all unneeded packages together with configuration files.
-**autoremove** | `sudo apt-get au`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1252-L1254) | Remove unneeded packages.
-**installed, packages** | `cat /var/log/ap`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1258-L1263) | Print packages that were installed by user.
-**allInstalled, allPackages** | `dpkg --get-sele`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1266-L1270) | Print all installed packages.
-**depends** | `apt-cache show `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1273-L1279) | Print package dependencies.
+**ch, canhaz** | `sudo apt-get in`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1219-L1221) | Install package.
+**update** | `sudo apt-get up`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1224-L1226) | Update information about available packages.
+**upgrade** | `sudo apt-get up`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1229-L1231) | Upgrade all packages.
+**dist-upgrade** | `sudo apt-get di`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1236-L1238) | Upgrade all packages intelligently.
+**remove** | `sudo apt-get re`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1242-L1244) | Remove package and all unneeded packages.
+**purge** | `sudo apt-get pu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1249-L1251) | Remove package and all unneeded packages together with configuration files.
+**autoremove** | `sudo apt-get au`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1255-L1257) | Remove unneeded packages.
+**installed, packages** | `cat /var/log/ap`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1261-L1266) | Print packages that were installed by user.
+**allInstalled, allPackages** | `dpkg --get-sele`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1269-L1273) | Print all installed packages.
+**depends** | `apt-cache show `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1276-L1282) | Print package dependencies.
 
 ###  Package Information 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**pd, describe** | `apt-cache show `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1287-L1289) | Print package description.
-**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1306-L1323) | Print installed and available version of package or installed command.
-**package** | `call1=$(sudo wh`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1353-L1369) | Print package of installed command together with description and location.
+**pd, describe** | `apt-cache show `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1290-L1292) | Print package description.
+**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1309-L1326) | Print installed and available version of package or installed command.
+**package** | `call1=$(sudo wh`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1356-L1372) | Print package of installed command together with description and location.
 
 ###  Package Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**findPackage** | `apt-cache searc`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1378-L1381) | Find available packages with part of name or description.
-**ap, apropos1, findCommand** | `apropos "$@" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1386-L1389) | Find installed commands with part of name or description.
-**apt-file1** | `apt-file search`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1392-L1396) | Find available packages that provide command.
-**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1434-L1458) | Describe package or command or find available packages with part of name or command.
+**findPackage** | `apt-cache searc`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1381-L1384) | Find available packages with part of name or description.
+**ap, apropos1, findCommand** | `apropos "$@" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1389-L1392) | Find installed commands with part of name or description.
+**apt-file1** | `apt-file -x sea`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1395-L1398) | Find available packages that provide command.
+**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1436-L1460) | Describe package or command or find available packages with part of name or command.
 
 ###  Git 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**commit** | `git commit -am `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1467-L1469) | Commit changed and deleted files with message.
-**commitm** | `git commit -a "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1473-L1475) | Commit changed and deleted files and edit message in editor.
+**commit** | `git commit -am `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1469-L1471) | Commit changed and deleted files with message.
+**commitm** | `git commit -a "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1475-L1477) | Commit changed and deleted files and edit message in editor.
 **init** | `git init "$@"` | Initialize repository.
 **push** | `git push "$@"` | Push changes to remote repository.
 **pull** | `git pull "$@"` | Pull changes from remote repository.
 **merge** | `git merge "$@"` | Merge specified branch with current one.
-**gc, checkout** | `git checkout "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1500-L1502) | Checkout branch or file.
-**gb, branch** | `git branch "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1505-L1507) | List branches or create new one.
-**gs** | `git -c color.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1510-L1513) | Print short repository status.
-**gl** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1517-L1519) | Display log of commits.
-**gl1** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1523-L1529) | Display minimal log of commits.
-**gu** | `git remote upda`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1533-L1536) | Update information about remote repository and print status.
+**gc, checkout** | `git checkout "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1502-L1504) | Checkout branch or file.
+**gb, branch** | `git branch "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1507-L1509) | List branches or create new one.
+**gs** | `git -c color.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1512-L1515) | Print short repository status.
+**gl** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1519-L1521) | Display log of commits.
+**gl1** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1525-L1531) | Display minimal log of commits.
+**gu** | `git remote upda`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1535-L1538) | Update information about remote repository and print status.
 **gd** | `git diff "$@"` | Display changes between commits.
 **ga** | `git add "$@"` | Add files to repository.
 **gm** | `git mv "$@"` | Move repositories files.
-**gls, lsgit** | `git ls-files "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1557-L1559) | List files that are in repository.
+**gls, lsgit** | `git ls-files "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1559-L1561) | List files that are in repository.
 
 ###  Github 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**clone** | `git clone git@g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1568-L1570) | Clone github project.
-**origin** | `git remote add `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1574-L1578) | Set github project as remote repository.
-**cloneAll** | `if [[ -z "$1" ]`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1581-L1593) | Clone all users github projects.
+**clone** | `git clone git@g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1570-L1572) | Clone github project.
+**origin** | `git remote add `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1576-L1580) | Set github project as remote repository.
+**cloneAll** | `if [[ -z "$1" ]`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1583-L1595) | Clone all users github projects.
 
 ###  Network 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1601-L1607) | Print internal ip.
-**ip2** | `lynx --dump htt`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1610-L1612) | Print external ip.
-**gateway** | `route -n \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1615-L1620) | Print gateways ip.
-**mac** | `ifconfig | grep`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1623-L1625) | Print mac addresses of network devices.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1628-L1632) | Ping gateway and google.
-**nmap1** | `if [[ $# -eq 0 `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1636-L1652) | Scan local network.
-**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1680-L1711) | Print ssh port status of local devices and ping google.
+**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1603-L1609) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1612-L1614) | Print external ip.
+**gateway** | `route -n \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1617-L1622) | Print gateways ip.
+**mac** | `ifconfig | grep`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1625-L1627) | Print mac addresses of network devices.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1630-L1634) | Ping gateway and google.
+**nmap1** | `if [[ $# -eq 0 `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1638-L1654) | Scan local network.
+**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1682-L1713) | Print ssh port status of local devices and ping google.
 
 ###  Wireless 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**woff** | `sudo rfkill blo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1719-L1724) | Block wireless device.
-**won** | `sudo rfkill unb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1727-L1732) | Unblock wireless device.
-**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1735-L1738) | Reset wireless device.
-**up** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1741-L1743) | Activate wireless interface.
-**down** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1746-L1748) | Deactivate wireless interface.
-**wlan** | `sudo iwlist wla`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1751-L1761) | Print wireless networks in range.
+**woff** | `sudo rfkill blo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1721-L1726) | Block wireless device.
+**won** | `sudo rfkill unb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1729-L1734) | Unblock wireless device.
+**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1737-L1740) | Reset wireless device.
+**up** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1743-L1745) | Activate wireless interface.
+**down** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1748-L1750) | Deactivate wireless interface.
+**wlan** | `sudo iwlist wla`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1753-L1763) | Print wireless networks in range.
 
 ###  Internet 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1769-L1771) | Start default browser in background.
-**fire** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1774-L1776) | Start firefox in background.
-**chrome** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1780-L1782) | Start chrome in background.
-**lynx1** | `lynx -accept_al`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1786-L1788) | Start terminal web browser.
+**i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1771-L1773) | Start default browser in background.
+**fire** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1776-L1778) | Start firefox in background.
+**chrome** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1782-L1784) | Start chrome in background.
+**lynx1** | `lynx -accept_al`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1788-L1790) | Start terminal web browser.
 
 ###  Audio 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **mixer** | `alsamixer "$@"` | Start terminal volume control.
-**a** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1806-L1808) | Increase volume by six decibels.
-**z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1811-L1813) | Decrease volume by six decibels.
-**aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1816-L1818) | Increase volume by two decibels.
-**zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1821-L1823) | Decrease volume by two decibels.
+**a** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1808-L1810) | Increase volume by six decibels.
+**z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1813-L1815) | Decrease volume by six decibels.
+**aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1818-L1820) | Increase volume by two decibels.
+**zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1823-L1825) | Decrease volume by two decibels.
 
