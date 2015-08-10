@@ -14,6 +14,7 @@ aliasesContent = util.getFileContents(const.AL_FILENAME)
 usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
 optionsComment = util.getFileContents(const.RC_OPTIONS_COMMENT)
+header = util.getFileContents(const.RC_HEADER)
 
 def getFunctions():
     functionDescriptions = []
@@ -158,10 +159,11 @@ def addAdditionalShortcutsForUsersRc(shortcuts, newFunctions):
 
 def generateRc(rcContent, addAdditionalShortcuts,  \
         formatDeletedFunction, formatNewFunction):
+    rc = "".join(header)
     # List of function descriptions.
     functions = getFunctions()
     # Map of description -> shortcuts.
-    functionsWithShortcuts = getFunctionsWithShortcuts(rcContent) # DIFF
+    functionsWithShortcuts = getFunctionsWithShortcuts(rcContent)
     # List
     deletedFunctions = \
         getDeletedFunctions(functions, functionsWithShortcuts)
@@ -174,17 +176,15 @@ def generateRc(rcContent, addAdditionalShortcuts,  \
     functionsWithNewBlock = \
         getBlocks(functions, newFunctions)
     unchangedFunctions = getUnchangedFunctions(functions, functionsWithShortcuts)
-    # DIFF > 
     # add shortcuts of new functions from projects rc
     addAdditionalShortcuts(functionsWithShortcuts, newFunctions)
-    # > DIFF
     newShortcutDefs = \
         getNewShortcutDefinitions(unchangedFunctions, functionsWithShortcuts, \
             functionsWithDeletedBlock, functionsWithNewBlock, \
-            formatDeletedFunction, formatNewFunction) # DIFF
+            formatDeletedFunction, formatNewFunction)
     # Get options
-    options = getOptions(rcContent) # DIFF todo
-    rc = newShortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
+    options = getOptions(rcContent)
+    rc += newShortcutDefs + '\n\n' + "".join(optionsComment) + '\n' + options
     print(rc)
 
 def generateProjectsRc():
