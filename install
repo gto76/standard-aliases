@@ -39,6 +39,12 @@ copyFileSafely() {
 }
 
 main() {
+    # Check if make is installed
+    make --help &> /dev/null
+    makeInstalled=1
+    if [[ "$?" != 0 ]]; then
+        makeInstalled=0
+    fi
     # Create link to functions and copy conf file.
     createLinkSafely ~/.standard_aliases functions
     copyFileSafely ~/.standardrc standardrc
@@ -53,7 +59,16 @@ main() {
     if [[ -z $(grep ". ~/.standard_aliases" ~/.bashrc) ]]; then
         cat ./scripts/resources/append-to-bashrc >> ~/.bashrc
     fi
-    echo "Run 'bash' for changes to take effect."
+    if [[ ! "$makeInstalled" ]]; then
+        echo "Make command is missing, you need to install it first with:"
+        echo "  sudo apt-get install make"
+        echo "if you're running Debian/Ubuntu/Mint... or"
+        echo "  sudo yum install make"
+        echo "if you're running RedHat/Fedora/CentOS..."
+        echo "After installing Make, run 'bash' for changes to take effect."
+    else
+        echo "Run 'bash' for changes to take effect."
+    fi
 }
 
 main "$@"

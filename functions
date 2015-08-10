@@ -455,19 +455,51 @@ __startNewBashShell() {
     bash "$@"
 }
 
+___join() {
+    local IFS="$1"
+    shift
+    echo "$*" 
+}
+
+___printFirstFunctionThatAFunctionCallsAndExpandOptions() {
+    nameOfCalledFunction=$(
+        type "$@" \
+            | grep -A1 '{' \
+            | grep -o '__[^ ]*')
+    calledFunction=$(type "$nameOfCalledFunction")
+    # Extract array names in form of "${_LESS_OPTIONS[@]}" from function.
+    optionsArray=$(
+        echo "$calledFunction" \
+            | grep -o '_[A-Z]*_OPTIONS\[@\]' \
+            | head -n1)
+    expandedOptions=${!optionsArray}
+    # Process options by adding backslashes in fornt of slashes, so they
+    # dont break sed.
+    expandedOptions=$(echo "$expandedOptions" | sed 's/\//\\\//g')
+    optionsName=$(echo "$optionsArray" | grep -o '_[A-Z]*_OPTIONS')
+    echo "$calledFunction" \
+            | sed "s/...$optionsName\[@\]../$expandedOptions/g" \
+            | grep --invert-match 'is a function' 
+}
+
 # Prints location of specified command, or it's definition, if
 # it is an alias. Run this command if you are not sure what an
 # alias does!
 __printCommandTypeOrDefinition() {
-    type "$@" | __printOrDisplayTextOrFileInPager
+    # Check if command is defined in standardrc, and if so it
+    # runs type on the command it calls.
+    standardShortcuts=$(
+        grep ':' ~/.standardrc \
+            | sed 's/:.*$//' \
+            | tr -d ' ' \
+            | sed 's/,/\n/g')
+    if [[ $(echo "$standardShortcuts" | grep "^$@$") != "" ]]; then
+        ___printFirstFunctionThatAFunctionCallsAndExpandOptions "$@" | __printOrDisplayTextOrFileInPager
+    else
+        type "$@" | __printOrDisplayTextOrFileInPager
+    fi
 }
 complete -F _command __printCommandTypeOrDefinition
-
-__printFunctionThatAFunctionCalls() {
-    type $(type "$@" | grep -A1 '{' | grep -o '__[^ ]*') \
-        | __printOrDisplayTextOrFileInPager
-}
-complete -F _command __printFunctionThatAFunctionCalls
 
 # Runs cat.
 __printFileContents() {
@@ -939,7 +971,7 @@ __printOrDisplayWithPagerLinesContainingPattern() {
 
 # Runs __printLinesContainingPattern with --recursive and 
 # --line-number and sends output to pager.
-__printOrDisplayWithPagerLinesContainingPatternInWorkingAndSubdirectories() {
+__printOrDisplayWithPagerNumberedLinesFromWorkingAndSubdirectoriesThatContainPattern() {
     __printLinesContainingPattern \
         --recursive \
         --line-number \
@@ -1081,12 +1113,12 @@ __printInfoAboutPciDevices() {
 # TODO research
 # Restarts computer.
 __restartComputer() {
-    sudo shutdown -r now
+    sudo reboot
 }
 
 # Shuts down computer.
 __shutDownComputer() {
-    sudo shutdown now
+    sudo poweroff
 }
 
 # Hibernates.
@@ -1271,7 +1303,7 @@ ___printPackagesInstalledAndAvailableVersion() {
 
 # Prints installed and remote version of package or command
 # (that is part of package).
-__printVersionOfPackageOrVersionOfInstalledCommandsPackage() {
+__printInstalledAndAvailableVersionOfPackageOrInstalledCommandsPackage() {
     # Check if passed name is a package, and print its version
     # if it is.
     packageVersion=$(___printPackagesInstalledAndAvailableVersion "$@")

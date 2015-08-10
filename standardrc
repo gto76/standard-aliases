@@ -70,7 +70,7 @@ rb, runInBackground : Run command in background.
 al, aliases : Edit standard aliases.
 ba : Start new bash shell.
 ty, type1 : Print command type or definition.
-tyty : Print function that a function calls.
+# DELETED OR RENAMED FUNCTION!: tyty : Print function that a function calls.
 c : Print file contents.
 ? : Print exit code of last command.
 cl, clr : Clear the screen.
@@ -161,7 +161,7 @@ sort1 : Sort lines by column.
 
 grep1 : Print lines containing pattern.
 gr : Print or display with pager lines containing pattern.
-grr : Print or display with pager lines containing pattern in working and subdirectories.
+grr : Print or display with pager numbered lines from working and subdirectories that contain pattern.
 lo, locate1 : Locate files on filesystem containing pattern in their names.
 find1 : Locate files containing pattern in their names in working and sub directories.
 
@@ -187,7 +187,7 @@ pci, lspci1 : Print info about pci devices.
 
 # POWER #
 
-restart : Restart computer.
+reboot : Restart computer.
 poweroff : Shut down computer.
 hib : Hibernate computer.
 sus : Suspend computer.
@@ -227,7 +227,7 @@ depends : Print package dependencies.
 # PACKAGE INFORMATION #
 
 pd, describe : Print package description.
-ve, version : Print version of package or version of installed commands package.
+ve, version : Print installed and available version of package or installed commands package.
 package : Print package of installed command together with description and location.
 
 # PACKAGE SEARCH #
