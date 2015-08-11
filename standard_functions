@@ -18,16 +18,19 @@
 # LESS #
 ########
 
-# Runs less with a few sensible options.
+# Runs less with:
 #   * ignore case when searching, 
 #   * do not ring a bell,
 #   * do not mark empty lines with ~, 
-#   * format prompt as "<page-number>/<all-pages> <filename>",
+#   * format prompt as "<page-number>/<all-pages> <filename>" and
 #   * set tabs to 4 spaces.
 __displayTextOrFileInPager() {
     less "${_LESS_OPTIONS[@]}" "$@"
 }
 
+# Prints with cat or displays with less contents of specified file, 
+# depending on the length of file. If it runs less then it starts 
+# diplaying text from the end if second argument is 'true'.
 ___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd() {
     noOfLines=$(cat "$2" 2>/dev/null \
         | fold -w"$COLUMNS" \
@@ -43,6 +46,9 @@ ___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd() {
     fi
 }
 
+# Prints with cat or displays with less piped text, depending on
+# the length of input. If it runs less then it starts diplaying text
+# from end if first argument is 'true'.
 ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
     input=$(cat)
     noOfLines=$(echo "$input" | fold -w"$COLUMNS" | wc -l)
@@ -60,15 +66,14 @@ ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd() {
     fi
 }
 
-# Runs cat or less, depending on number of lines in file or
-# input. First argument must be either 'true' or some other
-# value, true meaning that lessgets run with G option. G option
-# starts less at the end of the input (scrolled to the bottom).
+# If any arguments are passed, then assumes the input is a file, whose
+# name is specified by the argument. If there are no arguments, it then
+# assumes the input is streamed in with a pipe.
 ___printOrDisplayTextOrFileInPagerWithOrWithoutStartingAtEnd() {
     if [[ "$#" -gt 1 ]]; then
         ___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd "$@"
     else
-        cat | ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd "$@"
+        cat | ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd
     fi
 }
 
@@ -116,11 +121,11 @@ ___printTextOrFileUntilPageIsFilledThenDisplayInPager() {
 # LS #
 ######
 
-# All other ls aliases end up calling this one. It runs ls with:
+# All other ls functions end up calling this one. It runs ls with:
 #   * append indicator, 
 #   * sort alphabetically by extension, 
 #   * list by columns, 
-#   * use color when stdout is connected to terminal, 
+#   * use color when stdout is connected to terminal and
 #   * group directories before files.
 ___listDirectoryContents() {
     ls "${_LS_OPTIONS[@]}" "$@"
@@ -143,9 +148,9 @@ ___listDirectoryContentsUsingShortListingFormat() {
 #   * use long listing format, 
 #   * do not print groups,
 #   * do not list owner, 
-#   * print sizes in human readable format, 
+#   * print sizes in human readable format and
 #   * print date as: '<month-by-word>, <day-of-month>, <year>,
-#   <hour>:<minute>'.
+#       <hour>:<minute>'.
 ___listDirectoryContentsUsingMediumListingFormat() {
    ___listDirectoryContents "${_LS_MEDIUM_OPTIONS[@]}" "$@"
 }
@@ -273,7 +278,11 @@ __printAllSubdirectories() {
 # TREE #
 ########
 
-# Displays tree structure of current or specified folder.
+# Displays tree structure of current or specified folder, by
+# running tree command with:
+#   * always use colors,
+#   * ignore .git directories and
+#   * list directories before files.
 __printDirectoryStructure() {
     tree "${_TREE_OPTIONS[@]}"  "$@" | __printOrDisplayTextOrFileInPager
 }
@@ -547,18 +556,21 @@ __openNewTerminalWithSameWorkingDirectory() {
 }
 
 # Updates file's timestamp, or creates empty file, if it doesn't
-# exits.
+# exits. 
+# By default it doesn't use any options.
 __updateFilesTimestampOrCreateNewOne() {
     touch "${_TOUCH_OPTIONS[@]}" "$@"
 }
 
 # Prints current date and time.
+# By default it doesn't use any options.
 __printDateAndTime() {
     date "${_DATE_OPTIONS[@]}" "$@"
 }
 
 # Runs make and sends both 'out' and 'error' streams to pager if
-# necessary.
+# necessary. 
+# By default it doesn't use any options.
 __runMakeWithPager() {
     make "${_MAKE_OPTIONS[@]}" "$@" 2>&1 | __displayTextOrFileInPager
 }
@@ -574,6 +586,7 @@ __startFileExplorerInBackgroundInWorkingDirectory() {
 }
 
 # Runs diff with colors and sends output to pager if necessary.
+# By default it doesn't use any options.
 __compareFilesLineByLineInColor() {
     colordiff "${_DIFF_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
@@ -634,36 +647,48 @@ __searchCommandHistoryForPattern() {
 # TEXT EDITORS #
 ################
 
-# Calls Vim with option that opens one tab per file.
+# Calls Vim with:
+#   * open one tab per file.
 __editFileWithVim() {
     vim "${_VIM_OPTIONS[@]}" "$@"
 }
 
-# Runs Vim in read only mode, and with option that opens one tab
-# per file.
+# Runs Vim in read only mode, with:
+#   * open one tab per file.
 __viewFileInVim() {
     view "${_VIM_OPTIONS[@]}" "$@"
 }
 
-# Runs Nano with a few sensible options.
+# Runs Nano with this options:
 #   * enable experimental undo (will most probably crash
-# if going deeper than first undo level!!!!!!!!!), 
+#       if going deeper than first undo level!!!!!!!!!), 
 #   * autoindent, 
 #   * constantly show the cursor position, 
 #   * log search and replace strings,
 #   * enable edit of multiple files, 
 #   * treat punctuation as part of words, 
-#   * smooth scrolling, 
+#   * smooth scrolling and
 #   * tab size set to 4 spaces.
 __editFileWithNano() {
     nano "${_NANO_OPTIONS[@]}" "$@"
 }
 
+# Runs Nano in view only mode, with this options:
+#   * enable experimental undo (will most probably crash
+#       if going deeper than first undo level!!!!!!!!!), 
+#   * autoindent, 
+#   * constantly show the cursor position, 
+#   * log search and replace strings,
+#   * enable edit of multiple files, 
+#   * treat punctuation as part of words, 
+#   * smooth scrolling and
+#   * tab size set to 4 spaces.
 __viewFileInNano() {
     nano --view "${_NANO_OPTIONS[@]}" "$@"
 }
 
 # Runs Gedit in background.
+# By default it doesn't use any options.
 __editFileWithGedit() {
     __runCommandInBackground gedit "${_GEDIT_OPTIONS[@]}" "$@"
 }
@@ -727,27 +752,44 @@ __deleteDirectoriesSafelyAsSuperUser() {
     sudo rm --interactive --recursive "$@"
 }
 
-# Runs less as su.
+# Runs less as super user, with:
+#   * ignore case when searching, 
+#   * do not ring a bell,
+#   * do not mark empty lines with ~, 
+#   * format prompt as "<page-number>/<all-pages> <filename>" and
+#   * set tabs to 4 spaces.
 __displayTextOrFileInPagerAsSuperUser() {
     sudo less "${_LESS_OPTIONS[@]}" "$@"
 }
 
-# Runs Vim as su.
+# Runs Vim as super user, with:
+#   * open one tab per file.
 __editFileWithVimAsSuperUser() {
     sudo vim "${_VIM_OPTIONS[@]}" "$@"
 }
 
-# Runs Vim in read only mode, as superuser
+# Runs Vim as super user in read only mode, with:
+#   * open one tab per file.
 __viewFileInVimAsSuperUser() {
     sudo view "${_VIM_OPTIONS[@]}" "$@"
 }
 
-# Runs Nano as su.
+# Runs Nano as super user with this options:
+#   * enable experimental undo (will most probably crash
+#       if going deeper than first undo level!!!!!!!!!), 
+#   * autoindent, 
+#   * constantly show the cursor position, 
+#   * log search and replace strings,
+#   * enable edit of multiple files, 
+#   * treat punctuation as part of words, 
+#   * smooth scrolling and
+#   * tab size set to 4 spaces.
 __editFileWithNanoAsSuperUser() {
     sudo nano "${_NANO_OPTIONS[@]}" "$@"
 }
  
-# Runs Gedit as su.
+# Runs Gedit as super user. 
+# By default it doesn't use any options.
 __editFileWithGeditAsSuperUser() {
     sudo gedit "${_GEDIT_OPTIONS[@]}" "$@"
 }
@@ -828,24 +870,28 @@ __runMountAsSuperUser() {
 # PROCESESS #
 #############
 
-# Shows detailed overview of processes (task manager).
+# Shows detailed overview of processes (task manager), by running htop.
+# By default it doesn't use any options.
 __runTerminalTaskManager() {
     htop "${_HTOP_OPTIONS[@]}" "$@"
 }
 
 # Prints user's processes and sends output to pager if
-# necessary.
+# necessary, by running ps. 
+# By default it doesn't use any options.
 __printUsersProcesses() {
     ps "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
-# Prints every process on the system.
+# Prints every process on the system, by running ps with '-e' option.
+# By default it doesn't use any other options.
 __printAllProcesses() {
     ps -e "${_PS_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
 # Prints processes with specified pattern in their names,
-# together with their PIDs.
+# together with their PIDs, by running pgrep, with:
+#   * list processes name.
 __findProcessesWithPartOfName() {
     pgrep "${_PGREP_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
@@ -862,8 +908,9 @@ __killProcessWithKillSignal() {
 }
 complete -F _pids __killProcessWithKillSignal
 
-# Traces system calls and signals. Prints strings of maximum
-# 2000 characters, and also traces child processes.
+# Traces system calls and signals, by running strace, with:
+#   * print strings of maximum 2000 characters and 
+#   * also trace child processes.
 __traceSystemCalls() {
     strace "${_STRACE_OPTIONS[@]}" "$@" 2>&1 \
         | ___printTextOrFileUntilPageIsFilledThenDisplayInPager 
@@ -963,10 +1010,12 @@ __sortLinesByColumn() {
 # SEARCH #
 ##########
 
-# Runs grep with highlighting matches, not grepping through .svn
-# and .git folders, using Perl regex format (it has some
-# additional operators, for instance, '+' for matching one or
-# more times) and ignoring case.
+# Runs grep with:
+#   * highlighting matches, 
+#   * not searching through .svn and .git folders,
+#   * using Perl regex format (it has some additional operators, 
+#       for instance, '+' meaning one or more times) and 
+#   * ignoring case.
 __printLinesContainingPattern() {
     grep --color=auto "${_GREP_OPTIONS[@]}"  "$@"
 }
@@ -989,7 +1038,8 @@ __printOrDisplayWithPagerNumberedLinesFromWorkingAndSubdirectoriesThatContainPat
 }
 
 # Tries to find specified file using index. (Run 'sudo updatedb'
-# to update the index)
+# to update the index). 
+# By default it doesn't use any options.
 __locateFilesOnFilesystemContainingPatternInTheirNames() {
     locate "${_LOCATE_OPTIONS[@]}" "$1" \
         | __printOrDisplayWithPagerLinesContainingPattern \
@@ -1000,6 +1050,7 @@ __locateFilesOnFilesystemContainingPatternInTheirNames() {
 # current and sub-directories.  Use filesystem regexes for
 # search (aka *.*), and always surround them with quotation
 # marks. Also highlights the matches.
+# By default it doesn't use any options beside -name.
 __locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
     find "${_FIND_OPTIONS[@]}" . -name "$1" \
         | __printOrDisplayWithPagerLinesContainingPattern \
@@ -1054,6 +1105,7 @@ __extractArchiveOfAnyType() {
 ########################
 
 # Runs Tmux.
+# By default it doesn't use any options.
 __runTerminalMultiplexer() {
     tmux "${_TMUX_OPTIONS[@]}" "$@"
 }
@@ -1109,7 +1161,9 @@ __printOperatingSystemInformation() {
     uname --all
 }
 
-# Prints verbose information about all PCI devices. 
+# Prints verbose information about all PCI devices, by running
+# lspci with:
+#   * display detailed information about all devices.
 __printInfoAboutPciDevices() {
     lspci "${_LSPCI_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
@@ -1186,6 +1240,7 @@ __runTerminalCalculatorThatSupportsDecimalNumbers() {
 }
 
 # Prints hexadecimal representation of file or piped stream.
+# By default it doesn't use any options.
 __printHexadecimalRepresentationOfFileOrStream() {
     hd "${_HD_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
@@ -1784,14 +1839,17 @@ __startFirefoxInBackground() {
     __runCommandInBackground firefox "$@"
 }
 
-# Runs Chrome in background with setting that resolves some bug
-# in some cases (it is probably already fixed).
+# Runs Chrome in background with:
+#   * --touch-devices=123, a setting that resolves some
+#       bug in some cases (it is probably already fixed).
 __startChromeInBackground() {
     __runCommandInBackground google-chrome "${_CHROME_OPTIONS[@]}" "$@"
 }
 
-# Runs Lynx that accepts all cookies, starts in Google and is
-# using Vim mode for navigation.
+# Runs Lynx with:
+#   * accept all cookies,
+#   * start in Google and 
+#   * using Vim mode for navigation.
 __startTerminalWebBrowser() {
     lynx "${_LYNX_OPTIONS[@]}" "$@"
 }

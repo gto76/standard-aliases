@@ -160,7 +160,7 @@ def addAdditionalShortcutsForUsersRc(shortcuts, newFunctions):
 
 def generateRc(rcContent, addAdditionalShortcuts,  \
         formatDeletedFunction, formatNewFunction, header):
-    rc = "".join(header)
+    rc = "".join(header)+"\n\n"
     # List of function descriptions.
     functions = getFunctions()
     # Map of description -> shortcuts.
