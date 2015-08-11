@@ -7,6 +7,7 @@ import const
 
 aliasesContent = util.getFileContents(const.AL_FILENAME)
 usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
+aliasesHeader = util.getFileContents(const.ALIASES_HEADER)
 
 def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):
     # line tokenize form: '^' or '|' or '$('
@@ -56,7 +57,7 @@ def processOptions(tokens):
     command = tokens[0].strip()
     options = tokens[1].strip()
     if len(options) == 0:
-        return
+        return ""
     variableName = "_"+command.upper()+"_OPTIONS"
     return "export "+variableName+"=("+options+")\n"
 
@@ -88,7 +89,7 @@ def generateMapOfCompletions(completions):
     return completionsMap
 
 def main():
-    al = ""
+    al = "".join(aliasesHeader)+"\n"
     existingCommands = sys.argv[1].split(' ')
     existingCompletions = generateMapOfCompletions(sys.argv[2].split('\n'))
     completions = getCompletions(existingCompletions)
@@ -100,9 +101,7 @@ def main():
             continue
         tokens = line.strip().split(';')
         if len(tokens) == 2:
-            options = processOptions(tokens)
-            if options:
-                al += str(processOptions(tokens))
+            al += processOptions(tokens)
             continue
         tokens = line.strip().split(':')
         if len(tokens) == 2:

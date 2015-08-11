@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Usage: generate_shortcuts 
-# Runs parse-rc script, that parses ~/.standardrc and generates
-# new ~/.standard_aliases/shortcuts.
+# Usage: generate-aliases
+# Runs parse-rc.py script, that parses ~/.standardrc and prints results.
 
 # Stops execution if any command fails.
 set -eo pipefail
@@ -15,7 +14,9 @@ main() {
             | sort \
             | uniq -u \
             | tr '\n' ' ')
-    existingCompletions=$(. /usr/share/bash-completion/bash_completion; complete)
+    existingCompletions=$(
+        . /usr/share/bash-completion/bash_completion
+        complete)
     aliases=$(
         "$scriptsDir"/parse-rc.py \
             "$existingCommands" \

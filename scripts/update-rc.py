@@ -14,7 +14,8 @@ aliasesContent = util.getFileContents(const.AL_FILENAME)
 usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
 optionsComment = util.getFileContents(const.RC_OPTIONS_COMMENT)
-header = util.getFileContents(const.RC_HEADER)
+usersHeader = util.getFileContents(const.USERS_RC_HEADER)
+projectsHeader = util.getFileContents(const.PROJECTS_RC_HEADER)
 
 def getFunctions():
     functionDescriptions = []
@@ -158,7 +159,7 @@ def addAdditionalShortcutsForUsersRc(shortcuts, newFunctions):
     shortcuts.update(newFunctionsWithShortcuts)
 
 def generateRc(rcContent, addAdditionalShortcuts,  \
-        formatDeletedFunction, formatNewFunction):
+        formatDeletedFunction, formatNewFunction, header):
     rc = "".join(header)
     # List of function descriptions.
     functions = getFunctions()
@@ -189,11 +190,11 @@ def generateRc(rcContent, addAdditionalShortcuts,  \
 
 def generateProjectsRc():
     generateRc(projectsRcContent, lambda x, y: None, \
-        signifyDeletedFunction, formatLine)
+        signifyDeletedFunction, formatLine, projectsHeader)
 
 def generateUsersRc():
     generateRc(usersRcContent, addAdditionalShortcutsForUsersRc, \
-        signifyDeletedFunction, signifyNewFunction)
+        signifyDeletedFunction, signifyNewFunction, usersHeader)
 
 def main():
     if len(sys.argv) == 2 and sys.argv[1] == '--user':
