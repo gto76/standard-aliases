@@ -450,7 +450,6 @@ complete -F _command __runCommandInBackground
 ##########
 
 # Opens this file in Vim.
-# TODO change to default editor
 __editStandardAliases() {
     "$EDITOR" ~/.standard_aliases/functions
 }
@@ -503,7 +502,8 @@ __printCommandTypeOrDefinition() {
             | tr -d ' ' \
             | sed 's/,/\n/g')
     if [[ $(echo "$standardShortcuts" | grep "^$@$") != "" ]]; then
-        ___printFirstFunctionThatAFunctionCallsAndExpandOptions "$@" | __printOrDisplayTextOrFileInPager
+        ___printFirstFunctionThatAFunctionCallsAndExpandOptions "$@" \
+            | __printOrDisplayTextOrFileInPager
     else
         type "$@" | __printOrDisplayTextOrFileInPager
     fi
@@ -754,7 +754,6 @@ __editFileWithGeditAsSuperUser() {
 
 # Alias that puts 'sudo' in front of a command that needs super
 # user privileges to run.
-# TODO check completions
 
 __runFdiskAsSuperUser() {
     sudo fdisk "$@"
@@ -920,7 +919,8 @@ __countLinesInFilesWithExtensionInWorkingAndSubdirectories() {
     for file in *; do
         if [ -d "$file" ]; then
             cd "$file"
-            recRes=$(__countLinesInFilesWithExtensionInWorkingAndSubdirectories "$1")
+            recRes=$(
+                __countLinesInFilesWithExtensionInWorkingAndSubdirectories "$1")
             let no=$no+"$recRes"
             cd "$rootDir"
         fi
@@ -1119,7 +1119,6 @@ __printInfoAboutPciDevices() {
 # POWER #
 #########
  
-# TODO research
 # Restarts computer.
 __restartComputer() {
     sudo reboot
@@ -1311,7 +1310,8 @@ ___printPackagesInstalledAndAvailableVersion() {
 }
 
 # Prints installed and remote version of package or command
-# (that is part of package). Command version only works for installed commands
+# (that is part of package). Command version only works for
+# installed commands.
 __printInstalledAndAvailableVersionOfPackageOrInstalledCommand() {
     # Check if passed name is a package, and print its version
     # if it is.
