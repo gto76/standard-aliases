@@ -10,7 +10,6 @@ None**sn** | `sudo nano --und`[**`...`**](https://github.com/gto76/standard-alia
 **switch** | `tempFile=$(mkte`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L402-L407) | Switch contents of files.
 **temp, temperature** | `acpi -t` | Print temperature of cpu.
 **sm, sle** | `sudo less --RAW`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L761-L763) | Display text or file in pager as super user.
-**mk, md, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L390-L393) | Create directory and descend into.
 **hib** | `sudo pm-hiberna`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1187-L1189) | Hibernate computer.
 
 ###  Procesess 
@@ -20,6 +19,7 @@ None**sn** | `sudo nano --und`[**`...`**](https://github.com/gto76/standard-alia
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L451-L453) | Run command in background.
 **wcw, countWords** | `wc -w "$@"` | Count words.
 **n, nano1** | `nano --undo --a`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L672-L674) | Edit file with nano.
+**bk, backup** | `sudo cp --prese`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L397-L399) | Backup file.
 None**cpdir** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L371-L373) | Copy directories safely.
 **pgrep1** | `pgrep --list-na`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L895-L897) | Find processes with part of name.
 **poweroff** | `sudo poweroff` | Shut down computer.
@@ -33,7 +33,6 @@ None**cpdir** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-a
 **allInstalled, allPackages** | `dpkg --get-sele`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1329-L1333) | Print all installed packages.
 **tt** | `gtypist "$@"` | Start typing tutor.
 **te, terminal** | `x-terminal-emul`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L554-L556) | Open new terminal with same working directory.
-**psa, pse, processes** | `ps -e  "$@" | _`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L888-L890) | Print all processes.
 **lll** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L194-L197) | List or display directory contents in pager using long listing format.
 **mua** | `tmux attach "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1114-L1116) | Run terminal multiplexer and attach to last session.
 **z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1878-L1880) | Decrease volume by six decibels.
@@ -60,7 +59,6 @@ None**ta1, lastLine** | `tail -n1 "$@"` | Print last line.
 **dl** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L229-L232) | List or display matching directories in pager using short listing format.
 None**l1** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L244-L247) | List or display in pager one directory item per line using short listing format.
 **blue** | `echo -en "\e]PC`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1228-L1230) | Change hue of color blue in linux terminal.
-**dlll** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L239-L242) | List or display matching directories in pager using long listing format.
 **up** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1805-L1807) | Activate wireless interface.
 **gd** | `git diff "$@"` | Display changes between commits.
 **push** | `git push "$@"` | Push changes to remote repository.
@@ -107,7 +105,6 @@ None**l1** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-alia
 None**gu** | `git remote upda`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1597-L1600) | Update information about remote repository and print status.
 **hd1** | `hd  "$@" | __pr`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1244-L1246) | Print hexadecimal representation of file or stream.
 **gc, checkout** | `git checkout "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1564-L1566) | Checkout branch or file.
-**llla** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L209-L212) | List or display all directory contents in pager using long listing format.
 **package** | `call1=$(sudo wh`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1417-L1433) | Print package of installed command together with description and location.
 **wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1799-L1802) | Reset wireless device.
 **ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1665-L1671) | Print internal ip.
@@ -120,7 +117,7 @@ None
 **gl** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1581-L1583) | Display log of commits.
 **findd, directories** | `find . -name .g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L272-L274) | Print all subdirectories.
 **mvdir** | `mv --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L377-L379) | Move directories safely.
-**bc1** | `gcalccmd "$@"` | Run terminal calculator that supports decimal numbers.
+**psa, pse, processes** | `ps -e  "$@" | _`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L888-L890) | Print all processes.
 **merge** | `git merge "$@"` | Merge specified branch with current one.
 
 ###  Text 
@@ -158,8 +155,8 @@ None
 **wcl, countLines** | `wc -l "$@"` | Count lines.
 **repeat** | `xset r` | Turn on key repeat.
 **update** | `sudo apt-get up`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1284-L1286) | Update information about available packages.
+**bc1** | `gcalccmd "$@"` | Run terminal calculator that supports decimal numbers.
 **remove** | `sudo apt-get re`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1302-L1304) | Remove package and all unneeded packages.
-**na, explorer** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L584-L586) | Start file explorer in background in working directory.
 **mac** | `ifconfig | grep`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1687-L1689) | Print mac addresses of network devices.
 **gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1025-L1028) | Print or display with pager lines containing pattern.
 **grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1032-L1038) | Print or display with pager numbered lines from working and subdirectories that contain pattern.
@@ -229,7 +226,7 @@ NoneNone**cp** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-
 **gb, branch** | `git branch "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1569-L1571) | List branches or create new one.
 **ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1744-L1775) | Print ssh port status of local devices and ping google.
 **trd** | `tr --delete "$@`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L956-L958) | Delete characters.
-**bk, backup** | `sudo cp --prese`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L397-L399) | Backup file.
+**na, explorer** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L584-L586) | Start file explorer in background in working directory.
 **vv** | `view -p "$@"` | View file in vim.
 **pci, lspci1** | `lspci -v "$@" |`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1167-L1169) | Print info about pci devices.
 **fr, free1** | `echo "all:  "$(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1140-L1147) | Print all and free memory space in megabytes.
@@ -246,7 +243,7 @@ None**sub** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-ali
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **reboot** | `sudo reboot` | Restart computer.
-**le, less1** | `less --RAW-CONT`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L27-L29) | Display text or file in pager.
+**dlll** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L239-L242) | List or display matching directories in pager using long listing format.
 None
 ###  Package Search 
 
@@ -255,7 +252,7 @@ None
 **mixer** | `alsamixer "$@"` | Start terminal volume control.
 **i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1833-L1835) | Start default browser in background.
 **woff** | `sudo rfkill blo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1783-L1788) | Block wireless device.
-None**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L184-L187) | List or display directory contents in pager using short listing format.
+None**mk, md, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L390-L393) | Create directory and descend into.
 **ty, type1** | `# Check if comm`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L505-L519) | Print command type or definition.
 **.., cd..** | `___goUpNumberOf`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L314-L316) | Go up one directory.
 
@@ -265,20 +262,22 @@ None**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-alias
 :------------- |:--------:| ----------------
 **la1** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L249-L252) | List or display in pager one directory item per line including hidden files using short listing format.
 **gl1** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1587-L1593) | Display minimal log of commits.
+**gm** | `git mv "$@"` | Move repositories files.
 **ap, apropos1, findCommand** | `apropos "$@" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1450-L1453) | Find installed commands with part of name or description.
 **kill1** | `kill -9 "$@"` | Kill process with kill signal.
 **dll** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L234-L237) | List or display matching directories in pager using medium listing format.
-**scpdir** | `sudo cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L738-L740) | Copy directories safely as super user.
+**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L184-L187) | List or display directory contents in pager using short listing format.
 **first** | `ls "$@" | head `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L255-L257) | List first file in directory.
 **commitm** | `git commit -a "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1537-L1539) | Commit changed and deleted files and edit message in editor.
 **ef, editFunctions** | `"$EDITOR" ~/.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L462-L464) | Edit standard aliases.
 **dist-upgrade** | `sudo apt-get di`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1296-L1298) | Upgrade all packages intelligently.
 **find1** | `find  . -name "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1054-L1058) | Locate files containing pattern in their names in working and sub directories.
 **rf, randomFile** | `ls -pt | grep -`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L265-L267) | Print name of random file in directory.
+**le, less1** | `less --RAW-CONT`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L27-L29) | Display text or file in pager.
 **extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1067-L1100) | Extract archive of any type.
 **lt** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L214-L217) | List or display directory contents in pager ordered by date using short listing format.
 **ch, canhaz** | `sudo apt-get in`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1279-L1281) | Install package.
-**gm** | `git mv "$@"` | Move repositories files.
+**scpdir** | `sudo cp --inter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L738-L740) | Copy directories safely as super user.
 **llt** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L219-L222) | List or display directory contents in pager ordered by date using medium listing format.
 **da** | `date  "$@"` | Print date and time.
 **o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L549-L551) | Open file with default app.
@@ -298,11 +297,7 @@ None**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-alias
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-None
-###  Search 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+None**llla** | `__listOrDisplay`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L209-L212) | List or display all directory contents in pager using long listing format.
 **cut1, keepColumns** | `cut --delimiter`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L996-L998) | Keep columns.
 
 ###  Package Management 
@@ -331,6 +326,11 @@ None
 **a** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1873-L1875) | Increase volume by six decibels.
 
 ###  Wireless 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
+
+###  Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------

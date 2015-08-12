@@ -2,25 +2,28 @@
 
 # update-rc.py
 #
-# This script updates standard_rc, by checking if there are any functions in 
-# standard_functions, that are not yet defined in standardrc, or if
-# there are any functions that are defined in standardrc, but not in standard_functions.
+# This script updates standard_rc, by checking if there are any
+# functions in standard_functions, that are not yet defined in
+# standardrc, or if there are any functions that are defined in
+# standardrc, but not in standard_functions.
 # 
-# If there is a new function it adds it to the standardrc, but withouth any alias,
-# and if there is a function missing in standard_functions, then it comments it out,
-# with a message.
+# If there is a new function it adds it to the standardrc, but
+# without any alias, and if there is a function missing in
+# standard_functions, then it comments it out, with a message.
 #
-# If there are one or more functions at the same spot, both missing and new,
-# it treates them as a renamed functions, and assigns the aliases from deleted ones
-# to them.                                  
+# If there are one or more functions at the same spot, both
+# missing and new, it treats them as a renamed functions, and
 #
-# This script takes one option: '==user', that means that users .standardrc should be
-# updated instead of projects standard_rc. In this case the script works almost the same
-# except for new functions. If new function is defined in standard_functions, then it first
-# checks if there is already an alias assigned for it in projects standardrc. If so it then
-# adds this deffinition to users .standardrc, but it comments it out with a message, so
-# a user can decide if it wants it or not. If there is no definition in projects rc, then
-# it acts same as for projects rc.
+# This script takes one option: '==user', that means that users
+# .standardrc should be updated instead of projects standard_rc.
+# In this case the script works almost the same except for new
+# functions. If new function is defined in standard_functions,
+# then it first checks if there is already an alias assigned for
+# it in projects standardrc. If so it then adds this definition
+# to users .standardrc, but it comments it out with a message,
+# so a user can decide if it wants it or not. If there is no
+# definition in projects rc, then it acts same as for projects
+# rc.
 
 import sys
 import os
@@ -30,7 +33,8 @@ import collections
 import util
 import const
 
-# Messages that are printed in front of commented out definitions.
+# Messages that are printed in front of commented out
+# definitions.
 DELETED_OR_RENAMED_SIGNIFIER = "# DELETED OR RENAMED FUNCTION!: "
 NEW_SIGNIFIER = "# NEW FUNCTION!: "
 
@@ -43,18 +47,18 @@ usersHeader = util.getFileContents(const.USERS_RC_HEADER)
 projectsHeader = util.getFileContents(const.PROJECTS_RC_HEADER)
 
 # Returns list of all functions defined in standard_aliases,
-# with names that start with two underscores (__). Names of the functions
-# are converted from camelCase to sentence form.
+# with names that start with two underscores (__). Names of the
+# functions are converted from camelCase to sentence form.
 # Returns:
 #   * List of functions defined in standard_aliases.
 def getFunctions():
     functionDescriptions = []
-    # go threougn aliases
+    # Goes trough aliases.
     for line in functionsContent:
-        # pick up all titles
+        # Picks up all the titles.
         if line.startswith("# ") and line.strip().endswith(" #"):
             functionDescriptions.append(line.strip())
-        # pick up all the function names (ignore ___)
+        # Picks up all the function names (ignores ___).
         if line.startswith("__") and not line.startswith("___"):
             line = line.strip()
             functionName = re.sub('\(.*$', '', line).strip()
@@ -62,28 +66,29 @@ def getFunctions():
             functionDescriptions.append(functionDescription)
     return functionDescriptions  
 
-# Returns dictionary function names with alias names, as they are
-# defined in passed list.
+# Returns dictionary function names with alias names, as they
+# are defined in passed list.
 # Arguments:
-#   * rcContent - list of lines from rc file (either users or projects)
+#   * rcContent - list of lines from rc file (either users or
+#      projects)
 # Returns:
 #   * Dictionary of function names with alias names.
 def getFunctionsWithAliases(rcContent):
     # map: description -> aliases
     aliasesWithDescriptions = collections.OrderedDict()
-    # go trough rc
+    # Goes trough rc.
     for line in rcContent:
         line = line.strip()
-        # also make use of deleted and renamed
+        # Also makes use of deleted and renamed.
         if line.startswith(DELETED_OR_RENAMED_SIGNIFIER):
             line = line.replace(DELETED_OR_RENAMED_SIGNIFIER, "")
-        # title 
+        # Title .
         if line.startswith("# ") and line.endswith(" #"):
             aliasesWithDescriptions[line] = ""
             continue
         if line.startswith('#'):
             continue
-        # line contains options definition
+        # Line contains options definition.
         if ";" in line:
             continue
         tokens = line.split(':')
@@ -97,26 +102,28 @@ def getFunctionsWithAliases(rcContent):
 # Returns list of functions that are defined in rc file, but not
 # in standard_functions.
 # Arguments:
-#   * functions - list of functions defined in standard_functions,
-#   * functionsWithAliases - dictionary of functions with aliases,
-#       as defined in rc file.
+#   * functions - list of functions defined in
+#       standard_functions,
+#   * functionsWithAliases - dictionary of functions with
+#       aliases, as defined in rc file.
 # Returns:
-#   * List of functions that are defined in rc, but not in standard_functions.
+#   * List of functions that are defined in rc, but not in
+#       standard_functions.
 def getDeletedFunctions(functions, functionsWithAliases):
     rcFunctions = list(functionsWithAliases.keys())
     return list(set(rcFunctions) - set(functions))
 
-# Retruns a dictionary of functions with a list of functions that
-# should follow the function in rc and were either deleted, or are
-# new.
+# Returns a dictionary of functions with a list of functions
+# that should follow the function in rc and were either deleted,
+# or are new.
 # Arguments:
-#   * functions - list of functions either defined in standard_functions,
-#       or rc file.
+#   * functions - list of functions either defined in
+#       standard_functions, or rc file.
 #   * functionsForTheBlocks - list of deleted or new functions.
 # Returns:
 #   * Dictionary of functions with a block that follows them.
 def getBlocks(functions, functionsForTheBlocks):
-    # preceeding function -> block
+    # Preceding function -> block.
     blocks = {}
     block = []
     lastFunction = ""
@@ -132,20 +139,23 @@ def getBlocks(functions, functionsForTheBlocks):
         blocks[lastFunction] = block
     return blocks
 
-# Retruns list of functions that are in first list, but not in second.
+# Returns list of functions that are in first list, but not in
+# second.
 # Arguments:
 #   * functions - list of functions,
-#   * functionsWithAliases - dictionary of functions with aliases.
+#   * functionsWithAliases - dictionary of functions with
+#       aliases.
 # Returns:
 #   * List of new functions.
 def getNewFunctions(functions, functionsWithAliases):
     rcFunctions = list(functionsWithAliases.keys())
     return list(set(functions) - set(rcFunctions) )
 
-# Retruns list of functions that are present in both arguments.
+# Returns list of functions that are present in both arguments.
 # Arguments:
 #   * functions - list of functions,
-#   * functionsWithAliases - dictionary of functions with aliases.
+#   * functionsWithAliases - dictionary of functions with
+#       aliases.
 # Returns:
 #   * List of unchanged functions.
 def getUnchangedFunctions(functions, functionsWithAliases):
@@ -159,14 +169,14 @@ def getUnchangedFunctions(functions, functionsWithAliases):
     #         listOfUnchangedFunctions.append(function)
     # return listOfUnchangedFunctions
 
-# This function is only used when updating users rc file. It adds
-# aliases that are defined in projects rc file, but not in users rc file
-# to the dictionary generated from users rc. 
+# This function is only used when updating users rc file. It
+# adds aliases that are defined in projects rc file, but not in
+# users rc file to the dictionary generated from users rc. 
 # Arguments:
-#   * aliases - dictionary of function names with alias names, that are
-#       defined in users rc.
-#   * newFunctions - list of functions that are defined in standard_functions
-#       but not in users rc.
+#   * aliases - dictionary of function names with alias names,
+#      that are defined in users rc.
+#   * newFunctions - list of functions that are defined in
+#      standard_functions but not in users rc.
 def addAdditionalAliasesForUsersRc(aliases, newFunctions):
     projectsfunctionsWithAliases = \
         getFunctionsWithAliases(projectsRcContent)
@@ -179,9 +189,9 @@ def addAdditionalAliasesForUsersRc(aliases, newFunctions):
 # Arguments:
 #   * block - list of functions, 
 #   * aliases - dictionary of functions with aliases, 
-#   * format - function that formats alias and a function into a valid
-#       rc line that defines alias (like: 
-#       "# NEW FUNCTION!: le, less1 : Display text or file in pager.")
+#   * format - function that formats alias and a function into a
+#      valid rc line that defines alias (like: "# NEW FUNCTION!:
+#      le, less1 : Display text or file in pager.")
 # Returns:
 #   * Formated line that defines an alias.
 def getBlockWithFormat(block, aliases, format):
@@ -190,8 +200,8 @@ def getBlockWithFormat(block, aliases, format):
         out += format(aliases.get(function, ""), function)
     return out
 
-# Formats an alias and a function into valid rc alias definition (like:
-#   "le, less1 : Display text or file in pager.").
+# Formats an alias and a function into valid rc alias definition
+# (like: "le, less1 : Display text or file in pager.").
 # Arguments:
 #   * alias - string with an alias name, 
 #   * function - string with a function name in sentence form.
@@ -200,8 +210,8 @@ def getBlockWithFormat(block, aliases, format):
 def formatLine(alias, function):
     return alias+" : "+function+"\n"
 
-# Formats an alias definition and prepends 
-# "# DELETED OR RENAMED FUNCTION!: ".
+# Formats an alias definition and prepends "# DELETED OR RENAMED
+# FUNCTION!: ".
 # Arguments:
 #   * alias - string with an alias name, 
 #   * function - string with a function name in sentence form.
@@ -210,8 +220,7 @@ def formatLine(alias, function):
 def signifyDeletedFunction(alias, function):
     return DELETED_OR_RENAMED_SIGNIFIER + formatLine(alias, function)
 
-# Formats an alias definition and prepends 
-# "# NEW FUNCTION!: ".
+# Formats an alias definition and prepends "# NEW FUNCTION!: ".
 # Arguments:
 #   * alias - string with an alias name, 
 #   * function - string with a function name in sentence form.
@@ -220,25 +229,29 @@ def signifyDeletedFunction(alias, function):
 def signifyNewFunction(alias, function):
     return NEW_SIGNIFIER + formatLine(alias, function)
 
-# This function does the actual work. It iterates trough all functions,
-# defined in standard_functions. If function is present in rc (with or without
-# an alias), then it leaves the definition unchanged. If a new function is
-# defined in standard_functions, then it adds an empty alias definition to a 
-# rc (or in case of users rc, adds it but comments it out). If there is a function
-# present in rc, that is not in standard_functions, then it comments it out. If
-# there is a new function in place of a deleted one, then it assigns an alias of the
-# old function to new one (it asumes that it was renames).
+# This function does the actual work. It iterates trough all
+# functions, defined in standard_functions. If function is
+# present in rc (with or without an alias), then it leaves the
+# definition unchanged. If a new function is defined in
+# standard_functions, then it adds an empty alias definition to
+# a rc (or in case of users rc, adds it but comments it out). If
+# there is a function present in rc, that is not in
+# standard_functions, then it comments it out. If there is a new
+# function in place of a deleted one, then it assigns an alias
+# of the old function to new one (it assumes that it was
+# renames).
 # Arguments:
-#   * unchangedFunctions - list of functions present in both standard_functions
-#       and a rc file,
-#   * functionsWithAliases - dictionary of function names with their aliases, 
-#   * functionsWithDeletedBlock - dictionary of functions with a list of deleted
-#       functions that follows them,
-#   * functionsWithNewBlock - dictionary of functions with a list of new
-#       functions that follows them.
-#   * formatDeletedFunction - function that formats a line with deleted 
-#       alias definition,
-#   * formatNewFunction - function that formats a line with new 
+#   * unchangedFunctions - list of functions present in both
+#       standard_functions and a rc file,
+#   * functionsWithAliases - dictionary of function names with
+#       their aliases, 
+#   * functionsWithDeletedBlock - dictionary of functions with a
+#       list of deleted functions that follows them,
+#   * functionsWithNewBlock - dictionary of functions with a
+#       list of new functions that follows them.
+#   * formatDeletedFunction - function that formats a line with
+#       deleted alias definition,
+#   * formatNewFunction - function that formats a line with new
 #       alias definition.
 # Returns:
 #   * Updated alias definitions.
@@ -285,7 +298,8 @@ def getNewAliasDefinitions(unchangedFunctions, \
     return rc
 
 # Extracts options definition from a list of lines of a rc file.
-# (for example: "ls ; --classify -X -C --color=auto --group-directories-first")
+# (for example: "ls ; --classify -X -C --color=auto
+# --group-directories-first")
 # Arguments:
 #   * rcContent - list of lines of rc file.
 # Returns:
@@ -301,18 +315,21 @@ def getOptions(rcContent):
 # Prints updated passed rc file. 
 # Arguments:
 #   * rcContent - list of lines of rc file,
-#   * addAdditionalAliases - function that takes dictionari of functions
-#       with aliases and a list of functions and in case of users rc
-#       updates the dictionary with new functions and their aliases.
-#       In case of projects rc, function doesen't do anything.
-#   * formatDeletedFunction - function that formats a line with alias definition,
-#       and prepends a comment that tells the function was deleted. It takes two
-#       strings, first one is a list of aliases and second one a function name
-#       in form of a sentence
-#   * formatNewFunction - same, but prepends message that a function is new in
-#       case of users rc, and in case of projects rc, just processes the line
-#       normally.
-#   * header - string with headear that is attached at a beggining of rc file.
+#   * addAdditionalAliases - function that takes dictionary of
+#       functions with aliases and a list of functions and in case
+#       of users rc updates the dictionary with new functions and
+#       their aliases.  In case of projects rc, function doesn't do
+#       anything.
+#   * formatDeletedFunction - function that formats a line with
+#       alias definition, and prepends a comment that tells the
+#       function was deleted. It takes two strings, first one is a
+#       list of aliases and second one a function name in form of a
+#       sentence
+#   * formatNewFunction - same, but prepends message that a
+#       function is new in case of users rc, and in case of projects
+#       rc, just processes the line normally.
+#   * header - string with header that is attached at a
+#       beginning of rc file.
 # Returns:
 #   * Prints the processed rc file.
 def generateRc(rcContent, addAdditionalAliases, \
@@ -335,8 +352,8 @@ def generateRc(rcContent, addAdditionalAliases, \
         getBlocks(functions, newFunctions)
     unchangedFunctions = \
         getUnchangedFunctions(functions, functionsWithAliases)
-    # Adds aliases of new functions from the projects rc if processing
-    # users rc.
+    # Adds aliases of new functions from the projects rc if
+    # processing users rc.
     addAdditionalAliases(functionsWithAliases, newFunctions)
     newAliasDefs = \
         getNewAliasDefinitions(unchangedFunctions, functionsWithAliases, \
@@ -356,10 +373,12 @@ def generateUsersRc():
     generateRc(usersRcContent, addAdditionalAliasesForUsersRc, \
         signifyDeletedFunction, signifyNewFunction, usersHeader)
 
-# Prints updated standard_rc or ~/.standardrc, depending on first argument.
+# Prints updated standard_rc or ~/.standardrc, depending on
+# first argument.
 # Arguments:
-#   * sys.argv[1]: string '--user' - optional. If passed then processes users ~/.standardrc
-#       file instead of projects standard_rc.
+#   * sys.argv[1]: string '--user' - optional. If passed then
+#      processes users ~/.standardrc file instead of projects
+#      standard_rc.
 # Returns:
 #   * Prints updated rc file.
 def main():

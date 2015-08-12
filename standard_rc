@@ -21,7 +21,6 @@ loc, linesOfCode : Count lines in files with extension in working and subdirecto
 switch : Switch contents of files.
 temp, temperature : Print temperature of cpu.
 sm, sle : Display text or file in pager as super user.
-mk, md, mkdir1 : Create directory and descend into.
 hib : Hibernate computer.
 
 # PROCESESS #
@@ -29,6 +28,7 @@ hib : Hibernate computer.
 rb, runInBackground : Run command in background.
 wcw, countWords : Count words.
 n, nano1 : Edit file with nano.
+bk, backup : Backup file.
 ntfsundelete : Run ntfsundelete as super user.
 cpdir : Copy directories safely.
 pgrep1 : Find processes with part of name.
@@ -41,7 +41,6 @@ grep1 : Print lines containing pattern.
 allInstalled, allPackages : Print all installed packages.
 tt : Start typing tutor.
 te, terminal : Open new terminal with same working directory.
-psa, pse, processes : Print all processes.
 lll : List or display directory contents in pager using long listing format.
 mua : Run terminal multiplexer and attach to last session.
 z : Decrease volume by six decibels.
@@ -66,7 +65,6 @@ dl : List or display matching directories in pager using short listing format.
 aptget : Run apt-get as super user.
 l1 : List or display in pager one directory item per line using short listing format.
 blue : Change hue of color blue in linux terminal.
-dlll : List or display matching directories in pager using long listing format.
 up : Activate wireless interface.
 gd : Display changes between commits.
 push : Push changes to remote repository.
@@ -104,7 +102,6 @@ chown : Run chown as super user.
 gu : Update information about remote repository and print status.
 hd1 : Print hexadecimal representation of file or stream.
 gc, checkout : Checkout branch or file.
-llla : List or display all directory contents in pager using long listing format.
 package : Print package of installed command together with description and location.
 wr : Reset wireless device.
 ip1 : Print internal ip.
@@ -116,7 +113,7 @@ mount : Run mount as super user.
 gl : Display log of commits.
 findd, directories : Print all subdirectories.
 mvdir : Move directories safely.
-bc1 : Run terminal calculator that supports decimal numbers.
+psa, pse, processes : Print all processes.
 merge : Merge specified branch with current one.
 
 # TEXT #
@@ -149,8 +146,8 @@ aa : Increase volume by two decibels.
 wcl, countLines : Count lines.
 repeat : Turn on key repeat.
 update : Update information about available packages.
+bc1 : Run terminal calculator that supports decimal numbers.
 remove : Remove package and all unneeded packages.
-na, explorer : Start file explorer in background in working directory.
 mac : Print mac addresses of network devices.
 gr : Print or display with pager lines containing pattern.
 grr : Print or display with pager numbered lines from working and subdirectories that contain pattern.
@@ -207,7 +204,7 @@ commit : Commit changed and deleted files with message.
 gb, branch : List branches or create new one.
 ne, network : Print ssh port status of local devices and ping google.
 trd : Delete characters.
-bk, backup : Backup file.
+na, explorer : Start file explorer in background in working directory.
 vv : View file in vim.
 pci, lspci1 : Print info about pci devices.
 fr, free1 : Print all and free memory space in megabytes.
@@ -223,7 +220,7 @@ sub : Edit file with sublime text.
 # NETWORK #
 
 reboot : Restart computer.
-le, less1 : Display text or file in pager.
+dlll : List or display matching directories in pager using long listing format.
 fstrim : Run fstrim as super user.
 
 # PACKAGE SEARCH #
@@ -232,7 +229,7 @@ mixer : Start terminal volume control.
 i, www, internet : Start default browser in background.
 woff : Block wireless device.
 nmap : Run nmap as super user.
-l : List or display directory contents in pager using short listing format.
+mk, md, mkdir1 : Create directory and descend into.
 ty, type1 : Print command type or definition.
 .., cd.. : Go up one directory.
 
@@ -240,20 +237,22 @@ ty, type1 : Print command type or definition.
 
 la1 : List or display in pager one directory item per line including hidden files using short listing format.
 gl1 : Display minimal log of commits.
+gm : Move repositories files.
 ap, apropos1, findCommand : Find installed commands with part of name or description.
 kill1 : Kill process with kill signal.
 dll : List or display matching directories in pager using medium listing format.
-scpdir : Copy directories safely as super user.
+l : List or display directory contents in pager using short listing format.
 first : List first file in directory.
 commitm : Commit changed and deleted files and edit message in editor.
 ef, editFunctions : Edit standard aliases.
 dist-upgrade : Upgrade all packages intelligently.
 find1 : Locate files containing pattern in their names in working and sub directories.
 rf, randomFile : Print name of random file in directory.
+le, less1 : Display text or file in pager.
 extract : Extract archive of any type.
 lt : List or display directory contents in pager ordered by date using short listing format.
 ch, canhaz : Install package.
-gm : Move repositories files.
+scpdir : Copy directories safely as super user.
 llt : List or display directory contents in pager ordered by date using medium listing format.
 da : Print date and time.
 o, openFile : Open file with default app.
@@ -272,9 +271,7 @@ mu : Run terminal multiplexer.
 # INTERNET #
 
 shutdown : Run shutdown as super user.
-
-# SEARCH #
-
+llla : List or display all directory contents in pager using long listing format.
 cut1, keepColumns : Keep columns.
 
 # PACKAGE MANAGEMENT #
@@ -297,6 +294,9 @@ mul : List terminal multiplexers sessions.
 a : Increase volume by six decibels.
 
 # WIRELESS #
+
+
+# SEARCH #
 
 pa, pingAll : Ping gateway and google.
 iw : Run iw as super user.

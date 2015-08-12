@@ -1,7 +1,7 @@
 Commands
 --------
-**mk, md, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L390-L393) | Create directory and descend into.
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L451-L453) | Run command in background.
+**bk, backup** | `sudo cp --prese`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L397-L399) | Backup file.
 **cpdir** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L371-L373) | Copy directories safely.
 **te, terminal** | `x-terminal-emul`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L554-L556) | Open new terminal with same working directory.
 
@@ -87,7 +87,6 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1744-L1775) | Print ssh port status of local devices and ping google.
-**bk, backup** | `sudo cp --prese`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L397-L399) | Backup file.
 **vv** | `view -p "$@"` | View file in vim.
 
 ####  Network 
@@ -100,12 +99,13 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1833-L1835) | Start default browser in background.
-**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L184-L187) | List or display directory contents in pager using short listing format.
+**mk, md, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L390-L393) | Create directory and descend into.
 
 ####  Github 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
+**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L184-L187) | List or display directory contents in pager using short listing format.
 **extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1067-L1100) | Extract archive of any type.
 **ch, canhaz** | `sudo apt-get in`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1279-L1281) | Install package.
 **o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L549-L551) | Open file with default app.
@@ -113,11 +113,6 @@ Commands
 **rmdir** | `rm --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L384-L386) | Delete directories safely.
 
 ####  Internet 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
-
-####  Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -134,6 +129,11 @@ Commands
 **ga** | `git add "$@"` | Add files to repository.
 
 ####  Wireless 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
+
+####  Search 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
