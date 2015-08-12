@@ -12,6 +12,11 @@ aliasesContent = util.getFileContents(const.AL_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
 interestingContent = util.getFileContents(const.LIST_OF_IMPORTANT_FUNCTIONS)
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 def getFunctionLineNumber(functionName):
     functionDefinition = functionName+"() {"
     lineStart = 0
@@ -25,6 +30,11 @@ def getFunctionLineNumber(functionName):
         i += 1
     return (lineStart,1)
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 def getFunctionBody(lineNum, commandsWithOptions):
     i = 1
     for line in aliasesContent:
@@ -37,10 +47,20 @@ def getFunctionBody(lineNum, commandsWithOptions):
         i += 1
     return ""
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 def getLink(lineStart, lineEnd):
     link = "https://github.com/gto76/standard-aliases/blob/master/functions#L"+str(lineStart)+"-L"+str(lineEnd)
     return link
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 # **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 
 def getRow(shortcut, explanation, commandsWithOptions):
     # Do not print aliases that just run the command as sudo.
@@ -58,6 +78,11 @@ def getRow(shortcut, explanation, commandsWithOptions):
         runs =  "`"+functionBody+"`"
     return "**"+shortcut+"** | "+runs+" | "+explanation+"\n"
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 def getTitle(line, heading):
     ta = "\n"
     ta += heading+" "+line.strip('#').title()+"\n"
@@ -66,6 +91,11 @@ def getTitle(line, heading):
     ta += ":------------- |:--------:| ----------------\n"
     return ta
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 def getOptions():
     # map of: "${_COMMAND_OPTIONS[@]}" -> options
     commandsWithOptions = {}
@@ -77,6 +107,11 @@ def getOptions():
             commandsWithOptions[command] = options
     return commandsWithOptions
 
+# 
+# Arguments:
+#   * 
+# Returns:
+#   * 
 def generateTable(filter):
     ta = ""
     # map of: "${_COMMAND_OPTIONS[@]}" -> options
