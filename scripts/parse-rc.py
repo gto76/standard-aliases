@@ -1,16 +1,86 @@
 #!/usr/bin/python
+
+# parse-rc.py
+#
+# This script parses ~/.standardrc, and prints result to stdout.
+# Output should then be saved to file named
+# ~/.standars_aliases/aliases, that gets loaded by .bashrc every
+# time a new Bash shell is run.
+#
+# This script expects two arguments:
+#   sys.argv[1] - containing all existing commands, and
+#   sys.argv[2] - conaining all existing completions.
+#
+# ~/.standardrc is a configuration file that defines aliases and
+# options.  Line with alias definition looks like this:
+#   le, less1 : Display text or file in pager.
+# and this script interprets it as:
+#   le() {
+#       __displayTextOrFileInPager "$@" 
+#   }
+#
+#   less1() {
+#       __displayTextOrFileInPager "$@" 
+#   }
+#
+# Line with options definition looks like this:
+#   ls ; --classify -X -C --color=auto --group-directories-first
+# and this script iterprets it as:
+#   export _LS_OPTIONS=(--classify -X -C --color=auto
+#      --group-directories-first)
+#
+# Besides interpreting aliases and options, this script also
+# checks if any of the called functions (right side of the
+# colon) has a defined completion in standard_functions. If so
+# it defines same completion for an alias.  If the function
+# doesn't have a completion defined, then it checks the
+# completion of the function inside that function that gets
+# called with "$@" (all command arguments).
+#
+# If command with same name as an alias already exist, then the
+# alias is defined as an alias instead of funtion.
+
 import sys 
 import re
 
 import util
 import const
 
+# Lists of lines of different files.
 aliasesContent = util.getFileContents(const.AL_FILENAME)
 usersRcContent = util.getFileContents(const.USERS_RC_FILENAME)
 aliasesHeader = util.getFileContents(const.ALIASES_HEADER)
 
-def setCompletion(line, lastLine, currentFunction, completions, existingCompletions):
-    # line tokenize form: '^' or '|' or '$('
+# Converts list of completion definitions into a dictionary that
+# maps a command to its completion.
+# Arguments:
+#   * completions - list of completions ("complete -F _longopt
+#       cat", ...) of all commands.
+# Returns: 
+#   * Dictionary of: command -> completion ("cat" -> "complete
+#       -F _longopt", ...) of all available commands.
+def generateMapOfCompletions(completions):
+    completionsMap = {}
+    for completion in completions:
+        tokens = completion.strip().split()
+        completionsMap[tokens[-1]] = tokens[:-1]
+    return completionsMap
+
+# Finds out which command/function on the line is called with
+# "$@" and returns its completion.
+# Arguments:
+#   * line - line containing "$@",
+#   * lastLIne - line before that, in case of options and
+#       command being on separate lines,
+#   * completions - dictionary of: function -> completion, that
+#       containes completions of the functions that were found so
+#       far and
+#   * existingCompletions - dictionary of: command -> completion
+#       of all available commands.
+# Returns:
+#   * String with completion in form of: "complete -F _longopt".
+def deduceCompletion(line, lastLine, completions, existingCompletions):
+    # Tokenizes line from '^' or '|' or '$(' to "$@".
     line = re.sub('"\$@".*$',"",line.strip())
     line = re.sub('^.*\|',"",line.strip())
     line = re.sub('^.*\$\(',"",line.strip())
@@ -28,11 +98,24 @@ def setCompletion(line, lastLine, currentFunction, completions, existingCompleti
         command = tokens[0]
     if command == "apt-get" or command == "git":
         return
-    if command in completions and currentFunction:
-        completions[currentFunction] = completions[command]
-    elif command in existingCompletions and currentFunction:
-        completions[currentFunction] = " ".join(existingCompletions[command]).strip()
+    if command in completions:
+        return completions[command]
+    elif command in existingCompletions:
+        return " ".join(existingCompletions[command]).strip()
 
+# Generates dictionary of functions defined in
+# standard_funtions, with their completion function. It does
+# that by searching standard_functions for completion
+# definitions and if function lacks one, then it tries to deduct
+# one, by examining which function does the function call with
+# all arguments ("$@").
+# Arguments:
+#   * existingCompletions - dictionary of: command -> completion
+#       ("cat" -> "complete -F _longopt", ...) of all available
+#       commands.
+# Returns:
+#   * dictionary of: command -> completion ("ll" -> "complete -F
+#       _longopt", ...) of functions defined in standard_functions.
 def getCompletions(existingCompletions):
     completions = {}
     currentFunction = ""
@@ -48,11 +131,24 @@ def getCompletions(existingCompletions):
             currentFunction = line.split()[0].strip('()')
         elif line.startswith("}"):
             currentFunction = ""
-        elif '"$@"' in line:
-            setCompletion(line, lastLine, currentFunction, completions, existingCompletions)
+        elif '"$@"' in line and currentFunction:
+            completion = deduceCompletion(line, \
+                    lastLine, \
+                    completions, \
+                    existingCompletions)
+            if completion:
+                completions[currentFunction] = completion
         lastLine = intactLine
     return completions
 
+# Interprets line that defines commands options as an asignment
+# of that options to bash array (see files comment for details).
+# Arguments:
+#   * tokens - list with two strings, first one is part of the
+#       line beffore semicolon (;), and second one the part after
+#       it.
+# Returns:
+#   * String that assigns options to a bash array.
 def processOptions(tokens):
     command = tokens[0].strip()
     options = tokens[1].strip()
@@ -61,7 +157,18 @@ def processOptions(tokens):
     variableName = "_"+command.upper()+"_OPTIONS"
     return "export "+variableName+"=("+options+")\n"
 
-def processShortcut(existingCommands, completions, tokens):
+# Interprets line that defines alias as one function for each
+# alias (see files comment for details).
+# Arguments:
+#   * existingCommands - list of existing commands,
+#   * completions - dictionary of function names and their
+#       completions
+#   * tokens - list of two strings, first one containing
+#       aliases, separated by commas, and second one containing a
+#       function name (in form of sentence).
+# Returns:
+#   * String with functions.
+def processAlias(existingCommands, completions, tokens):
     fun = ""
     shortcuts = tokens[0]
     shortcutTokens = shortcuts.split(',')
@@ -81,17 +188,11 @@ def processShortcut(existingCommands, completions, tokens):
             fun += "\n"
     return fun
 
-def generateMapOfCompletions(completions):
-    completionsMap = {}
-    for completion in completions:
-        tokens = completion.strip().split()
-        completionsMap[tokens[-1]] = tokens[:-1]
-    return completionsMap
-
 def main():
     al = "".join(aliasesHeader)+"\n"
     existingCommands = sys.argv[1].split(' ')
-    existingCompletions = generateMapOfCompletions(sys.argv[2].split('\n'))
+    existingCompletions = \
+            generateMapOfCompletions(sys.argv[2].split('\n'))
     completions = getCompletions(existingCompletions)
     modifiedCompletions = ""
     for line in usersRcContent:
@@ -105,7 +206,7 @@ def main():
             continue
         tokens = line.strip().split(':')
         if len(tokens) == 2:
-            al += processShortcut(existingCommands, completions, tokens)
+            al += processAlias(existingCommands, completions, tokens)
     print(al)
 
 if __name__ == '__main__':

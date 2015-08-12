@@ -1,3 +1,5 @@
+# Constants that define absolute filenames of project files.
+
 import os
 
 homeDir = os.path.expanduser("~")

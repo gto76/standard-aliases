@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 import sys 
 import re
 
@@ -18,7 +19,7 @@ def getFunctionLineNumber(functionName):
     for line in aliasesContent:
         line = line.strip()
         if lineStart == 0 and functionDefinition in line:
-            lineStart = i
+            lineStart = i 
         elif lineStart != 0 and line == "}":
             return (lineStart, i)
         i += 1
