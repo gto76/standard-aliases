@@ -161,13 +161,11 @@ def getNewFunctions(functions, functionsWithAliases):
 def getUnchangedFunctions(functions, functionsWithAliases):
   rcFunctions = list(functionsWithAliases.keys())
   unchangedFunctions = set(functions) & set(rcFunctions)
-  return list(unchangedFunctions)
-  # REDUNDANT (brainfart): 
-  # listOfUnchangedFunctions = []
-  # for function in functions:
-  #     if function in unchangedFunctions:
-  #         listOfUnchangedFunctions.append(function)
-  # return listOfUnchangedFunctions
+  listOfUnchangedFunctions = []
+  for function in functions:
+    if function in unchangedFunctions:
+      listOfUnchangedFunctions.append(function)
+  return listOfUnchangedFunctions
 
 # This function is only used when updating users rc file. It
 # adds aliases that are defined in projects rc file, but not in
