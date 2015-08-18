@@ -7,21 +7,21 @@
 set -eo pipefail
 
 main() {
-    scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-    existingCommands=$(
-        echo $(compgen -c) $(compgen -A function) \
-            | tr ' ' '\n' \
-            | sort \
-            | uniq -u \
-            | tr '\n' ' ')
-    existingCompletions=$(
-        . /usr/share/bash-completion/bash_completion
-        complete)
-    aliases=$(
-        "$scriptsDir"/parse-rc.py \
-            "$existingCommands" \
-            "$existingCompletions")
-    echo "$aliases"
+  scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+  existingCommands=$(
+    echo $(compgen -c) $(compgen -A function) \
+      | tr ' ' '\n' \
+      | sort \
+      | uniq -u \
+      | tr '\n' ' ')
+  existingCompletions=$(
+    . /usr/share/bash-completion/bash_completion
+    complete)
+  aliases=$(
+    "$scriptsDir"/parse-rc.py \
+      "$existingCommands" \
+      "$existingCompletions")
+  echo "$aliases"
 }
 
 main "$@"
