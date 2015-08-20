@@ -146,7 +146,7 @@ mount : Run mount as super user.
 
 # PROCESESS #
 
-tm, taskManager, ht : Run terminal task manager.
+taskManager, ht : Run terminal task manager.
 ps1 : Print users processes.
 psa, pse, processes : Print all processes.
 pgrep1 : Find processes with part of name.
@@ -184,7 +184,7 @@ extract : Extract archive of any type.
 
 # TERMINAL MULTIPLEXER #
 
-mu : Run terminal multiplexer.
+tm, mu : Run terminal multiplexer.
 mua : Run terminal multiplexer and attach to last session.
 mul : List terminal multiplexers sessions.
 

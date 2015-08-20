@@ -478,40 +478,53 @@ __startNewBashShell() {
   bash "$@"
 }
 
-___printFirstFunctionThatAFunctionCallsAndExpandOptions() {
-  nameOfCalledFunction=$(
-    type "$@" \
-      | grep -A1 '{' \
-      | grep -o '__[^ ]*')
-  calledFunction=$(type "$nameOfCalledFunction")
+# $1 - function name
+# returns - whole function with options variable substituted with
+#   real options, as defined at the end of standard_rc.
+___getFunctionWithExpandedOptions() {
+  calledFunction=$(type "$1")
   # Extract array names in form of "${_LESS_OPTIONS[@]}" from function.
   optionsArray=$(
     echo "$calledFunction" \
-      | grep -o '_[A-Z]*_OPTIONS\[@\]' \
+      | grep -o '_[A-Z_]*OPTIONS\[@\]' \
       | head -n1)
   expandedOptions=${!optionsArray}
   # Process options by adding backslashes in fornt of slashes, so they
   # dont break sed.
   expandedOptions=$(echo "$expandedOptions" | sed 's/\//\\\//g')
-  optionsName=$(echo "$optionsArray" | grep -o '_[A-Z]*_OPTIONS')
+  optionsName=$(echo "$optionsArray" | grep -o '_[A-Z_]*OPTIONS')
   echo "$calledFunction" \
       | sed "s/...$optionsName\[@\]../$expandedOptions/g" \
       | grep --invert-match 'is a function' 
+}
+
+___printFirstFunctionThatAFunctionCallsAndExpandOptions() {
+  nameOfCalledFunction=$(
+    type "$@" \
+      | grep -A1 '{' \
+      | grep -o '__[^ ]*')
+  ___getFunctionWithExpandedOptions "$nameOfCalledFunction"
 }
 
 # Prints location of specified command, or it's definition, if
 # it is an alias. Run this command if you are not sure what an
 # alias does!
 __printCommandTypeOrDefinition() {
-  # Check if command is defined in standardrc, and if so it
+  # Checks if command is defined in standardrc, and if so it
   # runs type on the command it calls.
-  standardShortcuts=$(
+  standardAliases=$(
     grep ':' ~/.standardrc \
       | sed 's/:.*$//' \
       | tr -d ' ' \
       | sed 's/,/\n/g')
-  if [[ $(echo "$standardShortcuts" | grep "^$@$") != "" ]]; then
-    ___printFirstFunctionThatAFunctionCallsAndExpandOptions "$@" \
+  if [[ $(echo "$standardAliases" | grep "^$1$") ]]; then
+    ___printFirstFunctionThatAFunctionCallsAndExpandOptions "$1" \
+      | __printOrDisplayTextOrFileInPager
+  elif [[ $(echo "$1" | grep '^__') ]]; then
+    # Also expand options if functin starts with '__' or '___'.
+    # We'll assume it's a part of standard functions, although it's
+    # not necessary true.
+    ___getFunctionWithExpandedOptions "$1" \
       | __printOrDisplayTextOrFileInPager
   else
     type "$@" | __printOrDisplayTextOrFileInPager
