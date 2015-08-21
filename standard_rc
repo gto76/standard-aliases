@@ -261,8 +261,10 @@ merge : Merge specified branch with current one.
 gc, checkout : Checkout branch or file.
 gb, branch : List branches or create new one.
 gs : Print short repository status.
-gl : Display log of commits.
-gl1 : Display minimal log of commits.
+# DELETED OR RENAMED FUNCTION!:  : Display extra minimal log of commits.
+gl : Display minimal log of commits.
+gll : Display medium log of commits.
+glll : Display log of commits.
 gu : Update information about remote repository and print status.
 gd : Display changes between commits.
 ga : Add files to repository.

@@ -1589,20 +1589,22 @@ __printShortRepositoryStatus() {
     | __printOrDisplayTextOrFileInPager
 }
 
+# Prints graph of commits, with only first
+# line of commit messages and shortened hashes.
+__displayMinimalLogOfCommits() {
+  git log --graph --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset)' --all
+}
+
+# Prints nicely decorated graph of commits, with only first
+# line of commit messages, shortened hashes and full dates.
+__displayMediumLogOfCommits() {
+  git log --graph --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset) - %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset)%C(auto)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+}
+
 # Prints nicely decorated graph of commits, with commit
 # messages, full hashes and full dates. 
 __displayLogOfCommits() {
   git log --decorate --graph --all "$@"
-}
-
-# Prints nicely decorated graph of commits, with only first
-# lines of commit messages, shortened hashes and full dates.
-__displayMinimalLogOfCommits() {
-  git log --graph --abbrev-commit --decorate \
-    --format=format:'%C(bold blue)%h%C(reset) \
-    - %C(bold cyan)%aD%C(reset) \
-    %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' \
-    %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 }
 
 # Updates information about state of the remote repository and
