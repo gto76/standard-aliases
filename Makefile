@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-all: standard_rc ~/.standardrc ~/.standard_aliases/aliases doc/FUNCTION_DESCRIPTIONS.md doc/SHORTER_FUNCTION_DESCRIPTIONS.md
+all: standard_rc ~/.standardrc ~/.standard_aliases/aliases doc/FUNCTION_DESCRIPTIONS.md doc/SHORTER_FUNCTION_DESCRIPTIONS.md README.md
 
 standard_rc: standard_functions scripts/update-rc.py scripts/util.py scripts/const.py scripts/resources/rc-options-comment
 	temp=$(shell tempfile); \
@@ -20,3 +20,9 @@ doc/FUNCTION_DESCRIPTIONS.md: standard_rc standard_functions scripts/generate-ta
 
 doc/SHORTER_FUNCTION_DESCRIPTIONS.md: standard_rc standard_functions scripts/generate-table-of-functions.py scripts/util.py scripts/const.py doc/interesting-functions
 	./scripts/generate-table-of-functions.py --readme > doc/SHORTER_FUNCTION_DESCRIPTIONS.md
+
+README.md: standard_rc
+	temp=$(shell tempfile); \
+	./scripts/update-readme.py > "$$temp"; \
+	cp "$$temp" README.md
+

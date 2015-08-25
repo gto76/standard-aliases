@@ -11,7 +11,7 @@ If you can't type well and/or have problem with memorizing stuff you're basicall
 This collection provides the commands, that should be in Linux by default,
 or just an aberrations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
-There are 999 functions.
+There are 207 functions.
 
 Bash aliases are most useful device for customizing your Linux...
 Here is a short list of ones I find most useful:
@@ -124,4 +124,5 @@ Commands for acessing the framework:
 	* ty
 	* al
 	* sc
+
 
