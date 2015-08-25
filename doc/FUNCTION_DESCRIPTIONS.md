@@ -286,62 +286,62 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 **gc, checkout** | `git checkout "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1577-L1579) | Checkout branch or file.
 **gb, branch** | `git branch "$@"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1582-L1584) | List branches or create new one.
 **gs** | `git -c color.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1587-L1590) | Print short repository status.
-**gl** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1592-L1594) | Display minimal log of commits.
-**gll** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1602-L1604) | Display medium log of commits.
-**glll** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1608-L1610) | Display log of commits.
-**gu** | `git remote upda`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1614-L1617) | Update information about remote repository and print status.
+**gl** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1594-L1596) | Display minimal log of commits.
+**gll** | `git log --graph`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1600-L1602) | Display medium log of commits.
+**glll** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1606-L1608) | Display log of commits.
+**gu** | `git remote upda`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1612-L1615) | Update information about remote repository and print status.
 **gd** | `git diff "$@"` | Display changes between commits.
 **ga** | `git add "$@"` | Add files to repository.
 **gm** | `git mv "$@"` | Move repositories files.
-**gls, lsgit** | `git ls-files "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1638-L1640) | List files that are in repository.
+**gls, lsgit** | `git ls-files "$`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1636-L1638) | List files that are in repository.
 
 ###  Github 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**clone** | `git clone git@g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1649-L1651) | Clone github project.
-**origin** | `git remote add `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1655-L1659) | Set github project as remote repository.
-**cloneAll** | `if [[ -z "$1" ]`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1662-L1674) | Clone all users github projects.
+**clone** | `git clone git@g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1647-L1649) | Clone github project.
+**origin** | `git remote add `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1653-L1657) | Set github project as remote repository.
+**cloneAll** | `if [[ -z "$1" ]`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1660-L1672) | Clone all users github projects.
 
 ###  Network 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1682-L1688) | Print internal ip.
-**ip2** | `lynx --dump htt`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1691-L1693) | Print external ip.
-**gateway** | `route -n \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1696-L1701) | Print gateways ip.
-**mac** | `ifconfig | grep`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1704-L1706) | Print mac addresses of network devices.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1709-L1713) | Ping gateway and google.
-**nmap1** | `if [[ $# -eq 0 `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1717-L1733) | Scan local network.
-**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1761-L1792) | Print ssh port status of local devices and ping google.
+**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1680-L1686) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1689-L1691) | Print external ip.
+**gateway** | `route -n \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1694-L1699) | Print gateways ip.
+**mac** | `ifconfig | grep`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1702-L1704) | Print mac addresses of network devices.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1707-L1711) | Ping gateway and google.
+**nmap1** | `if [[ $# -eq 0 `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1715-L1731) | Scan local network.
+**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1759-L1790) | Print ssh port status of local devices and ping google.
 
 ###  Wireless 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**woff** | `sudo rfkill blo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1800-L1805) | Block wireless device.
-**won** | `sudo rfkill unb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1808-L1813) | Unblock wireless device.
-**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1816-L1819) | Reset wireless device.
-**up** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1822-L1824) | Activate wireless interface.
-**down** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1827-L1829) | Deactivate wireless interface.
-**wlan** | `sudo iwlist wla`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1832-L1842) | Print wireless networks in range.
+**woff** | `sudo rfkill blo`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1798-L1803) | Block wireless device.
+**won** | `sudo rfkill unb`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1806-L1811) | Unblock wireless device.
+**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1814-L1817) | Reset wireless device.
+**up** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1820-L1822) | Activate wireless interface.
+**down** | `sudo ifconfig w`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1825-L1827) | Deactivate wireless interface.
+**wlan** | `sudo iwlist wla`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1830-L1840) | Print wireless networks in range.
 
 ###  Internet 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1850-L1852) | Start default browser in background.
-**fire** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1855-L1857) | Start firefox in background.
-**chrome** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1862-L1864) | Start chrome in background.
-**lynx1** | `lynx -accept_al`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1870-L1872) | Start terminal web browser.
+**i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1848-L1850) | Start default browser in background.
+**fire** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1853-L1855) | Start firefox in background.
+**chrome** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1860-L1862) | Start chrome in background.
+**lynx1** | `lynx -accept_al`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1868-L1870) | Start terminal web browser.
 
 ###  Audio 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **mixer** | `alsamixer "$@"` | Start terminal volume control.
-**a** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1890-L1892) | Increase volume by six decibels.
-**z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1895-L1897) | Decrease volume by six decibels.
-**aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1900-L1902) | Increase volume by two decibels.
-**zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1905-L1907) | Decrease volume by two decibels.
+**a** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1888-L1890) | Increase volume by six decibels.
+**z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1893-L1895) | Decrease volume by six decibels.
+**aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1898-L1900) | Increase volume by two decibels.
+**zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1903-L1905) | Decrease volume by two decibels.
 

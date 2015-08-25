@@ -82,11 +82,12 @@ def getRow(shortcut, explanation, commandsWithOptions):
     runs =  "`"+functionBody+"`"
   return "**"+shortcut+"** | "+runs+" | "+explanation+"\n"
 
-# 
+# Extracts title from the line, and adds a table header after it.
 # Arguments:
-#   * 
+#   * line - a line.
+#   * heading - size of the heading.
 # Returns:
-#   * 
+#   * A heading and a table header in md format.
 def getTitle(line, heading):
   ta = "\n"
   ta += heading+" "+line.strip('#').title()+"\n"
@@ -95,13 +96,10 @@ def getTitle(line, heading):
   ta += ":------------- |:--------:| ----------------\n"
   return ta
 
-# 
-# Arguments:
-#   * 
+# Gets dictionary of options from standard_rc, so they can be substitued.
 # Returns:
-#   * 
+#   * dictionary of: "${_<COMMAND-NAME>_OPTIONS[@]}" -> options.
 def getOptions():
-  # map of: "${_COMMAND_OPTIONS[@]}" -> options
   commandsWithOptions = {}
   for line in projectsRcContent:
     if ";" in line:
@@ -111,11 +109,11 @@ def getOptions():
       commandsWithOptions[command] = options
   return commandsWithOptions
 
-# 
+# Generates tables of filtered functions.
 # Arguments:
-#   * 
+#   * filter - List of functions that should be listed (if empty, then all).
 # Returns:
-#   * 
+#   * Tables of functions in md format.
 def generateTable(filter):
   ta = ""
   # map of: "${_COMMAND_OPTIONS[@]}" -> options
@@ -147,6 +145,11 @@ def generateTable(filter):
       ta += str(row)
   return ta
 
+# Generates tables of fuctions.
+# Var args:
+#   * --readme (optional) - If specified, then generates table that oly contains functions listed in '../doc/interesting-functions'
+# Returns:
+#   * Tables of functions in md format.
 def main():
   if len(sys.argv) == 2 and sys.argv[1] == '--readme':
     stripped = [line.strip() for line in interestingContent]

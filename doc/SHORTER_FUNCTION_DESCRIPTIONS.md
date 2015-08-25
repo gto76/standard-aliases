@@ -112,7 +112,7 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **gs** | `git -c color.st`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1587-L1590) | Print short repository status.
-**glll** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1608-L1610) | Display log of commits.
+**glll** | `git log --decor`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1606-L1608) | Display log of commits.
 **gd** | `git diff "$@"` | Display changes between commits.
 **ga** | `git add "$@"` | Add files to repository.
 
@@ -120,25 +120,25 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**clone** | `git clone git@g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1649-L1651) | Clone github project.
+**clone** | `git clone git@g`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1647-L1649) | Clone github project.
 
 ####  Network 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1682-L1688) | Print internal ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1709-L1713) | Ping gateway and google.
-**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1761-L1792) | Print ssh port status of local devices and ping google.
+**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1680-L1686) | Print internal ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1707-L1711) | Ping gateway and google.
+**ne, network** | `localIp=$(ip1)`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1759-L1790) | Print ssh port status of local devices and ping google.
 
 ####  Wireless 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1816-L1819) | Reset wireless device.
+**wr** | `woff`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1814-L1817) | Reset wireless device.
 
 ####  Internet 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1850-L1852) | Start default browser in background.
+**i, www, internet** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1848-L1850) | Start default browser in background.
 
