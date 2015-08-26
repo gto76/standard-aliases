@@ -308,7 +308,19 @@ def getOptions(rcContent):
     line = line.strip()
     if ";" in line:
       options += line+"\n"
-  return options
+  return 
+
+  # read rcContent line by line
+    # when we find ";" put command name and options into (ordered) map
+
+  # read standard_functions line by line
+    # when we find options variable, add it to (ordered) set
+
+  # traverse traverse set
+    # assemble a options conf line
+
+
+
 
 # Prints updated passed rc file. 
 # Arguments:
@@ -380,7 +392,8 @@ def generateUsersRc():
 # Returns:
 #   * Prints updated rc file.
 def main():
-  if len(sys.argv) == 2 and sys.argv[1] == '--user':
+  userOprionPresent = len(sys.argv) == 2 and sys.argv[1] == '--user'
+  if userOprionPresent:
     generateUsersRc()
   else:
     generateProjectsRc()
