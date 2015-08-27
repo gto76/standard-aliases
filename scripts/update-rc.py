@@ -324,7 +324,7 @@ def getOptionsNEW(rcContent):
     # assemble options conf line
     options = mapOfOptions[command]
     out += command + " ; " + options
-  out
+  return out
 
 # Extracts options definition from a list of lines of a rc file.
 # (for example: "ls ; --classify -X -C --color=auto

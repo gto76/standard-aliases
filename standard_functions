@@ -287,10 +287,10 @@ __printDirectoryStructure() {
   tree "${_TREE_OPTIONS[@]}"  "$@" | __printOrDisplayTextOrFileInPager
 }
 
-__clearScreenAndprintDirectoryStructure() {
-  clear
-  __printDirectoryStructure "$@"
-}
+# __clearScreenAndprintDirectoryStructure() {
+#   clear
+#   __printDirectoryStructure "$@"
+# }
 
 
 ######
