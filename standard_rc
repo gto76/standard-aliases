@@ -40,6 +40,7 @@ findd, directories : Print all subdirectories.
 # TREE #
 
 t, tree1 : Print directory structure.
+tt : Clear screen andprint directory structure.
 
 # CD #
 
@@ -222,7 +223,7 @@ profile : Run profile script.
 vimode : Change bash line editing to vi mode.
 emacsmode : Change bash line editing to emacs mode.
 ssd : Trim ssd.
-tt : Start typing tutor.
+typingTutor : Start typing tutor.
 
 # PACKAGE MANAGEMENT #
 

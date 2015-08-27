@@ -36,6 +36,7 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **t, tree1** | `tree -C -I .git`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L286-L288) | Print directory structure.
+**tt** | `clear`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L290-L293) | Clear screen andprint directory structure.
 
 ###  Cd 
 
@@ -239,7 +240,7 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 **vimode** | `set -o vi` | Change bash line editing to vi mode.
 **emacsmode** | `set -o emacs` | Change bash line editing to emacs mode.
 **ssd** | `sudo fstrim -v `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1282-L1284) | Trim ssd.
-**tt** | `gtypist "$@"` | Start typing tutor.
+**typingTutor** | `gtypist "$@"` | Start typing tutor.
 
 ###  Package Management 
 
