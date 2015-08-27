@@ -295,6 +295,37 @@ def getNewAliasDefinitions(unchangedFunctions, \
           formatNewFunction)
   return rc
 
+
+def getMapOfOptionsFromRc(rcContent):
+  mapOfOptions = collections.OrderedDict()
+  for line in rcContent:
+    if ";" in line:
+      tokens = ';'.split(line)
+      commandName = tokens[0].strip()
+      options = tokens[1].strip()
+      mapOfOptions[commandName] = options
+  return mapOfOptions
+
+def getCommandsWithOptionVariables():
+  setOfOptionVariables = OrderedSet()
+  for line in functionsContent:
+    # Searches for "${_<COMMAND-NAME>_OPTIONS[@]}"
+    command = re.sub("${_([A-Z_]+)_OPTIONS\[@\]}", "\g<1>", line)
+    if command:
+      commandName = util.underscoreToCamelcase(command)
+      setOfOptionVariables.append(commandName)
+  return  setOfOptionVariables
+
+def getOptionsNEW(rcContent):
+  mapOfOptions = getMapOfOptionsFromRc(rcContent)
+  commandsWithOptionVariables = getCommandsWithOptionVariables()
+  out = ""
+  for command in commandsWithOptionVariables:
+    # assemble options conf line
+    options = mapOfOptions[command]
+    out += command + " ; " + options
+  out
+
 # Extracts options definition from a list of lines of a rc file.
 # (for example: "ls ; --classify -X -C --color=auto
 # --group-directories-first")
@@ -308,18 +339,7 @@ def getOptions(rcContent):
     line = line.strip()
     if ";" in line:
       options += line+"\n"
-  return 
-
-  # read rcContent line by line
-    # when we find ";" put command name and options into (ordered) map
-
-  # read standard_functions line by line
-    # when we find options variable, add it to (ordered) set
-
-  # traverse traverse set
-    # assemble a options conf line
-
-
+  return options
 
 
 # Prints updated passed rc file. 

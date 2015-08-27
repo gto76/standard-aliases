@@ -42,4 +42,18 @@ def getFileContents(fileName):
   with open(fileName) as f:
     return f.readlines()
 
+def underscoreToCamelcase(command):
+  out = ""
+  command = command.strip(['_', ' '])
+  tokens = "_".split(command)
+  first = true
+  for token in tokens:
+    token = token.lower()
+    if not first:
+      token = firstLetterToUppercase(token)
+    out += token
+    first = false
+  return out
+
+
 
