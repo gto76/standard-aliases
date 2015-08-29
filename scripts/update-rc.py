@@ -300,28 +300,42 @@ def getMapOfOptionsFromRc(rcContent):
   mapOfOptions = collections.OrderedDict()
   for line in rcContent:
     if ";" in line:
-      tokens = ';'.split(line)
-      commandName = tokens[0].strip()
-      options = tokens[1].strip()
+      tokens = line.split(';')
+      commandName = "xxx"
+      if len(tokens) >= 1:
+        commandName = tokens[0].strip()
+      options = "yyy"
+      if len(tokens) >= 2:
+        options = tokens[1].strip()
       mapOfOptions[commandName] = options
   return mapOfOptions
 
 def getCommandsWithOptionVariables():
-  setOfOptionVariables = OrderedSet()
-  for line in functionsContent:
+  setOfOptionVariables = util.OrderedSet()
+  # for line in functionsContent:
+  #for match in re.findall("${_([A-Z_]+)_OPTIONS\[@\]}", "\n".join(functionsContent)):
+  for match in re.findall("_([A-Z_]+)_OPTIONS", "\n".join(functionsContent)):
     # Searches for "${_<COMMAND-NAME>_OPTIONS[@]}"
-    command = re.sub("${_([A-Z_]+)_OPTIONS\[@\]}", "\g<1>", line)
-    if command:
-      commandName = util.underscoreToCamelcase(command)
-      setOfOptionVariables.append(commandName)
+    #command = re.sub("${_([A-Z_]+)_OPTIONS\[@\]}", "\g<1>", line)
+    #command = re.sub()
+    print("## match "+match)
+    #command = re.search("_[A-Z_]+_", match)
+    #print("## command "+str(command))
+    #if command:
+    commandName = util.underscoreToCamelcase(match)
+    print("## commandName "+commandName)
+    setOfOptionVariables.add(commandName)
   return  setOfOptionVariables
 
-def getOptionsNEW(rcContent):
+def getOptions(rcContent):
   mapOfOptions = getMapOfOptionsFromRc(rcContent)
+  print("### ordered dict"+str(mapOfOptions))
   commandsWithOptionVariables = getCommandsWithOptionVariables()
+  print("### ordered set"+str(commandsWithOptionVariables))
   out = ""
   for command in commandsWithOptionVariables:
     # assemble options conf line
+    print("### "+command)
     options = mapOfOptions[command]
     out += command + " ; " + options
   return out
@@ -333,7 +347,7 @@ def getOptionsNEW(rcContent):
 #   * rcContent - list of lines of rc file.
 # Returns:
 #   * List of lines that define options variables.
-def getOptions(rcContent):
+def getOptionsOLD(rcContent):
   options = ""
   for line in rcContent:
     line = line.strip()
@@ -391,7 +405,7 @@ def generateRc(rcContent, addAdditionalAliases, \
       formatDeletedFunction, formatNewFunction)
   options = getOptions(rcContent)
   rc += newAliasDefs + '\n\n' + "".join(optionsComment) + '\n' + options
-  print(rc)
+  #print(rc)
 
 # Prints updated standard_rc.
 def generateProjectsRc():
