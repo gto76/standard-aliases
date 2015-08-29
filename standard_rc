@@ -175,7 +175,7 @@ sort1 : Sort lines by column.
 
 grep1 : Print lines containing pattern.
 gr : Print or display with pager lines containing pattern.
-grr : Print or display with pager numbered lines from working and subdirectories that contain pattern.
+grr : Print or display with pager numbered lines containing pattern in working and subdirectories.
 lo, locate1 : Locate files on filesystem containing pattern in their names.
 find1 : Locate files containing pattern in their names in working and sub directories.
 
@@ -241,7 +241,7 @@ depends : Print package dependencies.
 # PACKAGE INFORMATION #
 
 pd, describe : Print package description.
-ve, version : Print installed and available version of package or installed command.
+ve, version : Print installed and available version of package or command.
 package : Print package of installed command together with description and location.
 
 # PACKAGE SEARCH #

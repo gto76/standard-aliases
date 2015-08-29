@@ -1,0 +1,33 @@
+# BASIC #
+List or display directory contents in pager using short listing format.
+Print text.
+Print file contents.
+Print or display text or file in pager.
+Edit file with vim.
+Exit bash shell.
+Open new terminal with same working directory.
+Print exit code of last command.
+# FILES #
+Print directory structure.
+Copy directories safely.
+Move directories safely
+Delete directories safely.
+Create directory and descend into.
+Backup file.
+Open file with default app.
+Make file executable or create new bash or python script.
+Extract archive of any type.
+Print disk space occupied by file or folder.
+Locate files on filesystem containing pattern in their names.
+# USEFUL  #
+Execute last command as super user.
+Run command in background.
+Print or display with pager lines containing pattern.
+Print or display with pager numbered lines containing pattern in working and subdirectories.
+Print available disk space in simplified form.
+Print internal ip.
+Ping gateway and google.
+# PACKAGES #
+Install package.
+Print installed and available version of package or command.
+Describe package or command or find available packages with part of name or command.

@@ -1047,7 +1047,7 @@ __printOrDisplayWithPagerLinesContainingPattern() {
 
 # Runs __printLinesContainingPattern with --recursive and 
 # --line-number and sends output to pager.
-__printOrDisplayWithPagerNumberedLinesFromWorkingAndSubdirectoriesThatContainPattern() {
+__printOrDisplayWithPagerNumberedLinesContainingPatternInWorkingAndSubdirectories() {
   __printLinesContainingPattern \
     --recursive \
     --line-number \
@@ -1385,7 +1385,7 @@ ___printPackagesInstalledAndAvailableVersion() {
 # Prints installed and remote version of package or command
 # (that is part of package). Command version only works for
 # installed commands.
-__printInstalledAndAvailableVersionOfPackageOrInstalledCommand() {
+__printInstalledAndAvailableVersionOfPackageOrCommand() {
   # Check if passed name is a package, and print its version
   # if it is.
   packageVersion=$(___printPackagesInstalledAndAvailableVersion "$@")

@@ -137,11 +137,11 @@ def generateTable(filter):
       continue
     tokens = line.split(':')
     if len(tokens) == 2:
-      shortcut = tokens[0].strip()
+      shortcuts = tokens[0].strip()
       explanation = tokens[1].strip()
       if filter and explanation not in filter:
         continue
-      row = getRow(shortcut, explanation, commandsWithOptions)
+      row = getRow(shortcuts, explanation, commandsWithOptions)
       ta += str(row)
   return ta
 

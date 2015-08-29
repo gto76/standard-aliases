@@ -180,7 +180,7 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 :------------- |:--------:| ----------------
 **grep1** | `grep --color=au`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1037-L1039) | Print lines containing pattern.
 **gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1043-L1046) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1050-L1056) | Print or display with pager numbered lines from working and subdirectories that contain pattern.
+**grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1050-L1056) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 **lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1061-L1065) | Locate files on filesystem containing pattern in their names.
 **find1** | `find  . -name "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1072-L1076) | Locate files containing pattern in their names in working and sub directories.
 
@@ -262,7 +262,7 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **pd, describe** | `apt-cache show `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1368-L1370) | Print package description.
-**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1388-L1405) | Print installed and available version of package or installed command.
+**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1388-L1405) | Print installed and available version of package or command.
 **package** | `call1=$(sudo wh`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1435-L1451) | Print package of installed command together with description and location.
 
 ###  Package Search 
