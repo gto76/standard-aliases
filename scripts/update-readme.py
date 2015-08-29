@@ -8,6 +8,8 @@ import const
 import generate_table_of_functions
 
 TARGET_LINE = "There are [0-9]* functions"
+TABLES_TARGET_LINE_START = "Below is a short list of most useful commands."
+TABLES_TARGET_LINE_END = "How to install"
 
 readmeContent = util.getFileContents(const.README_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
@@ -15,14 +17,12 @@ veryInterestingFunctionsContent = util.getFileContents(const.VERY_INTERESTING_FU
 
 def getShortcuts(explanation):
   matches = [line for line in projectsRcContent if explanation in line]
-  return matches[0].split(':')[0]
+  return matches[0].split(':')[0].strip()
 
 def getFunctionTables():
   ta = ""
   # map of: "${_COMMAND_OPTIONS[@]}" -> options
   commandsWithOptions = generate_table_of_functions.getOptions()
-  ta += "Commands\n"
-  ta += "--------\n"    
   for line in veryInterestingFunctionsContent:
     line = line.strip()
     if not line:
@@ -33,6 +33,7 @@ def getFunctionTables():
     shortcuts = getShortcuts(line)
     row = generate_table_of_functions.getRow(shortcuts, line, commandsWithOptions)
     ta += str(row)
+  return ta
 
 # Counts number of functions defined in standard_rc.
 # Returns:
@@ -50,20 +51,29 @@ def countFunctions():
 #   * noOfFunctions - no of functions.
 # Returns:
 #   * updated README.md.
-def updateReadme(noOfFunctions):
+def updateReadme(noOfFunctions, functionTables):
+  doPrint = True
   updatedReadme = ""
   for line in readmeContent:
     # If line contains regex.
     if re.search(TARGET_LINE, line):
       # Updates number.
       line = re.sub('[0-9]+', str(noOfFunctions), line)
-    updatedReadme += line
+    if TABLES_TARGET_LINE_START in line:
+      updatedReadme += line
+      updatedReadme += str(functionTables)
+      doPrint = False
+    if TABLES_TARGET_LINE_END in line:
+      doPrint = True
+      updatedReadme += '\n'
+    if doPrint:
+      updatedReadme += line
   return updatedReadme
 
 def main():
   functionTables = getFunctionTables()
   noOfFunctions = countFunctions()
-  updatedReadme = updateReadme(noOfFunctions)
+  updatedReadme = updateReadme(noOfFunctions, functionTables)
   print(updatedReadme)
 
 if __name__ == '__main__':

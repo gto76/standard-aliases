@@ -182,7 +182,7 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 **gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1043-L1046) | Print or display with pager lines containing pattern.
 **grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1050-L1056) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 **lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1061-L1065) | Locate files on filesystem containing pattern in their names.
-**find1** | `find  . -name "`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1072-L1076) | Locate files containing pattern in their names in working and sub directories.
+**find1** | `find -not -iwho`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1072-L1076) | Locate files containing pattern in their names in working and sub directories.
 
 ###  Archives 
 

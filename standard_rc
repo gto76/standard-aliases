@@ -337,7 +337,7 @@ pgrep ; --list-name
 strace ; -s\ 2000 -f
 grep ; --exclude-dir=\.svn --exclude-dir=\.git --ignore-case --perl-regexp
 locate ; 
-find ; 
+find ; -not -iwholename '*.git*'
 tmux ; 
 lspci ; -v
 hd ; 
