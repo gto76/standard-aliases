@@ -345,5 +345,5 @@ NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
 **z** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1898-L1900) | Decrease volume by six decibels.
 **aa** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1903-L1905) | Increase volume by two decibels.
 **zz** | `___setVolumeTo `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1908-L1910) | Decrease volume by two decibels.
-**** | `ls "${_TEST_OPT`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1912-L1914) | Test function.
+**** | `ls` | Test function.
 

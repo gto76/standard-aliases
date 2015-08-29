@@ -318,26 +318,21 @@ def getCommandsWithOptionVariables():
     # Searches for "${_<COMMAND-NAME>_OPTIONS[@]}"
     #command = re.sub("${_([A-Z_]+)_OPTIONS\[@\]}", "\g<1>", line)
     #command = re.sub()
-    print("## match "+match)
     #command = re.search("_[A-Z_]+_", match)
     #print("## command "+str(command))
     #if command:
     commandName = util.underscoreToCamelcase(match)
-    print("## commandName "+commandName)
     setOfOptionVariables.add(commandName)
   return  setOfOptionVariables
 
 def getOptions(rcContent):
   mapOfOptions = getMapOfOptionsFromRc(rcContent)
-  print("### ordered dict"+str(mapOfOptions))
   commandsWithOptionVariables = getCommandsWithOptionVariables()
-  print("### ordered set"+str(commandsWithOptionVariables))
   out = ""
   for command in commandsWithOptionVariables:
     # assemble options conf line
-    print("### "+command)
-    options = mapOfOptions[command]
-    out += command + " ; " + options
+    options = mapOfOptions.get(command, "")
+    out += command + " ; " + options + "\n"
   return out
 
 # Extracts options definition from a list of lines of a rc file.
@@ -405,7 +400,7 @@ def generateRc(rcContent, addAdditionalAliases, \
       formatDeletedFunction, formatNewFunction)
   options = getOptions(rcContent)
   rc += newAliasDefs + '\n\n' + "".join(optionsComment) + '\n' + options
-  #print(rc)
+  print(rc)
 
 # Prints updated standard_rc.
 def generateProjectsRc():

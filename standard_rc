@@ -322,25 +322,26 @@ zz : Decrease volume by two decibels.
 
 less ; --RAW-CONTROL-CHARS --ignore-case --QUIET --tilde --tabs=4 -P%db/%D\ %f$
 ls ; --classify -X -C --color=auto --group-directories-first
-ls_medium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M
+lsMedium ; -l --no-group -g --human-readable --time-style=+%b\ %_d\ %Y\ %H:%M
 tree ; -C -I .git --dirsfirst
-touch ;
-date ;
-make ;
-diff ;
+touch ; 
+date ; 
+make ; 
+diff ; 
 vim ; -p
 nano ; --undo --autoindent --const --historylog --multibuffer --wordbounds --smooth --tabsize=4
-gedit ;
-htop ;
-ps ;
+gedit ; 
+htop ; 
+ps ; 
 pgrep ; --list-name
 strace ; -s\ 2000 -f
 grep ; --exclude-dir=\.svn --exclude-dir=\.git --ignore-case --perl-regexp
-locate ;
-find ;
-tmux ;
+locate ; 
+find ; 
+tmux ; 
 lspci ; -v
-hd ;
+hd ; 
 chrome ; --touch-devices=123
 lynx ; -accept_all_cookies -vikeys www.google.com
+test ; 
 

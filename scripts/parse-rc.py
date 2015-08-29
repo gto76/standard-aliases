@@ -154,7 +154,7 @@ def processOptions(tokens):
   options = tokens[1].strip()
   if len(options) == 0:
     return ""
-  variableName = "_"+command.upper()+"_OPTIONS"
+  variableName = "_"+util.camelcaseToUnderscore(command).upper()+"_OPTIONS"
   return "export "+variableName+"=("+options+")\n"
 
 # Interprets line that defines alias as one function for each

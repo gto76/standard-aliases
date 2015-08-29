@@ -56,6 +56,11 @@ def underscoreToCamelcase(command):
     first = False
   return out
 
+def camelcaseToUnderscore(command):
+  command = command.strip(' ')
+  s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', command)
+  return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
 import collections
 
 class OrderedSet(collections.MutableSet):
