@@ -16,6 +16,33 @@ aliasesContent = util.getFileContents(const.AL_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
 interestingContent = util.getFileContents(const.LIST_OF_IMPORTANT_FUNCTIONS)
 
+# Gets dictionary of options from standard_rc, so they can be substitued.
+# Returns:
+#   * dictionary of: "${_<COMMAND-NAME>_OPTIONS[@]}" -> options.
+def getOptions():
+  commandsWithOptions = {}
+  for line in projectsRcContent:
+    if ";" in line:
+      tokens = line.split(";")
+      command = "\"${_"+tokens[0].strip().upper()+"_OPTIONS[@]}\""
+      options = tokens[1].strip()
+      commandsWithOptions[command] = options
+  return commandsWithOptions
+
+# Extracts title from the line, and adds a table header after it.
+# Arguments:
+#   * line - a line.
+#   * heading - size of the heading.
+# Returns:
+#   * A heading and a table header in md format.
+def getTitle(line, heading):
+  ta = "\n"
+  ta += heading+" "+line.strip('#').title()+"\n"
+  ta += "\n"
+  ta += " _Name_        | _Runs_   | _Description_  \n"
+  ta += ":------------- |:--------:| ----------------\n"
+  return ta
+
 # 
 # Arguments:
 #   * 
@@ -82,56 +109,21 @@ def getRow(shortcut, explanation, commandsWithOptions):
     runs =  "`"+functionBody+"`"
   return "**"+shortcut+"** | "+runs+" | "+explanation+"\n"
 
-# Extracts title from the line, and adds a table header after it.
-# Arguments:
-#   * line - a line.
-#   * heading - size of the heading.
-# Returns:
-#   * A heading and a table header in md format.
-def getTitle(line, heading):
-  ta = "\n"
-  ta += heading+" "+line.strip('#').title()+"\n"
-  ta += "\n"
-  ta += " _Name_        | _Runs_   | _Description_  \n"
-  ta += ":------------- |:--------:| ----------------\n"
-  return ta
-
-# Gets dictionary of options from standard_rc, so they can be substitued.
-# Returns:
-#   * dictionary of: "${_<COMMAND-NAME>_OPTIONS[@]}" -> options.
-def getOptions():
-  commandsWithOptions = {}
-  for line in projectsRcContent:
-    if ";" in line:
-      tokens = line.split(";")
-      command = "\"${_"+tokens[0].strip().upper()+"_OPTIONS[@]}\""
-      options = tokens[1].strip()
-      commandsWithOptions[command] = options
-  return commandsWithOptions
-
 # Generates tables of filtered functions.
 # Arguments:
 #   * filter - List of functions that should be listed (if empty, then all).
 # Returns:
 #   * Tables of functions in md format.
-def generateTable(filter):
+def generateTables():
   ta = ""
   # map of: "${_COMMAND_OPTIONS[@]}" -> options
   commandsWithOptions = getOptions()
   ta += "Commands\n"
-  if filter:
-    ta += "--------\n"    
-  else:
-    ta += "========\n"
+  ta += "========\n"
   for line in projectsRcContent:
     line = line.strip()
     if line.startswith('# ') and line.endswith(' #'):
-      if filter and line not in filter:
-        continue
-      if filter:
-        ta += getTitle(line, "####")
-      else:
-        ta += getTitle(line, "###")
+      ta += getTitle(line, "###")
       continue
     if ";" in line:
       continue
@@ -139,8 +131,6 @@ def generateTable(filter):
     if len(tokens) == 2:
       shortcuts = tokens[0].strip()
       explanation = tokens[1].strip()
-      if filter and explanation not in filter:
-        continue
       row = getRow(shortcuts, explanation, commandsWithOptions)
       ta += str(row)
   return ta
@@ -151,11 +141,7 @@ def generateTable(filter):
 # Returns:
 #   * Tables of functions in md format.
 def main():
-  if len(sys.argv) == 2 and sys.argv[1] == '--readme':
-    stripped = [line.strip() for line in interestingContent]
-    ta = generateTable(stripped)
-  else:
-    ta = generateTable([])
+  ta = generateTables()
   print(ta)
 
 if __name__ == '__main__':
