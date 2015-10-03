@@ -590,7 +590,9 @@ __printDateAndTime() {
 # necessary. 
 # By default it doesn't use any options.
 __runMakeWithPager() {
-  make "${_MAKE_OPTIONS[@]}" "$@" 2>&1 | __displayTextOrFileInPager
+  make "${_MAKE_OPTIONS[@]}" "$@" 2>&1 \
+    | __printLinesContainingPattern --color=always '^.*error|^.*warning|' \
+    | __displayTextOrFileInPager
 }
 # Asigns make completion to command if available.
 if [ -f /usr/share/bash-completion/completions/make ]; then
@@ -1035,7 +1037,7 @@ __sortLinesByColumn() {
 #       for instance, '+' meaning one or more times) and 
 #   * ignoring case.
 __printLinesContainingPattern() {
-  grep --color=auto "${_GREP_OPTIONS[@]}"  "$@"
+  grep --color=auto "${_GREP_OPTIONS[@]}" "$@"
 }
 complete -F _longopt __printLinesContainingPattern
 

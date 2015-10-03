@@ -16,15 +16,3 @@ g++
 gdb...
 
 
-====================
-
-3. What command can you use to safely shut down the Linux system immediately?
-a. shutdown -c
-b. shutdown -r
-c. down
-d. halt
-
-add partitions alias
-
-=========
-
