@@ -106,24 +106,6 @@ Misc
 
 
 
-Todo
-----
-Link to the Function link  
-The | in what it calls  
-comment files (install, aliases, functions)  
-Commands for accessing the framework  
-
-already defined aliases
-
-There are xxx functions
-
-ll, h
-
-move directories safely - why no dot at the end?
-
-
-
-
 
 
 
