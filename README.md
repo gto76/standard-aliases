@@ -82,6 +82,8 @@ After installation the "framework" consists of three files:
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard-aliases/standard_rc#L323-L346) that functions use when they call specific commands. It is located in user's home directory.
 
 * Automatically generated `shortcuts` file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
+ 
+Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `shortcuts` file.
 
 How To Rename Commands
 ----------------------
