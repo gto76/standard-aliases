@@ -85,7 +85,7 @@ After instalation the "framework" consists of three files:
  
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: It specifies short(er) names for functions and [options](standard-aliases/standard_rc#L323-L346) that this functions use when they call specific commands. It is located in users home folder.
 
-* Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users rc file. It is located in `~/.standard_aliases`.
+* Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users rc file. It is located in `~/.standard_aliases` directory.
 
 Misc
 ----
