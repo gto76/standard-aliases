@@ -89,13 +89,9 @@ How To Rename Commands
 * Open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description.
 * Save and run `bash` for changes to take effect.
 
-
 Misc
 ----
-
-+ All functions have long and descriptive name, that starts with two underscores (so they don't pollute the shells namespace). This functions are then "aliased" with shorter name (or names), that are specified in `standardrc` configuration file. This function is then aliased with a shorter and more convenient name. Do not change the names of the functions because they may be used by other functions. Utility functions, that are not meant to be aliased start with three underscores.
-
-+ By convention a function that calls a command with some set of options that are quiet sensible for that command is usually named <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`. // Usually if alias only makes command easier to use, either by using "sensible" options, or just by sending output of a command to pager if necessary, then it has same name as command, but with number 1 appended at the end. Some examples are:
++ By convention a function that calls a command with some set of options that are quite sensible for that command is usually named <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`. // Usually if alias only makes command easier to use, either by using "sensible" options, or just by sending output of a command to pager if necessary, then it has same name as command, but with number 1 appended at the end. Some examples are:
 `ps1`,
 `pgrep1`,
 `tree1`,
@@ -111,6 +107,11 @@ automatic completions from the command that gets parameters in function.
 	* ty
 	* al 
 	* sc
+
+To Other Files
+--------------
++ All functions have long and descriptive names, that start with two underscores (so they don't pollute the shells namespace). This functions are then "aliased" with shorter name (or names), that are specified in `standardrc` configuration file. This function is then aliased with a shorter and more convenient name. Do not change the names of the functions because they may be used by other functions. Utility functions, that are not meant to be aliased start with three underscores.
+
 
 Todo
 ----
