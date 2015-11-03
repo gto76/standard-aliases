@@ -13,6 +13,15 @@
 # |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
 #                                             
 
+# All functions have long and descriptive names that start with
+# two underscores (so they don't pollute the shells namespace).
+# This functions are then "aliased" with shorter name (or names),
+# that are specified in `standardrc` configuration file. 
+# Be careful when changing function names, because they might be
+# used by other functions. Utility functions, that are not meant
+# to be aliased start with three underscores.
+# Any new function that starts with two underscores will
+# automatically be included in rc file when new shell is run.
 
 ########
 # LESS #
