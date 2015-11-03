@@ -79,7 +79,7 @@ After installation the "framework" consists of three files:
 
 * [**`standard_functions`**](standard-aliases/standard_functions): It contains the Bash Functions with long descriptive names. It is located in projects directory.
 
-* Users [**`.standardrc`**](standard-aliases/standard_rc) file: It specifies short(er) names for functions and [options](standard-aliases/standard_rc#L323-L346) that this functions use when they call specific commands. It is located in users home folder.
+* Users [**`.standardrc`**](standard-aliases/standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard-aliases/standard_rc#L323-L346) that functions use when they call specific commands. It is located in users home directory.
 
 * Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users _rc_ file. It is located in `~/.standard_aliases` directory.
 
