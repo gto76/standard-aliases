@@ -73,19 +73,20 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1390-L1407) | Print installed and available version of package or command.
 **wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1518-L1542) | Describe package or command or find available packages with part of name or command.
 
-How To Rename Commands
-----------------------
-First check if the name is already taken by running `wi <name>`. Then open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description. Save and run `bash` for changes to take effect.
-
 How It Works
 ------------
 After instalation the "framework" consists of three files:
 
 * [**`standard_functions`**](standard-aliases/standard_functions): It contains the Bash Functions with long descriptive names. It is located in projects directory.
- 
+
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: It specifies short(er) names for functions and [options](standard-aliases/standard_rc#L323-L346) that this functions use when they call specific commands. It is located in users home folder.
 
 * Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users rc file. It is located in `~/.standard_aliases` directory.
+
+How To Rename Commands
+----------------------
+First check if the name is already taken by running `wi <name>`. Then open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description. Save and run `bash` for changes to take effect.
+
 
 Misc
 ----
