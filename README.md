@@ -18,10 +18,8 @@ $ cd standard-aliases
 $ ./install
 $ bash
 ```
-
-How to uninstall
-----------------
-```bash
+To uninstall run:  
+```
 $ ./uninstall
 ```
 
