@@ -9,16 +9,16 @@ Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with 
 
 There are currently 209 commands.
 
-How to install
---------------
-
+How to…
+-------
+### Install:
 ```bash
 $ git clone https://github.com/gto76/standard-aliases.git
 $ cd standard-aliases
 $ ./install
 $ bash
 ```
-To uninstall run:  
+### Uninstall:
 ```
 $ ./uninstall
 ```
