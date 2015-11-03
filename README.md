@@ -77,7 +77,7 @@ How It Works
 ------------
 After installation the "framework" consists of three files:
 
-* [**`standard_functions`**](standard-aliases/standard_functions): It contains the Bash functions with long descriptive names. It is located in projects directory.
+* [**`standard_functions`**](standard-aliases/standard_functions): It contains Bash functions with long descriptive names. It is located in projects directory.
 
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard-aliases/standard_rc#L323-L346) that functions use when they call specific commands. It is located in user's home directory.
 
@@ -110,17 +110,14 @@ automatic completions from the command that gets parameters in function.
 	* al 
 	* sc
 
-To Other Files
---------------
-+ All functions have long and descriptive names, that start with two underscores (so they don't pollute the shells namespace). This functions are then "aliased" with shorter name (or names), that are specified in `standardrc` configuration file. This function is then aliased with a shorter and more convenient name. Do not change the names of the functions because they may be used by other functions. Utility functions, that are not meant to be aliased start with three underscores.
 
 
 Todo
 ----
-Link to the Function link
-The | in what it calls
-comment files (install, aliases, functions)
-Commands for accessing the framework
+Link to the Function link  
+The | in what it calls  
+comment files (install, aliases, functions)  
+Commands for accessing the framework  
 
 already defined aliases
 
