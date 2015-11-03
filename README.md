@@ -19,6 +19,12 @@ $ ./install
 $ bash
 ```
 
+How to uninstall
+----------------
+```bash
+$ ./uninstall
+```
+
 Commands
 --------
 
