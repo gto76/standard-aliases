@@ -75,13 +75,13 @@ Below is a list of most useful commands. If you want to check out the full list 
 
 How It Works
 ------------
-After instalation the "framework" consists of three files:
+After installation the "framework" consists of three files:
 
 * [**`standard_functions`**](standard-aliases/standard_functions): It contains the Bash Functions with long descriptive names. It is located in projects directory.
 
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: It specifies short(er) names for functions and [options](standard-aliases/standard_rc#L323-L346) that this functions use when they call specific commands. It is located in users home folder.
 
-* Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users rc file. It is located in `~/.standard_aliases` directory.
+* Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users _rc_ file. It is located in `~/.standard_aliases` directory.
 
 How To Rename Commands
 ----------------------
@@ -91,9 +91,9 @@ First check if the name is already taken by running `wi <name>`. Then open [**`.
 Misc
 ----
 
-+ All functions have long and descriptive name, that starts with two underscores (so they don't polute the shells namespace). This functions are then "aliased" with shorther name (or names), that are specified in `standardrc` configuration file. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions. Utility functions, that are not meant to be aliased start with three underscores.
++ All functions have long and descriptive name, that starts with two underscores (so they don't pollute the shells namespace). This functions are then "aliased" with shorter name (or names), that are specified in `standardrc` configuration file. This function is then aliased with a shorter and more convenient name. Do not change the names of the functions because they may be used by other functions. Utility functions, that are not meant to be aliased start with three underscores.
 
-+ By convention a function that calls a command with some set of options that are quiet sensible for that command is usualy named <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`. // Usualy if alias only makes command easier to use, either by using "sensible" options, or just by sending output of a command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
++ By convention a function that calls a command with some set of options that are quiet sensible for that command is usually named <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`. // Usually if alias only makes command easier to use, either by using "sensible" options, or just by sending output of a command to pager if necessary, then it has same name as command, but with number 1 appended at the end. Some examples are:
 `ps1`,
 `pgrep1`,
 `tree1`,
@@ -103,9 +103,9 @@ Misc
 
 
 + completions...
-automatioc completions from the command that gets parameters in function.
+automatic completions from the command that gets parameters in function.
 
-+ Commands for acessing the framework:
++ Commands for accessing the framework:
 	* ty
 	* al 
 	* sc
@@ -115,7 +115,7 @@ Todo
 Link to the Function link
 The | in what it calls
 comment files (install, aliases, functions)
-Commands for acessing the framework
+Commands for accessing the framework
 
 already defined aliases
 
