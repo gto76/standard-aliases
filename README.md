@@ -1,26 +1,27 @@
 Standard Aliases
 ================
 
-Make Linux more user friendly with this collection of [**Bash aliases**](http://tldp.org/LDP/abs/html/aliases.html).
+Make Linux more user friendly with this collection of **Bash functions**.
 
-Technically they are not aliases but Bash Functions, but *Standard Aliases* sounds less generic than *Standard Functions*...
+It provides commands that should be in Linux by default, or just an aberrations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
-Linux is elegant and concise, but it is also hard.
-If you can't type well and/or have problem with memorizing stuff you're basically screwed.
+Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with Bash shell.
 
-This collection provides the commands, that should be in Linux by default,
-or just an aberrations of commands that are provided, but are so commonly used that they deserve a shorter name.
+There are currently 209 commands.
 
-There are 209 functions.
+How to install
+--------------
 
-Bash aliases are most useful device for customizing your Linux...
-Here is a short list of ones I find most useful:
-
+```bash
+$ git clone https://github.com/gto76/standard-aliases.git
+$ cd standard-aliases
+$ ./install
+```
 
 Commands
 --------
 
-Below is a short list of most useful commands. If you want to check out the full list see [**LIST OF ALL FUNCTIONS**](doc/FUNCTION_DESCRIPTIONS.md).
+Below is a list of most useful commands. If you want to check out the full list see [**LIST OF ALL FUNCTIONS**](doc/FUNCTION_DESCRIPTIONS.md).
 
 ####  Basic 
 
@@ -71,61 +72,62 @@ Below is a short list of most useful commands. If you want to check out the full
 **ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1390-L1407) | Print installed and available version of package or command.
 **wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1518-L1542) | Describe package or command or find available packages with part of name or command.
 
-How to install
---------------
+How It Works
+------------
 
-```bash
-$ git clone https://github.com/gto76/standard-aliases.git
-$ cd standard-aliases
-$ ./install
-```
++ All functions have long and descriptive name, that starts with two underscores (so they don't polute the shells namespace). This functions are then "aliased" with shorther name (or names), that are specified in `standardrc` configuration file.
 
-
-Short Description
------------------
-
-All functions have long and descriptive name, that starts with two underscores, so they don't polute the shells namespace. This functions are then "aliased" with shorther name, or names, that are specified in `standardrc` configuration file.
-
-Utility functions, that are not meant to be aliased start with three underscores.
-
-Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
-
-Also only aliases get documented by generate-readme script.
-
-This aliases were made for debian based linux (ubuntu, mint,...) with gnome desktop environment, but most aliases will work on all systems with Bash shell.
-
-Most aliases will send output to pager if it will be too long to fit the screen.
-
-Some aliases require special tools that are not installed by default on most systems. You can install them all at one with command belove, but it is probably more reasonable to just install them when demand arises.
-
-By convention a function that calls the a command with some set of options that are quiet sensible for that command is usualy aliased with <command-name>1, and often also with a two letter aberration. Options for this commands are defined in `standardrc`
-
-Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or just by sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
++ By convention a function that calls the a command with some set of options that are quiet sensible for that command is usualy aliased with <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`.
++ Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or just by sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
 ps1
 pgrep1
 tree1
 mkdir1
 
-Only aliases that override the commands are cp, mv and rm. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this promptint, then use -f (force) option. 
++ Only aliases that override the commands are cp, mv and rm. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
 
-When adding new alias alwalys check if it is already taken by any command with `wi <alias>`.
 
-completions...
++ Utility functions, that are not meant to be aliased start with three underscores.
+
+Not so important
+----------------
+
++ Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
+
++ Also only aliases get documented by generate-readme script.
+
++ Most aliases will send output to pager if it will be too long to fit the screen.
+
++ Some aliases require special tools that are not installed by default on most systems. You can install them all at one with command belove, but it is probably more reasonable to just install them when demand arises.
+
++ completions...
 automatioc completions from the command that gets parameters in function.
 
-// Intentions
-I know it is a bit abnockuous to think your colection of aliases is so great, that it should become adopted as standard, but what a hack, I worked on and been using them for long time, and I just feel so limited withouth them.
 
-Mention the rb command
+How To Edit Commands
+--------------------
 
-Commands for acessing the framework:
++ When adding new alias alwalys check if it is already taken by any command with `wi <alias>`.
+(how to add!!! and other ways to acess framework)
+
++ Commands for acessing the framework:
 	* ty
-	* al
+	* al 
 	* sc
 
 
+Todo
+----
+Link to the Function link
+The | in what it calls
+comment files (install, aliases, functions)
+Commands for acessing the framework
 
+already defined aliases
 
+There are xxx functions
+
+ll, h
 
 
 
