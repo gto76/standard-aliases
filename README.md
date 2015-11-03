@@ -128,6 +128,8 @@ There are xxx functions
 
 ll, h
 
+move directories safely - why no dot at the end?
+
 
 
 
