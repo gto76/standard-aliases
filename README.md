@@ -5,7 +5,7 @@ Make Linux more user friendly with this collection of **Bash functions**.
 
 It provides commands that should be in Linux by default, or just an aberrations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
-Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with Bash shell.
+Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed Bash shell and GNU Coreutils.
 
 There are currently 209 commands.
 
@@ -93,19 +93,13 @@ How To Rename Commands
 
 Misc
 ----
-+ By convention a function that calls a command with some set of options that are quite sensible for that command is usually named <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`. // Usually if alias only makes command easier to use, either by using "sensible" options, or just by sending output of a command to pager if necessary, then it has same name as command, but with number 1 appended at the end. Some examples are:
-`ps1`,
-`pgrep1`,
-`tree1`,
-`mkdir1`.
+* Usually if function only makes linux command easier to use, either by using a few "sensible" options, or just by sending output of a command to a pager if necessary, then it has same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard-aliases/standard_rc#L323-L346).
 
-+ Only aliases that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
+* Only functions that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
 
+* Command-line completions are automatically assigned to functions, depending on what commands they use. (Exception are `git` commands, for which completions don't work.)
 
-+ completions...
-automatic completions from the command that gets parameters in function.
-
-+ Commands for accessing the framework:
+* Commands for accessing the framework:
 	* ty
 	* al 
 	* sc
