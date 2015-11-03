@@ -87,8 +87,8 @@ Every time new Bash shell is started, the "framework" checks if any changes were
 
 How To Rename Commands
 ----------------------
-* Check if the name is already taken by running: `$ wi <name>`
-* Open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description.
+* Check if name is already taken by running: `$ wi <name>`
+* Open **`.standard_rc`** located in your home directory and add new name in front of function's description.
 * Save and run: `$ bash`
 
 Misc
