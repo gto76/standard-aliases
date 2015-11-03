@@ -73,60 +73,41 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1390-L1407) | Print installed and available version of package or command.
 **wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1518-L1542) | Describe package or command or find available packages with part of name or command.
 
-How To Change Commands Name
----------------------------
-Open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of a colon. Save and run `bash` for changes to take effect.
+How To Rename Commands
+----------------------
+First check if the name is already taken by running `wi <name>`. Then open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description. Save and run `bash` for changes to take effect.
 
 How It Works
 ------------
 After instalation the "framework" consists of three files:
 
 * [**`standard_functions`**](standard-aliases/standard_functions): It contains the Bash Functions with long descriptive names. It is located in projects directory.
+ 
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: It specifies short(er) names for functions and [options](standard-aliases/standard_rc#L323-L346) that this functions use when they call specific commands. It is located in users home folder.
+
 * Automaticaly generated `shortcuts` file: It defines shorter names for functions as specified in users rc file. It is located in `~/.standard_aliases`.
 
+Misc
+----
 
++ All functions have long and descriptive name, that starts with two underscores (so they don't polute the shells namespace). This functions are then "aliased" with shorther name (or names), that are specified in `standardrc` configuration file. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions. Utility functions, that are not meant to be aliased start with three underscores.
 
-+ All functions have long and descriptive name, that starts with two underscores (so they don't polute the shells namespace). This functions are then "aliased" with shorther name (or names), that are specified in `standardrc` configuration file.
++ By convention a function that calls a command with some set of options that are quiet sensible for that command is usualy named <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`. // Usualy if alias only makes command easier to use, either by using "sensible" options, or just by sending output of a command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
+`ps1`,
+`pgrep1`,
+`tree1`,
+`mkdir1`.
 
-+ By convention a function that calls the a command with some set of options that are quiet sensible for that command is usualy aliased with <command-name>1, and often also with a two letter aberration. Options for this commands are defined at the bottom of `standardrc`.
-+ Usualy if alias only makes command easier to use, either by providing the options that should have been set by default, or just by sending output of command to pager if necesary, then it has same name as command, but with number 1 apended at the end. Some examples are:
-ps1
-pgrep1
-tree1
-mkdir1
++ Only aliases that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
 
-+ Only aliases that override the commands are cp, mv and rm. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
-
-
-+ Utility functions, that are not meant to be aliased start with three underscores.
-
-Not so important
-----------------
-
-+ Every alias that doesen't just define a different name for a command is defined as a function with descriptive name. This function is then aliased with a shorher and more convinient name. Do not change the names of the functions because they may be used by other functions.
-
-+ Also only aliases get documented by generate-readme script.
-
-+ Most aliases will send output to pager if it will be too long to fit the screen.
-
-+ Some aliases require special tools that are not installed by default on most systems. You can install them all at one with command belove, but it is probably more reasonable to just install them when demand arises.
 
 + completions...
 automatioc completions from the command that gets parameters in function.
-
-
-How To Edit Commands
---------------------
-
-+ When adding new alias alwalys check if it is already taken by any command with `wi <alias>`.
-(how to add!!! and other ways to acess framework)
 
 + Commands for acessing the framework:
 	* ty
 	* al 
 	* sc
-
 
 Todo
 ----
