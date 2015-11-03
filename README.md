@@ -85,7 +85,9 @@ After installation the "framework" consists of three files:
 
 How To Rename Commands
 ----------------------
-First check if the name is already taken by running `wi <name>`. Then open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description. Save and run `bash` for changes to take effect.
+* Check if the name is already taken by running `wi <name>`.
+* Open [**`.standardrc`**](standard-aliases/standard_rc) located in your home directory and add new name in front of function's description.
+* Save and run `bash` for changes to take effect.
 
 
 Misc
