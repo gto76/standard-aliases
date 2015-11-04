@@ -47,7 +47,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 :------------- |:--------:| ----------------
 **t, tree1** | `tree -C -I .git`[**`...`**](standard_functions#L295-L297) | Print directory structure.
 **cpdir** | `cp --interactiv`[**`...`**](standard_functions#L385-L387) | Copy directories safely.
-**mvdir** | `mv --interactiv`[**`...`**](standard_functions#L391-L393) | Move directories safely
+**mvdir** | `mv --interactiv`[**`...`**](standard_functions#L391-L393) | Move directories safely.
 **rmdir** | `rm --interactiv`[**`...`**](standard_functions#L398-L400) | Delete directories safely.
 **mk, md, mkdir1** | `mkdir --parents`[**`...`**](standard_functions#L404-L407) | Create directory and descend into.
 **bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L411-L413) | Backup file.
@@ -107,6 +107,7 @@ Misc
 	* ty
 	* al 
 	* sc
+
 
 
 
