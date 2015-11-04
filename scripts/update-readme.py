@@ -9,7 +9,7 @@ import generate_table_of_functions
 
 TARGET_LINE = "There are currently [0-9]* commands"
 TABLES_TARGET_LINE_START = "Below is a list of most useful commands."
-TABLES_TARGET_LINE_END = "How It Works"
+TABLES_TARGET_LINE_END = "How To Rename Commands"
 
 readmeContent = util.getFileContents(const.README_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
