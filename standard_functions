@@ -1919,7 +1919,3 @@ __increaseVolumeByTwoDecibels() {
 __decreaseVolumeByTwoDecibels() {
   ___setVolumeTo "2%-" | tail -n 1
 }
-
-__testFunction() {
-  ls "${_TEST_OPTIONS[@]}"
-}
