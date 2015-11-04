@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
 # generate-table-of-functions.py
-#
-#
+# Prints tables of all functions in md format.
 
 import sys 
 import re
@@ -43,11 +42,11 @@ def getTitle(line, heading):
   ta += ":------------- |:--------:| ----------------\n"
   return ta
 
-# 
+# Finds line number of the start of the function.
 # Arguments:
-#   * 
+#   * functionName
 # Returns:
-#   * 
+#   * line number
 def getFunctionLineNumber(functionName):
   functionDefinition = functionName+"() {"
   lineStart = 0
@@ -61,11 +60,12 @@ def getFunctionLineNumber(functionName):
     i += 1
   return (lineStart,1)
 
-# 
+# Returns functions body.
 # Arguments:
-#   * 
+#   * lineNum - line number of the start of the function
+#   * commandsWithOptions - map of command options
 # Returns:
-#   * 
+#   * functions body
 def getFunctionBody(lineNum, commandsWithOptions):
   i = 1
   for line in aliasesContent:
@@ -78,11 +78,13 @@ def getFunctionBody(lineNum, commandsWithOptions):
     i += 1
   return ""
 
-# 
+# Generates hyperlink to the function body.
 # Arguments:
-#   * 
+#   * lineStart - line number of the start of the function
+#   * lineEnd - line number of the end of the function
+#   * pathToFunctions - relative path to standard_functions file
 # Returns:
-#   * 
+#   * hyperlink
 def getLink(lineStart, lineEnd, pathToFunctions):
   link = pathToFunctions+"standard_functions#L"+str(lineStart)+"-L"+str(lineEnd)
   return link
@@ -91,7 +93,7 @@ def getLink(lineStart, lineEnd, pathToFunctions):
 # Arguments:
 #   * shortcut - short name of a function
 #   * explanation - short description
-#   * commandsWithOptions - body of a function
+#   * commandsWithOptions - map of command options
 #   * pathToFunctions - relative path to standard_functions file
 # Returns:
 #   * example:
@@ -112,7 +114,6 @@ def getRow(shortcut, explanation, commandsWithOptions, pathToFunctions):
     runs =  "`"+functionBody+"`"
   return "**"+shortcut+"** | "+runs+" | "+explanation+"\n"
 
-# Generates tables of filtered functions.
 # Returns:
 #   * Tables of functions in md format.
 def generateTables():
@@ -136,9 +137,7 @@ def generateTables():
       ta += str(row)
   return ta
 
-# Generates tables of all fuctions.
-# Returns:
-#   * Tables of functions in md format.
+# Prints tables of all functions in md format.
 def main():
   ta = generateTables()
   print(ta)

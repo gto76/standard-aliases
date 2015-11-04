@@ -13,47 +13,28 @@ createLinkSafely() {
     # Create directory if it doesent exist.
     echo "target dir: $targetDirectory"
     if [ ! -d "$targetDirectory" ]; then
-        echo "install.sh: Creating directory $directory."
+        echo "install: Creating directory $directory."
         mkdir -p "$targetDirectory"
     fi
     # Create link if file doesn't exist
     if [[ ! -f "$link" ]]; then
-        echo "install.sh: Creating link $link"
+        echo "install: Creating link $link"
         ln -s $(pwd)/"$file" "$link" 
     else
-        echo "install.sh: WARNING: File $link already exists." 
+        echo "install: WARNING: File $link already exists." 
         echo "You will have to merge or overvrite it manualy."
     fi	
 }
-
-#createLinkSafely() {
-#   directory="$1"
-#   file="$2"
-#   fullPath="$directory"/"$file"
-#   # Create directory if it doesent exist.
-#   if [ ! -d "$directory" ]; then
-#       echo "install.sh: Creating directory $directory."
-#       mkdir -p "$directory"
-#   fi
-#   # Create link if file doesn't exist
-#   if [[ ! -f "$fullPath" ]]; then
-#       echo "install.sh: Creating link $fullPath"
-#       ln -s $(pwd)/"$file" "$fullPath" 
-#   else
-#       echo "install.sh: WARNING: File $fullPath already exists." 
-#       echo "You will have to merge or overvrite it manualy."
-#   fi	
-#}
 
 copyFileSafely() {
     destination="$1"
     origin="$2"
     # Copy file if file doesn't exist
     if [[ ! -f "$destination" ]]; then
-        echo "install.sh: Copying file $origin to $destination"
+        echo "install: Copying file $origin to $destination"
         cp "$origin" "$destination" 
     else
-        echo "install.sh: WARNING: File $destination already exists." 
+        echo "install: WARNING: File $destination already exists." 
         echo "You will have to merge or overvrite it manualy."
     fi	
 }
