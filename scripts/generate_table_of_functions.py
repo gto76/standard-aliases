@@ -134,7 +134,8 @@ def generateTables():
       shortcuts = tokens[0].strip()
       explanation = tokens[1].strip()
       row = getRow(shortcuts, explanation, commandsWithOptions, "../")
-      ta += str(row)
+      if row is not None:
+        ta += str(row)
   return ta
 
 # Prints tables of all functions in md format.

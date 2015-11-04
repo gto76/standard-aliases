@@ -141,7 +141,7 @@ Commands
 **svv** | `sudo view -p "$`[**`...`**](../standard_functions#L802-L804) | View file in vim as super user.
 **sn** | `sudo nano --und`[**`...`**](../standard_functions#L816-L818) | Edit file with nano as super user.
 **sg** | `sudo gedit  "$@`[**`...`**](../standard_functions#L822-L824) | Edit file with gedit as super user.
-NoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNoneNone
+
 ###  Procesess 
 
  _Name_        | _Runs_   | _Description_  
