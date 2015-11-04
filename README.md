@@ -1,5 +1,5 @@
-Standard Aliases
-================
+StandardAliases
+===============
 
 Make Linux more user friendly with this collection of **Bash functions**.
 
@@ -77,6 +77,12 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ve, version** | `# Check if pass`[**`...`**](standard_functions#L1399-L1416) | Print installed and available version of package or command.
 **wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1527-L1551) | Describe package or command or find available packages with part of name or command.
 
+How To Rename Commands
+----------------------
+* Check if name is already taken by running: `$ wi <name>`
+* Open **`.standard_rc`** located in your home directory and add new name in front of function's description.
+* Save and run: `$ bash`
+
 How It Works
 ------------
 After installation the "framework" consists of three files:
@@ -88,12 +94,6 @@ After installation the "framework" consists of three files:
 * Automatically generated **`shortcuts`** file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
  
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `shortcuts` file.
-
-How To Rename Commands
-----------------------
-* Check if name is already taken by running: `$ wi <name>`
-* Open **`.standard_rc`** located in your home directory and add new name in front of function's description.
-* Save and run: `$ bash`
 
 Misc
 ----
