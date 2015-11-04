@@ -345,5 +345,4 @@ Commands
 **z** | `___setVolumeTo `[**`...`**](../standard_functions#L1909-L1911) | Decrease volume by six decibels.
 **aa** | `___setVolumeTo `[**`...`**](../standard_functions#L1914-L1916) | Increase volume by two decibels.
 **zz** | `___setVolumeTo `[**`...`**](../standard_functions#L1919-L1921) | Decrease volume by two decibels.
-**** | `ls` | Test function.
 

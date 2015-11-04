@@ -311,7 +311,6 @@ a : Increase volume by six decibels.
 z : Decrease volume by six decibels.
 aa : Increase volume by two decibels.
 zz : Decrease volume by two decibels.
- : Test function.
 
 
 #######
@@ -343,5 +342,4 @@ lspci ; -v
 hd ; 
 chrome ; --touch-devices=123
 lynx ; -accept_all_cookies -vikeys www.google.com
-test ; 
 
