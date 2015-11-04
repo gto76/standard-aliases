@@ -1,5 +1,5 @@
-StandardAliases
-===============
+Standard Aliases
+================
 
 Make Linux more user friendly with this collection of **Bash functions**.
 
