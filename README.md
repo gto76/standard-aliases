@@ -16,7 +16,6 @@ How to…
 $ git clone https://github.com/gto76/standard-aliases.git
 $ cd standard-aliases
 $ ./install
-$ bash
 ```
 ### Uninstall
 ```
