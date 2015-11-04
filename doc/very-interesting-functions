@@ -10,7 +10,7 @@ Print exit code of last command.
 # FILES #
 Print directory structure.
 Copy directories safely.
-Move directories safely
+Move directories safely.
 Delete directories safely.
 Create directory and descend into.
 Backup file.

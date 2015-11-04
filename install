@@ -87,7 +87,8 @@ main() {
         echo "if you're running RedHat/Fedora/CentOS..."
         echo "After installing Make, run 'bash' for changes to take effect."
     else
-        echo "Run 'bash' for changes to take effect."
+        # echo "Run 'bash' for changes to take effect."
+        bash
     fi
 }
 
