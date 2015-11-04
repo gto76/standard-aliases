@@ -83,17 +83,20 @@ def getFunctionBody(lineNum, commandsWithOptions):
 #   * 
 # Returns:
 #   * 
-def getLink(lineStart, lineEnd):
-  link = "../standard_functions#L"+str(lineStart)+"-L"+str(lineEnd)
+def getLink(lineStart, lineEnd, pathToFunctions):
+  link = pathToFunctions+"standard_functions#L"+str(lineStart)+"-L"+str(lineEnd)
   return link
 
-# 
+# Generates tables row.
 # Arguments:
-#   * 
+#   * shortcut - short name of a function
+#   * explanation - short description
+#   * commandsWithOptions - body of a function
+#   * pathToFunctions - relative path to standard_functions file
 # Returns:
-#   * 
+#   * example:
 # **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 
-def getRow(shortcut, explanation, commandsWithOptions):
+def getRow(shortcut, explanation, commandsWithOptions, pathToFunctions):
   # Do not print aliases that just run the command as sudo.
   if explanation.startswith("Run ") and \
     explanation.endswith(" as super user."):
@@ -101,7 +104,7 @@ def getRow(shortcut, explanation, commandsWithOptions):
   functionName = util.descriptionToCamelCase(explanation)
   lineStart, lineEnd = getFunctionLineNumber(functionName)
   functionBody = getFunctionBody(lineStart, commandsWithOptions).replace('`','')
-  link = getLink(lineStart, lineEnd)
+  link = getLink(lineStart, lineEnd, pathToFunctions)
   if len(functionBody) >= LENGTH_OF_CODE_SNIPPET \
     or lineEnd - lineStart > 2:
     runs = "`"+functionBody+"`[**`...`**]("+link+")"
@@ -110,8 +113,6 @@ def getRow(shortcut, explanation, commandsWithOptions):
   return "**"+shortcut+"** | "+runs+" | "+explanation+"\n"
 
 # Generates tables of filtered functions.
-# Arguments:
-#   * filter - List of functions that should be listed (if empty, then all).
 # Returns:
 #   * Tables of functions in md format.
 def generateTables():
@@ -131,13 +132,11 @@ def generateTables():
     if len(tokens) == 2:
       shortcuts = tokens[0].strip()
       explanation = tokens[1].strip()
-      row = getRow(shortcuts, explanation, commandsWithOptions)
+      row = getRow(shortcuts, explanation, commandsWithOptions, "../")
       ta += str(row)
   return ta
 
-# Generates tables of fuctions.
-# Var args:
-#   * --readme (optional) - If specified, then generates table that oly contains functions listed in '../doc/interesting-functions'
+# Generates tables of all fuctions.
 # Returns:
 #   * Tables of functions in md format.
 def main():

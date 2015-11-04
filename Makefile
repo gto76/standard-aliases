@@ -18,7 +18,7 @@ standard_rc: standard_functions scripts/update-rc.py scripts/util.py scripts/con
 doc/FUNCTION_DESCRIPTIONS.md: standard_rc standard_functions scripts/generate_table_of_functions.py scripts/util.py scripts/const.py
 	./scripts/generate_table_of_functions.py > doc/FUNCTION_DESCRIPTIONS.md
 
-README.md: standard_rc
+README.md: standard_rc scripts/update-readme.py scripts/generate_table_of_functions.py
 	temp=$(shell tempfile); \
 	./scripts/update-readme.py > "$$temp"; \
 	cp "$$temp" README.md

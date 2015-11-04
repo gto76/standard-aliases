@@ -32,50 +32,50 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**l** | `___displayOutpu`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L184-L187) | List or display directory contents in pager using short listing format.
+**l** | `___displayOutpu`[**`...`**](standard_functions#L193-L196) | List or display directory contents in pager using short listing format.
 **e** | `echo "$@"` | Print text.
 **c** | `cat "$@"` | Print file contents.
-**m** | `___printOrDispl`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L82-L84) | Print or display text or file in pager.
+**m** | `___printOrDispl`[**`...`**](standard_functions#L91-L93) | Print or display text or file in pager.
 **v** | `vim -p "$@"` | Edit file with vim.
 **q** | `exit` | Exit bash shell.
-**te, terminal** | `x-terminal-emul`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L572-L574) | Open new terminal with same working directory.
+**te, terminal** | `x-terminal-emul`[**`...`**](standard_functions#L581-L583) | Open new terminal with same working directory.
 **?** | `echo $?` | Print exit code of last command.
 
 ####  Files 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**t, tree1** | `tree -C -I .git`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L286-L288) | Print directory structure.
-**cpdir** | `cp --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L376-L378) | Copy directories safely.
-**mvdir** | `mv --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L382-L384) | Move directories safely
-**rmdir** | `rm --interactiv`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L389-L391) | Delete directories safely.
-**mk, md, mkdir1** | `mkdir --parents`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L395-L398) | Create directory and descend into.
-**bk, backup** | `sudo cp --prese`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L402-L404) | Backup file.
-**o, openFile** | `__runCommandInB`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L567-L569) | Open file with default app.
-**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L616-L645) | Make file executable or create new bash or python script.
-**extract** | `if [ -z "$1" ];`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1087-L1120) | Extract archive of any type.
-**du1** | `du --summarize `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1155-L1157) | Print disk space occupied by file or folder.
-**lo, locate1** | `locate  "$1" \`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1063-L1067) | Locate files on filesystem containing pattern in their names.
+**t, tree1** | `tree -C -I .git`[**`...`**](standard_functions#L295-L297) | Print directory structure.
+**cpdir** | `cp --interactiv`[**`...`**](standard_functions#L385-L387) | Copy directories safely.
+**mvdir** | `mv --interactiv`[**`...`**](standard_functions#L391-L393) | Move directories safely
+**rmdir** | `rm --interactiv`[**`...`**](standard_functions#L398-L400) | Delete directories safely.
+**mk, md, mkdir1** | `mkdir --parents`[**`...`**](standard_functions#L404-L407) | Create directory and descend into.
+**bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L411-L413) | Backup file.
+**o, openFile** | `__runCommandInB`[**`...`**](standard_functions#L576-L578) | Open file with default app.
+**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L625-L654) | Make file executable or create new bash or python script.
+**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1096-L1129) | Extract archive of any type.
+**du1** | `du --summarize `[**`...`**](standard_functions#L1164-L1166) | Print disk space occupied by file or folder.
+**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1072-L1076) | Locate files on filesystem containing pattern in their names.
 
 ####  Useful  
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, fuck** | `sudo $(history `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L733-L735) | Execute last command as super user.
-**rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L456-L458) | Run command in background.
-**gr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1045-L1048) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1052-L1058) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**df1** | `df -h | grep "s`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1149-L1151) | Print available disk space in simplified form.
-**ip1** | `/sbin/ifconfig `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1687-L1693) | Print internal ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1714-L1718) | Ping gateway and google.
+**f, fuck** | `sudo $(history `[**`...`**](standard_functions#L742-L744) | Execute last command as super user.
+**rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L465-L467) | Run command in background.
+**gr** | `__printLinesCon`[**`...`**](standard_functions#L1054-L1057) | Print or display with pager lines containing pattern.
+**grr** | `__printLinesCon`[**`...`**](standard_functions#L1061-L1067) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1158-L1160) | Print available disk space in simplified form.
+**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1696-L1702) | Print internal ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1723-L1727) | Ping gateway and google.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `sudo apt-get in`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1299-L1301) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1390-L1407) | Print installed and available version of package or command.
-**wi, whatis1** | `# Checks if it `[**`...`**](https://github.com/gto76/standard-aliases/blob/master/functions#L1518-L1542) | Describe package or command or find available packages with part of name or command.
+**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1308-L1310) | Install package.
+**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1399-L1416) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1527-L1551) | Describe package or command or find available packages with part of name or command.
 
 How It Works
 ------------
@@ -107,6 +107,8 @@ Misc
 	* ty
 	* al 
 	* sc
+
+
 
 
 
