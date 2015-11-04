@@ -84,7 +84,7 @@ def getFunctionBody(lineNum, commandsWithOptions):
 # Returns:
 #   * 
 def getLink(lineStart, lineEnd):
-  link = "https://github.com/gto76/standard-aliases/blob/master/functions#L"+str(lineStart)+"-L"+str(lineEnd)
+  link = "standard_functions#L"+str(lineStart)+"-L"+str(lineEnd)
   return link
 
 # 
