@@ -2,6 +2,12 @@
 #
 # Usage: update-rc.py [--user]
 #
+# OPTIONS:
+# --user - updates users configuration file (~/.standardrc),
+#   otherwise updates projects configuration file
+#   (<projects-root>/standard_rc). Projects rc is only used on
+#   install, when it is moved to ~/.standardrc.
+#
 # This script updates standard_rc, by checking if there are any
 # functions in standard_functions, that are not yet defined in
 # standardrc, or if there are any functions that are defined in
@@ -14,7 +20,7 @@
 # If there are one or more functions at the same spot, both
 # missing and new, it treats them as a renamed functions, and
 #
-# This script takes one option: '==user', that means that users
+# This script takes one option: '--user', that means that users
 # .standardrc should be updated instead of projects standard_rc.
 # In this case the script works almost the same except for new
 # functions. If new function is defined in standard_functions,
@@ -295,7 +301,9 @@ def getNewAliasDefinitions(unchangedFunctions, \
           formatNewFunction)
   return rc
 
-
+# Returns map of options in form of "command-name" > "options".
+# Arguments:
+#   * rcContent - content of configuration file.
 def getMapOfOptionsFromRc(rcContent):
   mapOfOptions = collections.OrderedDict()
   for line in rcContent:
@@ -310,6 +318,7 @@ def getMapOfOptionsFromRc(rcContent):
       mapOfOptions[commandName] = options
   return mapOfOptions
 
+# Returns list of all functions that use the option variables.
 def getCommandsWithOptionVariables():
   setOfOptionVariables = util.OrderedSet()
   for match in re.findall("_([A-Z_]+)_OPTIONS", "\n".join(functionsContent)):
@@ -317,6 +326,13 @@ def getCommandsWithOptionVariables():
     setOfOptionVariables.add(commandName)
   return  setOfOptionVariables
 
+# Extracts options definition from a list of lines of a rc file.
+# (for example: "ls ; --classify -X -C --color=auto
+# --group-directories-first")
+# Arguments:
+#   * rcContent - list of lines of rc file.
+# Returns:
+#   * List of lines that define options variables.
 def getOptions(rcContent):
   mapOfOptions = getMapOfOptionsFromRc(rcContent)
   commandsWithOptionVariables = getCommandsWithOptionVariables()
@@ -326,22 +342,6 @@ def getOptions(rcContent):
     options = mapOfOptions.get(command, "")
     out += command + " ; " + options + "\n"
   return out
-
-# Extracts options definition from a list of lines of a rc file.
-# (for example: "ls ; --classify -X -C --color=auto
-# --group-directories-first")
-# Arguments:
-#   * rcContent - list of lines of rc file.
-# Returns:
-#   * List of lines that define options variables.
-def getOptionsOLD(rcContent):
-  options = ""
-  for line in rcContent:
-    line = line.strip()
-    if ";" in line:
-      options += line+"\n"
-  return options
-
 
 # Prints updated passed rc file. 
 # Arguments:

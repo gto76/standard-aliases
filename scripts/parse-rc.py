@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Usage: parse-rc.py
+# Usage: parse-rc.py ALL-EXISTING-COMMANDS ALL-EXISTING-COMPLETIONS 
 #
 # This script parses ~/.standardrc, and prints result to stdout.
 # Output should then be saved to file named
@@ -11,34 +11,34 @@
 #   sys.argv[1] - containing all existing commands, and
 #   sys.argv[2] - containing all existing completions.
 #
-# ~/.standardrc is a configuration file that defines aliases and
-# options.  Line with alias definition looks like this:
+# ~/.standardrc is a configuration file that defines shorter
+# function names and options. For example, if line in standardrc
+# looks like this:
 #   le, less1 : Display text or file in pager.
-# and this script interprets it as:
+# then this script interprets it as:
 #   le() {
 #       __displayTextOrFileInPager "$@" 
 #   }
-#
 #   less1() {
 #       __displayTextOrFileInPager "$@" 
 #   }
 #
-# Line with options definition looks like this:
+# And if line with options definition looks like this:
 #   ls ; --classify -X -C --color=auto --group-directories-first
-# and this script interprets it as:
+# then this script interprets it as:
 #   export _LS_OPTIONS=(--classify -X -C --color=auto
 #      --group-directories-first)
 #
-# Besides interpreting aliases and options, this script also
-# checks if any of the called functions (right side of the
-# colon) has a defined completion in standard_functions. If so
-# it defines same completion for an alias.  If the function
-# doesn't have a completion defined, then it checks the
-# completion of the function inside that function that gets
-# called with "$@" (all command arguments).
+# Besides interpreting short function names and options, this
+# script also checks if any of the called functions (right side
+# of the colon) has a defined completion in standard_functions.
+# If so it defines same completion for the function with shorter
+# name. If the function doesn't have a completion defined, then
+# it checks the completion of the function inside that function
+# that gets called with "$@" (all command arguments).
 #
-# If command with same name as an alias already exist, then the
-# alias is defined as an alias instead of function.
+# If the short name is already taken, then it's defined as an
+# alias instead of a function.
 
 import sys 
 import re
