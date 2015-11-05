@@ -1,14 +1,15 @@
 #!/bin/bash
 #
 # Usage: uninstall 
-#
+# Deletes ~/.standard_aliases directory. Leaves users
+# configuration file ~/.standardrc.
 
 # Stops execution if any command fails.
 set -eo pipefail
 
 main() {
-    rm -f ~/.standard_aliases/*
-    rmdir ~/.standard_aliases 2>/dev/null
+  rm -f ~/.standard_aliases/*
+  rmdir ~/.standard_aliases 2>/dev/null
 }
 
 main "$@"

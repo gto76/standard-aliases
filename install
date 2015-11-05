@@ -1,88 +1,101 @@
 #!/bin/bash
 #
 # Usage: install 
-#
+# 1. Creates .standard_aliases directory in home directory.
+# 2. Makes a symbolic link from there to standard_functions file
+#    located in projects root.
+# 3. Copies standard_rc from projects root to home directory as
+#    .standardrc
+# 4. Adds command to the end of .bashrc, that will update
+#    project every time bash starts (by running make in projects
+#    root) and import standard_functions and automatically 
+#    generated file ~/.standard_aliases/aliases
 
 # Stops execution if any command fails.
 set -eo pipefail
 
 createLinkSafely() {
-    link="$1"
-    targetDirectory=$(dirname "$link")
-    file="$2"
-    # Create directory if it doesent exist.
-    echo "target dir: $targetDirectory"
-    if [ ! -d "$targetDirectory" ]; then
-        echo "install: Creating directory $directory."
-        mkdir -p "$targetDirectory"
-    fi
-    # Create link if file doesn't exist
-    if [[ ! -f "$link" ]]; then
-        echo "install: Creating link $link"
-        ln -s $(pwd)/"$file" "$link" 
-    else
-        echo "install: WARNING: File $link already exists." 
-        echo "You will have to merge or overvrite it manualy."
-    fi	
+  link="$1"
+  targetDirectory=$(dirname "$link")
+  file="$2"
+  # Creates directory if it doesn't exist.
+  echo "target dir: $targetDirectory"
+  if [ ! -d "$targetDirectory" ]; then
+    echo "install: Creating directory $directory."
+    mkdir -p "$targetDirectory"
+  fi
+  # Creates link if file doesn't exist.
+  if [[ ! -f "$link" ]]; then
+    echo "install: Creating link $link"
+    ln -s $(pwd)/"$file" "$link" 
+  else
+    echo "install: Did not create link $link, because file with same name already exists."
+  fi  
 }
 
 copyFileSafely() {
-    destination="$1"
-    origin="$2"
-    # Copy file if file doesn't exist
-    if [[ ! -f "$destination" ]]; then
-        echo "install: Copying file $origin to $destination"
-        cp "$origin" "$destination" 
-    else
-        echo "install: WARNING: File $destination already exists." 
-        echo "You will have to merge or overvrite it manualy."
-    fi	
+  destination="$1"
+  origin="$2"
+  # Copies file if file doesn't exist.
+  if [[ ! -f "$destination" ]]; then
+    echo "install: Copying file $origin to $destination"
+    cp "$origin" "$destination" 
+  else
+    echo "install: Did not copy file $link, because file with same name already exists."
+  fi  
 }
 
 getConflictingNames() {
   (./get-defined-aliases;
   ./get-short-function-names) \
-    | sort \
-    | uniq -d
+  | sort \
+  | uniq -d
 }
 
 main() {
-    # Check if make is installed
-    make --help &> /dev/null
-    makeInstalled=1
-    if [[ "$?" != 0 ]]; then
-        makeInstalled=0
-    fi
-    # Check if any names are taken by aliases.
-    # conflicts=$(getConflictingNames)
-    # if [[ "$conflicts" != "" ]]; then
-    #    echo "WARNING"
-    #fi
-    # Create link to functions and copy conf file.
-    createLinkSafely ~/.standard_aliases/functions standard_functions
-    copyFileSafely ~/.standardrc standard_rc
-    touch ~/.standardrc
-    # Create ~/.bashrc if it doesen't exist.
-    if [[ ! -f ~/.bashrc ]]; then
-        touch ~/.bashrc
-    fi
-    # Add statement to .bashrc that will update project every
-    # time bash starts, and load standard aliases and
-    # shortcuts.
-    if [[ -z $(grep ". ~/.standard_aliases" ~/.bashrc) ]]; then
-        cat ./scripts/resources/append-to-bashrc >> ~/.bashrc
-    fi
-    if [[ ! "$makeInstalled" ]]; then
-        echo "Make command is missing, you need to install it first with:"
-        echo "  sudo apt-get install make"
-        echo "if you're running Debian/Ubuntu/Mint... or"
-        echo "  sudo yum install make"
-        echo "if you're running RedHat/Fedora/CentOS..."
-        echo "After installing Make, run 'bash' for changes to take effect."
-    else
-        # echo "Run 'bash' for changes to take effect."
-        bash
-    fi
+  # Checks if make is installed.
+  make --help &> /dev/null
+  makeInstalled=1
+  if [[ "$?" != 0 ]]; then
+    makeInstalled=0
+  fi
+  # Checks if any names are taken by aliases.
+  # conflicts=$(getConflictingNames)
+  # if [[ "$conflicts" != "" ]]; then
+  #    echo "WARNING"
+  #fi
+  # 1. Creates .standard_aliases directory in home directory.
+  # 2. Makes a symbolic link from there to standard_functions file
+  #    located in projects root.
+  createLinkSafely ~/.standard_aliases/functions standard_functions
+  # 3. Copies standard_rc from projects root to home directory as
+  #    .standardrc
+  copyFileSafely ~/.standardrc standard_rc
+  touch ~/.standardrc
+  # Creates ~/.bashrc if it doesn't exist.
+  if [[ ! -f ~/.bashrc ]]; then
+    touch ~/.bashrc
+  fi
+  # 4. Adds command to the end of .bashrc, that will update
+  #    project every time bash starts (by running make in projects
+  #    root) and import standard_functions and automatically 
+  #    generated file ~/.standard_aliases/aliases
+  if [[ -z $(grep ". ~/.standard_aliases" ~/.bashrc) ]]; then
+    cat ./scripts/resources/append-to-bashrc >> ~/.bashrc
+  fi
+  # Prints information on how to install Make if it is not 
+  # installed, otherwise runs `bash`, so that changes take
+  # effect.
+  if [[ ! "$makeInstalled" ]]; then
+    echo "Make command is missing, you need to install it first with:"
+    echo "  sudo apt-get install make"
+    echo "if you're running Debian/Ubuntu/Mint... or"
+    echo "  sudo yum install make"
+    echo "if you're running RedHat/Fedora/CentOS..."
+    echo "After installing Make, run 'bash' for changes to take effect."
+  else
+    bash
+  fi
 }
 
 main "$@"
