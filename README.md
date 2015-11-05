@@ -52,29 +52,29 @@ Below is a list of most useful commands. If you want to check out the full list 
 **bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L411-L413) | Backup file.
 **o, openFile** | `__runCommandInB`[**`...`**](standard_functions#L576-L578) | Open file with default app.
 **me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L625-L654) | Make file executable or create new bash or python script.
-**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1096-L1129) | Extract archive of any type.
-**du1** | `du --summarize `[**`...`**](standard_functions#L1164-L1166) | Print disk space occupied by file or folder.
-**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1072-L1076) | Locate files on filesystem containing pattern in their names.
+**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1098-L1131) | Extract archive of any type.
+**du1** | `du --summarize `[**`...`**](standard_functions#L1166-L1168) | Print disk space occupied by file or folder.
+**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1074-L1078) | Locate files on filesystem containing pattern in their names.
 
 ####  Useful  
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, fuck** | `sudo $(history `[**`...`**](standard_functions#L742-L744) | Execute last command as super user.
+**f, fuck** | `sudo $(history `[**`...`**](standard_functions#L744-L746) | Execute last command as super user.
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L465-L467) | Run command in background.
-**gr** | `__printLinesCon`[**`...`**](standard_functions#L1054-L1057) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](standard_functions#L1061-L1067) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1158-L1160) | Print available disk space in simplified form.
-**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1696-L1702) | Print internal ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1723-L1727) | Ping gateway and google.
+**gr** | `__printLinesCon`[**`...`**](standard_functions#L1056-L1059) | Print or display with pager lines containing pattern.
+**grr** | `__printLinesCon`[**`...`**](standard_functions#L1063-L1069) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1160-L1162) | Print available disk space in simplified form.
+**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1698-L1704) | Print internal ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1725-L1729) | Ping gateway and google.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1308-L1310) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1399-L1416) | Print installed and available version of package or command.
-**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1527-L1551) | Describe package or command or find available packages with part of name or command.
+**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1310-L1312) | Install package.
+**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1401-L1418) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1529-L1553) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -106,6 +106,8 @@ Misc
 	* ty
 	* al 
 	* sc
+
+
 
 
 

@@ -663,9 +663,11 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
 __searchCommandHistoryForPattern() {
   if [ "$#" -eq 0 ]; then
     history \
+      | head -n-1 \
       | ___printOrDisplayTextOrFileInPagerStartingAtEnd
   else
     history \
+      | head -n-1 \
       | grep "$@" \
       | ___printOrDisplayTextOrFileInPagerStartingAtEnd
   fi
