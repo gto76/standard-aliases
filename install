@@ -39,6 +39,13 @@ copyFileSafely() {
     fi	
 }
 
+getConflictingNames() {
+  (./get-defined-aliases;
+  ./get-short-function-names) \
+    | sort \
+    | uniq -d
+}
+
 main() {
     # Check if make is installed
     make --help &> /dev/null
@@ -46,6 +53,11 @@ main() {
     if [[ "$?" != 0 ]]; then
         makeInstalled=0
     fi
+    # Check if any names are taken by aliases.
+    # conflicts=$(getConflictingNames)
+    # if [[ "$conflicts" != "" ]]; then
+    #    echo "WARNING"
+    #fi
     # Create link to functions and copy conf file.
     createLinkSafely ~/.standard_aliases/functions standard_functions
     copyFileSafely ~/.standardrc standard_rc

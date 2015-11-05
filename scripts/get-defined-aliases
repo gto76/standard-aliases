@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Usage: get-defined-aliases 
+# Prints names of all aliases defined in .bashrc, .profile and .bash_aliases
+
+# Stops execution if any command fails.
+set -eo pipefail
+
+# Parameters: $1 - filename
+# Returns: List of aliases defined in file, one per line
+getAliasesFromFile() {
+  grep -v "^[[:blank:]]*#" "$1" \
+    | grep -Po "^alias [^=]+" \
+    | sed 's/^alias //g'
+}
+
+main() {
+  getAliasesFromFile ~/.bashrc
+  getAliasesFromFile ~/.profile
+  getAliasesFromFile ~/.bash_aliases
+}
+
+main "$@"

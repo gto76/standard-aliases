@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# Usage: get-short-function-names 
+# Prints all shortcuts defined in projects standard_rc, one per line.
+
+# Stops execution if any command fails.
+set -eo pipefail
+
+main() {
+  grep -v "^[[:blank:]]*#" ../standard_rc \
+    | grep -v ";" \
+    | grep ":" \
+    | sed 's/:.*$//g' \
+    | tr -d ' ' \
+    | sed 's/,/\n/g'
+}
+
+main "$@"
