@@ -82,7 +82,7 @@ ___printOrDisplayTextOrFileInPagerWithOrWithoutStartingAtEnd() {
   if [[ "$#" -gt 1 ]]; then
     ___printOrDisplayFileInPagerWithOrWithoutStartingAtEnd "$@"
   else
-    cat | ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd
+    cat | ___printOrDisplayTextInPagerWithOrWithoutStartingAtEnd "$@"
   fi
 }
 
@@ -1919,3 +1919,4 @@ __increaseVolumeByTwoDecibels() {
 __decreaseVolumeByTwoDecibels() {
   ___setVolumeTo "2%-" | tail -n 1
 }
+

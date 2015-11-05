@@ -262,7 +262,6 @@ merge : Merge specified branch with current one.
 gc, checkout : Checkout branch or file.
 gb, branch : List branches or create new one.
 gs : Print short repository status.
-# DELETED OR RENAMED FUNCTION!:  : Display extra minimal log of commits.
 gl : Display minimal log of commits.
 gll : Display medium log of commits.
 glll : Display log of commits.
