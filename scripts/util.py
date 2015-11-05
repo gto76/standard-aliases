@@ -11,14 +11,14 @@ import re
 def warning(*objs):
   print("WARNING: ", *objs, file=sys.stderr)
 
-# Converts passed string by uppecasing first letter.
+# Converts passed string by uppercasing first letter.
 firstLetterToUppercase = lambda s: s[:1].upper() + s[1:] if s else ''
 
-# Converts passed string by lowercassing first letter.
+# Converts passed string by lowercasing first letter.
 firstLetterToLowercase = lambda s: s[:1].lower() + s[1:] if s else ''
 
-# Converts description in form of a sentance (words separated 
-# by spaces, ends with period) into a cammel case form.
+# Converts description in form of a sentence (words separated by
+# spaces, ends with period) into a camel case form.
 def descriptionToCamelCase(command):
   words = []
   for word in command.split():
@@ -29,8 +29,9 @@ def descriptionToCamelCase(command):
   out = re.sub('\.', '', out)
   return "__"+out
 
-# Converts text in form of cammel case into a sentence (First letter
-# of first word in upper case, words separated by spaces, ends with period).
+# Converts text in form of camel case into a sentence (First
+# letter of first word in upper case, words separated by spaces,
+# ends with period).
 def camelCaseToDescription(command):
   command = command.strip('_')
   command = re.sub(r'([A-Z])',r' \1',command)

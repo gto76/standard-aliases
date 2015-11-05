@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
-# generate-table-of-functions.py
+#
+# Usage: generate-table-of-functions.py
 # Prints tables of all functions in md format.
 
 import sys 
@@ -15,7 +15,8 @@ aliasesContent = util.getFileContents(const.AL_FILENAME)
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
 interestingContent = util.getFileContents(const.LIST_OF_IMPORTANT_FUNCTIONS)
 
-# Gets dictionary of options from standard_rc, so they can be substitued.
+# Gets dictionary of options from standard_rc, so they can be
+# substituted.
 # Returns:
 #   * dictionary of: "${_<COMMAND-NAME>_OPTIONS[@]}" -> options.
 def getOptions():
@@ -28,7 +29,8 @@ def getOptions():
       commandsWithOptions[command] = options
   return commandsWithOptions
 
-# Extracts title from the line, and adds a table header after it.
+# Extracts title from the line, and adds a table header after
+# it.
 # Arguments:
 #   * line - a line.
 #   * heading - size of the heading.
@@ -97,7 +99,9 @@ def getLink(lineStart, lineEnd, pathToFunctions):
 #   * pathToFunctions - relative path to standard_functions file
 # Returns:
 #   * example:
-# **ll**       | `__listOrDisp`[**`...`**](https://github.com/gto76/standard-aliases/blob/master/standard_aliases#L174-L175)    | List or display directory contents in pager using medium listing format. 
+#     **ll** | `__listOrDisp`[**`...`**](standard_aliases#L174-L175)
+#     | List or display directory contents in pager using medium
+#     listing format. 
 def getRow(shortcut, explanation, commandsWithOptions, pathToFunctions):
   # Do not print aliases that just run the command as sudo.
   if explanation.startswith("Run ") and \

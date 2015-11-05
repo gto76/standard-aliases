@@ -1,7 +1,8 @@
 #!/bin/bash
 #
 # Usage: generate-aliases
-# Runs parse-rc.py script, that parses ~/.standardrc and prints results.
+# Runs parse-rc.py script, that parses ~/.standardrc and prints
+# results.
 
 # Stops execution if any command fails.
 set -eo pipefail

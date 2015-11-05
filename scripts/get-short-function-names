@@ -1,7 +1,8 @@
 #!/bin/bash
 #
 # Usage: get-short-function-names 
-# Prints all shortcuts defined in projects standard_rc, one per line.
+# Prints all short function names defined in projects
+# standard_rc, one per line.
 
 # Stops execution if any command fails.
 set -eo pipefail

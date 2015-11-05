@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
-# parse-rc.py
+#
+# Usage: parse-rc.py
 #
 # This script parses ~/.standardrc, and prints result to stdout.
 # Output should then be saved to file named

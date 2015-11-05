@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
-# update-rc.py
+#
+# Usage: update-rc.py [--user]
 #
 # This script updates standard_rc, by checking if there are any
 # functions in standard_functions, that are not yet defined in
@@ -312,15 +312,7 @@ def getMapOfOptionsFromRc(rcContent):
 
 def getCommandsWithOptionVariables():
   setOfOptionVariables = util.OrderedSet()
-  # for line in functionsContent:
-  #for match in re.findall("${_([A-Z_]+)_OPTIONS\[@\]}", "\n".join(functionsContent)):
   for match in re.findall("_([A-Z_]+)_OPTIONS", "\n".join(functionsContent)):
-    # Searches for "${_<COMMAND-NAME>_OPTIONS[@]}"
-    #command = re.sub("${_([A-Z_]+)_OPTIONS\[@\]}", "\g<1>", line)
-    #command = re.sub()
-    #command = re.search("_[A-Z_]+_", match)
-    #print("## command "+str(command))
-    #if command:
     commandName = util.underscoreToCamelcase(match)
     setOfOptionVariables.add(commandName)
   return  setOfOptionVariables

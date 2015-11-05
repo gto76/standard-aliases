@@ -1,7 +1,8 @@
 #!/bin/bash
 #
 # Usage: get-defined-aliases 
-# Prints names of all aliases defined in .bashrc, .profile and .bash_aliases
+# Prints names of all aliases defined in .bashrc, .profile and
+# .bash_aliases
 
 # Stops execution if any command fails.
 set -eo pipefail
