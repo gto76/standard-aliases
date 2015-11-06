@@ -82,6 +82,20 @@ How To Rename Commands
 * Open **`.standard_rc`** located in your home directory and add new name in front of function's description.
 * Save and run: `$ bash`
 
+Misc
+----
+* Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output of a command to a pager if necessary, then it has same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard-aliases/standard_rc#L323-L346).
+
+* Only functions that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
+
+* Command-line completions are automatically assigned to functions, depending on what commands they use. (Exception are `git` commands, for which completions don't work.)
+
+* Commands for accessing the framework:
+  * ty <command> – prints the function body,
+  * rc – opens users conf file in default editor,
+  * fu – opens standard_functions in default editor,
+  * ba – starts new Bash shell (short for bash).
+  
 How It Works
 ------------
 After installation the "framework" consists of three files:
@@ -94,18 +108,7 @@ After installation the "framework" consists of three files:
  
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `aliases` file.
 
-Misc
-----
-* Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output of a command to a pager if necessary, then it has same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard-aliases/standard_rc#L323-L346).
 
-* Only functions that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
-
-* Command-line completions are automatically assigned to functions, depending on what commands they use. (Exception are `git` commands, for which completions don't work.)
-
-* Commands for accessing the framework:
-	* ty
-	* al 
-	* sc
 
 
 
