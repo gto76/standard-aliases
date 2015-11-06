@@ -629,6 +629,10 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
     extension="${filename##*.}"
     if [[ "$extension" == "py" ]]; then
       echo '#!/usr/bin/python' >> "$1"
+      echo '#' >> "$1"
+      echo "# Usage: $1 " >> "$1"
+      echo '# ' >> "$1"
+      echo >> "$1"
       echo 'import sys' >> "$1"
       echo 'import re' >> "$1"
       echo >> "$1"

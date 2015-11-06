@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+# Usage: get-conflicting-names 
+# Prints (one per line) already defined aliases whose names conflict with names defined in standardrc.
+
+# Parameters: $1 - filename
+# Returns: List of aliases defined in file, one per line.
+getAliasesFromFile() {
+  grep -v "^[[:blank:]]*#" "$1" \
+    | grep -Po "^alias [^=]+" \
+    | sed 's/^alias //g'
+}
+
+# Prints names of all aliases defined in .bashrc, .profile and
+# .bash_aliases.
+getDefinedAliases() {
+  getAliasesFromFile ~/.bashrc 2> /dev/null
+  getAliasesFromFile ~/.profile 2> /dev/null
+  getAliasesFromFile ~/.bash_aliases 2> /dev/null
+}
+
+# Prints all short function names defined in projects
+# standard_rc, one per line.
+getShortFunctionNames() {
+  grep -v "^[[:blank:]]*#" ../standard_rc \
+    | grep -v ";" \
+    | grep ":" \
+    | sed 's/:.*$//g' \
+    | tr -d ' ' \
+    | sed 's/,/\n/g'
+}
+
+main() {
+  (getDefinedAliases;
+  getShortFunctionNames) \
+  | sort \
+  | uniq -d
+}
+
+main "$@"
