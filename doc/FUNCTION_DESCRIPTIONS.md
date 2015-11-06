@@ -346,3 +346,10 @@ Commands
 **aa** | `___setVolumeTo `[**`...`**](../standard_functions#L1917-L1919) | Increase volume by two decibels.
 **zz** | `___setVolumeTo `[**`...`**](../standard_functions#L1922-L1924) | Decrease volume by two decibels.
 
+###  Framework 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
+**fu** | `"${EDITOR:-vi}"`[**`...`**](../standard_functions#L1932-L1934) | Edit standard functions.
+**rc** | `"${EDITOR:-vi}"`[**`...`**](../standard_functions#L1937-L1939) | Edit standard rc.
+

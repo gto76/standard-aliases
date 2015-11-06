@@ -311,6 +311,11 @@ z : Decrease volume by six decibels.
 aa : Increase volume by two decibels.
 zz : Decrease volume by two decibels.
 
+# FRAMEWORK #
+
+fu : Edit standard functions.
+rc : Edit standard rc.
+
 
 #######
 ####### Command options (will be used when a function uses a command)
