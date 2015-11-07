@@ -51,30 +51,30 @@ Below is a list of most useful commands. If you want to check out the full list 
 **mk, md, mkdir1** | `mkdir --parents`[**`...`**](standard_functions#L405-L408) | Create directory and descend into.
 **bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L412-L414) | Backup file.
 **o, openFile** | `__runCommandInB`[**`...`**](standard_functions#L577-L579) | Open file with default app.
-**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L626-L655) | Make file executable or create new bash or python script.
-**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1099-L1132) | Extract archive of any type.
-**du1** | `du --summarize `[**`...`**](standard_functions#L1167-L1169) | Print disk space occupied by file or folder.
-**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1075-L1079) | Locate files on filesystem containing pattern in their names.
+**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L626-L659) | Make file executable or create new bash or python script.
+**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1103-L1136) | Extract archive of any type.
+**du1** | `du --summarize `[**`...`**](standard_functions#L1171-L1173) | Print disk space occupied by file or folder.
+**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1079-L1083) | Locate files on filesystem containing pattern in their names.
 
 ####  Useful  
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, fuck** | `sudo $(history `[**`...`**](standard_functions#L745-L747) | Execute last command as super user.
+**f, fuck** | `sudo $(history `[**`...`**](standard_functions#L749-L751) | Execute last command as super user.
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L466-L468) | Run command in background.
-**gr** | `__printLinesCon`[**`...`**](standard_functions#L1057-L1060) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](standard_functions#L1064-L1070) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1161-L1163) | Print available disk space in simplified form.
-**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1699-L1705) | Print internal ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1726-L1730) | Ping gateway and google.
+**gr** | `__printLinesCon`[**`...`**](standard_functions#L1061-L1064) | Print or display with pager lines containing pattern.
+**grr** | `__printLinesCon`[**`...`**](standard_functions#L1068-L1074) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1165-L1167) | Print available disk space in simplified form.
+**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1703-L1709) | Print internal ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1730-L1734) | Ping gateway and google.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1311-L1313) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1402-L1419) | Print installed and available version of package or command.
-**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1530-L1554) | Describe package or command or find available packages with part of name or command.
+**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1315-L1317) | Install package.
+**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1406-L1423) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1534-L1558) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -107,6 +107,7 @@ After installation the "framework" consists of three files:
 * Automatically generated **`aliases`** file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
  
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `aliases` file.
+
 
 
 

@@ -45,13 +45,6 @@ copyFileSafely() {
   fi  
 }
 
-getConflictingNames() {
-  (./get-defined-aliases;
-  ./get-short-function-names) \
-  | sort \
-  | uniq -d
-}
-
 main() {
   # Checks if make is installed.
   make --help &> /dev/null

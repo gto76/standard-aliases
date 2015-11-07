@@ -9,3 +9,11 @@
 # | | | (__ 
 # |_|  \___|
 #
+
+# This is the projects configuration file, meaning that only
+# time it is used is on install, when it gets copied to users
+# home directory as .standardrc (if it is not already there).
+# It specifies short names for functions located in
+# standard_aliases (located in projects root). It also defines
+# options that this functions use, when they call specific
+# commands.

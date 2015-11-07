@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# Usage: rc-withouth-conflicts 
+# 
+
+# Stops execution if any command fails.
+set -eo pipefail
+
+main() {
+  conflicts=$(./get-conflicting-names)
+  # echo "$conflicts"
+  while read line; do 
+    echo "$line"
+  done < ../standard_rc
+
+}
+
+main "$@"

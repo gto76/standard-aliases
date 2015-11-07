@@ -182,10 +182,9 @@ def getUnchangedFunctions(functions, functionsWithAliases):
 #   * newFunctions - list of functions that are defined in
 #      standard_functions but not in users rc.
 def addAdditionalAliasesForUsersRc(aliases, newFunctions):
-  projectsfunctionsWithAliases = \
-    getFunctionsWithAliases(projectsRcContent)
-  newFunctionsWithAliases = dict( \
-    (newFunction, projectsfunctionsWithAliases.get(newFunction, "")) \
+  projectsfunctionsWithAliases = getFunctionsWithAliases(projectsRcContent)
+  newFunctionsWithAliases = dict(
+    (newFunction, projectsfunctionsWithAliases.get(newFunction, ""))
     for newFunction in newFunctions)
   aliases.update(newFunctionsWithAliases)
 
@@ -259,12 +258,9 @@ def signifyNewFunction(alias, function):
 #       alias definition.
 # Returns:
 #   * Updated alias definitions.
-def getNewAliasDefinitions(unchangedFunctions, \
-    functionsWithAliases, \
-    functionsWithDeletedBlock, \
-    functionsWithNewBlock, \
-    formatDeletedFunction, \
-    formatNewFunction):
+def getNewAliasDefinitions(unchangedFunctions, functionsWithAliases,
+                           functionsWithDeletedBlock, functionsWithNewBlock,
+                           formatDeletedFunction, formatNewFunction):
   rc = ""
   if "" in functionsWithDeletedBlock:
     rc += functionsWithDeletedBlock[""]+"\n"
@@ -277,11 +273,10 @@ def getNewAliasDefinitions(unchangedFunctions, \
       rc += formatLine(alias, function)
     # Checks if after current function we have both old and new
     # block of the same size.
-    functionsWereRenamed = \
-        function in functionsWithDeletedBlock \
-      and function in functionsWithNewBlock \
-      and len(functionsWithDeletedBlock[function]) == \
-        len(functionsWithNewBlock[function])
+    functionsWereRenamed = function in functionsWithDeletedBlock \
+                           and function in functionsWithNewBlock \
+                           and len(functionsWithDeletedBlock[function]) == \
+                           len(functionsWithNewBlock[function])
     if functionsWereRenamed:
       for i in range(len(functionsWithDeletedBlock[function])):
         deletedFunction = functionsWithDeletedBlock[function][i]
@@ -290,15 +285,11 @@ def getNewAliasDefinitions(unchangedFunctions, \
         rc += alias+" : "+newFunction+"\n"
     else:
       if function in functionsWithDeletedBlock:
-        rc += getBlockWithFormat( \
-          functionsWithDeletedBlock[function], \
-          functionsWithAliases, \
-          formatDeletedFunction)
+        rc += getBlockWithFormat(functionsWithDeletedBlock[function],
+                                 functionsWithAliases, formatDeletedFunction)
       if function in functionsWithNewBlock:
-        rc += getBlockWithFormat( \
-          functionsWithNewBlock[function], \
-          functionsWithAliases, \
-          formatNewFunction)
+        rc += getBlockWithFormat(functionsWithNewBlock[function],
+                                 functionsWithAliases, formatNewFunction)
   return rc
 
 # Returns map of options in form of "command-name" > "options".
@@ -363,46 +354,42 @@ def getOptions(rcContent):
 #       beginning of rc file.
 # Returns:
 #   * Prints the processed rc file.
-def generateRc(rcContent, addAdditionalAliases, \
-    formatDeletedFunction, formatNewFunction, header):
+def generateRc(rcContent, addAdditionalAliases, formatDeletedFunction, 
+               formatNewFunction, header):
   rc = "".join(header)+"\n\n"
   # List of function descriptions.
   functions = getFunctions()
   # Map of description -> aliases.
   functionsWithAliases = getFunctionsWithAliases(rcContent)
   # List of deleted functions.
-  deletedFunctions = \
-    getDeletedFunctions(functions, functionsWithAliases)
+  deletedFunctions = getDeletedFunctions(functions, functionsWithAliases)
   # Gets deleted blocks in form of function -> deleted block,
   # where function is a function before the deleted block.
-  functionsWithDeletedBlock = \
-    getBlocks(functionsWithAliases.keys(), deletedFunctions)
-  newFunctions = \
-    getNewFunctions(functions, functionsWithAliases)
-  functionsWithNewBlock = \
-    getBlocks(functions, newFunctions)
-  unchangedFunctions = \
-    getUnchangedFunctions(functions, functionsWithAliases)
+  functionsWithDeletedBlock = getBlocks(functionsWithAliases.keys(),
+                                        deletedFunctions)
+  newFunctions = getNewFunctions(functions, functionsWithAliases)
+  functionsWithNewBlock = getBlocks(functions, newFunctions)
+  unchangedFunctions = getUnchangedFunctions(functions, functionsWithAliases)
   # Adds aliases of new functions from the projects rc if
   # processing users rc.
   addAdditionalAliases(functionsWithAliases, newFunctions)
   newAliasDefs = \
-    getNewAliasDefinitions(unchangedFunctions, functionsWithAliases, \
-      functionsWithDeletedBlock, functionsWithNewBlock, \
-      formatDeletedFunction, formatNewFunction)
+    getNewAliasDefinitions(unchangedFunctions, functionsWithAliases,
+                           functionsWithDeletedBlock, functionsWithNewBlock,
+                           formatDeletedFunction, formatNewFunction)
   options = getOptions(rcContent)
   rc += newAliasDefs + '\n\n' + "".join(optionsComment) + '\n' + options
   print(rc)
 
 # Prints updated standard_rc.
 def generateProjectsRc():
-  generateRc(projectsRcContent, lambda x, y: None, \
-    signifyDeletedFunction, formatLine, projectsHeader)
+  generateRc(projectsRcContent, lambda x, y: None, signifyDeletedFunction,
+             formatLine, projectsHeader)
 
 # Prints updated ~/.standardrc.
 def generateUsersRc():
-  generateRc(usersRcContent, addAdditionalAliasesForUsersRc, \
-    signifyDeletedFunction, signifyNewFunction, usersHeader)
+  generateRc(usersRcContent, addAdditionalAliasesForUsersRc,
+             signifyDeletedFunction, signifyNewFunction, usersHeader)
 
 # Prints updated standard_rc or ~/.standardrc, depending on
 # first argument.

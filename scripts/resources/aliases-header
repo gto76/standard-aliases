@@ -5,4 +5,14 @@
 #  / _` | | |/ _` / __|/ _ \/ __|
 # | (_| | | | (_| \__ \  __/\__ \
 #  \__,_|_|_|\__,_|___/\___||___/
-#                                
+#
+
+# This file gets automatically generated every time new Bash
+# shell is started, if either standard_functions (located in
+# projects root) or users configuration file ~/.standardrc have
+# changed.
+# It contains functions with short names that call functions
+# located in standard_functions, as defined in configuration
+# file. It also assigns appropriate command-line completions to
+# the short functions and exports variables that contain command
+# options.

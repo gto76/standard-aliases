@@ -132,10 +132,8 @@ def getCompletions(existingCompletions):
     elif line.startswith("}"):
       currentFunction = ""
     elif '"$@"' in line and currentFunction:
-      completion = deduceCompletion(line, \
-          lastLine, \
-          completions, \
-          existingCompletions)
+      completion = deduceCompletion(line, lastLine, completions, 
+                                    existingCompletions)
       if completion:
         completions[currentFunction] = completion
     lastLine = intactLine
