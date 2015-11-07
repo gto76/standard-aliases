@@ -61,6 +61,8 @@ aliasesHeader = util.getFileContents(const.ALIASES_HEADER)
 #       -F _longopt", ...) of all available commands.
 def generateMapOfCompletions(completions):
   completionsMap = {}
+  if not completions:
+    return completionsMap
   for completion in completions:
     tokens = completion.strip().split()
     completionsMap[tokens[-1]] = tokens[:-1]

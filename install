@@ -61,7 +61,7 @@ main() {
   #    already been taken by an alias (specified in .bashrc, 
   #    .profile or .bash_aliases).
   (cd scripts
-  temp=$(mktemp)
+  temp=$(mktemp /tmp/XXXXXXXX)
   ./remove-conflicts-from-rc.py > "$temp"
   copyFileSafely ~/.standardrc "$temp"
   )

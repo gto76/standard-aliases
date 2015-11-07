@@ -16,7 +16,7 @@ main() {
       | uniq -u \
       | tr '\n' ' ')
   existingCompletions=$(
-    . /usr/share/bash-completion/bash_completion
+    . /usr/share/bash-completion/bash_completion 2> /dev/null
     complete)
   aliases=$(
     "$scriptsDir"/parse-rc.py \
