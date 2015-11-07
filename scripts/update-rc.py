@@ -356,7 +356,7 @@ def getOptions(rcContent):
 #   * Prints the processed rc file.
 def generateRc(rcContent, addAdditionalAliases, formatDeletedFunction, 
                formatNewFunction, header):
-  rc = "".join(header)+"\n\n"
+  rc = "".join(header)+"\n"
   # List of function descriptions.
   functions = getFunctions()
   # Map of description -> aliases.

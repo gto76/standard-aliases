@@ -109,3 +109,4 @@ After installation the "framework" consists of three files:
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `aliases` file.
 
 
+
