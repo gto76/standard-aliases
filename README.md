@@ -78,9 +78,9 @@ Below is a list of most useful commands. If you want to check out the full list 
 
 How To Rename Commands
 ----------------------
-* Check if name is already taken by running: `$ wi <name>`
+* Check if name is already taken by running: **`$ wi <name>`**
 * Open **`.standardrc`** located in your home directory and add new name in front of function's description.
-* Save and run: `$ bash`
+* Save and run: **`$ bash`**
 
 Misc
 ----
