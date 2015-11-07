@@ -86,7 +86,7 @@ Misc
 ----
 * Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output of a command to a pager (if necessary), then it has same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L324-L348).
 
-* Only functions that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
+* `cp`, `mv` and `rm` are the only functions that override already existing commands. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
 
 * Command-line completions are automatically assigned to functions, depending on what commands they use. (Exception are `git` commands, for which completions don't work.)
 
@@ -107,53 +107,3 @@ After installation the "framework" consists of three files:
 * Automatically generated **`aliases`** file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
  
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `aliases` file.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
