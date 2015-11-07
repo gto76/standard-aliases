@@ -79,21 +79,21 @@ Below is a list of most useful commands. If you want to check out the full list 
 How To Rename Commands
 ----------------------
 * Check if name is already taken by running: `$ wi <name>`
-* Open **`.standard_rc`** located in your home directory and add new name in front of function's description.
+* Open **`.standardrc`** located in your home directory and add new name in front of function's description.
 * Save and run: `$ bash`
 
 Misc
 ----
-* Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output of a command to a pager if necessary, then it has same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard-aliases/standard_rc#L323-L346).
+* Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output of to a pager (if necessary), then it has same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L324-L348).
 
-* Only functions that redefine already existing commands are `cp`, `mv` and `rm`. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use -f (force) option. 
+* **`cp`**, **`mv`** and **`rm`** are the only functions that override already existing commands. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use `-f` (force) option. 
 
-* Command-line completions are automatically assigned to functions, depending on what commands they use. (Exception are `git` commands, for which completions don't work.)
+* Command-line completions are automatically assigned to functions, depending on what commands they use.
 
 * Commands for accessing the framework:
-  * **`ty COMMAND`** – prints the function body (short for `type`),
-  * **`rc`** – opens users conf file in default editor,
-  * **`fu`** – opens standard_functions in default editor,
+  * **`ty COMMAND`** – prints function's body (short for `type`),
+  * **`rc`** – opens configuration file (`~/.standardrc`) in default editor,
+  * **`fu`** – opens `standard_functions` in default editor,
   * **`ba`** – starts new Bash shell (short for `bash`).
 
 How It Works
@@ -102,59 +102,8 @@ After installation the "framework" consists of three files:
 
 * [**`standard_functions`**](standard-aliases/standard_functions): It contains Bash functions with long descriptive names. It is located in projects directory.
 
-* Users [**`.standardrc`**](standard-aliases/standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard-aliases/standard_rc#L323-L346) that functions use when they call specific commands. It is located in user's home directory.
+* Users [**`.standardrc`**](standard-aliases/standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard_rc#L324-L348) that this functions use when they call specific commands. It is located in user's home directory.
 
 * Automatically generated **`aliases`** file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
  
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `aliases` file.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
