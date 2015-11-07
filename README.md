@@ -107,3 +107,5 @@ After installation the "framework" consists of three files:
 * Automatically generated **`aliases`** file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
  
 Every time new Bash shell is started, the "framework" checks if any changes were made to functions or configuration file and if so, then generates new `aliases` file.
+
+

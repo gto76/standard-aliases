@@ -5,9 +5,8 @@
 # (_)___/\__\__,_|_| |_|\__,_|\__,_|_|  \__,_|_|  \___|
 #
 
-# This is users configuration file. 
-# It specifies short names for functions located in
-# standard_aliases (located in projects root). It also defines
-# options that this functions use, when they call specific
-# commands. It is created on install by copying projects
-# configuration file into users home directory.
+# This is users configuration file. It specifies short names for
+# functions located in standard_aliases (located in projects
+# root). It also defines options that this functions use, when
+# they call specific commands. It is created on install by
+# copying projects configuration file into users home directory.
