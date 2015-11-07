@@ -52,25 +52,19 @@ main() {
   if [[ "$?" != 0 ]]; then
     makeInstalled=0
   fi
-  # Checks if any names are taken by aliases.
-  # conflicts=$(getConflictingNames)
-  # if [[ "$conflicts" != "" ]]; then
-  #    echo "WARNING"
-  #fi
   # 1. Creates .standard_aliases directory in home directory.
   # 2. Makes a symbolic link from there to standard_functions file
   #    located in projects root.
   createLinkSafely ~/.standard_aliases/functions standard_functions
   # 3. Copies standard_rc from projects root to home directory as
-  #    .standardrc
+  #    .standardrc (also comments out functions whose names have 
+  #    already been taken by an alias (specified in .bashrc, 
+  #    .profile or .bash_aliases).
   (cd scripts
   temp=$(mktemp)
   ./remove-conflicts-from-rc.py > "$temp"
   copyFileSafely ~/.standardrc "$temp"
   )
-  # copyFileSafely ~/.standardrc standard_rc
-  # touch ~/.standardrc
-  
   # Creates ~/.bashrc if it doesn't exist.
   if [[ ! -f ~/.bashrc ]]; then
     touch ~/.bashrc
