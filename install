@@ -63,8 +63,14 @@ main() {
   createLinkSafely ~/.standard_aliases/functions standard_functions
   # 3. Copies standard_rc from projects root to home directory as
   #    .standardrc
-  copyFileSafely ~/.standardrc standard_rc
-  touch ~/.standardrc
+  (cd scripts
+  temp=$(mktemp)
+  ./remove-conflicts-from-rc.py > "$temp"
+  copyFileSafely ~/.standardrc "$temp"
+  )
+  # copyFileSafely ~/.standardrc standard_rc
+  # touch ~/.standardrc
+  
   # Creates ~/.bashrc if it doesn't exist.
   if [[ ! -f ~/.bashrc ]]; then
     touch ~/.bashrc

@@ -1,5 +1,7 @@
 #######
-####### Command options (will be used when a function uses a command)
+####### Command options
 #######
 
-# This options will only be used when one of a function from this shortcuts uses them, and not every time you call the command directly.
+# This options will only be used when one of a function from
+# this shortcuts uses them, and not every time you call the
+# command directly.
