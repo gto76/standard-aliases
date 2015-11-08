@@ -17,7 +17,7 @@ getDefinedAliases() {
   getAliasesFromFile ~/.bashrc 2> /dev/null
   getAliasesFromFile ~/.profile 2> /dev/null
   getAliasesFromFile ~/.bash_aliases 2> /dev/null
-  getAliasesFromFile /etc/profile.d/colorsls.sh 2> /dev/null
+  getAliasesFromFile /etc/profile.d/colorls.sh 2> /dev/null
 }
 
 # Prints all short function names defined in projects
