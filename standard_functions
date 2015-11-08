@@ -1934,10 +1934,10 @@ __decreaseVolumeByTwoDecibels() {
 
 # Opens this file in default editor.
 __editStandardFunctions() {
-  "${EDITOR:-vi}" ~/.standard_aliases/functions
+  "${EDITOR:-nano}" ~/.standard_aliases/functions
 }
 
 # Opens users configuration file in default editor.
 __editStandardRc() {
-  "${EDITOR:-vi}" ~/.standardrc
+  "${EDITOR:-nano}" ~/.standardrc
 }
