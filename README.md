@@ -29,7 +29,7 @@ Commands
 
 Below is a list of most useful commands. If you want to check out the full list see [**LIST OF ALL COMMANDS**](doc/FUNCTION_DESCRIPTIONS.md).
 
-####  Basic
+####  Basic 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -42,7 +42,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **te, terminal** | `x-terminal-emul`[**`...`**](standard_functions#L582-L584) | Open new terminal with same working directory.
 **?** | `echo $?` | Print exit code of last command.
 
-####  Files
+####  Files 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -70,7 +70,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1703-L1709) | Print internal ip.
 **pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1730-L1734) | Ping gateway and google.
 
-####  Packages
+####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -138,3 +138,4 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+

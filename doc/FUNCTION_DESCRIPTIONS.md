@@ -350,6 +350,6 @@ Commands
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**fu** | `"${EDITOR:-vi}"`[**`...`**](../standard_functions#L1936-L1938) | Edit standard functions.
-**rc** | `"${EDITOR:-vi}"`[**`...`**](../standard_functions#L1941-L1943) | Edit standard rc.
+**fu** | `"${EDITOR:-nano`[**`...`**](../standard_functions#L1936-L1938) | Edit standard functions.
+**rc** | `"${EDITOR:-nano`[**`...`**](../standard_functions#L1941-L1943) | Edit standard rc.
 
