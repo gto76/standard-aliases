@@ -7,7 +7,7 @@ It provides commands that should be in Linux by default, or just an aberrations 
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed Bash shell and GNU Coreutils.
 
-For **Mac OS X** see this [instructions](README.md#mac-os-x).
+For **Mac OS X** see [instructions](README.md#mac-os-x).
 
 There are currently 209 commands.
 
