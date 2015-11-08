@@ -17,7 +17,7 @@
 # two underscores (so they don't pollute the shells namespace).
 # This functions are then "aliased" with shorter name (or names),
 # that are specified in `~/.standardrc` configuration file. 
-# Be careful when changing function names, because they might be
+# Be careful when changing long function names, because they might be
 # used by other functions. Utility functions that are not meant
 # to be aliased start with three underscores.
 # Any new function that starts with two underscores will
