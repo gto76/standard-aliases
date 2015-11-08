@@ -191,13 +191,12 @@ def processAlias(existingCommands, completions, tokens):
 def main():
   al = "".join(aliasesHeader)+"\n"
   existingCommands = sys.argv[1].split(' ')
-  completionsArguments = []
   if len(sys.argv) >= 2 and len(sys.argv[2]) != 0:
     completionsArgument = sys.argv[2].split('\n')
-  existingCompletions = \
-      generateMapOfCompletions(completionsArgument)
-  completions = getCompletions(existingCompletions)
-  modifiedCompletions = ""
+    existingCompletions = generateMapOfCompletions(completionsArgument)
+    completions = getCompletions(existingCompletions)
+  else:
+    completions = {}
   for line in usersRcContent:
     if len(line.strip()) == 0:
       continue
