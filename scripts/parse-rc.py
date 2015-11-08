@@ -17,10 +17,10 @@
 #   le, less1 : Display text or file in pager.
 # then this script interprets it as:
 #   le() {
-#       __displayTextOrFileInPager "$@" 
+#     __displayTextOrFileInPager "$@" 
 #   }
 #   less1() {
-#       __displayTextOrFileInPager "$@" 
+#     __displayTextOrFileInPager "$@" 
 #   }
 #
 # And if line with options definition looks like this:

@@ -10,8 +10,8 @@ set -eo pipefail
 main() {
   scriptsDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
   existingCommands=$(
-    echo $(compgen -c) $(compgen -A function) \
-      | tr ' ' '\n' \
+    (compgen -c | tr ' ' '\n' | sort -u
+    compgen -A function | tr ' ' '\n' | sort -u)  \
       | sort \
       | uniq -u \
       | tr '\n' ' ')
