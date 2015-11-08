@@ -86,7 +86,7 @@ How To Rename Commands
 
 Misc
 ----
-* Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output of to a pager (if necessary), then it has a same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L324-L348).
+* Usually if function only makes Linux command easier to use, either by using a few "sensible" options, or just by sending output to a pager (if necessary), then it has a same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `pgrep1`, `tree1`, `mkdir1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L324-L348).
 
 * **`cp`**, **`mv`** and **`rm`** are the only functions that override already existing commands. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use `-f` (force) option.
 
