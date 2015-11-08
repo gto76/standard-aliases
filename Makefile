@@ -6,7 +6,7 @@ all: standard_rc ~/.standardrc ~/.standard_aliases/aliases doc/FUNCTION_DESCRIPT
 # updated if there are any new/deleted/renamed functions in
 # standard_functions.
 standard_rc: standard_functions scripts/update-rc.py scripts/util.py scripts/const.py scripts/resources/rc-options-comment
-	temp=$(shell tempfile); \
+	temp=$(shell mktemp XXXXXXXX); \
 	./scripts/update-rc.py > "$$temp"; \
 	cp "$$temp" standard_rc
 
@@ -14,7 +14,7 @@ standard_rc: standard_functions scripts/update-rc.py scripts/util.py scripts/con
 # new/deleted/renamed functions in standard_functions (update is
 # more nondestructive than for projects rc file).
 ~/.standardrc: standard_functions standard_rc scripts/update-rc.py scripts/util.py scripts/const.py scripts/resources/rc-options-comment
-	temp=$(shell tempfile); \
+	temp=$(shell mktemp XXXXXXXX); \
 	./scripts/update-rc.py --user > "$$temp"; \
 	cp "$$temp" ~/.standardrc
 
@@ -33,7 +33,7 @@ doc/FUNCTION_DESCRIPTIONS.md: standard_rc standard_functions scripts/generate_ta
 
 # Readme.
 README.md: standard_rc scripts/update-readme.py scripts/generate_table_of_functions.py
-	temp=$(shell tempfile); \
+	temp=$(shell mktemp XXXXXXXX); \
 	./scripts/update-readme.py > "$$temp"; \
 	cp "$$temp" README.md
 
