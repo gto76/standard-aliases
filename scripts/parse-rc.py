@@ -192,7 +192,7 @@ def main():
   al = "".join(aliasesHeader)+"\n"
   existingCommands = sys.argv[1].split(' ')
   completionsArguments = []
-  if len(sys.argv) >= 2:
+  if len(sys.argv) >= 2 and len(sys.argv[2]) != 0:
     completionsArgument = sys.argv[2].split('\n')
   existingCompletions = \
       generateMapOfCompletions(completionsArgument)
