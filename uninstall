@@ -10,6 +10,7 @@ set -eo pipefail
 main() {
   rm -f ~/.standard_aliases/*
   rmdir ~/.standard_aliases 2>/dev/null
+  echo "Standard Aliases successfully uninstaled."
 }
 
 main "$@"

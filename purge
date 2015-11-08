@@ -9,3 +9,4 @@ set -eo pipefail
 
 ./uninstall
 rm -f ~/.standardrc
+echo "Standard Aliased successfully purged."

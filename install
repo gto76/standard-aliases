@@ -19,9 +19,8 @@ createLinkSafely() {
   targetDirectory=$(dirname "$link")
   file="$2"
   # Creates directory if it doesn't exist.
-  echo "target dir: $targetDirectory"
   if [ ! -d "$targetDirectory" ]; then
-    echo "install: Creating directory $directory."
+    echo "install: Creating directory $targetDirectory."
     mkdir -p "$targetDirectory"
   fi
   # Creates link if file doesn't exist.
