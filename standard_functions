@@ -1717,9 +1717,9 @@ __printExternalIp() {
 # Prints gateways ip.
 __printGatewaysIp() {
   route -n \
-    | grep "192.168." \
-    | head -n1 \
-    | grep -o "192.168.[0-9.]*"
+    | tail -n+3 \
+    | grep G \
+    | sed 's/^[0-9.]* *\([0-9.]*\).*$/\1/'
 }
 
 # Prints mac addresses of local devices.
