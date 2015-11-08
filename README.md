@@ -12,7 +12,7 @@ There are currently 209 commands.
 How to…
 -------
 ### Install
-```bash
+```
 $ git clone https://github.com/gto76/standard-aliases.git
 $ cd standard-aliases
 $ ./install
