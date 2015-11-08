@@ -371,7 +371,7 @@ __copyFilesSafely() {
 # Runs mv in interactive mode (asks before it overwrites
 # anything).
 __moveFilesSafely() {
-  mv --interactive --verbose  "$@"
+  mv --interactive --verbose "$@"
 }
 
 # Runs rm in interactive mode (asks you for every file, if you
