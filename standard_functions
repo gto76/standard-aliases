@@ -1702,10 +1702,11 @@ __cloneAllUsersGithubProjects() {
 # Prints internal ip.
 __printInternalIp() {
   /sbin/ifconfig \
-    | grep "inet addr:192.168" \
+    | grep "inet addr:" \
+    | grep -v "inet addr:127" \
     | grep -o addr:[0-9.]* \
     | grep -o [0-9.]\* \
-    | cat 
+    | cat
 }
 
 # Prints external ip. 
