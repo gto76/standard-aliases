@@ -17,6 +17,9 @@ getDefinedAliases() {
   getAliasesFromFile ~/.bashrc 2> /dev/null
   getAliasesFromFile ~/.profile 2> /dev/null
   getAliasesFromFile ~/.bash_aliases 2> /dev/null
+  getAliasesFromFile ~/.bash_profile 2> /dev/null
+  getAliasesFromFile ~/.bash_login 2> /dev/null
+  getAliasesFromFile /etc/profile 2> /dev/null
   getAliasesFromFile /etc/profile.d/colorls.sh 2> /dev/null
 }
 
