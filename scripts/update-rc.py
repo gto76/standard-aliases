@@ -8,17 +8,19 @@
 #   (<projects-root>/standard_rc). Projects rc is only used on
 #   install, when it is moved to ~/.standardrc.
 #
-# This script updates standard_rc, by checking if there are any
-# functions in standard_functions, that are not yet defined in
-# standardrc, or if there are any functions that are defined in
-# standardrc, but not in standard_functions.
+# This script prints updated standard_rc. It updates it by
+# checking if there are any functions in standard_functions,
+# that are not yet defined in standardrc, or if there are any
+# functions that are defined in standardrc, but not in
+# standard_functions.
 # 
 # If there is a new function it adds it to the standardrc, but
-# without any alias, and if there is a function missing in
-# standard_functions, then it comments it out, with a message.
+# without doesn't asign any short name to it, and if there is a
+# function missing in standard_functions, then it comments it
+# out, with a message.
 #
-# If there are one or more functions at the same spot, both
-# missing and new, it treats them as a renamed functions, and
+# If there is one or more functions at the same spot, both
+# missing and new, it treats them as a renamed functions.
 #
 # This script takes one option: '--user', that means that users
 # .standardrc should be updated instead of projects standard_rc.
@@ -28,8 +30,8 @@
 # it in projects standardrc. If so it then adds this definition
 # to users .standardrc, but it comments it out with a message,
 # so a user can decide if it wants it or not. If there is no
-# definition in projects rc, then it acts same as for projects
-# rc.
+# definition in projects rc, then it acts the same as for
+# projects rc.
 
 import sys
 import os
