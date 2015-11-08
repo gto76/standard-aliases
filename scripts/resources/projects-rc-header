@@ -10,10 +10,10 @@
 # |_|  \___|
 #
 
-# This is the projects configuration file, meaning that only
-# time it is used is on install, when it gets copied to users
+# This is the project's configuration file, meaning that only
+# time it is used, is on install, when it gets copied to user's
 # home directory as .standardrc (if it is not already there).
-# It specifies short names for functions located in
-# standard_aliases (located in projects root). It also defines
-# options that this functions use, when they call specific
-# commands.
+# It specifies short names for functions that are defined in
+# standard_aliases (located in projects directory). It also
+# defines options that this functions use, when they call
+# specific commands.
