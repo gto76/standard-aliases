@@ -94,19 +94,19 @@ Misc
   * **`ty COMMAND`** – prints function's body (short for `type`),
   * **`rc`** – opens configuration file (`~/.standardrc`) in default editor,
   * **`fu`** – opens `standard_functions` in default editor,
-  * **`ba`** – starts new Bash shell (short for `bash`).
+  * **`ba`** – starts new _Bash_ shell (short for `bash`).
 
 How It Works
 ------------
 After installation the "framework" consists of three files:
 
-* [**`standard_functions`**](standard-aliases/standard_functions): It contains Bash functions with long descriptive names. It is located in projects directory.
+* [**`standard_functions`**](standard-aliases/standard_functions): It contains _Bash_ functions with long descriptive names. It is located in projects directory.
 
 * Users [**`.standardrc`**](standard-aliases/standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard_rc#L328-L358) that this functions use when they call specific commands. It is located in user's home directory.
 
 * Automatically generated **`aliases`** file: Contains functions with short names that call functions with longer names, as defined in configuration file. It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
 
-Every time new Bash shell is started, "framework" checks if any changes were made to functions or configuration file and if so, it generates new `aliases` file.
+Every time new _Bash_ shell is started, "framework" checks if any changes were made to functions or configuration file and if so, it generates new `aliases` file.
 
 Mac OS X
 --------
