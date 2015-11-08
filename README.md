@@ -13,7 +13,7 @@ How to…
 -------
 ### Install
 ```
-$ git clone https://github.com/gto76/standard-aliases.git
+$ git clone https://github.com/gto76/standard-aliases
 $ cd standard-aliases
 $ ./install
 ```
