@@ -6,7 +6,7 @@
 #
 
 # This is users configuration file. It specifies short names for
-# functions located in standard_aliases (located in projects
-# root). It also defines options that this functions use, when
-# they call specific commands. It is created on install by
+# functions defined in standard_aliases (located in projects
+# directory). It also defines options that this functions use,
+# when they call specific commands. It is created on install by
 # copying projects configuration file into users home directory.

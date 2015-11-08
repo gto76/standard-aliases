@@ -2,9 +2,10 @@
 #
 # Usage: remove-conflicts-from-rc.py
 #
-# Prints projects configuration file with commands that are
-# already defined as aliases (in .bashrc, .profile, ...)
-# commented out.
+# Prints modified projects configuration file, so it is ready to
+# be copied into users home directory as users config file.  It
+# changes its header and comments out the commands that are
+# already defined as aliases (in .bashrc, .profile, ...).
 
 import sys
 import re
@@ -14,12 +15,19 @@ import util
 import const
 
 projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
+usersHeader = util.getFileContents(const.USERS_RC_HEADER)
 
 def main():
   conflicts = set(commands.getstatusoutput('./get-conflicting-names')[1].split('\n'))
-  print(conflicts)
+  header = True
   for line in projectsRcContent:
     line = line.strip()
+    if line == "# LESS #":
+      header = False
+      print(''.join(usersHeader))
+      print('')
+    if header:
+      continue
     lineIsAComment = line.startswith('#')
     if lineIsAComment:
       print(line)
