@@ -108,8 +108,8 @@ After installation the "framework" consists of three files:
 
 Every time new _Bash_ shell is started, "framework" checks if any changes were made to the functions or configuration file and if so, it generates new `aliases` file.
 
-Mac OS X
---------
+How to run on OS X
+------------------
 * Install _Developer Tools_ by running:
 ```
 make
