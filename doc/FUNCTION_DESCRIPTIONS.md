@@ -129,7 +129,7 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **s** | `sudo "$@"` | Execute command as super user.
-**f, fuck** | `sudo $(history `[**`...`**](../standard_functions#L749-L751) | Execute last command as super user.
+**f, please** | `sudo $(history `[**`...`**](../standard_functions#L749-L751) | Execute last command as super user.
 **sudoCp** | `sudo cp --inter`[**`...`**](../standard_functions#L755-L757) | Copy files safely as super user.
 **smv** | `sudo mv --inter`[**`...`**](../standard_functions#L761-L763) | Move files safely as super user.
 **srm** | `sudo rm --inter`[**`...`**](../standard_functions#L768-L770) | Delete files safely as super user.

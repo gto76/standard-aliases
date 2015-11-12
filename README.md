@@ -60,7 +60,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, fuck** | `sudo $(history `[**`...`**](standard_functions#L749-L751) | Execute last command as super user.
+**f, please** | `sudo $(history `[**`...`**](standard_functions#L749-L751) | Execute last command as super user.
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L466-L468) | Run command in background.
 **gr** | `__printLinesCon`[**`...`**](standard_functions#L1061-L1064) | Print or display with pager lines containing pattern.
 **grr** | `__printLinesCon`[**`...`**](standard_functions#L1068-L1074) | Print or display with pager numbered lines containing pattern in working and subdirectories.
@@ -136,5 +136,6 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 

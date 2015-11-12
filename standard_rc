@@ -123,7 +123,7 @@ sub : Edit file with sublime text.
 # SUDO #
 
 s : Execute command as super user.
-f, fuck : Execute last command as super user.
+f, please : Execute last command as super user.
 sudoCp : Copy files safely as super user.
 smv : Move files safely as super user.
 srm : Delete files safely as super user.
