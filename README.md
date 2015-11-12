@@ -5,7 +5,7 @@ Make Linux more user friendly with this collection of **Bash functions**.
 
 It provides commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
-Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed _Bash_ shell and _GNU Coreutils_. For **OS X** see [instructions](README.md#mac-os-x).
+Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed _Bash_ shell and _GNU Coreutils_. For **OS X** see [instructions](README.md#how-to-run-on-os-x).
 
 There are currently 209 commands.
 
@@ -104,12 +104,12 @@ After installation the "framework" consists of three files:
 
 * Users [**`.standardrc`**](standard_rc) file: Configuration file that specifies short names for functions.  Also defines [options](standard_rc#L328-L358) that this functions use when they call specific commands. It is located in user's home directory.
 
-* Automatically generated **`aliases`** file: Contains functions with short names, that call functions with longer names (as defined in configuration file). It also assigns appropriate comand-line completions to the short functions. It is located in `~/.standard_aliases` directory.
+* Automatically generated **`aliases`** file: Contains functions with short names that call functions with longer names (as defined in configuration file). It also assigns appropriate command-line completions to the short functions. It is located in `~/.standard_aliases` directory.
 
 Every time new _Bash_ shell is started, "framework" checks if any changes were made to the functions or configuration file and if so, it generates new `aliases` file.
 
-Mac OS X
---------
+How to run on OS X
+------------------
 * Install _Developer Tools_ by running:
 ```
 make
@@ -136,6 +136,12 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+<<<<<<< HEAD
 
 
+
+=======
+
+
+>>>>>>> e80914d8ccaceea873e287e31a7c608f7db7137a
 
