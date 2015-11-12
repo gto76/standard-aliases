@@ -136,12 +136,3 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
-<<<<<<< HEAD
-
-
-
-=======
-
-
->>>>>>> e80914d8ccaceea873e287e31a7c608f7db7137a
-
