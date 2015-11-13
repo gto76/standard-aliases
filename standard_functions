@@ -1676,7 +1676,7 @@ __cloneGithubProject() {
 __setGithubProjectAsRemoteRepository() {
   git remote add origin git@github.com:/"$1".git
   git pull origin master
-  git push origin master
+  git push --set-upstream origin master
 }
 
 # Clones all users Github projects in working directory.
