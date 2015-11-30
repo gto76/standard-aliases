@@ -182,7 +182,7 @@ Commands
 **gr** | `__printLinesCon`[**`...`**](../standard_functions#L1061-L1064) | Print or display with pager lines containing pattern.
 **grr** | `__printLinesCon`[**`...`**](../standard_functions#L1068-L1074) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 **lo, locate1** | `locate  "$1" \`[**`...`**](../standard_functions#L1079-L1083) | Locate files on filesystem containing pattern in their names.
-**find1** | `find -not -iwho`[**`...`**](../standard_functions#L1090-L1094) | Locate files containing pattern in their names in working and sub directories.
+**find1** | `find . -not -iw`[**`...`**](../standard_functions#L1090-L1094) | Locate files containing pattern in their names in working and sub directories.
 
 ###  Archives 
 
@@ -301,55 +301,55 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **clone** | `git clone git@g`[**`...`**](../standard_functions#L1670-L1672) | Clone github project.
-**origin** | `git remote add `[**`...`**](../standard_functions#L1676-L1681) | Set github project as remote repository.
-**cloneAll** | `if [[ -z "$1" ]`[**`...`**](../standard_functions#L1684-L1696) | Clone all users github projects.
+**origin** | `git remote add `[**`...`**](../standard_functions#L1676-L1680) | Set github project as remote repository.
+**cloneAll** | `if [[ -z "$1" ]`[**`...`**](../standard_functions#L1683-L1695) | Clone all users github projects.
 
 ###  Network 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ip1** | `/sbin/ifconfig `[**`...`**](../standard_functions#L1704-L1711) | Print internal ip.
-**ip2** | `lynx --dump htt`[**`...`**](../standard_functions#L1714-L1716) | Print external ip.
-**gateway** | `route -n \`[**`...`**](../standard_functions#L1719-L1724) | Print gateways ip.
-**mac** | `ifconfig | grep`[**`...`**](../standard_functions#L1727-L1729) | Print mac addresses of network devices.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](../standard_functions#L1732-L1736) | Ping gateway and google.
-**nmap1** | `if [[ $# -eq 0 `[**`...`**](../standard_functions#L1740-L1756) | Scan local network.
-**ne, network** | `localIp=$(ip1)`[**`...`**](../standard_functions#L1784-L1815) | Print ssh port status of local devices and ping google.
+**ip1** | `/sbin/ifconfig `[**`...`**](../standard_functions#L1703-L1710) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](../standard_functions#L1713-L1715) | Print external ip.
+**gateway** | `route -n \`[**`...`**](../standard_functions#L1718-L1723) | Print gateways ip.
+**mac** | `ifconfig | grep`[**`...`**](../standard_functions#L1726-L1728) | Print mac addresses of network devices.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](../standard_functions#L1731-L1735) | Ping gateway and google.
+**nmap1** | `if [[ $# -eq 0 `[**`...`**](../standard_functions#L1739-L1755) | Scan local network.
+**ne, network** | `localIp=$(ip1)`[**`...`**](../standard_functions#L1783-L1814) | Print ssh port status of local devices and ping google.
 
 ###  Wireless 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**woff** | `sudo rfkill blo`[**`...`**](../standard_functions#L1823-L1828) | Block wireless device.
-**won** | `sudo rfkill unb`[**`...`**](../standard_functions#L1831-L1836) | Unblock wireless device.
-**wr** | `woff`[**`...`**](../standard_functions#L1839-L1842) | Reset wireless device.
-**up** | `sudo ifconfig w`[**`...`**](../standard_functions#L1845-L1847) | Activate wireless interface.
-**down** | `sudo ifconfig w`[**`...`**](../standard_functions#L1850-L1852) | Deactivate wireless interface.
-**wlan** | `sudo iwlist wla`[**`...`**](../standard_functions#L1855-L1865) | Print wireless networks in range.
+**woff** | `sudo rfkill blo`[**`...`**](../standard_functions#L1822-L1827) | Block wireless device.
+**won** | `sudo rfkill unb`[**`...`**](../standard_functions#L1830-L1835) | Unblock wireless device.
+**wr** | `woff`[**`...`**](../standard_functions#L1838-L1841) | Reset wireless device.
+**up** | `sudo ifconfig w`[**`...`**](../standard_functions#L1844-L1846) | Activate wireless interface.
+**down** | `sudo ifconfig w`[**`...`**](../standard_functions#L1849-L1851) | Deactivate wireless interface.
+**wlan** | `sudo iwlist wla`[**`...`**](../standard_functions#L1854-L1864) | Print wireless networks in range.
 
 ###  Internet 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**i, www, internet** | `__runCommandInB`[**`...`**](../standard_functions#L1873-L1875) | Start default browser in background.
-**fire** | `__runCommandInB`[**`...`**](../standard_functions#L1878-L1880) | Start firefox in background.
-**chrome** | `__runCommandInB`[**`...`**](../standard_functions#L1885-L1887) | Start chrome in background.
-**lynx1** | `lynx -accept_al`[**`...`**](../standard_functions#L1893-L1895) | Start terminal web browser.
+**i, www, internet** | `__runCommandInB`[**`...`**](../standard_functions#L1872-L1874) | Start default browser in background.
+**fire** | `__runCommandInB`[**`...`**](../standard_functions#L1877-L1879) | Start firefox in background.
+**chrome** | `__runCommandInB`[**`...`**](../standard_functions#L1884-L1886) | Start chrome in background.
+**lynx1** | `lynx -accept_al`[**`...`**](../standard_functions#L1892-L1894) | Start terminal web browser.
 
 ###  Audio 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **mixer** | `alsamixer "$@"` | Start terminal volume control.
-**a** | `___setVolumeTo `[**`...`**](../standard_functions#L1913-L1915) | Increase volume by six decibels.
-**z** | `___setVolumeTo `[**`...`**](../standard_functions#L1918-L1920) | Decrease volume by six decibels.
-**aa** | `___setVolumeTo `[**`...`**](../standard_functions#L1923-L1925) | Increase volume by two decibels.
-**zz** | `___setVolumeTo `[**`...`**](../standard_functions#L1928-L1930) | Decrease volume by two decibels.
+**a** | `___setVolumeTo `[**`...`**](../standard_functions#L1912-L1914) | Increase volume by six decibels.
+**z** | `___setVolumeTo `[**`...`**](../standard_functions#L1917-L1919) | Decrease volume by six decibels.
+**aa** | `___setVolumeTo `[**`...`**](../standard_functions#L1922-L1924) | Increase volume by two decibels.
+**zz** | `___setVolumeTo `[**`...`**](../standard_functions#L1927-L1929) | Decrease volume by two decibels.
 
 ###  Framework 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**fu** | `"${EDITOR:-nano`[**`...`**](../standard_functions#L1938-L1940) | Edit standard functions.
-**rc** | `"${EDITOR:-nano`[**`...`**](../standard_functions#L1943-L1945) | Edit standard rc.
+**fu** | `"${EDITOR:-nano`[**`...`**](../standard_functions#L1937-L1939) | Edit standard functions.
+**rc** | `"${EDITOR:-nano`[**`...`**](../standard_functions#L1942-L1944) | Edit standard rc.
 

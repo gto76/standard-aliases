@@ -1088,7 +1088,7 @@ __locateFilesOnFilesystemContainingPatternInTheirNames() {
 # marks. Also highlights the matches.
 # By default it doesn't use any options beside -name.
 __locateFilesContainingPatternInTheirNamesInWorkingAndSubDirectories() {
-  find "${_FIND_OPTIONS[@]}" . -name "$1" \
+  find . "${_FIND_OPTIONS[@]}" -name "$1" \
     | __printOrDisplayWithPagerLinesContainingPattern \
       $(echo "$1" | tr -d "\*") # | sed 's/^\.$//')
 }
