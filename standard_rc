@@ -194,8 +194,8 @@ extract : Extract archive of any type.
 # TERMINAL MULTIPLEXER #
 
 tm, mu : Run terminal multiplexer.
-mua : Run terminal multiplexer and attach to last session.
-mul : List terminal multiplexers sessions.
+tma, mua : Run terminal multiplexer and attach to last session.
+tml, mul : List terminal multiplexers sessions.
 
 # SYSTEM INFORMATION #
 

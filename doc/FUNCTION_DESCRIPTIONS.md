@@ -195,8 +195,8 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **tm, mu** | `tmux  "$@"` | Run terminal multiplexer.
-**mua** | `tmux attach "$@`[**`...`**](../standard_functions#L1150-L1152) | Run terminal multiplexer and attach to last session.
-**mul** | `tmux ls` | List terminal multiplexers sessions.
+**tma, mua** | `tmux attach "$@`[**`...`**](../standard_functions#L1150-L1152) | Run terminal multiplexer and attach to last session.
+**tml, mul** | `tmux ls` | List terminal multiplexers sessions.
 
 ###  System Information 
 
