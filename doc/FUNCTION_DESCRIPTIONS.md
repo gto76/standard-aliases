@@ -137,7 +137,7 @@ Commands
 **smvdir** | `sudo mv --inter`[**`...`**](../standard_functions#L780-L782) | Move directories safely as super user.
 **srmdir** | `sudo rm --inter`[**`...`**](../standard_functions#L787-L789) | Delete directories safely as super user.
 **sm, sle** | `sudo less --RAW`[**`...`**](../standard_functions#L797-L799) | Display text or file in pager as super user.
-**sv** | `sudo vim -p "$@`[**`...`**](../standard_functions#L803-L805) | Edit file with vim as super user.
+**sv** | `sudoedit "$@"` | Edit file with vim as super user.
 **svv** | `sudo view -p "$`[**`...`**](../standard_functions#L809-L811) | View file in vim as super user.
 **sn** | `sudo nano --und`[**`...`**](../standard_functions#L823-L825) | Edit file with nano as super user.
 **sg** | `sudo gedit  "$@`[**`...`**](../standard_functions#L829-L831) | Edit file with gedit as super user.

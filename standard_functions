@@ -801,7 +801,7 @@ __displayTextOrFileInPagerAsSuperUser() {
 # Runs Vim as super user, with:
 #   * open one tab per file.
 __editFileWithVimAsSuperUser() {
-  sudo vim "${_VIM_OPTIONS[@]}" "$@"
+  sudoedit "$@"
 }
 
 # Runs Vim as super user in read only mode, with:
