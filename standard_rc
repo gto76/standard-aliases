@@ -27,17 +27,17 @@ m : Print or display text or file in pager.
 # LS #
 
 l : List or display directory contents in pager using short listing format.
-ll : List or display directory contents in pager using medium listing format.
-lll : List or display directory contents in pager using long listing format.
+ : List or display directory contents in pager using medium listing format.
+ll : List or display directory contents in pager using long listing format.
 la : List or display all directory contents in pager using short listing format.
-lla : List or display all directory contents in pager using medium listing format.
-llla : List or display all directory contents in pager using long listing format.
+ : List or display all directory contents in pager using medium listing format.
+lla : List or display all directory contents in pager using long listing format.
 lt : List or display directory contents in pager ordered by date using short listing format.
-llt : List or display directory contents in pager ordered by date using medium listing format.
-lllt : List or display directory contents in pager ordered by date using long listing format.
+ : List or display directory contents in pager ordered by date using medium listing format.
+llt : List or display directory contents in pager ordered by date using long listing format.
 dl : List or display matching directories in pager using short listing format.
-dll : List or display matching directories in pager using medium listing format.
-dlll : List or display matching directories in pager using long listing format.
+ : List or display matching directories in pager using medium listing format.
+dll : List or display matching directories in pager using long listing format.
 l1 : List or display in pager one directory item per line using short listing format.
 la1 : List or display in pager one directory item per line including hidden files using short listing format.
 first : List first file in directory.
