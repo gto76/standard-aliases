@@ -1,7 +1,7 @@
 Standard Aliases
 ================
 
-#### Make Linux more user friendly with this collection of **Bash functions**.
+#### Make Linux more user friendly with this collection of **Bash functions**
 
 It provides commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
