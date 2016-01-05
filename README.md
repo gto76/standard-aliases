@@ -80,7 +80,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 How To Rename Commands
 ----------------------
 * Check if name is already taken by running: `$ type <name>`
-* Open **`.standardrc`** located in your home directory and add new name in front of function's description.
+* Open **`.standardrc`** located in your home directory and add new name in front of function's description: `$ rc`
 * Save and run: `$ bash`
 
 Misc
@@ -137,6 +137,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
