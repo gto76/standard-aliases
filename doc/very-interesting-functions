@@ -26,6 +26,7 @@ Print or display with pager lines containing pattern.
 Print or display with pager numbered lines containing pattern in working and subdirectories.
 Print available disk space in simplified form.
 Print internal ip.
+Print external ip.
 Ping gateway and google.
 # PACKAGES #
 Install package.

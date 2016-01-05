@@ -66,6 +66,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **grr** | `__printLinesCon`[**`...`**](standard_functions#L1068-L1074) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 **df1** | `df -h | grep "s`[**`...`**](standard_functions#L1165-L1167) | Print available disk space in simplified form.
 **ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1703-L1710) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1713-L1715) | Print external ip.
 **pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1731-L1735) | Ping gateway and google.
 
 ####  Packages 
@@ -136,6 +137,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
