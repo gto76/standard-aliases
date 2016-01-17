@@ -655,7 +655,7 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
       echo 'main "$@"'>> "$1"
     fi
   fi
-  chmod u+x "$1"        
+  chmod u+x "$@"        
 }
 
 

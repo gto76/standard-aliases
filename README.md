@@ -1,9 +1,9 @@
 Standard Aliases
 ================
 
-Make Linux more user friendly with this collection of **Bash functions**.
+#### Make Linux more user friendly with this collection of **Bash functions**
 
-It provides commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name.
+They provide commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name.
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed _Bash_ shell and _GNU Coreutils_. For **OS X** see [instructions](README.md#how-to-run-on-os-x).
 
@@ -66,6 +66,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **grr** | `__printLinesCon`[**`...`**](standard_functions#L1068-L1074) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 **df1** | `df -h | grep "s`[**`...`**](standard_functions#L1165-L1167) | Print available disk space in simplified form.
 **ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1703-L1710) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1713-L1715) | Print external ip.
 **pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1731-L1735) | Ping gateway and google.
 
 ####  Packages 
@@ -79,7 +80,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 How To Rename Commands
 ----------------------
 * Check if name is already taken by running: `$ type <name>`
-* Open **`.standardrc`** located in your home directory and add new name in front of function's description.
+* Open **`.standardrc`** located in your home directory and add new name in front of function's description: `$ rc`
 * Save and run: `$ bash`
 
 Misc
@@ -136,6 +137,9 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
+
+
 
 
 
