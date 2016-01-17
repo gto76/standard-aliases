@@ -13,16 +13,12 @@ Commands
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **l** | `___displayOutpu`[**`...`**](../standard_functions#L194-L197) | List or display directory contents in pager using short listing format.
-**** | `___displayOutpu`[**`...`**](../standard_functions#L199-L202) | List or display directory contents in pager using medium listing format.
 **ll** | `___displayOutpu`[**`...`**](../standard_functions#L204-L207) | List or display directory contents in pager using long listing format.
 **la** | `__listOrDisplay`[**`...`**](../standard_functions#L209-L212) | List or display all directory contents in pager using short listing format.
-**** | `__listOrDisplay`[**`...`**](../standard_functions#L214-L217) | List or display all directory contents in pager using medium listing format.
 **lla** | `__listOrDisplay`[**`...`**](../standard_functions#L219-L222) | List or display all directory contents in pager using long listing format.
 **lt** | `__listOrDisplay`[**`...`**](../standard_functions#L224-L227) | List or display directory contents in pager ordered by date using short listing format.
-**** | `__listOrDisplay`[**`...`**](../standard_functions#L229-L232) | List or display directory contents in pager ordered by date using medium listing format.
 **llt** | `__listOrDisplay`[**`...`**](../standard_functions#L234-L237) | List or display directory contents in pager ordered by date using long listing format.
 **dl** | `__listOrDisplay`[**`...`**](../standard_functions#L239-L242) | List or display matching directories in pager using short listing format.
-**** | `__listOrDisplay`[**`...`**](../standard_functions#L244-L247) | List or display matching directories in pager using medium listing format.
 **dll** | `__listOrDisplay`[**`...`**](../standard_functions#L249-L252) | List or display matching directories in pager using long listing format.
 **l1** | `__listOrDisplay`[**`...`**](../standard_functions#L254-L257) | List or display in pager one directory item per line using short listing format.
 **la1** | `__listOrDisplay`[**`...`**](../standard_functions#L259-L262) | List or display in pager one directory item per line including hidden files using short listing format.

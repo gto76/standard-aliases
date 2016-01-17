@@ -136,6 +136,8 @@ def generateTables():
     tokens = line.split(':')
     if len(tokens) == 2:
       shortcuts = tokens[0].strip()
+      if not shortcuts:
+        continue
       explanation = tokens[1].strip()
       row = getRow(shortcuts, explanation, commandsWithOptions, "../")
       if row is not None:

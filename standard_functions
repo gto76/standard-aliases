@@ -628,7 +628,7 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
     filename=$(basename "$1")
     extension="${filename##*.}"
     if [[ "$extension" == "py" ]]; then
-      echo '#!/usr/bin/python' >> "$1"
+      echo '#!/usr/bin/python3' >> "$1"
       echo '#' >> "$1"
       echo "# Usage: $1 " >> "$1"
       echo '# ' >> "$1"
