@@ -233,6 +233,7 @@ vimode : Change bash line editing to vi mode.
 emacsmode : Change bash line editing to emacs mode.
 ssd : Trim ssd.
 typingTutor : Start typing tutor.
+extension : Describe file extension.
 
 # PACKAGE MANAGEMENT #
 

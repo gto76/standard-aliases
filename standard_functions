@@ -283,8 +283,12 @@ __printAllSubdirectories() {
   find . -name .git -prune -o -type d | __printOrDisplayTextOrFileInPager
 }
 
+# Prints all file extensions of files in current and sub-directories.
 __printAllFileExtensions() {
-  find . -type f -name '*.*' | sed 's|.*\.||' | sort -u
+  find . -type f -name '*.*' | \
+    sed 's|.*\.||' | \
+    sort -u | \
+    __printOrDisplayTextOrFileInPager
 }
 
 
@@ -1308,6 +1312,14 @@ __trimSsd() {
 # Runs a typing tutor.
 __startTypingTutor() {
   gtypist "$@"
+}
+
+# Prints description of a passed file extension.
+__describeFileExtension() {
+  curl --silent filext.com/file-extension/"$1" | \
+    grep 'The .* file type is primarily associated' | \
+    sed 's/^\t*//' \
+    | sed 's/ *<.div>$//'
 }
 
 

@@ -7,7 +7,7 @@ They provide commands that should be in Linux by default, or just an abbreviatio
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed _Bash_ shell and _GNU Coreutils_. For **OS X** see [instructions](README.md#how-to-run-on-os-x).
 
-There are currently 210 commands.
+There are currently 211 commands.
 
 How to…
 -------
@@ -37,45 +37,45 @@ Below is a list of most useful commands. If you want to check out the full list 
 **m** | `___printOrDispl`[**`...`**](standard_functions#L92-L94) | Print or display text or file in pager.
 **v** | `vim -p "$@"` | Edit file with vim.
 **q** | `exit` | Exit bash shell.
-**te, terminal** | `x-terminal-emul`[**`...`**](standard_functions#L586-L588) | Open new terminal with same working directory.
+**te, terminal** | `x-terminal-emul`[**`...`**](standard_functions#L590-L592) | Open new terminal with same working directory.
 **?** | `echo $?` | Print exit code of last command.
 
 ####  Files 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**t, tree1** | `tree -C -I .git`[**`...`**](standard_functions#L300-L302) | Print directory structure.
-**cpdir** | `cp --interactiv`[**`...`**](standard_functions#L390-L392) | Copy directories safely.
-**mvdir** | `mv --interactiv`[**`...`**](standard_functions#L396-L398) | Move directories safely.
-**rmdir** | `rm --interactiv`[**`...`**](standard_functions#L403-L405) | Delete directories safely.
-**mk, md, mkdir1** | `mkdir --parents`[**`...`**](standard_functions#L409-L412) | Create directory and descend into.
-**bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L416-L418) | Backup file.
-**o, openFile** | `__runCommandInB`[**`...`**](standard_functions#L581-L583) | Open file with default app.
-**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L630-L663) | Make file executable or create new bash or python script.
-**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1107-L1140) | Extract archive of any type.
-**du1** | `du --summarize `[**`...`**](standard_functions#L1175-L1177) | Print disk space occupied by file or folder.
-**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1083-L1087) | Locate files on filesystem containing pattern in their names.
+**t, tree1** | `tree -C -I .git`[**`...`**](standard_functions#L304-L306) | Print directory structure.
+**cpdir** | `cp --interactiv`[**`...`**](standard_functions#L394-L396) | Copy directories safely.
+**mvdir** | `mv --interactiv`[**`...`**](standard_functions#L400-L402) | Move directories safely.
+**rmdir** | `rm --interactiv`[**`...`**](standard_functions#L407-L409) | Delete directories safely.
+**mk, md, mkdir1** | `mkdir --parents`[**`...`**](standard_functions#L413-L416) | Create directory and descend into.
+**bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L420-L422) | Backup file.
+**o, openFile** | `__runCommandInB`[**`...`**](standard_functions#L585-L587) | Open file with default app.
+**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L634-L667) | Make file executable or create new bash or python script.
+**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1111-L1144) | Extract archive of any type.
+**du1** | `du --summarize `[**`...`**](standard_functions#L1179-L1181) | Print disk space occupied by file or folder.
+**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1087-L1091) | Locate files on filesystem containing pattern in their names.
 
 ####  Useful  
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, please** | `sudo $(history `[**`...`**](standard_functions#L753-L755) | Execute last command as super user.
-**rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L470-L472) | Run command in background.
-**gr** | `__printLinesCon`[**`...`**](standard_functions#L1065-L1068) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](standard_functions#L1072-L1078) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1169-L1171) | Print available disk space in simplified form.
-**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1707-L1714) | Print internal ip.
-**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1717-L1719) | Print external ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1735-L1739) | Ping gateway and google.
+**f, please** | `sudo $(history `[**`...`**](standard_functions#L757-L759) | Execute last command as super user.
+**rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L474-L476) | Run command in background.
+**gr** | `__printLinesCon`[**`...`**](standard_functions#L1069-L1072) | Print or display with pager lines containing pattern.
+**grr** | `__printLinesCon`[**`...`**](standard_functions#L1076-L1082) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1173-L1175) | Print available disk space in simplified form.
+**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1719-L1726) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1729-L1731) | Print external ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1747-L1751) | Ping gateway and google.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1319-L1321) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1410-L1427) | Print installed and available version of package or command.
-**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1538-L1562) | Describe package or command or find available packages with part of name or command.
+**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1331-L1333) | Install package.
+**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1422-L1439) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1550-L1574) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -137,6 +137,8 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
+
 
 
 
