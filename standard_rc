@@ -44,6 +44,7 @@ first : List first file in directory.
 nf, newest : Print name of newest file in directory.
 rf, randomFile : Print name of random file in directory.
 findd, directories : Print all subdirectories.
+extensions : Print all file extensions.
 
 # TREE #
 
@@ -322,7 +323,7 @@ zz : Decrease volume by two decibels.
 # FRAMEWORK #
 
 fu : Edit standard functions.
-rc : Edit standard rc.
+rc, al : Edit standard rc.
 
 
 #######

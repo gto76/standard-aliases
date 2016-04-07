@@ -278,9 +278,13 @@ __printNameOfRandomFileInDirectory() {
 
 
 # Prints all directories in current and sub-directories.
-# TODO problem with fine: no such file or directory in github.
+# TODO problem with find: no such file or directory in github.
 __printAllSubdirectories() {
   find . -name .git -prune -o -type d | __printOrDisplayTextOrFileInPager
+}
+
+__printAllFileExtensions() {
+  find . -type f -name '*.*' | sed 's|.*\.||' | sort -u
 }
 
 
