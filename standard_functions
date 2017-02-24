@@ -268,7 +268,7 @@ __listFirstFileInDirectory() {
 
 # Prints name of a newest file in the directory.
 __printNameOfNewestFileInDirectory() {
-  ls -pt | grep -v / | head -1
+  ls -pt "$@" | grep -v / | head -1
 }
 
 # Prints name of a random file in the directory.
@@ -1650,7 +1650,7 @@ __displayLogOfCommits() {
 # prints status.
 __updateInformationAboutRemoteRepositoryAndPrintStatus() {
   git remote update "$@"
-  __printRepositoryStatus
+  __printShortRepositoryStatus
 }
 
 # Shows changes between commits. If no parameter is given, then

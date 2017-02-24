@@ -23,7 +23,7 @@ Commands
 **l1** | `__listOrDisplay`[**`...`**](../standard_functions#L254-L257) | List or display in pager one directory item per line using short listing format.
 **la1** | `__listOrDisplay`[**`...`**](../standard_functions#L259-L262) | List or display in pager one directory item per line including hidden files using short listing format.
 **first** | `ls "$@" | head `[**`...`**](../standard_functions#L265-L267) | List first file in directory.
-**nf, newest** | `ls -pt | grep -`[**`...`**](../standard_functions#L270-L272) | Print name of newest file in directory.
+**nf, newest** | `ls -pt "$@" | g`[**`...`**](../standard_functions#L270-L272) | Print name of newest file in directory.
 **rf, randomFile** | `ls -pt | grep -`[**`...`**](../standard_functions#L275-L277) | Print name of random file in directory.
 **findd, directories** | `find . -name .g`[**`...`**](../standard_functions#L282-L284) | Print all subdirectories.
 **extensions** | `find . -type f `[**`...`**](../standard_functions#L287-L292) | Print all file extensions.
