@@ -1329,7 +1329,11 @@ __describeFileExtension() {
 
 # Installs package.
 __installPackage() {
-  sudo apt-get install "$@"
+  if [[ "$__standardAliasesDetectedOS" == "mac" ]]; then
+    brew install "$@"
+  else
+    sudo apt-get install "$@"
+  fi
 }
 
 # Updates package information.

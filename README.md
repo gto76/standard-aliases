@@ -65,17 +65,17 @@ Below is a list of most useful commands. If you want to check out the full list 
 **gr** | `__printLinesCon`[**`...`**](standard_functions#L1069-L1072) | Print or display with pager lines containing pattern.
 **grr** | `__printLinesCon`[**`...`**](standard_functions#L1076-L1082) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 **df1** | `df -h | grep "s`[**`...`**](standard_functions#L1173-L1175) | Print available disk space in simplified form.
-**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1719-L1726) | Print internal ip.
-**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1729-L1731) | Print external ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1747-L1751) | Ping gateway and google.
+**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1723-L1730) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1733-L1735) | Print external ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1751-L1755) | Ping gateway and google.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `sudo apt-get in`[**`...`**](standard_functions#L1331-L1333) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1422-L1439) | Print installed and available version of package or command.
-**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1550-L1574) | Describe package or command or find available packages with part of name or command.
+**ch, canhaz** | `if [[ "$__stand`[**`...`**](standard_functions#L1331-L1337) | Install package.
+**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1426-L1443) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1554-L1578) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -137,6 +137,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
