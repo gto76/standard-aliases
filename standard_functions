@@ -647,7 +647,7 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
       echo 'def main():' >> "$1"
       echo >> "$1"
       echo "if __name__ == '__main__':" >> "$1"
-      echo '  main()' >> "$1"
+      echo '    main()' >> "$1"
     else
       echo '#!/bin/bash' >> "$1"
       echo '#' >> "$1"
