@@ -51,31 +51,31 @@ Below is a list of most useful commands. If you want to check out the full list 
 **mk, md, mkdir1** | `mkdir --parents`[**`...`**](standard_functions#L413-L416) | Create directory and descend into.
 **bk, backup** | `sudo cp --prese`[**`...`**](standard_functions#L420-L422) | Backup file.
 **o, openFile** | `__runCommandInB`[**`...`**](standard_functions#L585-L587) | Open file with default app.
-**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L634-L667) | Make file executable or create new bash or python script.
-**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1111-L1144) | Extract archive of any type.
-**du1** | `du --summarize `[**`...`**](standard_functions#L1179-L1181) | Print disk space occupied by file or folder.
-**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1087-L1091) | Locate files on filesystem containing pattern in their names.
+**me, makeExecutable** | `if [[ ! -f "$1"`[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
+**extract** | `if [ -z "$1" ];`[**`...`**](standard_functions#L1112-L1145) | Extract archive of any type.
+**du1** | `du --summarize `[**`...`**](standard_functions#L1180-L1182) | Print disk space occupied by file or folder.
+**lo, locate1** | `locate  "$1" \`[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
 
 ####  Useful  
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, please** | `sudo $(history `[**`...`**](standard_functions#L757-L759) | Execute last command as super user.
+**f, please** | `sudo $(history `[**`...`**](standard_functions#L758-L760) | Execute last command as super user.
 **rb, runInBackground** | `nohup "$@" &>/d`[**`...`**](standard_functions#L474-L476) | Run command in background.
-**gr** | `__printLinesCon`[**`...`**](standard_functions#L1069-L1072) | Print or display with pager lines containing pattern.
-**grr** | `__printLinesCon`[**`...`**](standard_functions#L1076-L1082) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1173-L1175) | Print available disk space in simplified form.
-**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1723-L1730) | Print internal ip.
-**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1733-L1735) | Print external ip.
-**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1751-L1755) | Ping gateway and google.
+**gr** | `__printLinesCon`[**`...`**](standard_functions#L1070-L1073) | Print or display with pager lines containing pattern.
+**grr** | `__printLinesCon`[**`...`**](standard_functions#L1077-L1083) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**df1** | `df -h | grep "s`[**`...`**](standard_functions#L1174-L1176) | Print available disk space in simplified form.
+**ip1** | `/sbin/ifconfig `[**`...`**](standard_functions#L1724-L1731) | Print internal ip.
+**ip2** | `lynx --dump htt`[**`...`**](standard_functions#L1734-L1736) | Print external ip.
+**pa, pingAll** | `ping -c 1 -q $(`[**`...`**](standard_functions#L1752-L1756) | Ping gateway and google.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**ch, canhaz** | `if [[ "$__stand`[**`...`**](standard_functions#L1331-L1337) | Install package.
-**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1426-L1443) | Print installed and available version of package or command.
-**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1554-L1578) | Describe package or command or find available packages with part of name or command.
+**ch, canhaz** | `if [[ "$__stand`[**`...`**](standard_functions#L1332-L1338) | Install package.
+**ve, version** | `# Check if pass`[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
+**wi, whatis1** | `# Checks if it `[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -137,6 +137,8 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
+
 
 
 

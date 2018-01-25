@@ -636,7 +636,7 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
     filename=$(basename "$1")
     extension="${filename##*.}"
     if [[ "$extension" == "py" ]]; then
-      echo '#!/usr/bin/python3' >> "$1"
+      echo '#!/usr/bin/env python3' >> "$1"
       echo '#' >> "$1"
       echo "# Usage: $1 " >> "$1"
       echo '# ' >> "$1"
@@ -645,6 +645,7 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
       echo 'import re' >> "$1"
       echo >> "$1"
       echo 'def main():' >> "$1"
+      echo '    ' >> "$1"
       echo >> "$1"
       echo "if __name__ == '__main__':" >> "$1"
       echo '    main()' >> "$1"
