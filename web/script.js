@@ -5,7 +5,8 @@ $(document).ready(function() {
 function parseMd() {
   var GITHUB = 'https://raw.githubusercontent.com/gto76/standard-aliases/master/README.md'
   jQuery.get(GITHUB, function(text) {
-    var converter = new showdown.Converter()
+    // var converter = new showdown.Converter()
+    var converter = new showdown.Converter({extensions: ['table']});
     html = converter.makeHtml(text)
     aDiv = $('#main_container')
     nodes = $.parseHTML(html)
