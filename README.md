@@ -43,7 +43,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 ####  Files 
 
  _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
+-------------|--------|----------------
 **t, tree1** | `tree -C -I .git`[**`...`**](standard_functions#L304-L306) | Print directory structure.
 **cpdir** | `cp --interactiv`[**`...`**](standard_functions#L394-L396) | Copy directories safely.
 **mvdir** | `mv --interactiv`[**`...`**](standard_functions#L400-L402) | Move directories safely.
