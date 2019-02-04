@@ -113,9 +113,10 @@ def getRow(shortcut, explanation, commandsWithOptions, pathToFunctions):
   link = getLink(lineStart, lineEnd, pathToFunctions)
   if len(functionBody) >= LENGTH_OF_CODE_SNIPPET \
     or lineEnd - lineStart > 2:
-    runs = "`"+functionBody+"`[**`...`**]("+link+")"
+    functionBody = functionBody.replace('|', '&#124;')
+    runs = "<code>"+functionBody+"</code>[**`...`**]("+link+")"
   else:
-    runs =  "`"+functionBody+"`"
+    runs =  "<code>"+functionBody+"</code>"
   return "**"+shortcut+"** | "+runs+" | "+explanation+"\n"
 
 # Returns:
