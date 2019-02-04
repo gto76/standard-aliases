@@ -1,9 +1,11 @@
+
 .. raw:: html
 
     <h1 align="center">
     <br>
       <a href="http://gto76.github.io/standard-aliases/"><img src="doc/sa_logo.svg" alt="Standard Aliases" width=400"></a>
     </h1>
+
 
 #### Make Linux more user friendly with this collection of **Bash functions**
 
