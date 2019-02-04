@@ -1,5 +1,3 @@
-Standard Aliases
-================
 
 ![Standard Aliases](doc/sa_logo.png)
 
