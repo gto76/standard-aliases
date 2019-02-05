@@ -7,7 +7,7 @@ They provide **commands that should be in Linux** by default, or just an **abbre
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on any system that has _Bash_ shell and _GNU Coreutils_ installed. For **OS X** see [instructions](README.md#how-to-run-on-os-x).
 
-There are currently 211 commands.
+There are currently **211 commands**.
 
 How to…
 -------
