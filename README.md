@@ -3,7 +3,7 @@
 
 ### Make Linux more user friendly with this collection of **Bash functions**
 
-They provide commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name and/or a set of default “ sensible” options. In that case all additional command options are passed to the original command and the default ones can be set in a configuration file.
+They provide commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name and/or a set of default “sensible” options. In that case all additional command options are passed to the original command and the default ones can be set in a configuration file.
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed _Bash_ shell and _GNU Coreutils_. For **OS X** see [instructions](README.md#how-to-run-on-os-x).
 
@@ -85,7 +85,7 @@ How To Rename Commands
 
 Misc
 ----
-* Usually if function only makes Linux command easier to use, either by using a few “ sensible” options, or just by sending output to a pager (if necessary), then it has the same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `mkdir1`, `pgrep1`, `tree1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L328-L358) and can be customized by preference.
+* Usually if function only makes Linux command easier to use, either by using a few “sensible” options, or just by sending output to a pager (if necessary), then it has the same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `mkdir1`, `pgrep1`, `tree1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L328-L358) and can be customized by preference.
 
 * **`cp`**, **`mv`**, **`rm`** and **`rmdir`** are the only functions that override already existing commands. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use `-f` (force) option. `rmdir` also deletes the directory contents.
 
