@@ -3,7 +3,7 @@
 
 ### Make Linux more user friendly with this collection of **Bash functions**
 
-They provide commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name and/or a set of default "sensible" options. In that case all additional command options are passed to the original command and the default ones can be set in configuration file.
+They provide commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name and/or a set of default “ sensible” options. In that case all additional command options are passed to the original command and the default ones can be set in a configuration file.
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on all systems with installed _Bash_ shell and _GNU Coreutils_. For **OS X** see [instructions](README.md#how-to-run-on-os-x).
 
