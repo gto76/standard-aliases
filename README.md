@@ -1,7 +1,7 @@
 
 ![Standard Aliases](doc/sa_logo.png)
 
-### Make Linux more user friendly with this collection of **Bash functions**
+### Make Linux more user friendly with this collection of **Bash functions**!
 
 They provide commands that should be in Linux by default, or just an abbreviations of commands that are provided, but are so commonly used that they deserve a shorter name and/or a set of default “sensible” options. In that case all additional command options are passed to the original command. Also default options can be set in a configuration file.
 
