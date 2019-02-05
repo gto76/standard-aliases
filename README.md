@@ -99,7 +99,7 @@ Misc
 
 How It Works
 ------------
-After installation the "framework" consists of three files:
+After installation the “framework” consists of three files:
 
 * [**`standard_functions`**](standard_functions): It contains _Bash_ functions with long descriptive names. It is located in projects directory.
 
