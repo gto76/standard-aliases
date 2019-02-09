@@ -91,11 +91,10 @@ Misc
 
 * Command-line completions are automatically assigned to functions, depending on what commands they use.
 
-* Commands for accessing the framework:
+* Commands for accessing the “framework”:
   * **`ty COMMAND`** – prints function's body (short for `type`),
   * **`rc`** – opens configuration file (`~/.standardrc`) in default editor,
-  * **`fu`** – opens `standard_functions` in default editor,
-  * **`ba`** – starts new _Bash_ shell (short for `bash`).
+  * **`fu`** – opens `standard_functions` in default editor.
 
 How It Works
 ------------
