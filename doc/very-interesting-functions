@@ -8,19 +8,19 @@ Print text.
 Print file contents.
 Print or display text or file in pager.
 Edit file with vim.
+Print exit code of last command.
 # DIRECTORIES #
 Create directory and descend into.
 Copy directories safely.
 Move directories safely.
 Delete directories safely.
 # USEFUL #
-Open file with default app.
 Extract archive of any type.
+Open file with default app.
 Run command in background.
 Make file executable or create new bash or python script.
 Locate files on filesystem containing pattern in their names.
 Print or display with pager numbered lines containing pattern in working and subdirectories.
-Print exit code of last command.
 # PACKAGES #
 Install package.
 Print installed and available version of package or command.

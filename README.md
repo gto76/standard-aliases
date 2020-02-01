@@ -40,6 +40,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **c** | <code>cat "$@"</code> | Print file contents.
 **m** | <code>___printOrDispl</code>[**`...`**](standard_functions#L92-L94) | Print or display text or file in pager.
 **v** | <code>vim -p "$@"</code> | Edit file with vim.
+**?** | <code>echo $?</code> | Print exit code of last command.
 
 ####  Directories 
 
@@ -54,13 +55,12 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**o, openFile** | <code>__runCommandInB</code>[**`...`**](standard_functions#L585-L587) | Open file with default app.
 **extract** | <code>if [ -z "$1" ];</code>[**`...`**](standard_functions#L1112-L1145) | Extract archive of any type.
+**o, openFile** | <code>__runCommandInB</code>[**`...`**](standard_functions#L585-L587) | Open file with default app.
 **rb, runInBackground** | <code>nohup "$@" &>/d</code>[**`...`**](standard_functions#L474-L476) | Run command in background.
 **me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
 **lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
 **grr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1077-L1083) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**?** | <code>echo $?</code> | Print exit code of last command.
 
 ####  Packages 
 
@@ -150,6 +150,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
