@@ -40,7 +40,6 @@ Below is a list of most useful commands. If you want to check out the full list 
 **c** | <code>cat "$@"</code> | Print file contents.
 **m** | <code>___printOrDispl</code>[**`...`**](standard_functions#L92-L94) | Print or display text or file in pager.
 **v** | <code>vim -p "$@"</code> | Edit file with vim.
-**?** | <code>echo $?</code> | Print exit code of last command.
 
 ####  Directories 
 
@@ -77,7 +76,6 @@ Below is a list of most useful commands. If you want to check out the full list 
 **gs** | <code>git -c color.st</code>[**`...`**](standard_functions#L1631-L1634) | Print short repository status.
 **gd** | <code>git diff "$@"</code> | Display changes between commits.
 **gl** | <code>git log --graph</code>[**`...`**](standard_functions#L1638-L1640) | Display minimal log of commits.
-**init** | <code>git init "$@"</code> | Initialize repository.
 **commit** | <code>git commit -am </code>[**`...`**](standard_functions#L1588-L1590) | Commit changed and deleted files with message.
 **push** | <code>git push "$@"</code> | Push changes to remote repository.
 **pull** | <code>git pull "$@"</code> | Pull changes from remote repository.
@@ -150,6 +148,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
