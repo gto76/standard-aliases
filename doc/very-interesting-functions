@@ -20,10 +20,6 @@ Run command in background.
 Make file executable or create new bash or python script.
 Locate files on filesystem containing pattern in their names.
 Print or display with pager numbered lines containing pattern in working and subdirectories.
-# PACKAGES #
-Install package.
-Print installed and available version of package or command.
-Describe package or command or find available packages with part of name or command.
 # GIT #
 Print short repository status.
 Display changes between commits.
@@ -36,3 +32,7 @@ Ping gateway and google.
 Print internal ip.
 Print external ip.
 Print gateways ip.
+# PACKAGES #
+Install package.
+Print installed and available version of package or command.
+Describe package or command or find available packages with part of name or command.

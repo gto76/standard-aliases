@@ -61,14 +61,6 @@ Below is a list of most useful commands. If you want to check out the full list 
 **lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
 **grr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1077-L1083) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 
-####  Packages 
-
- _Name_        | _Runs_   | _Description_  
-:------------- |:--------:| ----------------
-**ch, canhaz** | <code>if [[ "$__stand</code>[**`...`**](standard_functions#L1332-L1338) | Install package.
-**ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
-**wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
-
 ####  Git 
 
  _Name_        | _Runs_   | _Description_  
@@ -88,6 +80,14 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ip1** | <code>/sbin/ifconfig </code>[**`...`**](standard_functions#L1724-L1731) | Print internal ip.
 **ip2** | <code>lynx --dump htt</code>[**`...`**](standard_functions#L1734-L1736) | Print external ip.
 **gateway** | <code>route -n \</code>[**`...`**](standard_functions#L1739-L1744) | Print gateways ip.
+
+####  Packages 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
+**ch, canhaz** | <code>if [[ "$__stand</code>[**`...`**](standard_functions#L1332-L1338) | Install package.
+**ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
+**wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -148,6 +148,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
