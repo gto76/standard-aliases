@@ -1,5 +1,4 @@
 # BASIC #
-Go up one directory.
 Print working directory or path to file.
 List or display directory contents in pager using short listing format.
 List or display all directory contents in pager using short listing format.
@@ -10,10 +9,10 @@ Print file contents.
 Print or display text or file in pager.
 Edit file with vim.
 # DIRECTORIES #
+Create directory and descend into.
 Copy directories safely.
 Move directories safely.
 Delete directories safely.
-Create directory and descend into.
 # USEFUL #
 Open file with default app.
 Print exit code of last command.
@@ -26,17 +25,16 @@ Print or display with pager numbered lines containing pattern in working and sub
 Install package.
 Print installed and available version of package or command.
 Describe package or command or find available packages with part of name or command.
-# NETWORKING #
-Print internal ip.
-Print external ip.
-Print gateways ip.
-Ping gateway and google.
-Print ssh port status of local devices and ping google.
 # GIT #
+Print short repository status.
+Display changes between commits.
+Display minimal log of commits.
 Initialize repository.
 Commit changed and deleted files with message.
 Push changes to remote repository.
 Pull changes from remote repository.
-Print short repository status.
-Display changes between commits.
-Display minimal log of commits.
+# NETWORKING #
+Ping gateway and google.
+Print internal ip.
+Print external ip.
+Print gateways ip.
