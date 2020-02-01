@@ -31,43 +31,37 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
+**.., cd..** | <code>___goUpNumberOf</code>[**`...`**](standard_functions#L337-L339) | Go up one directory.
+**p** | <code>if [[ $# -eq 0 </code>[**`...`**](standard_functions#L439-L445) | Print working directory or path to file.
 **l** | <code>___displayOutpu</code>[**`...`**](standard_functions#L194-L197) | List or display directory contents in pager using short listing format.
+**la** | <code>__listOrDisplay</code>[**`...`**](standard_functions#L209-L212) | List or display all directory contents in pager using short listing format.
+**ll** | <code>___displayOutpu</code>[**`...`**](standard_functions#L204-L207) | List or display directory contents in pager using long listing format.
+**lla** | <code>__listOrDisplay</code>[**`...`**](standard_functions#L219-L222) | List or display all directory contents in pager using long listing format.
 **e** | <code>echo "$@"</code> | Print text.
 **c** | <code>cat "$@"</code> | Print file contents.
 **m** | <code>___printOrDispl</code>[**`...`**](standard_functions#L92-L94) | Print or display text or file in pager.
 **v** | <code>vim -p "$@"</code> | Edit file with vim.
-**q** | <code>exit</code> | Exit bash shell.
-**te, terminal** | <code>x-terminal-emul</code>[**`...`**](standard_functions#L590-L592) | Open new terminal with same working directory.
-**?** | <code>echo $?</code> | Print exit code of last command.
 
-####  Files 
+####  Directories 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**t, tree1** | <code>tree -C -I .git</code>[**`...`**](standard_functions#L304-L306) | Print directory structure.
 **cpdir** | <code>cp --interactiv</code>[**`...`**](standard_functions#L394-L396) | Copy directories safely.
 **mvdir** | <code>mv --interactiv</code>[**`...`**](standard_functions#L400-L402) | Move directories safely.
 **rmdir** | <code>rm --interactiv</code>[**`...`**](standard_functions#L407-L409) | Delete directories safely.
 **mk, md, mkdir1** | <code>mkdir --parents</code>[**`...`**](standard_functions#L413-L416) | Create directory and descend into.
-**bk, backup** | <code>sudo cp --prese</code>[**`...`**](standard_functions#L420-L422) | Backup file.
-**o, openFile** | <code>__runCommandInB</code>[**`...`**](standard_functions#L585-L587) | Open file with default app.
-**me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
-**extract** | <code>if [ -z "$1" ];</code>[**`...`**](standard_functions#L1112-L1145) | Extract archive of any type.
-**du1** | <code>du --summarize </code>[**`...`**](standard_functions#L1180-L1182) | Print disk space occupied by file or folder.
-**lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
 
-####  Useful  
+####  Useful 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**f, please** | <code>sudo $(history </code>[**`...`**](standard_functions#L758-L760) | Execute last command as super user.
+**o, openFile** | <code>__runCommandInB</code>[**`...`**](standard_functions#L585-L587) | Open file with default app.
+**?** | <code>echo $?</code> | Print exit code of last command.
+**me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
+**extract** | <code>if [ -z "$1" ];</code>[**`...`**](standard_functions#L1112-L1145) | Extract archive of any type.
 **rb, runInBackground** | <code>nohup "$@" &>/d</code>[**`...`**](standard_functions#L474-L476) | Run command in background.
-**gr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1070-L1073) | Print or display with pager lines containing pattern.
+**lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
 **grr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1077-L1083) | Print or display with pager numbered lines containing pattern in working and subdirectories.
-**df1** | <code>df -h &#124; grep "s</code>[**`...`**](standard_functions#L1174-L1176) | Print available disk space in simplified form.
-**ip1** | <code>/sbin/ifconfig </code>[**`...`**](standard_functions#L1724-L1731) | Print internal ip.
-**ip2** | <code>lynx --dump htt</code>[**`...`**](standard_functions#L1734-L1736) | Print external ip.
-**pa, pingAll** | <code>ping -c 1 -q $(</code>[**`...`**](standard_functions#L1752-L1756) | Ping gateway and google.
 
 ####  Packages 
 
@@ -76,6 +70,28 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ch, canhaz** | <code>if [[ "$__stand</code>[**`...`**](standard_functions#L1332-L1338) | Install package.
 **ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
 **wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
+
+####  Networking 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
+**ip1** | <code>/sbin/ifconfig </code>[**`...`**](standard_functions#L1724-L1731) | Print internal ip.
+**ip2** | <code>lynx --dump htt</code>[**`...`**](standard_functions#L1734-L1736) | Print external ip.
+**gateway** | <code>route -n \</code>[**`...`**](standard_functions#L1739-L1744) | Print gateways ip.
+**pa, pingAll** | <code>ping -c 1 -q $(</code>[**`...`**](standard_functions#L1752-L1756) | Ping gateway and google.
+**ne, network** | <code>localIp=$(ip1)</code>[**`...`**](standard_functions#L1804-L1835) | Print ssh port status of local devices and ping google.
+
+####  Git 
+
+ _Name_        | _Runs_   | _Description_  
+:------------- |:--------:| ----------------
+**init** | <code>git init "$@"</code> | Initialize repository.
+**commit** | <code>git commit -am </code>[**`...`**](standard_functions#L1588-L1590) | Commit changed and deleted files with message.
+**push** | <code>git push "$@"</code> | Push changes to remote repository.
+**pull** | <code>git pull "$@"</code> | Pull changes from remote repository.
+**gs** | <code>git -c color.st</code>[**`...`**](standard_functions#L1631-L1634) | Print short repository status.
+**gd** | <code>git diff "$@"</code> | Display changes between commits.
+**gl** | <code>git log --graph</code>[**`...`**](standard_functions#L1638-L1640) | Display minimal log of commits.
 
 How To Rename Commands
 ----------------------
@@ -137,6 +153,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 
