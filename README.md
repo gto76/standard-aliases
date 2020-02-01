@@ -27,7 +27,7 @@ Commands
 
 Below is a list of most useful commands. If you want to check out the full list see [**LIST OF ALL COMMANDS**](doc/FUNCTION_DESCRIPTIONS.md).
 
-###  Basic 
+####  Basic 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -41,7 +41,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **m** | <code>___printOrDispl</code>[**`...`**](standard_functions#L92-L94) | Print or display text or file in pager.
 **v** | <code>vim -p "$@"</code> | Edit file with vim.
 
-###  Directories 
+####  Directories 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -50,19 +50,19 @@ Below is a list of most useful commands. If you want to check out the full list 
 **mvdir** | <code>mv --interactiv</code>[**`...`**](standard_functions#L400-L402) | Move directories safely.
 **rmdir** | <code>rm --interactiv</code>[**`...`**](standard_functions#L407-L409) | Delete directories safely.
 
-###  Useful 
+####  Useful 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
 **o, openFile** | <code>__runCommandInB</code>[**`...`**](standard_functions#L585-L587) | Open file with default app.
-**?** | <code>echo $?</code> | Print exit code of last command.
-**me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
 **extract** | <code>if [ -z "$1" ];</code>[**`...`**](standard_functions#L1112-L1145) | Extract archive of any type.
 **rb, runInBackground** | <code>nohup "$@" &>/d</code>[**`...`**](standard_functions#L474-L476) | Run command in background.
+**me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
 **lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
 **grr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1077-L1083) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**?** | <code>echo $?</code> | Print exit code of last command.
 
-###  Packages 
+####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -70,7 +70,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
 **wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
 
-###  Git 
+####  Git 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -82,7 +82,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 **push** | <code>git push "$@"</code> | Push changes to remote repository.
 **pull** | <code>git pull "$@"</code> | Pull changes from remote repository.
 
-###  Networking 
+####  Networking 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
@@ -150,6 +150,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 

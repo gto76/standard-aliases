@@ -15,12 +15,12 @@ Move directories safely.
 Delete directories safely.
 # USEFUL #
 Open file with default app.
-Print exit code of last command.
-Make file executable or create new bash or python script.
 Extract archive of any type.
 Run command in background.
+Make file executable or create new bash or python script.
 Locate files on filesystem containing pattern in their names.
 Print or display with pager numbered lines containing pattern in working and subdirectories.
+Print exit code of last command.
 # PACKAGES #
 Install package.
 Print installed and available version of package or command.
