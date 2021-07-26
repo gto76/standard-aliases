@@ -5,7 +5,7 @@
 
 They provide **commands that should be in Linux** by default, or just **abbreviations of commands** that are provided, but are so commonly used that they deserve a shorter name and/or a set of configurable **“sensible” options**. When abbreviated command is executed, these predefined options are combined with the actual ones. Also most of the commands send their **output to a pager** if it doesn't fit the screen.
 
-Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on any system that has _Bash_ shell and _GNU Coreutils_ installed. For **macOS** see [instructions](README.md#how-to-run-on-macos).
+Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on any system that has _Bash_ shell and _GNU Coreutils_ installed. For **macOS** see [instructions](#how-to-run-on-macos).
 
 There are currently **211 commands**.
 
