@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Usage: parse-rc.py ALL-EXISTING-COMMANDS ALL-EXISTING-COMPLETIONS 
 #

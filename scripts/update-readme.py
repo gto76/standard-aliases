@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Usage: update-readme.py
 # Prints updated README.md. It substitutes tables of commands

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Usage: generate-table-of-functions.py
 # Prints tables of all functions in md format.
@@ -72,7 +72,7 @@ def getFunctionBody(lineNum, commandsWithOptions):
   i = 1
   for line in aliasesContent:
     if i == lineNum+1:
-      for command, options in commandsWithOptions.iteritems():
+      for command, options in commandsWithOptions.items():
         if command in line:
           line = line.replace(command, options)
           break

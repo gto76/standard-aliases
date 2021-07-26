@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Usage: remove-conflicts-from-rc.py
 #
@@ -9,7 +9,7 @@
 
 import sys
 import re
-import commands
+import os
 
 import util
 import const
@@ -18,7 +18,7 @@ projectsRcContent = util.getFileContents(const.PROJECTS_RC_FILENAME)
 usersHeader = util.getFileContents(const.USERS_RC_HEADER)
 
 def main():
-  conflicts = set(commands.getstatusoutput('./get-conflicting-names')[1].split('\n'))
+  conflicts = set(os.popen('./get-conflicting-names').read().split('\n'))
   header = True
   for line in projectsRcContent:
     line = line.strip()
