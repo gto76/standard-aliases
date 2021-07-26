@@ -85,6 +85,7 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
+**update** | <code>sudo apt-get up</code>[**`...`**](standard_functions#L1341-L1343) | Update information about available packages.
 **ch, canhaz** | <code>if [[ "$__stand</code>[**`...`**](standard_functions#L1332-L1338) | Install package.
 **ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
 **wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
@@ -148,6 +149,7 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
 
 
 

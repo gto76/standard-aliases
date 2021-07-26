@@ -33,6 +33,7 @@ Print internal ip.
 Print external ip.
 Print gateways ip.
 # PACKAGES #
+Update information about available packages.
 Install package.
 Print installed and available version of package or command.
 Describe package or command or find available packages with part of name or command.
