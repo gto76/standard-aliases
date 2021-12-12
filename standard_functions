@@ -629,8 +629,9 @@ __compareFilesLineByLineInColor() {
   colordiff "${_DIFF_OPTIONS[@]}" "$@" | __printOrDisplayTextOrFileInPager
 }
 
-# Creates executable bash script, or just changes modifiers to
-# executable, if file already exists.
+# Creates executable bash or python script depending on the passed
+# filename's extension, or just changes modifiers to executable, if
+# file already exists.
 __makeFileExecutableOrCreateNewBashOrPythonScript() {
   if [[ ! -f "$1" ]]; then
     filename=$(basename "$1")
@@ -638,22 +639,36 @@ __makeFileExecutableOrCreateNewBashOrPythonScript() {
     if [[ "$extension" == "py" ]]; then
       echo '#!/usr/bin/env python3' >> "$1"
       echo '#' >> "$1"
-      echo "# Usage: $1 " >> "$1"
-      echo '# ' >> "$1"
+      echo "# Usage: python3 $1 " >> "$1"
+      echo '#' >> "$1"
       echo >> "$1"
-      echo 'import sys' >> "$1"
-      echo 'import re' >> "$1"
-      echo >> "$1"
+      echo 'from sys import argv, exit' >> "$1"
+      echo 'from collections import defaultdict, namedtuple' >> "$1"
+      echo 'from dataclasses import make_dataclass' >> "$1"
+      echo 'from enum import Enum' >> "$1"
+      echo 'import functools as ft, itertools as it, operator as op, re' >> "$1"
+      echo  >> "$1"
+      echo  >> "$1"
       echo 'def main():' >> "$1"
-      echo '    ' >> "$1"
-      echo >> "$1"
+      echo '    pass' >> "$1"
+      echo  >> "$1"
+      echo  >> "$1"
+      echo '###' >> "$1"
+      echo '##  UTIL' >> "$1"
+      echo '#' >> "$1"
+      echo  >> "$1"
+      echo 'def read_file(filename):' >> "$1"
+      echo "    with open(filename, encoding='utf-8') as file:" >> "$1"
+      echo '        return file.readlines()' >> "$1"
+      echo  >> "$1"
+      echo  >> "$1"
       echo "if __name__ == '__main__':" >> "$1"
       echo '    main()' >> "$1"
     else
       echo '#!/bin/bash' >> "$1"
       echo '#' >> "$1"
-      echo "# Usage: $1 " >> "$1"
-      echo '# ' >> "$1"
+      echo "# Usage: ./$1 " >> "$1"
+      echo '#' >> "$1"
       echo >> "$1"
       echo '# Stops execution if any command fails.' >> "$1"
       echo 'set -eo pipefail' >> "$1"

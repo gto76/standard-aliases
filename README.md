@@ -54,21 +54,21 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**extract** | <code>if [ -z "$1" ];</code>[**`...`**](standard_functions#L1112-L1145) | Extract archive of any type.
+**extract** | <code>if [ -z "$1" ];</code>[**`...`**](standard_functions#L1127-L1160) | Extract archive of any type.
 **o, openFile** | <code>__runCommandInB</code>[**`...`**](standard_functions#L585-L587) | Open file with default app.
 **rb, runInBackground** | <code>nohup "$@" &>/d</code>[**`...`**](standard_functions#L474-L476) | Run command in background.
-**me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L634-L668) | Make file executable or create new bash or python script.
-**lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1088-L1092) | Locate files on filesystem containing pattern in their names.
-**grr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1077-L1083) | Print or display with pager numbered lines containing pattern in working and subdirectories.
+**me, makeExecutable** | <code>if [[ ! -f "$1"</code>[**`...`**](standard_functions#L635-L683) | Make file executable or create new bash or python script.
+**lo, locate1** | <code>locate  "$1" \</code>[**`...`**](standard_functions#L1103-L1107) | Locate files on filesystem containing pattern in their names.
+**grr** | <code>__printLinesCon</code>[**`...`**](standard_functions#L1092-L1098) | Print or display with pager numbered lines containing pattern in working and subdirectories.
 
 ####  Git 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**gs** | <code>git -c color.st</code>[**`...`**](standard_functions#L1631-L1634) | Print short repository status.
+**gs** | <code>git -c color.st</code>[**`...`**](standard_functions#L1646-L1649) | Print short repository status.
 **gd** | <code>git diff "$@"</code> | Display changes between commits.
-**gl** | <code>git log --graph</code>[**`...`**](standard_functions#L1638-L1640) | Display minimal log of commits.
-**commit** | <code>git commit -am </code>[**`...`**](standard_functions#L1588-L1590) | Commit changed and deleted files with message.
+**gl** | <code>git log --graph</code>[**`...`**](standard_functions#L1653-L1655) | Display minimal log of commits.
+**commit** | <code>git commit -am </code>[**`...`**](standard_functions#L1603-L1605) | Commit changed and deleted files with message.
 **push** | <code>git push "$@"</code> | Push changes to remote repository.
 **pull** | <code>git pull "$@"</code> | Pull changes from remote repository.
 
@@ -76,19 +76,19 @@ Below is a list of most useful commands. If you want to check out the full list 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**pa, pingAll** | <code>ping -c 1 -q $(</code>[**`...`**](standard_functions#L1752-L1756) | Ping gateway and google.
-**ip1** | <code>/sbin/ifconfig </code>[**`...`**](standard_functions#L1724-L1731) | Print internal ip.
-**ip2** | <code>lynx --dump htt</code>[**`...`**](standard_functions#L1734-L1736) | Print external ip.
-**gateway** | <code>route -n \</code>[**`...`**](standard_functions#L1739-L1744) | Print gateways ip.
+**pa, pingAll** | <code>ping -c 1 -q $(</code>[**`...`**](standard_functions#L1767-L1771) | Ping gateway and google.
+**ip1** | <code>/sbin/ifconfig </code>[**`...`**](standard_functions#L1739-L1746) | Print internal ip.
+**ip2** | <code>lynx --dump htt</code>[**`...`**](standard_functions#L1749-L1751) | Print external ip.
+**gateway** | <code>route -n \</code>[**`...`**](standard_functions#L1754-L1759) | Print gateways ip.
 
 ####  Packages 
 
  _Name_        | _Runs_   | _Description_  
 :------------- |:--------:| ----------------
-**update** | <code>sudo apt-get up</code>[**`...`**](standard_functions#L1341-L1343) | Update information about available packages.
-**ch, canhaz** | <code>if [[ "$__stand</code>[**`...`**](standard_functions#L1332-L1338) | Install package.
-**ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1427-L1444) | Print installed and available version of package or command.
-**wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1555-L1579) | Describe package or command or find available packages with part of name or command.
+**update** | <code>sudo apt-get up</code>[**`...`**](standard_functions#L1356-L1358) | Update information about available packages.
+**ch, canhaz** | <code>if [[ "$__stand</code>[**`...`**](standard_functions#L1347-L1353) | Install package.
+**ve, version** | <code># Check if pass</code>[**`...`**](standard_functions#L1442-L1459) | Print installed and available version of package or command.
+**wi, whatis1** | <code># Checks if it </code>[**`...`**](standard_functions#L1570-L1594) | Describe package or command or find available packages with part of name or command.
 
 How To Rename Commands
 ----------------------
@@ -149,6 +149,11 @@ brew install findutils --with-default-names
 brew install tree
 ...
 ```
+
+
+
+
+
 
 
 
