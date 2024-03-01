@@ -3,7 +3,7 @@
 
 ### Make Linux more user friendly with this collection of **Bash functions**!
 
-They provide **commands that should be in Linux** by default, or just **abbreviations of commands** that are provided, but are so commonly used that they deserve a shorter name and/or a set of configurable **sensible options** When abbreviated command is executed, these predefined options are combined with the actual ones. Also most of the commands send their **output to a pager** if it doesn't fit the screen.
+They provide **commands that should be in Linux** by default, or just **abbreviations of commands** that are provided, but are so commonly used that they deserve a shorter name and/or a set of configurable **sensible options**. When abbreviated command is executed, these predefined options are combined with the actual ones. Also most of the commands send their **output to a pager** if it doesn't fit the screen.
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on any system that has _Bash_ shell and _GNU Coreutils_ installed. For **macOS** see [instructions](#how-to-run-on-macos).
 
@@ -104,7 +104,7 @@ Misc
 
 * Command-line completions are automatically assigned to functions, depending on what commands they use.
 
-* Commands for accessing the framework:
+* Commands for accessing the framework 
   * **`ty COMMAND`**  prints function's body (short for `type`),
   * **`rc`**  opens configuration file (`~/.standardrc`) in default editor,
   * **`fu`**  opens `standard_functions` in default editor.
