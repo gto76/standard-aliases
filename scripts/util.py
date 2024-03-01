@@ -25,7 +25,7 @@ def descriptionToCamelCase(command):
   words[0] = firstLetterToLowercase(words[0])
   out = "".join(words)
   out = re.sub(' ', '', out)
-  out = re.sub('\.', '', out)
+  out = re.sub(r'\.', '', out)
   return "__"+out
 
 # Converts text in form of camel case into a sentence (First
@@ -33,7 +33,7 @@ def descriptionToCamelCase(command):
 # ends with period).
 def camelCaseToDescription(command):
   command = command.strip('_')
-  command = re.sub(r'([A-Z])',r' \1',command)
+  command = re.sub('([A-Z])',r' \1',command)
   command = command.lower()
   return firstLetterToUppercase(command)+"."
 
@@ -62,6 +62,8 @@ def camelcaseToUnderscore(command):
   return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 import collections
+from collections.abc import MutableSet
+collections = collections.abc
 
 class OrderedSet(collections.MutableSet):
 
