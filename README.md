@@ -3,13 +3,13 @@
 
 ### Make Linux more user friendly with this collection of **Bash functions**!
 
-They provide **commands that should be in Linux** by default, or just **abbreviations of commands** that are provided, but are so commonly used that they deserve a shorter name and/or a set of configurable **Ã¢ÂÂsensibleÃ¢ÂÂ options**. When abbreviated command is executed, these predefined options are combined with the actual ones. Also most of the commands send their **output to a pager** if it doesn't fit the screen.
+They provide **commands that should be in Linux** by default, or just **abbreviations of commands** that are provided, but are so commonly used that they deserve a shorter name and/or a set of configurable **sensible options**. When abbreviated command is executed, these predefined options are combined with the actual ones. Also most of the commands send their **output to a pager** if it doesn't fit the screen.
 
 Collection was made for **Debian** based Linux (**Ubuntu**, **Mint**, ...) with **Gnome** desktop environment, but most commands will work on any system that has _Bash_ shell and _GNU Coreutils_ installed. For **macOS** see [instructions](#how-to-run-on-macos).
 
 There are currently **211 commands**.
 
-How toÃ¢ÂÂ¦
+How to:
 -------
 ### Install
 ```
@@ -98,20 +98,20 @@ How To Rename Commands
 
 Misc
 ----
-* Usually if function only makes Linux command easier to use, either by using a few Ã¢ÂÂsensibleÃ¢ÂÂ options, or just by sending output to a pager (if necessary), then it has the same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `mkdir1`, `pgrep1`, `tree1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L328-L358) and can be customized by preference.
+* Usually if function only makes Linux command easier to use, either by using a few sensible options, or just by sending output to a pager (if necessary), then it has the same name as command, but with number `1` appended at the end. Some examples are: `ps1`, `mkdir1`, `pgrep1`, `tree1`. Options for this commands are defined at the bottom of [`standardrc`](standard_rc#L328-L358) and can be customized by preference.
 
 * **`cp`**, **`mv`**, **`rm`** and **`rmdir`** are the only functions that override already existing commands. They are all run in interactive mode, meaning you get asked for conformation before any destructive operation. If you want to execute them without this prompting, use `-f` (force) option. `rmdir` also deletes the directory contents.
 
 * Command-line completions are automatically assigned to functions, depending on what commands they use.
 
-* Commands for accessing the Ã¢ÂÂframeworkÃ¢ÂÂ:
-  * **`ty COMMAND`** Ã¢ÂÂ prints function's body (short for `type`),
-  * **`rc`** Ã¢ÂÂ opens configuration file (`~/.standardrc`) in default editor,
-  * **`fu`** Ã¢ÂÂ opens `standard_functions` in default editor.
+* Commands for accessing the framework:
+  * **`ty COMMAND`**  prints function's body (short for `type`),
+  * **`rc`**  opens configuration file (`~/.standardrc`) in default editor,
+  * **`fu`**  opens `standard_functions` in default editor.
 
 How It Works
 ------------
-After installation the Ã¢ÂÂframeworkÃ¢ÂÂ consists of three files:
+After installation the framework consists of three files:
 
 * [**`standard_functions`**](standard_functions): It contains _Bash_ functions with long descriptive names. It is located in projects directory.
 
