@@ -69,7 +69,7 @@ def getFunctions():
     # Picks up all the function names (ignores ___).
     if line.startswith("__") and not line.startswith("___"):
       line = line.strip()
-      functionName = re.sub('\(.*$', '', line).strip()
+      functionName = re.sub(r'\(.*$', '', line).strip()
       functionDescription = util.camelCaseToDescription(functionName)
       functionDescriptions.append(functionDescription)
   return functionDescriptions  
@@ -314,7 +314,7 @@ def getMapOfOptionsFromRc(rcContent):
 # Returns list of all functions that use the option variables.
 def getCommandsWithOptionVariables():
   setOfOptionVariables = util.OrderedSet()
-  for match in re.findall("_([A-Z_]+)_OPTIONS", "\n".join(functionsContent)):
+  for match in re.findall(r"_([A-Z_]+)_OPTIONS", "\n".join(functionsContent)):
     commandName = util.underscoreToCamelcase(match)
     setOfOptionVariables.add(commandName)
   return  setOfOptionVariables

@@ -12,7 +12,7 @@ import const
 
 import generate_table_of_functions
 
-TARGET_LINE = "There are currently "
+TARGET_LINE = r"There are currently "
 TABLES_TARGET_LINE_START = "Below is a list of most useful commands."
 TABLES_TARGET_LINE_END = "How To Rename Commands"
 
@@ -70,7 +70,7 @@ def updateReadme(noOfFunctions, functionTables):
     # If line contains regex.
     if re.search(TARGET_LINE, line):
       # Updates number.
-      line = re.sub('[0-9]+', str(noOfFunctions), line)
+      line = re.sub(r'[0-9]+', str(noOfFunctions), line)
     if TABLES_TARGET_LINE_START in line:
       updatedReadme += line
       updatedReadme += str(functionTables)

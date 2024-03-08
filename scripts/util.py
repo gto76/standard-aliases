@@ -24,8 +24,8 @@ def descriptionToCamelCase(command):
     words.append(firstLetterToUppercase(word))
   words[0] = firstLetterToLowercase(words[0])
   out = "".join(words)
-  out = re.sub(' ', '', out)
-  out = re.sub('\.', '', out)
+  out = re.sub(r' ', '', out)
+  out = re.sub(r'\.', '', out)
   return "__"+out
 
 # Converts text in form of camel case into a sentence (First
@@ -33,7 +33,7 @@ def descriptionToCamelCase(command):
 # ends with period).
 def camelCaseToDescription(command):
   command = command.strip('_')
-  command = re.sub(r'([A-Z])',r' \1',command)
+  command = re.sub(r'([A-Z])', r' \1', command)
   command = command.lower()
   return firstLetterToUppercase(command)+"."
 
@@ -58,8 +58,8 @@ def underscoreToCamelcase(command):
 
 def camelcaseToUnderscore(command):
   command = command.strip(' ')
-  s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', command)
-  return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+  s1 = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', command)
+  return re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 from collections.abc import MutableSet
 

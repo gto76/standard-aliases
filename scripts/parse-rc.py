@@ -83,9 +83,9 @@ def generateMapOfCompletions(completions):
 #   * String with completion in form of: "complete -F _longopt".
 def deduceCompletion(line, lastLine, completions, existingCompletions):
   # Tokenizes line from '^' or '|' or '$(' to "$@".
-  line = re.sub('"\$@".*$',"",line.strip())
-  line = re.sub('^.*\|',"",line.strip())
-  line = re.sub('^.*\$\(',"",line.strip())
+  line = re.sub(r'"\$@".*$', '', line.strip())
+  line = re.sub(r'^.*\|', '', line.strip())
+  line = re.sub(r'^.*\$\(', '', line.strip())
   optionsAreOnOwnLine = line.startswith('-')
   if optionsAreOnOwnLine:
     line = lastLine.strip()[:-1]
